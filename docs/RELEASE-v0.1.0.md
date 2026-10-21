@@ -4,12 +4,16 @@ Pré-release inicial para testes. Mod de cliente para **Minecraft Java 1.8.9 / F
 
 ## Download e instalação
 
-1. Baixe **alien-client-0.1.0.jar** nos arquivos desta release.
+**[BAIXAR ALIEN CLIENT 0.1.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/downloads/alien-client-0.1.0.jar?raw=true)**
+
+[Código-fonte completo ZIP](https://github.com/AttackAlien/Alien-Client/archive/refs/tags/v0.1.0.zip) · [Capturas reais](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/captures/README.md) · [SHA-256](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/downloads/SHA256SUMS.txt)
+
+1. Baixe **alien-client-0.1.0.jar** pelo botão acima.
 2. Instale o Forge 1.8.9-11.15.1.2318 e selecione Java 8.
 3. Coloque o JAR na pasta `mods` da instalação e abra o jogo.
 4. Pressione **Right Shift** dentro de um mundo para abrir o menu Alien.
 
-O ZIP `alien-client-0.1.0-source.zip` contém código, scripts e testes. O ZIP de capturas reúne os PNGs originais e relatórios. `SHA256SUMS.txt` permite conferir os arquivos baixados.
+O código-fonte ZIP contém código, scripts e testes. O binário compilado está versionado na pasta `downloads` do repositório, com SHA-256. Os anexos nativos da release não puderam ser enviados devido a uma falha de autenticação desta integração no domínio de uploads do GitHub; o botão acima baixa o mesmo JAR verificado diretamente do repositório.
 
 ## Incluído
 

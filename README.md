@@ -6,9 +6,9 @@ Esta é a versão inicial **0.1.0**. O código implementa os estúdios abaixo; [
 
 ## Baixar
 
-**[Download da versão 0.1.0 para Forge 1.8.9](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.1.0)** — pré-release para testes.
+**[Baixar Alien Client 0.1.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/downloads/alien-client-0.1.0.jar?raw=true)** · [Página da release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.1.0) — pré-release para testes.
 
-Nos arquivos da release, baixe `alien-client-0.1.0.jar` e coloque em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. O arquivo `alien-client-0.1.0-source.zip` contém o projeto para desenvolvimento.
+Baixe o JAR pelo link acima e coloque em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. O binário está versionado na pasta [downloads](downloads/), com SHA-256. O projeto para desenvolvimento está em [Source code (ZIP)](https://github.com/AttackAlien/Alien-Client/archive/refs/tags/v0.1.0.zip).
 
 **[Ver as cinco capturas reais do jogo](captures/README.md)** · [Resultados e limitações da validação](docs/VALIDATION.md)
 
