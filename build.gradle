@@ -1,0 +1,110 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { name = 'forge'; url = 'https://maven.minecraftforge.net/' }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply from: 'scripts/https-assets.gradle'
+
+version = '0.1.0'
+group = 'dev.alien.client'
+archivesBaseName = 'alien-client'
+sourceCompatibility = targetCompatibility = '1.8'
+
+minecraft {
+    version = '1.8.9-11.15.1.2318-1.8.9'
+    runDir = 'run'
+    mappings = 'stable_22'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.13.2'
+}
+
+// A separate test-only Forge mod exercises the real GUI/rendering lifecycle.
+// Its classes are never included in the distributable production JAR.
+sourceSets {
+    smoke {
+        java.srcDir 'src/smoke/java'
+        resources.srcDir 'src/smoke/resources'
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+
+task runSmokeClient(type: JavaExec, dependsOn: ['classes', 'smokeClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Runs the test-only integration mod in the actual Minecraft client'
+}
+
+afterEvaluate {
+    runSmokeClient {
+        main = runClient.main
+        // ForgeGradle's runClient classpath points to the last built JAR.
+        // Use freshly compiled classes here, without a duplicate stale mod JAR.
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.smoke.output
+        workingDir = file('build/smoke-runtime')
+        def smokeArgs = new ArrayList(runClient.args)
+        def gameDirIndex = smokeArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
+            smokeArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = smokeArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.smoke', 'true'
+        systemProperty 'alien.smoke.output', file('build/smoke').absolutePath
+        systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(JavaExec) {
+    // Forward supported proxy/trust configuration to the actual game JVM.
+    ['https.proxyHost', 'https.proxyPort', 'http.proxyHost', 'http.proxyPort',
+     'javax.net.ssl.trustStore', 'javax.net.ssl.trustStorePassword'].each { name ->
+        if (System.getProperty(name) != null) systemProperty name, System.getProperty(name)
+    }
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'mcversion', '1.8.9'
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version': project.version, 'mcversion': '1.8.9'
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+test {
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Alien Client',
+                   'Implementation-Version': project.version,
+                   'FMLModType': 'MOD',
+                   'FMLCorePluginContainsFMLMod': 'false'
+    }
+}

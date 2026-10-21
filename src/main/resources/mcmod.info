@@ -1,0 +1,15 @@
+[
+  {
+    "modid": "alienclient",
+    "name": "Alien Client",
+    "description": "Local cosmetic, HUD and world customization for Minecraft Forge 1.8.9. No gameplay advantages or server changes.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "https://github.com/AttackAlien/Alien-Client",
+    "authorList": ["AttackAlien"],
+    "credits": "Original Alien Client implementation",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

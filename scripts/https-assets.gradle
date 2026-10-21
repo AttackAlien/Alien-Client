@@ -1,0 +1,86 @@
+// ForgeGradle 2.1 hardcodes HTTP for assets. Use the official HTTPS endpoint
+// with the same Mojang manifest hashes and sizes; retain full TLS validation.
+import groovy.json.JsonSlurper
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import java.security.MessageDigest
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+
+tasks.getByName('getAssets').with {
+    actions.clear()
+    doLast {
+        File indexFile = getAssetsIndex()
+        File assetRoot = getAssetsDir()
+        def manifest = new JsonSlurper().parse(indexFile)
+        def uniqueObjects = [:]
+        manifest.objects.each { String logicalName, def record ->
+            if (!(record.hash ==~ /[a-f0-9]{40}/) || record.size < 0) {
+                throw new GradleException("Invalid Mojang asset entry: $logicalName")
+            }
+            uniqueObjects[record.hash] = record
+        }
+        def validAsset = { File file, def record ->
+            if (!file.isFile() || file.length() != record.size) return false
+            def digest = MessageDigest.getInstance('SHA-1')
+            file.withInputStream { input ->
+                byte[] buffer = new byte[32768]
+                int count
+                while ((count = input.read(buffer)) != -1) digest.update(buffer, 0, count)
+            }
+            digest.digest().encodeHex().toString() == record.hash
+        }
+        def pool = Executors.newFixedThreadPool(8)
+        try {
+            def downloads = uniqueObjects.collect { String hash, def record ->
+                pool.submit({
+                    File object = new File(assetRoot, "objects/${hash.substring(0, 2)}/$hash")
+                    if (!validAsset(object, record)) {
+                        object.parentFile.mkdirs()
+                        File partial = new File(object.path + '.part')
+                        try {
+                            def connection = new URL("https://resources.download.minecraft.net/${hash.substring(0, 2)}/$hash").openConnection()
+                            connection.connectTimeout = 20000
+                            connection.readTimeout = 60000
+                            connection.inputStream.withCloseable { input ->
+                                partial.withOutputStream { output ->
+                                    byte[] buffer = new byte[32768]
+                                    int count
+                                    long size = 0
+                                    while ((count = input.read(buffer)) != -1) {
+                                        size += count
+                                        if (size > record.size) throw new IOException("Oversized asset $hash")
+                                        output.write(buffer, 0, count)
+                                    }
+                                }
+                            }
+                            if (!validAsset(partial, record)) throw new IOException("Asset checksum mismatch: $hash")
+                            Files.move(partial.toPath(), object.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                        } finally {
+                            partial.delete()
+                        }
+                    }
+                    return null
+                } as Callable)
+            }
+            downloads.each { it.get() }
+        } finally {
+            pool.shutdownNow()
+        }
+        if (manifest.virtual == true) {
+            File virtualRoot = new File(assetRoot, 'virtual/' + indexFile.name.replaceFirst(/\.json$/, ''))
+            manifest.objects.each { String name, def record ->
+                File target = new File(virtualRoot, name)
+                if (!target.canonicalPath.startsWith(virtualRoot.canonicalPath + File.separator)) {
+                    throw new GradleException('Invalid asset path in Mojang manifest')
+                }
+                File source = new File(assetRoot, "objects/${record.hash.substring(0, 2)}/${record.hash}")
+                if (!validAsset(target, record)) {
+                    target.parentFile.mkdirs()
+                    Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
+            }
+        }
+        logger.lifecycle("Verified ${uniqueObjects.size()} Minecraft assets using Mojang SHA-1 and size metadata over HTTPS.")
+    }
+}
