@@ -16,10 +16,12 @@ jobs:
   unified:
     name: Unified JAR | Java 8
     runs-on: ubuntu-22.04
-    timeout-minutes: 30
+    timeout-minutes: 35
     env:
       ALIEN_TOOLS_DIR: ${{ github.workspace }}/.tools
       GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
+      ALIEN_EDITION: "unified"
+      ALIEN_COMBAT_SMOKE_TIMEOUT_SECONDS: "480"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -28,6 +30,12 @@ jobs:
         with:
           distribution: temurin
           java-version: '8'
+      - name: Install connected Xorg dummy monitor and software OpenGL
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            xserver-xorg-core xserver-xorg-video-dummy x11-xserver-utils x11-utils mesa-utils \
+            libgl1 libgl1-mesa-dri libxrandr2 libxi6 libxcursor1 libxtst6 libxinerama1 libasound2
       - name: Bootstrap verified JDK 8 and Gradle 2.14.1
         run: bash ./scripts/bootstrap.sh
       - name: Compile Unified, run JUnit and verify actual JAR provenance
@@ -36,7 +44,16 @@ jobs:
         run: |
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar
           sha256sum build/unified/libs/AlienClient-Unified-1.8.9.jar | tee build/unified/SHA256SUMS.txt
-      - name: Upload single installer and test reports
+      - name: Validate combat Xorg smoke runner syntax
+        run: bash -n ./scripts/ci-combat-smoke-xorg.sh
+      - name: Run Combat Studio inside actual Forge 1.8.9 with screenshots
+        run: bash ./scripts/ci-combat-smoke-xorg.sh
+      - name: Summarize in-game checks
+        if: success()
+        run: |
+          echo "## Alien Unified Combat Studio" >> "$GITHUB_STEP_SUMMARY"
+          echo "Actual Minecraft 1.8.9: $(head -n 1 build/unified/combat-smoke/result.txt)" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload JAR, JUnit, game screenshots and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -48,3 +65,4 @@ jobs:
             build/unified/SHA256SUMS.txt
             build/unified/test-results/
             build/unified/reports/tests/
+            build/unified/combat-smoke/
