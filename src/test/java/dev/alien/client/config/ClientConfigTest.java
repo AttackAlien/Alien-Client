@@ -8,7 +8,7 @@ public class ClientConfigTest {
         ClientConfig c = new ClientConfig();
         c.hud = null; c.cosmetics = null; c.world = null; c.effects = null; c.performance = null; c.panels = null;
         c.normalize(); assertNotNull(c.hud); assertNotNull(c.cosmetics); assertNotNull(c.world); assertNotNull(c.effects); assertNotNull(c.performance);
-        assertNotNull(c.panels); assertEquals(5, c.panels.columns.size());
+        assertNotNull(c.panels); assertEquals(6, c.panels.columns.size());
     }
     @Test public void invalidNumericSettingsCannotBreakRenderState() {
         ClientConfig c = new ClientConfig(); c.opacity = Float.NaN; c.animationSpeed = Float.POSITIVE_INFINITY;
