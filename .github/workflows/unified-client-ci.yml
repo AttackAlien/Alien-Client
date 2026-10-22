@@ -48,8 +48,12 @@ jobs:
         run: |
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar
           sha256sum build/unified/libs/AlienClient-Unified-1.8.9.jar | tee build/unified/SHA256SUMS.txt
-      - name: Validate combat Xorg smoke runner syntax
-        run: bash -n ./scripts/ci-combat-smoke-xorg.sh
+      - name: Validate graphical runner syntax
+        run: bash -n scripts/ci-smoke-xorg.sh scripts/ci-sky-smoke-xorg.sh scripts/ci-combat-smoke-xorg.sh
+      - name: Validate redesigned studios in actual Unified Minecraft
+        run: bash ./scripts/ci-smoke-xorg.sh
+      - name: Validate cubemap and gallery in actual Unified Minecraft
+        run: bash ./scripts/ci-sky-smoke-xorg.sh
       - name: Bind the upcoming game test to exact built and JUnit-tested inputs
         run: python3 ./scripts/package-unified.py --begin-validation
       - name: Run Combat Studio inside actual Forge 1.8.9 with screenshots
@@ -77,6 +81,8 @@ jobs:
             build/unified/SHA256SUMS.txt
             build/unified/test-results/
             build/unified/reports/tests/
+            build/unified/smoke/
+            build/unified/sky-smoke/
             build/unified/combat-smoke/
             build/unified/validation-inputs.json
             build/unified/distribution/
