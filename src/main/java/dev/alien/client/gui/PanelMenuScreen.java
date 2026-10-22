@@ -84,6 +84,15 @@ public final class PanelMenuScreen extends AlienMenuScreen {
             rows.add(moduleToggle("Camera sway", "camera_sway"));
             rows.add(moduleToggle("Color filter", "color_filter"));
             rows.add(action("Effects Studio", () -> openEditor(category)));
+        } else if ("Combat".equals(category)) {
+            if (!"unified".equals(BuildEdition.ID)) return rows;
+            rows.add(toggle("Combat enabled", () -> c.combat.enabled,
+                    () -> c.combat.enabled = !c.combat.enabled));
+            rows.add(moduleToggle("Aim assist", "aim_assist"));
+            rows.add(moduleToggle("Click assist", "click_assist"));
+            rows.add(action("Legit preset", () -> c.combat.applyPreset("LEGIT")));
+            rows.add(action("Full preset", () -> c.combat.applyPreset("FULL")));
+            rows.add(action("Combat Studio", () -> mc.displayGuiScreen(new CombatStudioScreen(this))));
         } else {
             rows.add(toggle("Diagnostics", () -> c.performance.diagnostics, () -> c.performance.diagnostics = !c.performance.diagnostics));
             rows.add(toggle("RGB accent", () -> c.rainbowAccent, () -> c.rainbowAccent = !c.rainbowAccent));
@@ -131,7 +140,8 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         drawRect(0, 0, width, height, 0x4910131c);
         drawRect(12, 13, 15, 30, Ui.accent());
         fontRendererObj.drawStringWithShadow("ALIEN", 22, 13, Ui.TEXT);
-        fontRendererObj.drawString(BuildEdition.ALLOW_FULL ? "FULL / ARCHITECTURE" : "LEGIT / VISUALS", 22, 25, Ui.MUTED);
+        fontRendererObj.drawString("unified".equals(BuildEdition.ID) ? "UNIFIED / COMBAT PROFILES" :
+                BuildEdition.ALLOW_FULL ? "FULL / ARCHITECTURE" : "LEGIT / VISUALS", 22, 25, Ui.MUTED);
         search.drawTextBox();
         if (!search.isFocused() && search.getText().isEmpty()) fontRendererObj.drawString("Search modules...", search.xPosition + 4, search.yPosition + 5, Ui.MUTED);
         rebuildViews();
@@ -244,6 +254,8 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         else if ("Cosmetics".equals(category)) mc.displayGuiScreen(new CosmeticStudioScreen(this));
         else if ("World".equals(category)) mc.displayGuiScreen(new WorldStudioScreen(this));
         else if ("Effects".equals(category)) mc.displayGuiScreen(new EffectsScreen(this));
+        else if ("Combat".equals(category) && "unified".equals(BuildEdition.ID))
+            mc.displayGuiScreen(new CombatStudioScreen(this));
         else mc.displayGuiScreen(new AlienMenuScreen(this));
     }
     @Override protected void keyTyped(char typedChar, int code) throws IOException {
