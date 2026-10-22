@@ -65,7 +65,9 @@ public final class AlienSkySmoke {
         if (finished || event.phase != TickEvent.Phase.END) return;
         try {
             if (elapsed(started)>160000L) throw new AssertionError("Sky smoke deadline at stage "+stage);
-            if (elapsed(since)<(stage==1?1000L:stage>=2?1800L:350L)) return;
+            // Texture reload is checked every 40 client ticks, so allow more than 2 seconds.
+            long interval = stage==2 || stage==8 ? 3500L : stage==1 ? 1000L : stage>=3 ? 1800L : 350L;
+            if (elapsed(since)<interval) return;
             step();
         } catch(Throwable ex) {
             finished=true;
@@ -183,7 +185,7 @@ public final class AlienSkySmoke {
                 finished=true;
                 try(PrintWriter writer=new PrintWriter(new File(output,"result.txt"),"UTF-8")) {
                     writer.println("PASS "+checks.size()+" checks");
-                    writer.println("Actual Forge 1.8.9 "+edition+"; six cubemap faces tested using live framebuffer");
+                    writer.println("Actual Forge 1.8.9 "+edition+"; sampled cubemap Up/South/North faces, orientation and brightness in live framebuffer");
                     for(String check:checks) writer.println("PASS "+check);
                 }
                 System.out.println("ALIEN_SKY_SMOKE_PASS checks="+checks.size());
