@@ -21,7 +21,7 @@ Os valores default preservam o aspecto anterior. As configurações não mexem n
 
 ### Validação recomendada dentro do Minecraft
 
-1. Compile/teste as edições Legit e Full com Java 8. O workflow de CI cobre JUnit e integridade do JAR; não atesta visual sem um smoke gráfico real.
+1. Execute o GitHub Actions do PR #4 em **Legit e Full**. Agora o workflow compila com Java 8, roda JUnit, verifica os JARs e inicia o Forge 1.8.9 em Xorg dummy para testar capturas reais do céu. **O teste só é considerado aprovado quando os dois jobs terminam verdes e apresentam `PASS N checks` no `sky-smoke/result.txt`.**
 2. Compare a imagem PNG equiretangular importada antes/depois, com os campos novos em seus defaults.
 3. Importe um atlas `meu-ceu.cube.png` (exemplo: 1536×1024), valide cada direção e as costuras.
 4. Experimente yaw, drift, brilho e cintilação; confirme que as opções persistem após reiniciar.
@@ -30,3 +30,13 @@ Os valores default preservam o aspecto anterior. As configurações não mexem n
 7. Valide a compatibilidade com OptiFine separadamente antes de lançar.
 
 Screenshots antigos no repositório representam o código anterior e não comprovam a atualização.
+
+## Smoke gráfico automatizado (implementado)
+
+O workflow [`sky-studio-ci.yml`](../.github/workflows/sky-studio-ci.yml) usa [`AlienSkySmoke.java`](../src/skySmoke/java/dev/alien/client/smoke/AlienSkySmoke.java), uma fonte de teste que **não entra nos JARs de distribuição**. Ele abre um mundo superflat **descartável** e grava screenshots e um resultado explícito em `build/<edition>/sky-smoke/`.
+
+O smoke gera um PNG 3×2 de seis faces com cores distintas e valida amostras reais do framebuffer mirando **Up, South e North**, a rotação de 180°, escurecimento da imagem, persistência das novas opções, botões de `Skybox Options`, retorno ao procedural e, depois, ao céu vanilla. Os seis lados são cobertos pela matemática/UV dos testes JUnit; as demais três direções e as costuras deverão ser inspecionadas manualmente antes de aprovação final. O resultado **não** afirma teste visual automático de todas as faces.
+
+O teste usa monitor virtual Xorg conectado (evita uma limitação do RandR no Xvfb com LWJGL 2) e Mesa/software OpenGL. A execução do jogo é limitada a **480 segundos** após o display estar pronto, e o job a **30 minutos**. Se travar, CI falha e anexa logs de Minecraft, OpenGL, processos, Xorg e capturas parciais.
+
+Ainda são necessários testes de compatibilidade com Windows, GPUs reais e OptiFine; o PR permanece como rascunho até a avaliação dos resultados.
