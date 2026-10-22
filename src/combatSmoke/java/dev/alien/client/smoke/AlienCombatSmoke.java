@@ -86,6 +86,10 @@ public final class AlienCombatSmoke {
                 require(!combat().enabled&&!combat().aimAssist&&!combat().clickAssist,
                         "Combat remains fully disabled by default");
                 mc.gameSettings.limitFramerate=30;
+                // CI's Xorg dummy has no interactive desktop focus. Minecraft
+                // would open GuiIngameMenu on focus loss and block combat input.
+                // This affects only the isolated throwaway smoke runtime.
+                mc.gameSettings.pauseOnLostFocus=false;
                 mc.launchIntegratedServer("AlienCombat-"+System.currentTimeMillis(),
                         "Disposable Combat Studio smoke",
                         new WorldSettings(41822L,WorldSettings.GameType.CREATIVE,
@@ -160,6 +164,8 @@ public final class AlienCombatSmoke {
                 mc.thePlayer.prevRotationYaw=mc.thePlayer.rotationYaw;
                 mc.thePlayer.rotationPitch=angles[1];
                 mc.thePlayer.prevRotationPitch=mc.thePlayer.rotationPitch;
+                // Ensure test focus cannot leave a transient pause screen open.
+                if(mc.currentScreen!=null)mc.displayGuiScreen(null);
                 initialAngle=CombatMath.angularDistance(mc.thePlayer.rotationYaw,mc.thePlayer.rotationPitch,
                         angles[0],angles[1]);
                 require(initialAngle>30F,"Aim controller starts visibly outside target direction");
@@ -174,6 +180,8 @@ public final class AlienCombatSmoke {
                         " enabled="+combat().enabled+" aim="+combat().aimAssist+
                         " requireAttackHeld="+combat().requireAttackHeld+
                         " currentScreen="+(mc.currentScreen==null?"null":mc.currentScreen.getClass().getSimpleName()));
+                require(mc.currentScreen==null,
+                        "World is unpaused and has no gameplay-blocking GUI during aim test");
                 require(remaining<initialAngle*.5F,
                         "Live combat tick gradually aims towards the visible local dummy");
                 require(GL11.glGetError()==GL11.GL_NO_ERROR,"Combat Studio and in-world render have no OpenGL errors");
