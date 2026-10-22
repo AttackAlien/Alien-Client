@@ -101,7 +101,7 @@ jobs:
           if (-not (Test-Path -LiteralPath $jar)) { throw 'Unified JAR missing from ZIP' }
           if (-not (Test-Path -LiteralPath $hashes)) { throw 'SHA256SUMS.txt missing' }
           $expectedLine = (Get-Content -LiteralPath $hashes -Raw).Trim()
-          if ($expectedLine -notmatch '^([0-9a-f]{64})  AlienClient-Unified-1\\.8\\.9\\.jar$') {
+          if ($expectedLine -notmatch '^([0-9a-f]{64})  AlienClient-Unified-1\.8\.9\.jar$') {
             throw 'Invalid SHA256SUMS format'
           }
           $expected = $Matches[1]
