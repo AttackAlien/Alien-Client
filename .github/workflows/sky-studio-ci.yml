@@ -1,9 +1,6 @@
 name: Sky Studio Ultimate - Forge 1.8.9
 
 on:
-  push:
-    branches:
-      - feature/sky-studio-ultimate
   pull_request:
     branches:
       - main
@@ -12,14 +9,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: sky-studio-${{ github.workflow }}-${{ github.ref }}
+  group: sky-studio-graphics-v2-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   compile:
     name: "Forge 1.8.9 | ${{ matrix.edition }}"
     runs-on: ubuntu-22.04
-    timeout-minutes: 75
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -27,6 +24,8 @@ jobs:
     env:
       ALIEN_TOOLS_DIR: ${{ github.workspace }}/.tools
       GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
+      ALIEN_EDITION: ${{ matrix.edition }}
+      ALIEN_SKY_SMOKE_TIMEOUT_SECONDS: "480"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,11 +36,27 @@ jobs:
         with:
           distribution: temurin
           java-version: "8"
+      - name: Install virtual OpenGL monitor for Minecraft 1.8.9
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            xserver-xorg-core xserver-xorg-video-dummy x11-xserver-utils x11-utils mesa-utils \
+            libgl1 libgl1-mesa-dri libxrandr2 libxi6 libxcursor1 libxtst6 libxinerama1 libasound2
       - name: Bootstrap verified legacy toolchain
         run: bash ./scripts/bootstrap.sh
       - name: Compile, test and verify reobfuscated JAR
         run: ./gradlew --no-daemon "-Pedition=${{ matrix.edition }}" setupDecompWorkspace build
-      - name: Upload JAR and JUnit reports
+      - name: Validate Xorg smoke runner syntax
+        run: bash -n ./scripts/ci-sky-smoke-xorg.sh
+      - name: Open actual Minecraft and validate Sky Studio framebuffer
+        run: bash ./scripts/ci-sky-smoke-xorg.sh
+      - name: Summarize tested graphics
+        if: success()
+        run: |
+          echo "## Sky Studio Ultimate / $ALIEN_EDITION" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Java 8, Forge 1.8.9, unit tests, JAR: PASS" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Real Minecraft screenshot validation: $(head -n 1 "build/$ALIEN_EDITION/sky-smoke/result.txt")" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload JAR, tests, screenshots and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -52,3 +67,4 @@ jobs:
             build/${{ matrix.edition }}/libs/*.jar
             build/${{ matrix.edition }}/test-results/
             build/${{ matrix.edition }}/reports/tests/
+            build/${{ matrix.edition }}/sky-smoke/
