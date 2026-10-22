@@ -11,7 +11,7 @@ Executada em 22 de outubro de 2026 no Linux x86_64, Temurin 8u472, Gradle 2.14.1
 | PNGs originais | 35 | 35 |
 | Movimento da capa, 12 quadros | Até 98 pixels alterados no recorte do tecido | Até 95 pixels alterados no recorte do tecido |
 
-[Capturas e resultados originais](../captures/editions/README.md) · [SHA-256 dos JARs](../downloads/v0.3.0-alpha.1/SHA256SUMS.txt).
+[Capturas e resultados originais](https://github.com/AttackAlien/Alien-Client/blob/v0.3.0-alpha.1/captures/editions/README.md) · [SHA-256 dos JARs](../downloads/v0.3.0-alpha.1/SHA256SUMS.txt).
 
 ## O que foi exercitado
 

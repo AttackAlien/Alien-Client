@@ -1,3 +1,5 @@
+**[VER AS NOVAS IMAGENS DO REDESIGN](captures/README.md)** — capturas reais da prévia de interface 0.4. As imagens antigas foram removidas da galeria atual. O redesign está na branch [ui-overhaul-20261022](https://github.com/AttackAlien/Alien-Client/tree/ui-overhaul-20261022); a base Unified abaixo foi preservada.
+
 # Alien Client
 
 > **Alien Client Unified agora é o build padrão na `main`.** Um único `AlienClient-Unified-1.8.9.jar` reúne os visuais, o Sky Studio Ultimate e perfis opcionais de combate **OFF / LEGIT / FULL / CUSTOM**. O JAR aprovado em CI é **experimental, não uma nova release oficial**. Veja [implementação, testes e migração](docs/UNIFIED-CLIENT.md). **Instale só um JAR Alien por vez; fake anti-aim e silent aim ainda não foram implementados.**

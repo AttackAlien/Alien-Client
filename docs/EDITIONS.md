@@ -49,4 +49,4 @@ Nenhuma promessa de aceitação por servidores, compatibilidade universal ou eva
 
 ## Resultado da primeira fase
 
-As duas composições passaram em **91 testes JUnit e 100 verificações gráficas cada**, com 35 PNGs por edição. Os JARs foram reofuscados e inspecionados; a troca indevida do provider Full no JAR Legit foi rejeitada pelo verificador. [Relatório completo](VALIDATION-EDITIONS.md) · [Imagens reais](../captures/editions/README.md) · [Binários](../downloads/v0.3.0-alpha.1/README.md).
+As duas composições passaram em **91 testes JUnit e 100 verificações gráficas cada**, com 35 PNGs por edição. Os JARs foram reofuscados e inspecionados; a troca indevida do provider Full no JAR Legit foi rejeitada pelo verificador. [Relatório completo](VALIDATION-EDITIONS.md) · [Imagens reais](https://github.com/AttackAlien/Alien-Client/blob/v0.3.0-alpha.1/captures/editions/README.md) · [Binários](../downloads/v0.3.0-alpha.1/README.md).

@@ -12,7 +12,7 @@ Executada em 21 de outubro de 2026, no Linux x86_64 do ambiente de nuvem, com Te
 
 ## Minecraft/Forge real
 
-**88 verificações passaram**, produzindo **35 PNGs originais do framebuffer** em um mundo integrado descartável. [Galeria](../captures/README.md) · [Resultado original](../captures/v0.2.0/result.txt) · [Hashes dos PNGs](../captures/v0.2.0/SHA256SUMS.txt).
+**88 verificações passaram**, produzindo **35 PNGs originais do framebuffer** em um mundo integrado descartável. [Galeria](../captures/README.md) · [Resultado original](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/captures/v0.2.0/result.txt) · [Hashes dos PNGs](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/captures/v0.2.0/SHA256SUMS.txt).
 
 Foram confirmados:
 
@@ -21,7 +21,7 @@ Foram confirmados:
 - Atalho real Right Shift abrindo os painéis flutuantes dentro do mundo.
 - Controles de aparência, desempenho, HUD, céu, efeitos e cosméticos alterando configurações reais.
 - Prévia 3D com rotação/zoom, chapéu curvo, Kabuto/Kitsune, asas e capa texturizada.
-- Movimento visível da capa: 12 quadros com intervalo mínimo de 100 ms; até **132 pixels alterados** na região restrita ao tecido. [Métrica](../captures/v0.2.0/cape-motion-metrics.txt).
+- Movimento visível da capa: 12 quadros com intervalo mínimo de 100 ms; até **132 pixels alterados** na região restrita ao tecido. [Métrica](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/captures/v0.2.0/cape-motion-metrics.txt).
 - Céu noturno em quatro e dois chunks, preservando terreno e jogador.
 - Panorama PNG importado desenhado e liberado ao voltar ao céu procedural.
 - Crystal cyan e Sakura rosa visivelmente diferentes no framebuffer, com HUD e partículas reais.
