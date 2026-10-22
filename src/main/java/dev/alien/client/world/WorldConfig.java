@@ -1,5 +1,8 @@
 package dev.alien.client.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Render-only settings. No field is applied to the world's game rules or packets. */
 public final class WorldConfig {
     public boolean enabled = false;
@@ -18,6 +21,8 @@ public final class WorldConfig {
     public float weatherIntensity = 0.5F;
     /** A PNG basename under config/alien-client/skyboxes; blank uses procedural sky. */
     public String skyboxFile = "";
+    /** Favorite local PNG basenames, limited to 16 entries; safe for existing JSON profiles. */
+    public List<String> favoriteSkyboxes = new ArrayList<String>();
     /** Local image-only orientation (no camera or server changes). */
     public float skyboxYaw = 0F;
     /** Optional rotation, degrees per second; disabled by default. */
@@ -33,6 +38,13 @@ public final class WorldConfig {
         if (weather == null || !("Server".equals(weather) || "Clear".equals(weather)
                 || "Rain".equals(weather) || "Snow".equals(weather) || "Storm".equals(weather))) weather = "Server";
         if (skyboxFile == null || skyboxFile.length() > 160) skyboxFile = "";
+        if (favoriteSkyboxes == null) favoriteSkyboxes = new ArrayList<String>();
+        List<String> safeFavorites = new ArrayList<String>();
+        for (String favorite : favoriteSkyboxes) {
+            if (safeFavorites.size() >= 16) break;
+            if (SkyboxGallery.validFavorite(favorite) && !safeFavorites.contains(favorite)) safeFavorites.add(favorite);
+        }
+        favoriteSkyboxes = safeFavorites;
         visualHour = Math.max(0, Math.min(23, visualHour));
         skyboxYaw = bounded(skyboxYaw, 0F, 360F, 0F);
         skyboxDrift = bounded(skyboxDrift, 0F, 2F, 0F);

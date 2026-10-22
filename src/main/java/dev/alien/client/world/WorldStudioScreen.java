@@ -51,11 +51,12 @@ public final class WorldStudioScreen extends GuiScreen {
         skybox.setMaxStringLength(120); skybox.setText(c.skyboxFile);
         add(7, second, y, "Apply RGB / PNG"); y+=22;
         add(8, left, y, "Reset world visuals"); add(9, second, y, "Open visual effects");
-        int footerWidth = Math.min(125, Math.max(68, (width - 36) / 3));
-        int footerLeft = (width - (footerWidth * 3 + 12)) / 2;
+        int footerWidth = Math.min(118, Math.max(48, (width - 38) / 4));
+        int footerLeft = (width - (footerWidth * 4 + 18)) / 2;
         buttonList.add(new GuiButton(10, footerLeft, height-25, footerWidth,20,"Atmosphere"));
-        buttonList.add(new GuiButton(11, footerLeft+footerWidth+6,height-25,footerWidth,20,"Sky options"));
-        buttonList.add(new GuiButton(0, footerLeft+footerWidth*2+12,height-25,footerWidth,20,"Done"));
+        buttonList.add(new GuiButton(12, footerLeft+footerWidth+6,height-25,footerWidth,20,"Sky Gallery"));
+        buttonList.add(new GuiButton(11, footerLeft+footerWidth*2+12,height-25,footerWidth,20,"Sky options"));
+        buttonList.add(new GuiButton(0, footerLeft+footerWidth*3+18,height-25,footerWidth,20,"Done"));
     }
 
     private void add(int id, int x, int y, String label) { buttonList.add(new GuiButton(id,x,y,columnWidth,20,label)); }
@@ -85,6 +86,7 @@ public final class WorldStudioScreen extends GuiScreen {
             case 9: applyFields(); mc.displayGuiScreen(new EffectsScreen(this)); return;
             case 10: applyFields(); mc.displayGuiScreen(new AtmospherePresetScreen(this)); return;
             case 11: applyFields(); mc.displayGuiScreen(new SkyboxOptionsScreen(this)); return;
+            case 12: applyFields(); mc.displayGuiScreen(new SkyboxGalleryScreen(this)); return;
             default: return;
         }
         AlienClient.get().save(); initGui();
