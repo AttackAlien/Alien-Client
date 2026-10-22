@@ -51,12 +51,12 @@ public final class SkyboxOptionsScreen extends dev.alien.client.gui.PremiumScree
         Ui.background(width, height);
         Ui.card(left - 8, 8, panelWidth + 16, height - 15);
         Ui.rounded(left + 3, 10, panelWidth - 6, 2, 1, Ui.accent());
-        drawCenteredString(fontRendererObj, "ALIEN / SKYBOX OPTIONS", width / 2, 18, Ui.TEXT);
-        drawCenteredString(fontRendererObj, "Panorama PNG or six-face 3x2 .cube.png atlas", width / 2, 32, Ui.MUTED);
+        drawCenteredString(fontRendererObj, "ALIEN / SKYBOX OPTIONS", width / 2, 18, Ui.theme().text);
+        drawCenteredString(fontRendererObj, "Panorama PNG or six-face 3x2 .cube.png atlas", width / 2, 32, Ui.theme().muted);
         super.drawContents(mouseX, mouseY, partialTicks);
         if (height >= 245) drawCenteredString(fontRendererObj,
                 "Local visuals only - world time and server weather stay unchanged",
-                width / 2, height - 41, Ui.MUTED);
+                width / 2, height - 41, Ui.theme().muted);
     }
 
     @Override protected void keyTyped(char c, int code) throws IOException {

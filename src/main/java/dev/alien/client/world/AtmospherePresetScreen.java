@@ -51,9 +51,9 @@ public final class AtmospherePresetScreen extends dev.alien.client.gui.PremiumSc
         Ui.background(width,height);Ui.card(Math.max(8,width/2-174),6,Math.min(348,width-16),height-12);
         Ui.card(left-10,8,panelWidth+20,height-15);
         drawGradientRect(left-10,8,left+panelWidth+10,10,Ui.accent(),0xff61d5dc);
-        drawCenteredString(fontRendererObj,"ALIEN / ATMOSPHERE",width/2,18,Ui.TEXT);
+        drawCenteredString(fontRendererObj,"ALIEN / ATMOSPHERE",width/2,18,Ui.theme().text);
         super.drawContents(x,y,partial);
-        if(height>=240)drawCenteredString(fontRendererObj,fontRendererObj.trimStringToWidth(message,panelWidth),width/2,height-42,Ui.MUTED);
+        if(height>=240)drawCenteredString(fontRendererObj,fontRendererObj.trimStringToWidth(message,panelWidth),width/2,height-42,Ui.theme().muted);
     }
     @Override protected void keyTyped(char c,int code)throws IOException{if(code==Keyboard.KEY_ESCAPE)mc.displayGuiScreen(parent);}
     @Override public void onGuiClosed(){AlienClient.get().save();}

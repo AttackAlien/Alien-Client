@@ -165,15 +165,15 @@ public final class SkyboxGalleryScreen extends dev.alien.client.gui.PremiumScree
             } finally { GL11.glPopAttrib(); }
         } else {
             drawCenteredString(fontRendererObj, "No valid preview", previewX + previewW/2,
-                    previewY + previewH/2,0xffc8b6d0);
+                    previewY + previewH/2,Ui.theme().muted);
         }
         super.drawContents(mouseX,mouseY,partialTicks);
         String active = world().skyboxFile.isEmpty() ? "procedural" : world().skyboxFile;
         drawCenteredString(fontRendererObj, fontRendererObj.trimStringToWidth(
                 "Active: " + active + "   [" + files.size() + " skyboxes, page " + (page+1) + "]",
-                width - 12), width/2, height-77, 0xffcbc3da);
+                width - 12), width/2, height-77, Ui.theme().text);
         drawCenteredString(fontRendererObj, fontRendererObj.trimStringToWidth(message,width-16),
-                width/2,height-67,0xffb3a9c9);
+                width/2,height-67,Ui.theme().muted);
     }
 
     @Override protected void keyTyped(char character, int key) throws IOException {

@@ -630,12 +630,31 @@ public final class AlienIntegrationSmoke {
             click(31);
             resizeWindow(800,600);config().ui.menuScale=.85f;
             mc.displayGuiScreen(new dev.alien.client.world.SkyboxOptionsScreen(null));
+        } else if(responsiveStep==20){
+            assertButtonsInsideScreen();capture("35-precise-numeric-input");
+            Field input=mc.currentScreen.getClass().getDeclaredField("input");input.setAccessible(true);
+            String value=((net.minecraft.client.gui.GuiTextField)input.get(mc.currentScreen)).getText();
+            require(Float.parseFloat(value)==.0001f,"Numeric input preserves the precision of the minimum fog density");
+            click(1);
+            require(config().world.fogDensity==.0001f && mc.currentScreen instanceof dev.alien.client.world.SkyboxOptionsScreen,
+                    "Applying an unchanged precise numeric value succeeds and restores its parent screen");
+        } else if(responsiveStep==21){
+            assertButtonsInsideScreen();capture("36-sky-options-minimal-white");
+            mc.displayGuiScreen(new dev.alien.client.world.SkyboxGalleryScreen(null));
+        } else if(responsiveStep==22){
+            assertButtonsInsideScreen();capture("37-sky-gallery-minimal-white");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Minimal White studio screens and numeric editing preserve OpenGL state");
+            config().ui.applyPreset("Alien Purple");
+            AlienClient.get().store().deleteProfile("smoke_integration");
+            responsiveDone=true;disconnectRequested=true;
         } else {
             assertButtonsInsideScreen();capture("34-skybox-options-scaled");
             require(GL11.glGetError()==GL11.GL_NO_ERROR,"Preserved Sky Options render with modern components and no OpenGL errors");
-            config().ui.menuScale=1;resizeWindow(854,480);
-            AlienClient.get().store().deleteProfile("smoke_integration");
-            responsiveDone=true;disconnectRequested=true;
+            config().ui.menuScale=1;resizeWindow(854,480);config().ui.applyPreset("Minimal White");
+            config().world.fogDensity=.0001f;
+            mc.displayGuiScreen(new dev.alien.client.gui.ui.ValueInputScreen(
+                    new dev.alien.client.world.SkyboxOptionsScreen(null),"Fog density",.0001f,.04f,.0001f,v->config().world.fogDensity=v));
+            responsiveStep=19;
         }
         responsiveStep++;since=System.nanoTime();
     }
