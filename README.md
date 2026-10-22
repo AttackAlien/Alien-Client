@@ -1,18 +1,20 @@
 # Alien Client
 
-> **Novo desenvolvimento (experimental): Alien Client Unified.** Em vez de instalar duas edições separadas, esta branch gera um único arquivo `AlienClient-Unified-1.8.9.jar` com perfis de combate OFF/LEGIT/FULL/CUSTOM configuráveis em jogo. A `main` e as versões publicadas ainda usam o sistema legado Legit/Full; veja [implementação, limites e migração](docs/UNIFIED-CLIENT.md). **Não misture os JARs no mesmo Forge.** Recursos como fake anti-aim/silent aim não estão implementados.
+> **Alien Client Unified agora é o build padrão na `main`.** Um único `AlienClient-Unified-1.8.9.jar` reúne os visuais, o Sky Studio Ultimate e perfis opcionais de combate **OFF / LEGIT / FULL / CUSTOM**. O JAR aprovado em CI é **experimental, não uma nova release oficial**. Veja [implementação, testes e migração](docs/UNIFIED-CLIENT.md). **Instale só um JAR Alien por vez; fake anti-aim e silent aim ainda não foram implementados.**
 
-Mod de personalização **local** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
+Mod cliente de personalização visual e opções de combate **locais/configuráveis** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
 
-A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. As versões históricas Legit/Full não possuem módulos de combate; a build Unified experimental adiciona perfis configuráveis. Não há alteração de atributos de servidor ou sincronização de cosméticos pela rede.
+A base visual **0.2.0** foi preservada. A linha **0.3.0-alpha.1** criou builds históricos Legit/Full; a `main` passou a usar **Unified** após os PRs [#3](https://github.com/AttackAlien/Alien-Client/pull/3), [#4](https://github.com/AttackAlien/Alien-Client/pull/4) e [#5](https://github.com/AttackAlien/Alien-Client/pull/5). O [master plan](docs/MASTER-PLAN.md) continua como planejamento para módulos não entregues. A base inclui HUD, cosméticos, estúdios de céu/efeitos e, no Unified, assistências de mira/clique desativadas por padrão. Nada modifica o alcance no servidor ou sincroniza cosméticos pela rede.
 
-## Experimento de integração open source (branch de revisão)
+## PanelStudio — base de integração já incorporada
 
-A branch `feature/panelstudio-ui-foundation` inicia a integração **incremental** de duas classes Java 8 do [PanelStudio](https://github.com/lukflug/PanelStudio) (MIT): animação por tempo real no hover e novos cantos suaves nos botões Alien, sem substituir os editores testados. **Isso ainda não é o ClickGUI PanelStudio completo** e não constitui novo release compilado; consulte a [comparação de projetos e a validação pendente](docs/OPEN_SOURCE_REVIEW.md). A fonte padrão do Minecraft e os demais layouts ainda precisam de atualização.
+O PR #3 incorporou a integração **incremental** de duas classes Java 8 do [PanelStudio](https://github.com/lukflug/PanelStudio) (MIT): animação por tempo real no hover e novos cantos suaves nos botões Alien, sem substituir os editores testados. **Isso ainda não é o ClickGUI PanelStudio completo.** Veja a [revisão de licenças e integração](docs/OPEN_SOURCE_REVIEW.md). A fonte e os demais layouts ainda precisam de atualização.
 
 ## Baixar
 
-**[Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
+**[Baixar build experimental Unified com testes aprovados](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488208)** — abra *Artifacts* e obtenha `alien-unified-39809488208`, que contém o JAR reofuscado e relatórios. Requer conta GitHub para baixar o artefato do Actions. Não confunda com uma release pública e remova JARs antigos de `mods` antes de instalar.
+
+**Versões históricas:** [Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
 
 Base visual anterior:
 
@@ -28,6 +30,9 @@ Linux x86_64, com `bash`, `curl`, `tar`, `unzip`, `sha256sum` e Python 3.9+:
 
 ```bash
 ./scripts/bootstrap.sh
+./gradlew -Pedition=unified setupDecompWorkspace build
+
+# Somente para regressão de edições antigas:
 ./gradlew -Pedition=legit setupDecompWorkspace build
 ./gradlew -Pedition=full setupDecompWorkspace build
 ```
