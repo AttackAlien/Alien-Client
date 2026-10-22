@@ -1,6 +1,6 @@
 # Dependências e distribuição
 
-O código dos acessórios e a maior parte da interface foi criado para este projeto. A partir da experiência experimental de UI do PanelStudio, duas classes Java 8 (Animation e SettingsAnimation) são reutilizadas sob licença MIT, com a atribuição e licença integral preservadas em docs/licenses/PANELSTUDIO-MIT.txt. Não foram copiados recursos ou implementações do Lunar Client, GameSense/Skeet ou outros clientes proprietários. Os nomes no pedido servem como referências de objetivos e não indicam associação.
+O código dos acessórios e a maior parte da interface foi criado para este projeto. A partir da experiência experimental de UI do PanelStudio, duas classes Java 8 (Animation e SettingsAnimation) são reutilizadas sob licença MIT, com atribuição e licença integral em `docs/licenses/PANELSTUDIO-MIT.txt` e no JAR independente em `META-INF/licenses/PANELSTUDIO-MIT.txt`. Não foram copiados recursos ou implementações do Lunar Client, GameSense/Skeet ou outros clientes proprietários. Os nomes no pedido servem como referências de objetivos e não indicam associação.
 
 As malhas curvas de chapéus/máscaras/acessórios, a deformação da capa, os emblemas Alien/Moon/Stars, as formas de partículas e as paletas são gerados pelo código do projeto. O emblema Alien usa um desenho próprio. Referências visuais não autorizam reproduzir logotipos, skins, modelos, texturas ou identidade de terceiros; nenhum vídeo, frame ou mídia de redes sociais integra esses recursos.
 

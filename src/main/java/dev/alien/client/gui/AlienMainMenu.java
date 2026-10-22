@@ -75,9 +75,10 @@ public final class AlienMainMenu extends GuiMainMenu {
             drawCenteredString(fontRendererObj,"Your world. Reimagined.",heroCenter,top+155,text);
             drawCenteredString(fontRendererObj,"Make every detail yours.",heroCenter,top+172,muted);
         }else if(panelWidth>360)drawCenteredString(fontRendererObj,"Your world. Reimagined.",heroCenter,top+151,muted);
-        int badgeW=Math.min(heroWidth-20,fontRendererObj.getStringWidth(BuildEdition.ALLOW_FULL?"Architecture preview":"Visuals & performance")+18);
+        String badge="unified".equals(BuildEdition.ID)?"Unified / experimental":BuildEdition.ALLOW_FULL?"Architecture preview":"Visuals & performance";
+        int badgeW=Math.min(heroWidth-20,fontRendererObj.getStringWidth(badge)+18);
         Ui.rounded(heroCenter-badgeW/2,top+panelHeight-33,badgeW,18,9,Ui.mix(surface,Ui.accent(),.12f));
-        drawCenteredString(fontRendererObj,BuildEdition.ALLOW_FULL?"Architecture preview":"Visuals & performance",heroCenter,top+panelHeight-28,Ui.accent());
+        drawCenteredString(fontRendererObj,badge,heroCenter,top+panelHeight-28,Ui.accent());
         fontRendererObj.drawString("LET'S PLAY",actionX+1,top+25,muted);
         for(GuiButton button:buttonList)button.drawButton(mc,mouseX,mouseY);
         fontRendererObj.drawString("Minecraft Java 1.8.9 / Forge",12,height-15,muted);

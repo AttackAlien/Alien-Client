@@ -265,6 +265,12 @@ def verify(repository, jar, edition, version):
                 require(entry.filename == "META-INF/MANIFEST.MF" or entry.filename in allowed_resources,
                         "Resource has no source in the selected edition/common roots: %s" % entry.filename)
 
+        if "com/lukflug/panelstudio/base/Animation.class" in names:
+            license_path = "META-INF/licenses/PANELSTUDIO-MIT.txt"
+            require(license_path in names, "PanelStudio classes require their MIT notice in the standalone JAR")
+            require(archive.read(license_path) == (repository / "docs/licenses/PANELSTUDIO-MIT.txt").read_bytes(),
+                    "Bundled PanelStudio MIT notice differs from the attributed source notice")
+
         required_entries = {"META-INF/MANIFEST.MF", "META-INF/alienclient/edition.json", "mcmod.info"}
         require(required_entries.issubset(names), "Missing required manifest/edition marker/Forge metadata")
         manifest = manifest_attributes(archive.read("META-INF/MANIFEST.MF"))
