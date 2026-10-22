@@ -74,7 +74,7 @@ public final class CosmeticStudioScreen extends GuiScreen {
         previewX = controlX + controlWidth + 12;
         previewWidth = left + panelWidth - 10 - previewX;
         int tabY = top + 33;
-        String[] tabs = {"Style", "Fit", "Players", "Imports", "Motion"};
+        String[] tabs = {"Style", "Fit", "Players", "Imports", "Motion", "Looks"};
         int tabSpace = (panelWidth - 20) / tabs.length;
         for (int i = 0; i < tabs.length; i++) {
             buttonList.add(new StudioButton(2 + i, controlX + i * tabSpace, tabY,
@@ -105,13 +105,22 @@ public final class CosmeticStudioScreen extends GuiScreen {
         } else if (page == 3) {
             row(60, 0, "Model: " + display(a.modelFile)); row(61, 1, "Texture: " + display(a.textureFile));
             row(62, 2, "Reload local assets"); row(63, 3, "Create model example"); row(64, 4, "Clear imported model");
-        } else {
+        } else if (page == 4) {
             row(80, 0, "Animation: " + on(a.animations));
             buttonList.add(new StudioSlider(81, controlX, bodyTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
             buttonList.add(new StudioSlider(82, controlX, bodyTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
             buttonList.add(new StudioSlider(83, controlX, bodyTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
             row(84, 4, "Detail: " + a.detailLevel); row(86, 5, "Emblem: " + title(a.capePattern));
             row(85, 6, "Reset motion & size");
+        } else {
+            pair(110, "Ronin", 111, "Celestial", 0);
+            pair(112, "Sakura", 113, "Phantom", 1);
+            for (int slot = 1; slot <= 3; slot++) {
+                pair(120 + (slot - 1) * 2, "Save look " + slot,
+                        121 + (slot - 1) * 2,
+                        (config().savedLooks != null && config().savedLooks.containsKey(Integer.toString(slot))
+                         ? "Load " : "Empty ") + slot, slot + 1);
+            }
         }
         buttonList.add(new StudioButton(90, previewX + previewWidth - 25, bodyTop + 6, 19, 16, "R"));
         buttonList.add(new StudioButton(91, previewX + 7, bodyBottom - 17, previewWidth - 14, 14,
@@ -131,7 +140,7 @@ public final class CosmeticStudioScreen extends GuiScreen {
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         CosmeticConfig.Accessory a = current();
         if (button.id == 0) { AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
-        if (button.id >= 2 && button.id <= 6) { page = button.id - 2; initGui(); return; }
+        if (button.id >= 2 && button.id <= 7) { page = button.id - 2; initGui(); return; }
         switch (button.id) {
             case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN"); break;
             case 11: a.face = cycle(a.face, "NONE", "KITSUNE", "FUTURE", "GLASSES"); break;
@@ -139,12 +148,10 @@ public final class CosmeticStudioScreen extends GuiScreen {
             case 13: a.charm = !a.charm; break;
             case 14: a.aura = !a.aura; break;
             case 15: a.trail = !a.trail; break;
-            case 16:
-                a.hat = "SAMURAI"; a.face = "KITSUNE"; a.back = "CAPE"; a.color = 0x252333;
-                a.secondaryColor = 0xD6B56C; a.animations = true; a.capeFlutter = 1.15f; a.capeLength = 1.05f; break;
-            case 17:
-                a.hat = "CROWN"; a.face = "NONE"; a.back = "WINGS"; a.aura = true;
-                a.color = 0xAAB4ED; a.secondaryColor = 0x74E0D4; a.animations = true; break;
+            case 16: case 110: CosmeticLooks.apply(a, "Ronin"); break;
+            case 17: case 111: CosmeticLooks.apply(a, "Celestial"); break;
+            case 112: CosmeticLooks.apply(a, "Sakura"); break;
+            case 113: CosmeticLooks.apply(a, "Phantom"); break;
             case 18: a.offsetX = a.offsetY = a.offsetZ = a.rotationX = a.rotationY = a.rotationZ = 0; a.scale = 1; break;
             case 40: nextPlayer(); break;
             case 41: a.enabled = !a.enabled; break;
@@ -168,6 +175,21 @@ public final class CosmeticStudioScreen extends GuiScreen {
             case 86: a.capePattern = cycle(a.capePattern, "ALIEN", "MOON", "STARS", "PLAIN"); break;
             case 90: viewYaw = -24; viewPitch = -7; zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
             case 91: turntable = !turntable; break;
+            case 120: case 122: case 124: {
+                int slot = (button.id - 120) / 2 + 1;
+                config().saveLook(slot, a);
+                message("Saved current look in slot " + slot + " (active profile).");
+                break;
+            }
+            case 121: case 123: case 125: {
+                int slot = (button.id - 121) / 2 + 1;
+                CosmeticConfig.Accessory look = config().loadLook(slot);
+                if (look == null) { message("Look slot " + slot + " is empty."); break; }
+                if (target == null) config().self = look;
+                else config().players.put(target, look);
+                message("Loaded saved look " + slot + ".");
+                break;
+            }
             default: return;
         }
         AlienClient.get().save(); initGui();
