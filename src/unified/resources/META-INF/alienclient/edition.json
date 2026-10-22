@@ -1,0 +1,7 @@
+{
+  "id": "unified",
+  "name": "Alien Client",
+  "allowFull": true,
+  "configDirectory": "alien-client",
+  "status": "Unified / configurable combat"
+}
