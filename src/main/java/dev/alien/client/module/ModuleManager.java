@@ -55,7 +55,7 @@ public final class ModuleManager {
         manager.register(new ModuleDescriptor("color_filter", "Color filter", ModuleCategory.EFFECTS,
                 "Enable the local color overlay when visual effects are enabled.", GameplayImpact.LOCAL_VISUAL, AccessLevel.SHARED,
                 () -> current(config).effects.colorFilter, value -> current(config).effects.colorFilter = value));
-        if ("unified".equals(BuildEdition.ID)) {
+        if (allowFull && "unified".equals(BuildEdition.ID)) {
             manager.register(new ModuleDescriptor("aim_assist", "Aim assist", ModuleCategory.COMBAT,
                     "Optional gradual aim help towards visible players; not silent aim.",
                     GameplayImpact.GAMEPLAY_CHANGING, AccessLevel.FULL,
