@@ -8,7 +8,7 @@ public class PanelLayoutConfigTest {
     @Test public void normalizationRepairsMissingColumnsAndClampsDraggedPositions() {
         PanelLayoutConfig config = new Gson().fromJson("{\"columns\":{\"HUD\":{\"customPosition\":true,\"open\":false,\"x\":2,\"y\":-1},\"World\":null,\"unknown\":{}}}", PanelLayoutConfig.class);
         config.normalize();
-        assertEquals(5, config.columns.size());
+        assertEquals(6, config.columns.size());
         assertEquals(1f, config.columns.get("HUD").x, 0f);
         assertEquals(0f, config.columns.get("HUD").y, 0f);
         assertFalse(config.columns.get("HUD").open);
