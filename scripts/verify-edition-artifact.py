@@ -210,13 +210,14 @@ def manifest_attributes(data):
 
 
 def verify(repository, jar, edition, version):
-    require(edition in ("legit", "full"), "Unknown edition")
+    require(edition in ("legit", "full", "unified"), "Unknown edition")
     repository = Path(repository).resolve()
     jar = Path(jar).resolve()
-    display = "Legit" if edition == "legit" else "Full"
-    name = "Alien Client " + display
-    status = "Visuals & Performance" if edition == "legit" else "Architecture preview"
-    config_directory = "alien-client" if edition == "legit" else "alien-client-full"
+    display = "Unified" if edition == "unified" else ("Legit" if edition == "legit" else "Full")
+    name = "Alien Client" if edition == "unified" else "Alien Client " + display
+    status = ("Unified / configurable combat" if edition == "unified" else
+              "Visuals & Performance" if edition == "legit" else "Architecture preview")
+    config_directory = "alien-client" if edition in ("legit", "unified") else "alien-client-full"
     require(jar.name == "AlienClient-%s-1.8.9.jar" % display, "Unexpected release JAR filename")
     require(jar.is_file() and jar.stat().st_size <= 512 * 1024 * 1024, "Missing or oversized JAR")
     allowed_sources, allowed_resources = source_inventory(repository, edition)
@@ -266,7 +267,7 @@ def verify(repository, jar, edition, version):
                             "alien-edition": edition, "alien-edition-status": status, "minecraft-version": "1.8.9"}
         for key, expected in expected_headers.items():
             require(manifest.get(key) == expected, "Manifest %s must be %r" % (key, expected))
-        expected_marker = {"id": edition, "name": name, "allowFull": edition == "full",
+        expected_marker = {"id": edition, "name": name, "allowFull": edition in ("full", "unified"),
                            "configDirectory": config_directory, "status": status}
         marker = strict_json(archive.read("META-INF/alienclient/edition.json"))
         require(isinstance(marker, dict) and type(marker.get("allowFull")) is bool and marker == expected_marker,
@@ -279,7 +280,7 @@ def verify(repository, jar, edition, version):
     provider = parsed_classes.get("dev/alien/client/edition/BuildEdition")
     require(provider is not None, "Missing compiled edition provider")
     expected_fields = {"ID": ("Ljava/lang/String;", edition), "NAME": ("Ljava/lang/String;", name),
-                       "ALLOW_FULL": ("Z", int(edition == "full")),
+                       "ALLOW_FULL": ("Z", int(edition in ("full", "unified"))),
                        "CONFIG_DIRECTORY": ("Ljava/lang/String;", config_directory),
                        "STATUS": ("Ljava/lang/String;", status)}
     for key, expected in expected_fields.items():
@@ -302,7 +303,7 @@ def verify(repository, jar, edition, version):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repository", type=Path, default=Path(__file__).resolve().parent.parent)
-    parser.add_argument("--edition", choices=("legit", "full"), required=True)
+    parser.add_argument("--edition", choices=("legit", "full", "unified"), required=True)
     parser.add_argument("--version", required=True)
     parser.add_argument("--jar", type=Path, required=True)
     args = parser.parse_args()
