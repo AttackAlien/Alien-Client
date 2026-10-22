@@ -12,15 +12,17 @@ O PR #3 incorporou a integração **incremental** de duas classes Java 8 do [Pan
 
 ## Baixar
 
-**[Baixar build experimental Unified com testes aprovados](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488208)** — abra *Artifacts* e obtenha `alien-unified-39809488208`, que contém o JAR reofuscado e relatórios. Requer conta GitHub para baixar o artefato do Actions. Não confunda com uma release pública e remova JARs antigos de `mods` antes de instalar.
+**[Baixar a build experimental do Unified (GitHub Actions)](https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml)** — selecione a execução verde mais recente da branch `main`, abra *Artifacts*, obtenha `alien-unified-<id>` e extraia `distribution/AlienClient-Unified-Primeiro-Teste.zip`. O ZIP reúne **um único JAR instalável**, instruções em português, SHA256 e validação. O acesso a artefatos do Actions pode exigir login no GitHub. Enquanto a nova automação não for aprovada na `main`, existe a [build integrada anterior validada](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488208).
 
-**Versões históricas:** [Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
+**[Guia passo a passo para instalar e testar no Windows](docs/PRIMEIRO-TESTE-UNIFIED.md)**. Este é um teste experimental, não uma release estável. Remova JARs antigos de `mods` antes de instalar.
+
+**Versões históricas:** [Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md) · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
 
 Base visual anterior:
 
 **[Baixar Alien Client 0.2.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/downloads/alien-client-0.2.0.jar?raw=true)** · [Página da release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.2.0) — pré-release para testes.
 
-Baixe o JAR pelo link acima e coloque em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. O binário está versionado na pasta [downloads](downloads/), com SHA-256. O projeto para desenvolvimento está em [Source code (ZIP)](https://github.com/AttackAlien/Alien-Client/archive/refs/tags/v0.2.0.zip).
+Para instalar **Unified**, coloque somente `AlienClient-Unified-1.8.9.jar` em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. Os binários em [downloads](downloads/) são versões **históricas**, não substituem o novo pacote experimental do Actions.
 
 **[Ver as capturas reais e a capa em movimento](captures/README.md)** · [Resultados e limitações da validação](docs/VALIDATION.md)
 
@@ -43,27 +45,27 @@ Neste ambiente preparado, as ferramentas ficam fora do checkout:
 
 ```bash
 export ALIEN_TOOLS_DIR=/workspace/.alien-tools
-./gradlew -Pedition=legit build
-./gradlew -Pedition=full build
+./gradlew -Pedition=unified build
 ```
 
 Saídas:
 
-- Mods reofuscados: `build/legit/libs/AlienClient-Legit-1.8.9.jar` e `build/full/libs/AlienClient-Full-1.8.9.jar`; instale um por vez.
-- Relatórios: `build/legit/reports/tests/index.html` e `build/full/reports/tests/index.html`.
-- Cliente gráfico: `./gradlew -Pedition=legit runClient` ou `-Pedition=full runClient`.
-- Validação completa das duas composições: `./scripts/build-editions.sh`; após aprovação, os dois binários ficam em `build/releases/`.
+- **JAR unificado reofuscado:** `build/unified/libs/AlienClient-Unified-1.8.9.jar`.
+- Relatórios JUnit: `build/unified/reports/tests/index.html`; smoke de combate: `build/unified/combat-smoke/`.
+- Cliente gráfico local: `./gradlew -Pedition=unified runClient`.
+- **Pacote validado:** CI executa o smoke de Minecraft e depois `python3 scripts/package-unified.py`, gerando `build/unified/distribution/AlienClient-Unified-Primeiro-Teste.zip`.
+- **Somente regressão histórica:** `scripts/build-editions.sh` compila builds Legit/Full antigos.
 
-No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat -Pedition=legit setupDecompWorkspace build`. O wrapper verifica o SHA-256 da distribuição Gradle. A execução Windows não foi validada nesta máquina Linux.
+No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat -Pedition=unified setupDecompWorkspace build` se quiser compilar. Para **jogar**, não é necessário compilar: baixe o JAR verificado. O teste de instalação no Windows ainda depende de validação manual.
 
 ## Instalar e usar
 
 1. Instale o Forge **1.8.9-11.15.1.2318** no Minecraft Java 1.8.9 e use Java 8.
-2. Copie **somente** `alien-client-0.2.0.jar` para a pasta `mods` dessa instalação.
+2. Copie **somente** `AlienClient-Unified-1.8.9.jar` do pacote experimental aprovado para a pasta `mods` dessa instalação; remova outras versões Alien Client.
 3. Entre em um mundo e pressione **Right Shift**. O atalho pode ser alterado no menu Alien ou nos controles do Minecraft.
 4. Use os painéis flutuantes; arraste os cabeçalhos, role cada coluna e clique com o botão direito para abrir seu editor. **Settings** abre o menu Studio e permite alternar entre os dois layouts. As preferências ficam em `.minecraft/config/alien-client/`.
 
-Atalhos individuais dos nove interruptores principais podem ser definidos em **Options → Controls → Alien Modules** na revisão de arquitetura. Começam sem tecla e são salvos por perfil. A Full usa `config/alien-client-full/`, separado da Legit.
+Atalhos individuais dos módulos estão em **Options → Controls → Alien Modules**, sem tecla por padrão. O Unified usa `config/alien-client/` e preserva perfis antigos da Legit; configurações da Full antiga em `config/alien-client-full/` exigem migração manual. O Combat Studio tem presets OFF / LEGIT / FULL / CUSTOM, com combate desligado inicialmente.
 
 O menu inicial Alien é opcional: desative **Appearance → Home menu** para voltar ao menu padrão. O botão **Mods** continua disponível. Efeitos, céu e alterações de clima começam desativados; o HUD começa ativado.
 
