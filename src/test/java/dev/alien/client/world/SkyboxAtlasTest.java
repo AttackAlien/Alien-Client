@@ -27,8 +27,8 @@ public class SkyboxAtlasTest {
             float u0=atlas.u(face,0), u1=atlas.u(face,1);
             float v0=atlas.v(face,0), v1=atlas.v(face,2);
             assertTrue(u0>col/3F); assertTrue(u1<(col+1)/3F);
-            assertTrue(v0<1F-row/2F); assertTrue(v1>1F-(row+1)/2F);
-            assertTrue(u0<u1); assertTrue(v1<v0);
+            assertTrue(v0>row/2F); assertTrue(v1<(row+1)/2F);
+            assertTrue(u0<u1); assertTrue(v0<v1);
             assertEquals(u0,atlas.u(face,3),0F);
             assertEquals(v0,atlas.v(face,1),0F);
         }
