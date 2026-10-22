@@ -10,6 +10,8 @@ public final class CosmeticConfig {
     public float maxDistance = 32;
     public Accessory self = new Accessory();
     public Map<String, Accessory> players = new LinkedHashMap<String, Accessory>();
+    /** Three per-profile look snapshots; no remote data or custom scripts. */
+    public Map<String, Accessory> savedLooks = new LinkedHashMap<String, Accessory>();
 
     public void normalize() {
         maxDistance = clamp(maxDistance, 4, 96);
@@ -28,6 +30,32 @@ public final class CosmeticConfig {
             } catch (RuntimeException ignored) { }
         }
         players = valid;
+        if (savedLooks == null) savedLooks = new LinkedHashMap<String, Accessory>();
+        Map<String, Accessory> safeLooks = new LinkedHashMap<String, Accessory>();
+        for (int slot = 1; slot <= 3; slot++) {
+            String key = Integer.toString(slot);
+            Accessory look = savedLooks.get(key);
+            if (look != null) {
+                look.normalize();
+                safeLooks.put(key, look.copy());
+            }
+        }
+        savedLooks = safeLooks;
+    }
+
+    public void saveLook(int slot, Accessory accessory) {
+        if (slot < 1 || slot > 3 || accessory == null) return;
+        if (savedLooks == null) savedLooks = new LinkedHashMap<String, Accessory>();
+        Accessory snapshot = accessory.copy();
+        snapshot.normalize();
+        savedLooks.put(Integer.toString(slot), snapshot);
+    }
+
+    /** Returns an independent copy so modifying the look cannot corrupt the saved slot. */
+    public Accessory loadLook(int slot) {
+        if (savedLooks == null || slot < 1 || slot > 3) return null;
+        Accessory look = savedLooks.get(Integer.toString(slot));
+        return look == null ? null : look.copy();
     }
 
     public static final class Accessory {
