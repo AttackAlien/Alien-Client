@@ -1,6 +1,6 @@
 # Alien Client Unified — Combat Studio (experimental)
 
-This branch replaces the *distribution concept* of two almost-identical editions with **one installable Forge 1.8.9 JAR**, `AlienClient-Unified-1.8.9.jar`. It does not merge PR #3 or PR #4 and it does not modify `main`.
+The **`main` branch now builds a single Forge 1.8.9 JAR by default**, `AlienClient-Unified-1.8.9.jar`, combining PR #3 (PanelStudio foundation), PR #4 (Sky Studio Ultimate) and PR #5 (Combat Studio / Unified). Older Legit and Full JARs are retained only as optional legacy builds. The combined integration has passed the actual Minecraft test workflows; **a Windows/OptiFine/real GPU release check is still required**.
 
 ## What genuinely runs
 
@@ -39,10 +39,10 @@ The reobfuscated file is `build/unified/libs/AlienClient-Unified-1.8.9.jar`. Ins
 
 Unified reuses `config/alien-client/` (the old Legit configuration) so existing Legit profiles and HUD are still available. The old Full configuration is in `config/alien-client-full/`; it **is not migrated automatically**. Back up both folders and transfer Full profile JSONs separately after checking names, avoiding overwrites.
 
-The legacy `-Pedition=legit` and `-Pedition=full` builds remain temporarily available for regression/archival compatibility; **Unified is the new default build and distribution target**. No user game files or published releases are changed by this PR.
+The legacy `-Pedition=legit` and `-Pedition=full` builds remain available for regression/archival compatibility; **Unified is the new default build and distribution target**. No user game files have been modified automatically, and no public GitHub Release has been published as part of these merges.
 
 ## Validation
 
-`unified-client-ci.yml` compiles the one JAR using Java 8, runs all JUnit cases including new CombatConfigTest/CombatMathTest, and verifies its manifest, class provenance, metadata and edition marker. The CI result must be checked before distribution. We still need a **real in-game smoke test of target selection, camera movement, GUI interaction, attack-click timing**, alongside Windows/OptiFine compatibility review.
+`unified-client-ci.yml` compiles the one JAR using Java 8, runs all JUnit cases including new CombatConfigTest/CombatMathTest, and verifies its manifest, class provenance, metadata and edition marker. The [Unified workflow](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488208) completed successfully on the combined revision. The test-only Forge mod recorded **24 PASS checks** inside Minecraft 1.8.9, covering the actual Combat Studio, preset changes, persisted JSON, local dummy target selection, gradual camera movement and screenshots. The integrated [Sky workflow](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488165) and [PanelStudio workflow](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488157) also passed both legacy editions.
 
-A green unit/build CI means the code compiles, **not** that multiplayer PvP behavior has been validated.
+**Still not validated:** physical mouse click timing in a real desktop session, multiplayer PvP, server anti-cheat compatibility, Windows graphics drivers, OptiFine, and real GPU performance. Passing CI is **not** a guarantee of permitted behavior on a PvP server.
