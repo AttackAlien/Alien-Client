@@ -1,9 +1,6 @@
 name: Alien Client - Forge 1.8.9 CI
 
 on:
-  push:
-    branches:
-      - feature/panelstudio-ui-foundation
   pull_request:
     branches:
       - main
@@ -20,7 +17,7 @@ jobs:
   forge:
     name: "Forge 1.8.9 | ${{ matrix.edition }}"
     runs-on: ubuntu-22.04
-    timeout-minutes: 90
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -31,6 +28,7 @@ jobs:
       GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
       LIBGL_ALWAYS_SOFTWARE: "1"
       EDITION: ${{ matrix.edition }}
+      ALIEN_SMOKE_TIMEOUT_SECONDS: "420"
 
     steps:
       - name: Check out the branch under test
@@ -65,6 +63,9 @@ jobs:
           sha256sum "build/$EDITION/libs/AlienClient-${EDITION^}-1.8.9.jar" \
             | tee "build/$EDITION/SHA256SUMS.txt"
 
+      - name: Validate CI smoke script syntax
+        run: bash -n ./scripts/ci-smoke-xorg.sh
+
       - name: Run real Minecraft/Forge smoke tests (Xorg dummy + Mesa)
         run: |
           ALIEN_EDITION="$EDITION" bash ./scripts/ci-smoke-xorg.sh
@@ -92,3 +93,5 @@ jobs:
             build/${{ matrix.edition }}/test-results/
             build/${{ matrix.edition }}/reports/tests/
             build/${{ matrix.edition }}/smoke/
+            build/${{ matrix.edition }}/smoke-runtime/logs/latest.log
+            build/${{ matrix.edition }}/smoke-runtime/crash-reports/
