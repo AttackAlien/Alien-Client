@@ -142,6 +142,11 @@ public final class AlienCombatSmoke {
                 target=new EntityOtherPlayerMP(mc.theWorld,
                         new GameProfile(UUID.fromString("7d5b4917-113a-4f6c-bd06-f218720e1801"),"CombatSmokeDummy"));
                 target.setPosition(mc.thePlayer.posX+2D,mc.thePlayer.posY,mc.thePlayer.posZ-1D);
+                // Client-only spawned players begin with an uninitialized
+                // health watcher (0 HP) until normal S0C spawn metadata arrives.
+                // Make the disposable practice dummy explicitly alive.
+                target.setHealth(20F);
+                target.setInvisible(false);
                 mc.theWorld.addEntityToWorld(-12721,target);
                 require(mc.theWorld.playerEntities.contains(target),"Disposable target is present in world player list");
                 CombatConfig c=combat();
@@ -163,6 +168,12 @@ public final class AlienCombatSmoke {
                 float[] point=look();
                 float remaining=CombatMath.angularDistance(mc.thePlayer.rotationYaw,mc.thePlayer.rotationPitch,
                         point[0],point[1]);
+                System.out.println("ALIEN_COMBAT_SMOKE_AIM remaining="+remaining+
+                        " initial="+initialAngle+" dummyHealth="+target.getHealth()+
+                        " alive="+!target.isDead+" inWorld="+mc.theWorld.playerEntities.contains(target)+
+                        " enabled="+combat().enabled+" aim="+combat().aimAssist+
+                        " requireAttackHeld="+combat().requireAttackHeld+
+                        " currentScreen="+(mc.currentScreen==null?"null":mc.currentScreen.getClass().getSimpleName()));
                 require(remaining<initialAngle*.5F,
                         "Live combat tick gradually aims towards the visible local dummy");
                 require(GL11.glGetError()==GL11.GL_NO_ERROR,"Combat Studio and in-world render have no OpenGL errors");
