@@ -2,6 +2,9 @@ package dev.alien.client;
 
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.config.ConfigStore;
+import dev.alien.client.edition.BuildEdition;
+import dev.alien.client.module.ModuleManager;
+import dev.alien.client.input.ModuleKeybindManager;
 import dev.alien.client.cosmetic.CosmeticManager;
 import dev.alien.client.gui.AlienMainMenu;
 import dev.alien.client.gui.AlienMenuScreen;
@@ -28,16 +31,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** Entry point for the cosmetic-only Forge client mod. */
-@Mod(modid = AlienClient.MOD_ID, name = "Alien Client", version = AlienClient.VERSION,
+@Mod(modid = AlienClient.MOD_ID, name = BuildEdition.NAME, version = AlienClient.VERSION,
         clientSideOnly = true, acceptedMinecraftVersions = "[1.8.9]", acceptableRemoteVersions = "*")
 public final class AlienClient {
     public static final String MOD_ID = "alienclient";
-    public static final String VERSION = "0.2.0";
+    public static final String VERSION = "0.3.0-alpha.1";
     public static final Logger LOG = LogManager.getLogger("AlienClient");
     @Mod.Instance(MOD_ID) private static AlienClient instance;
     private ConfigStore store;
     private PerformanceEngine performance;
     private KeyBinding menuBinding;
+    private ModuleManager modules;
+    private ModuleKeybindManager moduleBindings;
     private int lastMenuKey;
     private String serverContext;
     private String appliedBinding;
@@ -47,12 +52,13 @@ public final class AlienClient {
     public ClientConfig config() { return store.config(); }
     public ConfigStore store() { return store; }
     public PerformanceEngine performance() { return performance; }
+    public ModuleManager modules() { return modules; }
     public String lastError() { return lastError; }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         instance = this;
-        store = new ConfigStore(new File(event.getModConfigurationDirectory(), "alien-client"));
+        store = new ConfigStore(new File(event.getModConfigurationDirectory(), BuildEdition.CONFIG_DIRECTORY));
         try { store.load(); }
         catch (IOException e) { report("Could not load preferences; check logs/alien-client config backup", e); }
     }
@@ -62,11 +68,13 @@ public final class AlienClient {
         menuBinding = new KeyBinding("key.alienclient.menu", config().menuKey, "key.categories.alienclient");
         lastMenuKey = config().menuKey;
         ClientRegistry.registerKeyBinding(menuBinding);
+        modules = ModuleManager.visuals(() -> config(), BuildEdition.ALLOW_FULL);
+        moduleBindings = new ModuleKeybindManager(modules, () -> config());
         performance = new PerformanceEngine();
         register(this); register(performance); register(new HudManager()); register(new WorldManager());
         CosmeticManager cosmetics = new CosmeticManager();
         cosmetics.install(); register(cosmetics);
-        LOG.info("Alien Client {} initialized: local cosmetics, HUD and visual studios", VERSION);
+        LOG.info("{} {} initialized: {} registered visual modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);
     }
 
     private static void register(Object listener) {
@@ -78,6 +86,7 @@ public final class AlienClient {
     public void onKey(InputEvent.KeyInputEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
         if (menuBinding.isPressed() && mc.currentScreen == null) mc.displayGuiScreen(AlienMenuScreen.create(null));
+        if (moduleBindings.consume(mc.currentScreen == null && mc.thePlayer != null)) save();
     }
 
     @SubscribeEvent
@@ -89,6 +98,7 @@ public final class AlienClient {
     public void onTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getMinecraft();
+        if (moduleBindings.synchronize()) save();
         if (lastMenuKey != config().menuKey) {
             menuBinding.setKeyCode(config().menuKey); KeyBinding.resetKeyBindingArrayAndHash();
             lastMenuKey = config().menuKey;

@@ -1,6 +1,7 @@
 package dev.alien.client.cosmetic;
 
 import com.google.gson.Gson;
+import dev.alien.client.AlienClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -23,7 +24,7 @@ final class CosmeticAssets {
     static String lastError = "";
 
     static File directory() {
-        return new File(Minecraft.getMinecraft().mcDataDir, "config/alien-client/cosmetics");
+        return new File(AlienClient.get().store().directory(), "cosmetics");
     }
 
     static synchronized void reload() {

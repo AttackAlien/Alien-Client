@@ -1,0 +1,7 @@
+{
+  "id": "full",
+  "name": "Alien Client Full",
+  "allowFull": true,
+  "configDirectory": "alien-client-full",
+  "status": "Architecture preview"
+}

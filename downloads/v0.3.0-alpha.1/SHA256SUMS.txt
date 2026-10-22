@@ -1,0 +1,2 @@
+61e99f3890e72d83d6eeb766dc89c2f1c5f7da71ccf2c4c0716fe981f7570fd3  AlienClient-Full-1.8.9.jar
+e39a5e011e18e9a3b5de0af32633fb87f18bd64179c98c3e90d46bf600d35951  AlienClient-Legit-1.8.9.jar

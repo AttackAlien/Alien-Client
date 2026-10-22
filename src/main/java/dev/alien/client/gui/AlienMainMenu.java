@@ -1,6 +1,7 @@
 package dev.alien.client.gui;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.edition.BuildEdition;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -39,10 +40,10 @@ public final class AlienMainMenu extends GuiMainMenu {
         net.minecraft.client.renderer.GlStateManager.scale(3f, 3f, 1f);
         drawCenteredString(fontRendererObj, "ALIEN", 0, 0, Ui.TEXT);
         net.minecraft.client.renderer.GlStateManager.popMatrix();
-        drawCenteredString(fontRendererObj, "C L I E N T   /   U L T I M A T E", center, titleY + 32, Ui.MUTED);
+        drawCenteredString(fontRendererObj, "C L I E N T   /   " + BuildEdition.ID.toUpperCase(java.util.Locale.ROOT), center, titleY + 32, Ui.MUTED);
         for (GuiButton button : buttonList) button.drawButton(mc, mouseX, mouseY);
         fontRendererObj.drawString("Minecraft 1.8.9 / Forge", 9, height - 14, Ui.MUTED);
-        String credit = "Alien Client | Local visuals";
+        String credit = BuildEdition.NAME + " | " + BuildEdition.STATUS;
         fontRendererObj.drawString(credit, width - fontRendererObj.getStringWidth(credit) - 9, height - 14, Ui.MUTED);
     }
 

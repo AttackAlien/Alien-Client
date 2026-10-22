@@ -2,9 +2,13 @@
 
 Mod de personalização **local** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
 
-Esta é a pré-release **0.2.0**, com cosméticos curvos, tecido animado e uma nova composição visual. O código implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. Não há funcionalidades de combate, automação, alteração de atributos ou sincronização de cosméticos pela rede.
+A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. Não há funcionalidades de combate, automação, alteração de atributos ou sincronização de cosméticos pela rede.
 
 ## Baixar
+
+**[Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
+
+Base visual anterior:
 
 **[Baixar Alien Client 0.2.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/downloads/alien-client-0.2.0.jar?raw=true)** · [Página da release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.2.0) — pré-release para testes.
 
@@ -14,12 +18,12 @@ Baixe o JAR pelo link acima e coloque em `mods`. Requer **Minecraft Java 1.8.9, 
 
 ## Compilar e testar
 
-Linux x86_64, com `bash`, `curl`, `tar`, `unzip` e `sha256sum`:
+Linux x86_64, com `bash`, `curl`, `tar`, `unzip`, `sha256sum` e Python 3.9+:
 
 ```bash
 ./scripts/bootstrap.sh
-./gradlew setupDecompWorkspace
-./gradlew build
+./gradlew -Pedition=legit setupDecompWorkspace build
+./gradlew -Pedition=full setupDecompWorkspace build
 ```
 
 O bootstrap instala Temurin **8u472** e Gradle **2.14.1** em `.tools/`, verificando SHA-256. O projeto usa **ForgeGradle 2.1**, mappings **stable_22** e TLS verificado. Não use Java 17/21 para executar esse ForgeGradle legado. A preparação baixa os arquivos originais do Minecraft; nenhuma cópia é incluída no mod.
@@ -28,16 +32,18 @@ Neste ambiente preparado, as ferramentas ficam fora do checkout:
 
 ```bash
 export ALIEN_TOOLS_DIR=/workspace/.alien-tools
-./gradlew build
+./gradlew -Pedition=legit build
+./gradlew -Pedition=full build
 ```
 
 Saídas:
 
-- Mod instalável: `build/libs/alien-client-0.2.0.jar` (reofuscado pelo ForgeGradle).
-- Relatório de testes: `build/reports/tests/index.html`.
-- Cliente de desenvolvimento: `./gradlew runClient`, em uma sessão gráfica com OpenGL.
+- Mods reofuscados: `build/legit/libs/AlienClient-Legit-1.8.9.jar` e `build/full/libs/AlienClient-Full-1.8.9.jar`; instale um por vez.
+- Relatórios: `build/legit/reports/tests/index.html` e `build/full/reports/tests/index.html`.
+- Cliente gráfico: `./gradlew -Pedition=legit runClient` ou `-Pedition=full runClient`.
+- Validação completa das duas composições: `./scripts/build-editions.sh`; após aprovação, os dois binários ficam em `build/releases/`.
 
-No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat setupDecompWorkspace build`. O wrapper verifica o SHA-256 da distribuição Gradle. A execução Windows não foi validada nesta máquina Linux.
+No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat -Pedition=legit setupDecompWorkspace build`. O wrapper verifica o SHA-256 da distribuição Gradle. A execução Windows não foi validada nesta máquina Linux.
 
 ## Instalar e usar
 
@@ -45,6 +51,8 @@ No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat setup
 2. Copie **somente** `alien-client-0.2.0.jar` para a pasta `mods` dessa instalação.
 3. Entre em um mundo e pressione **Right Shift**. O atalho pode ser alterado no menu Alien ou nos controles do Minecraft.
 4. Use os painéis flutuantes; arraste os cabeçalhos, role cada coluna e clique com o botão direito para abrir seu editor. **Settings** abre o menu Studio e permite alternar entre os dois layouts. As preferências ficam em `.minecraft/config/alien-client/`.
+
+Atalhos individuais dos nove interruptores principais podem ser definidos em **Options → Controls → Alien Modules** na revisão de arquitetura. Começam sem tecla e são salvos por perfil. A Full usa `config/alien-client-full/`, separado da Legit.
 
 O menu inicial Alien é opcional: desative **Appearance → Home menu** para voltar ao menu padrão. O botão **Mods** continua disponível. Efeitos, céu e alterações de clima começam desativados; o HUD começa ativado.
 

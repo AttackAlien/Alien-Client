@@ -1,4 +1,10 @@
-# Download do mod
+# Downloads
+
+**[Legit e Full — 0.3.0-alpha.1, fase de arquitetura](v0.3.0-alpha.1/README.md)** · [70 imagens reais](../captures/editions/README.md)
+
+As duas composições foram compiladas/reofuscadas, inspecionadas e testadas. A Full ainda não possui os módulos avançados planejados. Instale apenas uma edição por vez.
+
+## Base visual 0.2.0
 
 **[Baixar alien-client-0.2.0.jar](alien-client-0.2.0.jar?raw=true)** · [Release 0.2.0](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.2.0) · [Imagens reais e capa em movimento](../captures/README.md)
 

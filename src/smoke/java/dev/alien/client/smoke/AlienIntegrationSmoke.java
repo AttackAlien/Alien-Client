@@ -2,6 +2,10 @@ package dev.alien.client.smoke;
 
 import dev.alien.client.AlienClient;
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.edition.BuildEdition;
+import dev.alien.client.module.AccessLevel;
+import dev.alien.client.module.GameplayImpact;
+import dev.alien.client.module.ModuleDescriptor;
 import dev.alien.client.cosmetic.CosmeticConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
 import dev.alien.client.gui.AlienMainMenu;
@@ -70,6 +74,9 @@ public final class AlienIntegrationSmoke {
     private int crystalSkyPixel;
     private long atmosphereServerTime;
     private boolean atmosphereRain, atmosphereThunder;
+    private boolean keysPrepared;
+    private boolean skyBeforeKeys;
+    private Integer savedSkyKey;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception {
@@ -123,6 +130,35 @@ public final class AlienIntegrationSmoke {
             case 0:
                 if (!(mc.currentScreen instanceof GuiMainMenu)) return;
                 require(Loader.isModLoaded("alienclient"), "Forge discovers the real Alien Client mod");
+                require(BuildEdition.ID.equals(System.getProperty("alien.smoke.edition")),
+                        "The selected edition provider matches the actual Gradle runtime");
+                net.minecraftforge.fml.common.ModContainer container = Loader.instance().getIndexedModList().get("alienclient");
+                require(BuildEdition.NAME.equals(container.getName()) && AlienClient.VERSION.equals(container.getVersion()),
+                        "Forge discovers the actual edition name and current version");
+                require(BuildEdition.CONFIG_DIRECTORY.equals(AlienClient.get().store().directory().getName())
+                                && "config".equals(AlienClient.get().store().directory().getParentFile().getName()),
+                        "The actual edition uses its isolated configuration namespace");
+                require(BuildEdition.ALLOW_FULL == "full".equals(BuildEdition.ID),
+                        "The compiled edition policy agrees with its identity");
+                java.util.Enumeration<java.net.URL> markers = BuildEdition.class.getClassLoader()
+                        .getResources("META-INF/alienclient/edition.json");
+                int markerCount = 0;
+                while (markers.hasMoreElements()) {
+                    java.net.URL marker = markers.nextElement(); markerCount++;
+                    try (java.io.Reader reader = new java.io.InputStreamReader(marker.openStream(), StandardCharsets.UTF_8)) {
+                        com.google.gson.JsonObject data = new com.google.gson.JsonParser().parse(reader).getAsJsonObject();
+                        require(BuildEdition.ID.equals(data.get("id").getAsString()),
+                                "The loaded resource marker belongs to the current edition");
+                    }
+                }
+                require(markerCount == 1, "Exactly one edition resource is on the running game classpath");
+                require(AlienClient.get().modules().modules().size() == 9,
+                        "The runtime registry contains nine implemented visual switches");
+                boolean sharedVisuals = true;
+                for (ModuleDescriptor descriptor : AlienClient.get().modules().modules())
+                    sharedVisuals &= descriptor.accessLevel() == AccessLevel.SHARED
+                            && descriptor.gameplayImpact() == GameplayImpact.LOCAL_VISUAL;
+                require(sharedVisuals, "This architecture preview registers no advanced or nonvisual modules");
                 File loadedFrom = new File(AlienClient.class.getProtectionDomain().getCodeSource().getLocation().toURI());
                 File expectedClasses = new File(output.getParentFile(), "classes/main").getCanonicalFile();
                 require(loadedFrom.getCanonicalFile().toPath().startsWith(expectedClasses.toPath()),
@@ -193,6 +229,33 @@ public final class AlienIntegrationSmoke {
                 next(); return;
             case 8:
                 if (mc.theWorld == null || mc.thePlayer == null || mc.getIntegratedServer() == null || mc.thePlayer.ticksExisted < 40) return;
+                if (!keysPrepared) {
+                    savedSkyKey = config().moduleKeys.get("sky");
+                    skyBeforeKeys = config().world.enabled;
+                    config().moduleKeys.put("sky", 34); // Keyboard G; synchronized by the real client tick.
+                    mc.displayGuiScreen(null); AlienClient.get().save();
+                    keysPrepared = true; since = System.nanoTime(); return;
+                }
+                KeyBinding.onTick(34);
+                FMLCommonHandler.instance().bus().post(new InputEvent.KeyInputEvent());
+                require(config().world.enabled != skyBeforeKeys,
+                        "The actual registered per-module key toggles the sky in a loaded world");
+                KeyBinding.onTick(34);
+                FMLCommonHandler.instance().bus().post(new InputEvent.KeyInputEvent());
+                require(config().world.enabled == skyBeforeKeys,
+                        "A second real binding event restores the visual module switch");
+                mc.displayGuiScreen(new WorldStudioScreen(null));
+                KeyBinding.onTick(34);
+                FMLCommonHandler.instance().bus().post(new InputEvent.KeyInputEvent());
+                require(config().world.enabled == skyBeforeKeys,
+                        "Per-module shortcuts do not activate while an editor is open");
+                mc.displayGuiScreen(null);
+                FMLCommonHandler.instance().bus().post(new InputEvent.KeyInputEvent());
+                require(config().world.enabled == skyBeforeKeys,
+                        "Editor key presses are drained without a deferred world toggle");
+                if (savedSkyKey == null) config().moduleKeys.remove("sky");
+                else config().moduleKeys.put("sky", savedSkyKey);
+                AlienClient.get().save();
                 require(true, "Actual integrated Minecraft world starts and the local player joins");
                 originalServerTime = mc.getIntegratedServer().worldServerForDimension(0).getWorldTime();
                 originalRain = mc.getIntegratedServer().worldServerForDimension(0).getWorldInfo().isRaining();
@@ -424,7 +487,7 @@ public final class AlienIntegrationSmoke {
                 done = true;
                 try (PrintWriter writer = new PrintWriter(new File(output, "result.txt"), "UTF-8")) {
                     writer.println("PASS " + checks.size() + " checks");
-                    writer.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable world " + worldFolder);
+                    writer.println(BuildEdition.NAME + " " + AlienClient.VERSION + "; actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable world " + worldFolder);
                     writer.println("This functional smoke run is not a performance benchmark.");
                     for (String check : checks) writer.println("PASS " + check);
                 }

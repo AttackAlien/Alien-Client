@@ -104,7 +104,7 @@ public final class WorldManager {
         String key = name == null ? "" : name;
         File file = null;
         try {
-            File directory = new File(mc.mcDataDir, "config/alien-client/skyboxes");
+            File directory = new File(AlienClient.get().store().directory(), "skyboxes");
             file=SkyboxLoader.resolve(directory,key);
             if (file != null) {
                 key += ":" + file.lastModified() + ":" + file.length();

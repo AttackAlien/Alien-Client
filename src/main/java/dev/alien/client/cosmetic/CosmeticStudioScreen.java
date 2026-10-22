@@ -210,7 +210,7 @@ public final class CosmeticStudioScreen extends GuiScreen {
             drawCenteredString(fontRendererObj, "No player loaded", previewX + previewWidth / 2, bodyTop + (bodyBottom - bodyTop) / 2, Ui.MUTED);
         }
         if (page == 3) {
-            fontRendererObj.drawString(fontRendererObj.trimStringToWidth("Local folder: config/alien-client/cosmetics", controlWidth), controlX, bodyTop + rowStep * 5 + 2, Ui.MUTED);
+            fontRendererObj.drawString(fontRendererObj.trimStringToWidth("Local folder: config/" + dev.alien.client.edition.BuildEdition.CONFIG_DIRECTORY + "/cosmetics", controlWidth), controlX, bodyTop + rowStep * 5 + 2, Ui.MUTED);
             String issue = CosmeticAssets.lastError;
             if (!issue.isEmpty()) fontRendererObj.drawString(fontRendererObj.trimStringToWidth(issue, controlWidth), controlX, bodyTop + rowStep * 6, 0xffffaaad);
         }

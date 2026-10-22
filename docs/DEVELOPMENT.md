@@ -1,3 +1,5 @@
+> Desenvolvimento 0.3.0-alpha.1: veja [separação Legit/Full](EDITIONS.md) para seleção de fontes, binários, configurações e comandos por edição. Os motores visuais descritos abaixo foram preservados da base 0.2.0.
+
 # Desenvolvimento
 
 ## Estrutura
@@ -60,7 +62,7 @@ Para o cliente real e o teste gráfico separado:
 env -u DISPLAY ALIEN_TOOLS_DIR=/workspace/.alien-tools ./scripts/smoke-client.sh
 ```
 
-O smoke usa as classes atuais de desenvolvimento e o source set `smoke`, excluído do JAR distribuído. Cria configurações e mundo descartáveis em `build/smoke-runtime`; não aponte esse teste para a instalação normal de um usuário. Verifique o comando, o cabeçalho de `build/smoke/result.txt`, a ausência de linhas FAIL e as capturas reais do framebuffer. A automação de controles/eventos não equivale a apertar uma tecla física, e execução por software não é benchmark de GPU.
+O smoke usa as classes atuais de desenvolvimento e o source set `smoke`, excluído do JAR distribuído. Cria configurações e mundo descartáveis em `build/<edition>/smoke-runtime`; não aponte esse teste para a instalação normal de um usuário. Verifique o comando, o cabeçalho de `build/<edition>/smoke/result.txt`, a ausência de linhas FAIL e as capturas reais do framebuffer. A automação de controles/eventos não equivale a apertar uma tecla física, e execução por software não é benchmark de GPU.
 
 As regressões cobrem persistência/importação de perfis, isolamento por servidor, limites de JSON, recuperação de dados inválidos, temas, valores de HUD/cosméticos/efeitos e decodificação de panoramas. Mantenha testes de geometria/dados independentes do OpenGL quando possível e verifique o resultado visual no jogo para deformação da capa, orientação de partículas e preservação do terreno. Resultados e contagens atuais pertencem a [VALIDATION.md](VALIDATION.md); testes de dados não substituem a execução gráfica, conectividade com servidores ou um comparativo de desempenho.
 

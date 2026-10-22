@@ -93,7 +93,7 @@ public final class WorldStudioScreen extends GuiScreen {
             }
             WorldConfig c=settings(); c.skyTop=Integer.parseInt(topColor.getText(),16); c.skyBottom=Integer.parseInt(bottomColor.getText(),16);
             c.fogColor=c.skyBottom; c.skyboxFile=skybox.getText().trim(); c.normalize();
-            AlienClient.get().save(); message="Saved. PNG files load from config/alien-client/skyboxes";
+            AlienClient.get().save(); message="PNG folder: config/" + dev.alien.client.edition.BuildEdition.CONFIG_DIRECTORY + "/skyboxes";
         } catch (NumberFormatException invalid) { message="Invalid color"; }
     }
 

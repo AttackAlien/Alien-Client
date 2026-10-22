@@ -1,6 +1,7 @@
 package dev.alien.client.gui;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.edition.BuildEdition;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
 import dev.alien.client.hud.HudEditorScreen;
@@ -55,33 +56,33 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         final ClientConfig c = config();
         List<Row> rows = new ArrayList<Row>();
         if ("HUD".equals(category)) {
-            rows.add(toggle("HUD", () -> c.hud.enabled, () -> c.hud.enabled = !c.hud.enabled));
+            rows.add(moduleToggle("HUD", "hud"));
             rows.add(toggle("Alien wordmark", () -> c.hud.widgets.get("brand").enabled, () -> c.hud.widgets.get("brand").enabled = !c.hud.widgets.get("brand").enabled));
             rows.add(toggle("Active visuals", () -> c.hud.widgets.get("modules").enabled, () -> c.hud.widgets.get("modules").enabled = !c.hud.widgets.get("modules").enabled));
             rows.add(toggle("Backdrop", () -> c.hud.background, () -> c.hud.background = !c.hud.background));
             rows.add(action("Compact preset", () -> c.hud.applyReferencePreset()));
             rows.add(action("Edit HUD", () -> openEditor(category)));
         } else if ("Cosmetics".equals(category)) {
-            rows.add(toggle("Accessories", () -> c.cosmetics.enabled, () -> c.cosmetics.enabled = !c.cosmetics.enabled));
+            rows.add(moduleToggle("Accessories", "cosmetics"));
             rows.add(toggle("Animation", () -> c.cosmetics.self.animations, () -> c.cosmetics.self.animations = !c.cosmetics.self.animations));
             rows.add(toggle("Aura", () -> c.cosmetics.self.aura, () -> c.cosmetics.self.aura = !c.cosmetics.self.aura));
             rows.add(toggle("Trail", () -> c.cosmetics.self.trail, () -> c.cosmetics.self.trail = !c.cosmetics.self.trail));
             rows.add(action("Cosmetic Studio", () -> openEditor(category)));
         } else if ("World".equals(category)) {
-            rows.add(toggle("Custom sky", () -> c.world.enabled, () -> c.world.enabled = !c.world.enabled));
-            rows.add(toggle("Visual time", () -> c.world.timeOverride, () -> c.world.timeOverride = !c.world.timeOverride));
-            rows.add(toggle("Fog tint", () -> c.world.fogEnabled, () -> c.world.fogEnabled = !c.world.fogEnabled));
-            rows.add(toggle("Weather preview", () -> !"Server".equals(c.world.weather), () -> c.world.weather = "Server".equals(c.world.weather) ? "Snow" : "Server"));
+            rows.add(moduleToggle("Custom sky", "sky"));
+            rows.add(moduleToggle("Visual time", "visual_time"));
+            rows.add(moduleToggle("Fog tint", "fog"));
+            rows.add(moduleToggle("Weather preview", "weather"));
             rows.add(action("World Studio", () -> openEditor(category)));
             rows.add(action("Atmosphere presets", () -> mc.displayGuiScreen(new AtmospherePresetScreen(this))));
         } else if ("Effects".equals(category)) {
-            rows.add(toggle("Visual effects", () -> c.effects.enabled, () -> c.effects.enabled = !c.effects.enabled));
+            rows.add(moduleToggle("Visual effects", "effects"));
             rows.add(toggle("Movement", () -> c.effects.movement, () -> c.effects.movement = !c.effects.movement));
             rows.add(toggle("Landing", () -> c.effects.landing, () -> c.effects.landing = !c.effects.landing));
             rows.add(toggle("Trails", () -> c.effects.trails, () -> c.effects.trails = !c.effects.trails));
             rows.add(toggle("Ambient", () -> c.effects.ambient, () -> c.effects.ambient = !c.effects.ambient));
-            rows.add(toggle("Camera sway", () -> c.effects.cameraSway, () -> c.effects.cameraSway = !c.effects.cameraSway));
-            rows.add(toggle("Color filter", () -> c.effects.colorFilter, () -> c.effects.colorFilter = !c.effects.colorFilter));
+            rows.add(moduleToggle("Camera sway", "camera_sway"));
+            rows.add(moduleToggle("Color filter", "color_filter"));
             rows.add(action("Effects Studio", () -> openEditor(category)));
         } else {
             rows.add(toggle("Diagnostics", () -> c.performance.diagnostics, () -> c.performance.diagnostics = !c.performance.diagnostics));
@@ -130,7 +131,7 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         drawRect(0, 0, width, height, 0x4910131c);
         drawRect(12, 13, 15, 30, Ui.accent());
         fontRendererObj.drawStringWithShadow("ALIEN", 22, 13, Ui.TEXT);
-        fontRendererObj.drawString("VISUAL MODULES", 22, 25, Ui.MUTED);
+        fontRendererObj.drawString(BuildEdition.ALLOW_FULL ? "FULL / ARCHITECTURE" : "LEGIT / VISUALS", 22, 25, Ui.MUTED);
         search.drawTextBox();
         if (!search.isFocused() && search.getText().isEmpty()) fontRendererObj.drawString("Search modules...", search.xPosition + 4, search.yPosition + 5, Ui.MUTED);
         rebuildViews();
@@ -252,6 +253,10 @@ public final class PanelMenuScreen extends AlienMenuScreen {
     @Override public void updateScreen() { search.updateCursorCounter(); }
     @Override public void onGuiClosed() { Keyboard.enableRepeatEvents(false); AlienClient.get().save(); }
     @Override public boolean doesGuiPauseGame() { return false; }
+    private Row moduleToggle(String label, String id) {
+        return toggle(label, () -> AlienClient.get().modules().find(id).enabled(),
+                () -> AlienClient.get().modules().toggle(id));
+    }
     private static Row toggle(String label, BooleanSupplier enabled, Runnable action) { return new Row(label, enabled, action); }
     private static Row action(String label, Runnable action) { return new Row(label, null, action); }
     private static final class Row {

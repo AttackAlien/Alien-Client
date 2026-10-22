@@ -8,17 +8,28 @@ buildscript {
     }
 }
 
+// Select source roots before ForgeGradle captures any generated-source/output
+// paths. Full implementation sources are never on a Legit compiler classpath.
+def selectedEdition = project.hasProperty('edition') ? project.property('edition').toString() : 'legit'
+if (!(selectedEdition in ['legit', 'full'])) {
+    throw new GradleException('edition must be exactly legit or full')
+}
+ext.alienEdition = selectedEdition
+ext.alienEditionName = selectedEdition == 'legit' ? 'Alien Client Legit' : 'Alien Client Full'
+ext.alienEditionDescription = selectedEdition == 'legit' ? 'Visuals & Performance' : 'Architecture preview'
+buildDir = file("build/${selectedEdition}")
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.2.0'
+version = '0.3.0-alpha.1'
 group = 'dev.alien.client'
-archivesBaseName = 'alien-client'
+archivesBaseName = selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
     version = '1.8.9-11.15.1.2318-1.8.9'
-    runDir = 'run'
+    runDir = "run/${selectedEdition}"
     mappings = 'stable_22'
 }
 
@@ -33,9 +44,17 @@ dependencies {
 // A separate test-only Forge mod exercises the real GUI/rendering lifecycle.
 // Its classes are never included in the distributable production JAR.
 sourceSets {
+    main {
+        java.setSrcDirs(['src/main/java', "src/${selectedEdition}/java"])
+        resources.setSrcDirs(['src/main/resources', "src/${selectedEdition}/resources"])
+    }
+    test {
+        java.setSrcDirs(['src/test/java', "src/${selectedEdition}Test/java"])
+        resources.setSrcDirs(['src/test/resources', "src/${selectedEdition}Test/resources"])
+    }
     smoke {
-        java.srcDir 'src/smoke/java'
-        resources.srcDir 'src/smoke/resources'
+        java.setSrcDirs(['src/smoke/java', "src/${selectedEdition}Smoke/java"])
+        resources.setSrcDirs(['src/smoke/resources', "src/${selectedEdition}Smoke/resources"])
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
@@ -54,7 +73,7 @@ afterEvaluate {
         classpath = sourceSets.main.output + runClient.classpath.filter {
             it.canonicalFile != jar.archivePath.canonicalFile
         } + sourceSets.smoke.output
-        workingDir = file('build/smoke-runtime')
+        workingDir = file("${buildDir}/smoke-runtime")
         def smokeArgs = new ArrayList(runClient.args)
         def gameDirIndex = smokeArgs.indexOf('--gameDir')
         if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
@@ -63,7 +82,9 @@ afterEvaluate {
         args = smokeArgs
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.smoke', 'true'
-        systemProperty 'alien.smoke.output', file('build/smoke').absolutePath
+        systemProperty 'alien.smoke.output', file("${buildDir}/smoke").absolutePath
+        systemProperty 'alien.smoke.edition', selectedEdition
+        systemProperty 'alien.smoke.mainClasses', sourceSets.main.output.classesDir.absolutePath
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }
@@ -84,9 +105,14 @@ tasks.withType(JavaExec) {
 processResources {
     inputs.property 'version', project.version
     inputs.property 'mcversion', '1.8.9'
+    inputs.property 'edition', selectedEdition
+    inputs.property 'editionName', alienEditionName
+    inputs.property 'editionDescription', alienEditionDescription
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-        expand 'version': project.version, 'mcversion': '1.8.9'
+        expand 'version': project.version, 'mcversion': '1.8.9',
+               'edition': selectedEdition, 'editionName': alienEditionName,
+               'editionDescription': alienEditionDescription
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
@@ -101,10 +127,26 @@ test {
 }
 
 jar {
+    archiveName = archivesBaseName + '.jar'
     manifest {
-        attributes 'Implementation-Title': 'Alien Client',
+        attributes 'Implementation-Title': alienEditionName,
                    'Implementation-Version': project.version,
+                   'Alien-Edition': selectedEdition,
+                   'Alien-Edition-Status': alienEditionDescription,
+                   'Minecraft-Version': '1.8.9',
                    'FMLModType': 'MOD',
                    'FMLCorePluginContainsFMLMod': 'false'
     }
 }
+
+task verifyEditionArtifact(type: Exec, dependsOn: 'reobfJar') {
+    group = 'verification'
+    description = 'Verifies the actual reobfuscated JAR and edition source boundary'
+    commandLine 'python3', file('scripts/verify-edition-artifact.py').absolutePath,
+            '--repository', projectDir.absolutePath,
+            '--edition', selectedEdition,
+            '--version', project.version.toString(),
+            '--jar', jar.archivePath.absolutePath
+}
+
+check.dependsOn verifyEditionArtifact

@@ -1,3 +1,5 @@
+**Nova rodada:** [Legit e Full — 70 capturas reais, menus e capas em movimento](editions/README.md).
+
 # Alien Client 0.2.0 — imagens reais
 
 Estas imagens vieram do framebuffer do **Minecraft Java 1.8.9 / Forge 11.15.1.2318**, executado em 21/10/2026 com Java 8, Xvfb e OpenGL por software. Sem imagens ilustrativas, geração por IA ou retoques. A navegação foi automatizada nos controles reais; o mundo local é descartável.

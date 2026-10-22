@@ -1,3 +1,5 @@
+**Desenvolvimento atual:** [validação separada Legit/Full 0.3.0-alpha.1](VALIDATION-EDITIONS.md). O relatório abaixo preserva a rodada da base visual 0.2.0.
+
 # Validação da versão 0.2.0
 
 Executada em 21 de outubro de 2026, no Linux x86_64 do ambiente de nuvem, com Temurin 8u472, Gradle 2.14.1, ForgeGradle 2.1 e Forge 1.8.9-11.15.1.2318/stable_22. A validação anterior está no [tag 0.1.0](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/docs/VALIDATION.md).

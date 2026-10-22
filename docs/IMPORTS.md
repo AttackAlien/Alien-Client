@@ -1,3 +1,5 @@
+> A Legit usa `config/alien-client/`; a Full usa `config/alien-client-full/`. Os subdiretórios e limites abaixo valem para ambas as composições. A Full da fase 1 ainda só possui recursos visuais compartilhados.
+
 # Recursos e perfis locais
 
 Diretório base: `<pasta do jogo>/config/alien-client/`. Crie os subdiretórios ao copiar os arquivos, se necessário. Recursos não são baixados automaticamente.
@@ -58,3 +60,7 @@ Perfis incluem todas as seções de configuração. Limite: 256 KiB, profundidad
 A versão do formato de perfil continua sendo **1**, mesmo no mod 0.2.0. Novos campos incluem `menuLayout`, posições/recolhimento em `panels`, widgets `brand` e `modules`, opções de movimento/emblema da capa e forma/cor secundária/partículas ambientes. Perfis antigos recebem padrões para campos ausentes, preservando as posições dos widgets já existentes. Para usar o novo HUD compacto, aplique **Compact preset** explicitamente no editor.
 
 `config.json` guarda os padrões globais. `servers.json` guarda somente associações locais de endereço do servidor/mundo para nome de perfil. Durante uma associação ativa, autosave escreve no perfil; ao sair, restaura os padrões globais. A escolha global de habilitar perfis por servidor prevalece sobre a opção contida no arquivo importado.
+
+## Atalhos por módulo na revisão de arquitetura
+
+`moduleKeys` é um mapa de IDs para códigos de teclado 0–255, com zero significando sem tecla. O mapa recebe no máximo 64 entradas válidas e não ativa módulos desconhecidos. As configurações de teclas acompanham o perfil completo; perfis antigos recebem um mapa vazio. Configure os nove atalhos registrados em Options → Controls → Alien Modules.
