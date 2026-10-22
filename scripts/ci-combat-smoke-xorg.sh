@@ -5,7 +5,7 @@ set -Eeuo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 edition="${ALIEN_EDITION:?ALIEN_EDITION must be legit or full}"
-case "$edition" in legit|full) ;; *) echo "Invalid edition: $edition" >&2; exit 2;; esac
+case "$edition" in unified) ;; *) echo "This runner requires the Unified build, got: $edition" >&2; exit 2;; esac
 out="$repo_dir/build/$edition/combat-smoke"
 mkdir -p "$out"
 display="${ALIEN_COMBAT_SMOKE_DISPLAY:-:102}"
