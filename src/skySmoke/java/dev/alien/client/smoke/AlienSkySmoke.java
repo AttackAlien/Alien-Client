@@ -3,6 +3,7 @@ package dev.alien.client.smoke;
 import dev.alien.client.AlienClient;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.world.SkyboxOptionsScreen;
+import dev.alien.client.world.SkyboxGalleryScreen;
 import dev.alien.client.world.WorldManager;
 import dev.alien.client.world.WorldConfig;
 import java.awt.image.BufferedImage;
@@ -66,7 +67,7 @@ public final class AlienSkySmoke {
         try {
             if (elapsed(started)>160000L) throw new AssertionError("Sky smoke deadline at stage "+stage);
             // Texture reload is checked every 40 client ticks, so allow more than 2 seconds.
-            long interval = stage==2 || stage==8 ? 3500L : stage==1 ? 1000L : stage>=3 ? 1800L : 350L;
+            long interval = stage==2 || stage==9 ? 3500L : stage==1 ? 1000L : stage>=3 ? 1800L : 350L;
             if (elapsed(since)<interval) return;
             step();
         } catch(Throwable ex) {
@@ -168,18 +169,32 @@ public final class AlienSkySmoke {
                         "Reset skybox options restores defaults without clearing selected PNG");
                 require("sky-smoke.cube.png".equals(world().skyboxFile),
                         "Skybox remains selected after options reset");
-                mc.displayGuiScreen(null);
-                mc.gameSettings.hideGUI=true;
-                world().skyboxFile="";
+                mc.displayGuiScreen(new SkyboxGalleryScreen(null));
                 advance();return;
             case 8:
+                require(mc.currentScreen instanceof SkyboxGalleryScreen,
+                        "New skybox gallery renders in the actual Minecraft GUI");
+                capture("sky-gallery-with-cubemap-preview");
+                click(mc.currentScreen,30);
+                require(world().favoriteSkyboxes.contains("sky-smoke.cube.png"),
+                        "Gallery favorite button saves the selected PNG basename");
+                click(mc.currentScreen,31);
+                require("sky-smoke.cube.png".equals(world().skyboxFile) && world().enabled,
+                        "Gallery Apply selects a valid atlas for the live sky");
+                click(mc.currentScreen,32);
+                require(world().skyboxFile.isEmpty(),
+                        "Gallery Procedural action returns to built-in sky without changing game time");
+                mc.displayGuiScreen(null);
+                mc.gameSettings.hideGUI=true;
+                advance();return;
+            case 9:
                 require("Procedural sky active".equals(WorldManager.lastImportMessage),
                         "Removing filename releases atlas and restores procedural sky");
                 capture("sky-procedural-restored");
                 world().enabled=false;
                 world().weather="Server";
                 advance();return;
-            case 9:
+            case 10:
                 require(mc.theWorld.provider.getSkyRenderer()==null,
                         "Disabling custom sky restores vanilla renderer");
                 require(GL11.glGetError()==GL11.GL_NO_ERROR,
