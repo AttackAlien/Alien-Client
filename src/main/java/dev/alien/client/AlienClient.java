@@ -36,7 +36,7 @@ import org.apache.logging.log4j.Logger;
         clientSideOnly = true, acceptedMinecraftVersions = "[1.8.9]", acceptableRemoteVersions = "*")
 public final class AlienClient {
     public static final String MOD_ID = "alienclient";
-    public static final String VERSION = "0.3.0-alpha.1";
+    public static final String VERSION = "0.4.0-alpha.2";
     public static final Logger LOG = LogManager.getLogger("AlienClient");
     @Mod.Instance(MOD_ID) private static AlienClient instance;
     private ConfigStore store;

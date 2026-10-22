@@ -1,15 +1,13 @@
-> **Prévia do redesign 0.4:** estas capturas e binários pertencem ao código testado na branch [ui-overhaul-20261022](https://github.com/AttackAlien/Alien-Client/tree/ui-overhaul-20261022). A integração com o Unified/Sky Studio Ultimate mais recente está no PR do redesign; o código atual da main foi preservado.
+# Interface 0.4.0-alpha.2 — Unified
 
-# Interface 0.4.0-alpha.1
-
-O redesign preserva os motores e a separação Legit/Full. A interface usa um sistema compartilhado de componentes desenhados pelo Alien; GuiButton/GuiScreen ficam como adaptadores de entrada do Forge, sem usar o desenho dos botões vanilla.
+A integração preserva os motores Unified, Sky Studio Ultimate e a compatibilidade dos builds históricos Legit/Full. Consulte [a auditoria e os resultados desta branch](INTEGRATION-0.4.md). A interface usa um sistema compartilhado de componentes desenhados pelo Alien; GuiButton/GuiScreen ficam como adaptadores de entrada do Forge, sem usar o desenho dos botões vanilla.
 
 ## O que mudou
 
 - Open Sans Regular/Semibold em dois atlas antialias de resolução 4×, com métricas próprias e suporte aos textos latinos da interface. É a fonte padrão; Minecraft permanece uma opção de compatibilidade.
 - Painéis arredondados com bordas suavizadas, gradientes, sombras, transparência, ícones vetoriais originais e estados de hover/pressão.
 - Botões, switches, sliders com entrada numérica, campos próprios, seletor HSV/RGBA/HEX, componente dropdown, tooltips, notificações e modais de confirmação reutilizáveis.
-- ClickGUI com sidebar, pesquisa instantânea, filtros de ativos/favoritos, cartões reais do registro e editor de atalhos por módulo. As categorias avançadas Full ainda não possuem módulos implementados; não foram criados botões fictícios para eles.
+- ClickGUI com sidebar, pesquisa instantânea, filtros de ativos/favoritos, cartões reais do registro e editor de atalhos por módulo. A Unified também expõe os dois módulos de combate existentes, identificados pelo impacto no jogo, e mantém o Combat Studio.
 - Cosmetic Studio com navegação lateral, área 3D maior, miniaturas das malhas reais, iluminação/fundo configuráveis e câmera com rotação/zoom interpolados. Jogadores por UUID, transformações, animações, cores e importações foram preservados.
 - World Studio com galeria das seis paletas, prévia do gradiente/panorama, intensidade do céu, cores, visibilidade de nuvens, tamanho/visibilidade de sol/lua, precipitação, neblina e importador PNG. A prévia indicada como Palette preview é um controle da interface, não uma fotografia ou promessa de novo skybox cinematográfico.
 - HUD Studio com seleção, arraste, alça de escala, alinhamento, snap, grade pontilhada, fonte/fundo/gradiente/sombra/opacidade e import/export somente do HUD.
@@ -28,6 +26,6 @@ No HUD Studio, selecione na lista e arraste até o canvas; use a alça inferior 
 
 `config.ui` guarda os tokens de tema; `interfacePrefs` guarda categoria/filtros/favoritos; `moduleKeys` mantém os atalhos. Perfis e temas continuam compatíveis com os formatos anteriores. O tema avançado é incluído nos arquivos de ThemeLibrary; modelos/skyboxes permanecem em suas pastas locais.
 
-O redesign não conclui o master plan de módulos avançados. Fontes arbitrárias enviadas pelo usuário, tipografia CJK completa, outros formatos de modelos/cubemaps/OptiFine Custom Sky, texturas arbitrárias de sol/lua e física de colisão da capa continuam fora da implementação atual. Algumas opções discretas usam botões de ciclo; o componente dropdown está disponível na biblioteca. As animações usam fade-in, hover, câmera e rolagem; não há uma transição de saída entre todas as telas.
+O redesign não conclui o master plan de módulos avançados. Fontes arbitrárias enviadas pelo usuário, tipografia CJK completa, outros formatos de modelos e OptiFine Custom Sky, texturas arbitrárias de sol/lua e física de colisão da capa continuam fora da implementação atual. Algumas opções discretas usam botões de ciclo; o componente dropdown está disponível na biblioteca. As animações usam fade-in, hover, câmera e rolagem; não há uma transição de saída entre todas as telas.
 
-Os itens e o mundo mantêm a geometria/texturas do Minecraft. O desfoque opcional e as sombras têm custo gráfico; a execução em software não estabelece ganho de FPS. Consulte a [validação](UI-OVERHAUL-VALIDATION.md) para resultados e limites efetivos.
+Os itens e o mundo mantêm a geometria/texturas do Minecraft. O desfoque opcional e as sombras têm custo gráfico; a execução em software não estabelece ganho de FPS. Consulte a [validação da integração](INTEGRATION-0.4.md) para resultados e limites efetivos.

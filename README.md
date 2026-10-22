@@ -1,85 +1,42 @@
-**[VER AS NOVAS IMAGENS DO REDESIGN](captures/README.md)** — capturas reais da prévia de interface 0.4. As imagens antigas foram removidas da galeria atual. O redesign está na branch [ui-overhaul-20261022](https://github.com/AttackAlien/Alien-Client/tree/ui-overhaul-20261022); a base Unified abaixo foi preservada.
+# Alien Client Unified — interface 0.4
 
-# Alien Client
+Integração experimental em `integration/unified-redesign-0.4-20261022`, baseada na Unified da `main`. Reúne o redesign [#8](https://github.com/AttackAlien/Alien-Client/pull/8), as funcionalidades já incorporadas dos PRs #3–#5 e as melhorias dos #6/#7. **Esta branch não foi mesclada na `main`.**
 
-> **Alien Client Unified agora é o build padrão na `main`.** Um único `AlienClient-Unified-1.8.9.jar` reúne os visuais, o Sky Studio Ultimate e perfis opcionais de combate **OFF / LEGIT / FULL / CUSTOM**. O JAR aprovado em CI é **experimental, não uma nova release oficial**. Veja [implementação, testes e migração](docs/UNIFIED-CLIENT.md). **Instale só um JAR Alien por vez; fake anti-aim e silent aim ainda não foram implementados.**
+**[Capturas reais do Minecraft](captures/README.md)** · **[Auditoria dos PRs e validação da integração](docs/INTEGRATION-0.4.md)** · [Instalação Unified](docs/PRIMEIRO-TESTE-UNIFIED.md)
 
-Mod cliente de personalização visual e opções de combate **locais/configuráveis** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
+Mod para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, com Java 8. Um único `AlienClient-Unified-1.8.9.jar` inclui HUD, cosméticos 3D, céu/clima local, partículas e Combat Studio configurável. O combate começa desativado; presets LEGIT/FULL não garantem permissão em servidores. Fake anti-aim e silent aim não estão implementados.
 
-A base visual **0.2.0** foi preservada. A linha **0.3.0-alpha.1** criou builds históricos Legit/Full; a `main` passou a usar **Unified** após os PRs [#3](https://github.com/AttackAlien/Alien-Client/pull/3), [#4](https://github.com/AttackAlien/Alien-Client/pull/4) e [#5](https://github.com/AttackAlien/Alien-Client/pull/5). O [master plan](docs/MASTER-PLAN.md) continua como planejamento para módulos não entregues. A base inclui HUD, cosméticos, estúdios de céu/efeitos e, no Unified, assistências de mira/clique desativadas por padrão. Nada modifica o alcance no servidor ou sincroniza cosméticos pela rede.
+## Interface e funções
 
-## PanelStudio — base de integração já incorporada
+- ClickGUI com pesquisa, favoritos, filtros e atalhos por módulo; animações PanelStudio MIT preservadas no sistema visual Alien.
+- Componentes arredondados, Open Sans antialias, temas, HSV/RGBA/HEX, escala e blur opcional real.
+- Cosmetic Studio com prévia 3D em um mundo, capas animadas, malhas curvas, quatro looks e três slots salvos, transformações e ajustes por jogador.
+- World Studio com paletas, panorama/cubemap 3×2, galeria PNG local, favoritos, rotação/brilho, clima e partículas locais.
+- HUD Studio com arraste, escala, alinhamento, fonte/cores, import/export e widgets de desempenho, teclas, inventário e módulos.
+- Combat Studio preserva OFF/LEGIT/FULL/CUSTOM, mira gradual e cliques enquanto ataque é segurado, com configurações por perfil.
 
-O PR #3 incorporou a integração **incremental** de duas classes Java 8 do [PanelStudio](https://github.com/lukflug/PanelStudio) (MIT): animação por tempo real no hover e novos cantos suaves nos botões Alien, sem substituir os editores testados. **Isso ainda não é o ClickGUI PanelStudio completo.** Veja a [revisão de licenças e integração](docs/OPEN_SOURCE_REVIEW.md). A fonte e os demais layouts ainda precisam de atualização.
-
-## Baixar
-
-**[Baixar build experimental Unified com testes aprovados](https://github.com/AttackAlien/Alien-Client/actions/runs/39809488208)** — abra *Artifacts* e obtenha `alien-unified-39809488208`, que contém o JAR reofuscado e relatórios. Requer conta GitHub para baixar o artefato do Actions. Não confunda com uma release pública e remova JARs antigos de `mods` antes de instalar.
-
-**Versões históricas:** [Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
-
-Base visual anterior:
-
-**[Baixar Alien Client 0.2.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/downloads/alien-client-0.2.0.jar?raw=true)** · [Página da release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.2.0) — pré-release para testes.
-
-Baixe o JAR pelo link acima e coloque em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. O binário está versionado na pasta [downloads](downloads/), com SHA-256. O projeto para desenvolvimento está em [Source code (ZIP)](https://github.com/AttackAlien/Alien-Client/archive/refs/tags/v0.2.0.zip).
-
-**[Ver as capturas reais e a capa em movimento](captures/README.md)** · [Resultados e limitações da validação](docs/VALIDATION.md)
+Right Shift abre o ClickGUI. Selecione um módulo para configurar atalho ou abrir seu editor; Settings dá acesso a perfis e preferências. Perfis Unified ficam em `.minecraft/config/alien-client/`. Instale só um JAR Alien por vez.
 
 ## Compilar e testar
 
-Linux x86_64, com `bash`, `curl`, `tar`, `unzip`, `sha256sum` e Python 3.9+:
+Linux x86_64 com Bash, curl, tar, unzip, sha256sum e Python 3.9+:
 
 ```bash
 ./scripts/bootstrap.sh
-./gradlew -Pedition=unified setupDecompWorkspace build
-
-# Somente para regressão de edições antigas:
-./gradlew -Pedition=legit setupDecompWorkspace build
-./gradlew -Pedition=full setupDecompWorkspace build
+./gradlew --no-daemon setupDecompWorkspace clean build # Unified padrão
+ALIEN_EDITION=unified ./scripts/smoke-client.sh
 ```
 
-O bootstrap instala Temurin **8u472** e Gradle **2.14.1** em `.tools/`, verificando SHA-256. O projeto usa **ForgeGradle 2.1**, mappings **stable_22** e TLS verificado. Não use Java 17/21 para executar esse ForgeGradle legado. A preparação baixa os arquivos originais do Minecraft; nenhuma cópia é incluída no mod.
+O bootstrap verifica os SHA-256 do Temurin **8u472** e Gradle **2.14.1**; ForgeGradle 2.1 usa mappings stable_22 e TLS verificado. Neste ambiente, use `export ALIEN_TOOLS_DIR=/workspace/.alien-tools` antes dos comandos. Saída: `build/unified/libs/AlienClient-Unified-1.8.9.jar`; JUnit em `build/unified/reports/tests/index.html`.
 
-Neste ambiente preparado, as ferramentas ficam fora do checkout:
+Para executar interativamente: `./gradlew --no-daemon runClient`. O smoke usa um mundo e diretório descartáveis e captura o framebuffer real. As verificações de cubemap/combate e o empacotamento estão documentados no [relatório da integração](docs/INTEGRATION-0.4.md).
 
-```bash
-export ALIEN_TOOLS_DIR=/workspace/.alien-tools
-./gradlew -Pedition=legit build
-./gradlew -Pedition=full build
-```
+Regressão de composições históricas: `./gradlew --no-daemon -Pedition=legit clean build` e `-Pedition=full clean build`. Essas composições não substituem o build Unified.
 
-Saídas:
+No Windows, instale JDK 8 e Forge 1.8.9, configure `JAVA_HOME` e use `gradlew.bat setupDecompWorkspace build`, ou copie o JAR Unified validado para `mods`. O teste Windows de ZIP/integridade não comprova execução gráfica do Minecraft.
 
-- Mods reofuscados: `build/legit/libs/AlienClient-Legit-1.8.9.jar` e `build/full/libs/AlienClient-Full-1.8.9.jar`; instale um por vez.
-- Relatórios: `build/legit/reports/tests/index.html` e `build/full/reports/tests/index.html`.
-- Cliente gráfico: `./gradlew -Pedition=legit runClient` ou `-Pedition=full runClient`.
-- Validação completa das duas composições: `./scripts/build-editions.sh`; após aprovação, os dois binários ficam em `build/releases/`.
+## Documentação e versões
 
-No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat -Pedition=legit setupDecompWorkspace build`. O wrapper verifica o SHA-256 da distribuição Gradle. A execução Windows não foi validada nesta máquina Linux.
+[Redesign](docs/UI-OVERHAUL.md) · [Unified e migração](docs/UNIFIED-CLIENT.md) · [Studios V2](docs/STUDIOS-V2.md) · [Sky Ultimate](docs/SKY_STUDIO_ULTIMATE.md) · [Imports](docs/IMPORTS.md) · [Licenças](docs/THIRD_PARTY.md) · [Desenvolvimento](docs/DEVELOPMENT.md)
 
-## Instalar e usar
-
-1. Instale o Forge **1.8.9-11.15.1.2318** no Minecraft Java 1.8.9 e use Java 8.
-2. Copie **somente** `alien-client-0.2.0.jar` para a pasta `mods` dessa instalação.
-3. Entre em um mundo e pressione **Right Shift**. O atalho pode ser alterado no menu Alien ou nos controles do Minecraft.
-4. Use os painéis flutuantes; arraste os cabeçalhos, role cada coluna e clique com o botão direito para abrir seu editor. **Settings** abre o menu Studio e permite alternar entre os dois layouts. As preferências ficam em `.minecraft/config/alien-client/`.
-
-Atalhos individuais dos nove interruptores principais podem ser definidos em **Options → Controls → Alien Modules** na revisão de arquitetura. Começam sem tecla e são salvos por perfil. A Full usa `config/alien-client-full/`, separado da Legit.
-
-O menu inicial Alien é opcional: desative **Appearance → Home menu** para voltar ao menu padrão. O botão **Mods** continua disponível. Efeitos, céu e alterações de clima começam desativados; o HUD começa ativado.
-
-## Editores
-
-- **HUD Editor:** selecione e arraste os elementos; use a alça/canto ou a roda para redimensionar. A grade e os botões de alinhamento ajudam a organizar o layout. Há FPS, CPS esquerdo/direito, teclas, coordenadas, ping, relógio, inventário, armadura, memória/frame time, texto, marca Alien e lista dos efeitos visuais ativos. O **Compact preset** organiza o HUD branco sem fundo.
-- **Cosmetic Studio:** escolha chapéus curvos, máscara/óculos, asas, mochila, charm ou capa de tecido com emblema original. Arraste a prévia para girar em 360° e use a roda para zoom. Fit controla posição, rotação e escala; Motion ajusta ondulação, tamanho e detalhe da capa. Players seleciona jogadores presentes e preferências por UUID. A prévia 3D exige um jogador carregado.
-- **World Studio:** ative céu local, escolha um tema ou importe um panorama PNG, ajuste o horário visual e a neblina. Os presets **Crystal**, **Sakura** e **Nebula** combinam céu e partículas de diamantes, pétalas ou faíscas. Weather controla apenas a precipitação desenhada. O horário de iluminação dos blocos e as condições do servidor permanecem reais.
-- **Effects Studio:** controle movimento, aterrissagem, trilhas, qualidade, distância e quantidade. Camera / color filter oferece rotação visual leve e uma sobreposição de cor opcional.
-- **Appearance:** RGB, transparência, velocidade das animações, cores e biblioteca de temas.
-- **Profiles:** salve, carregue, importe e exporte um conjunto completo. Para associar um perfil a um servidor, salve-o, entre no servidor e use **Bind current server**. Ao sair, a configuração global é restaurada; alterações no perfil do servidor não sobrescrevem os padrões globais.
-
-Nomes de perfis e temas usam letras, números, `_` e `-`. Veja os diretórios e formatos em [importações](docs/IMPORTS.md).
-
-Os perfis **Competitive**, **Balanced** e **Cinematic** alteram os limites de efeitos Alien. Não pressupõem ganho de FPS e não modificam as opções gráficas vanilla. Use o HUD de desempenho e o [protocolo de benchmark](docs/BENCHMARKS.md) para medir sua máquina.
-
-Veja também [arquitetura e desenvolvimento](docs/DEVELOPMENT.md), [validação](docs/VALIDATION.md) e [dependências e licenças](docs/THIRD_PARTY.md).
+Releases anteriores permanecem em [downloads](downloads/README.md) e nas tags correspondentes. Os JARs 0.4 de Legit/Full são prévias anteriores à integração Unified. Consulte o relatório desta branch para distinguir os resultados atuais dos históricos.

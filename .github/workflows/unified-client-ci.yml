@@ -4,6 +4,10 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -39,13 +43,15 @@ jobs:
       - name: Bootstrap verified JDK 8 and Gradle 2.14.1
         run: bash ./scripts/bootstrap.sh
       - name: Compile Unified, run JUnit and verify actual JAR provenance
-        run: ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace build
+        run: ./gradlew --no-daemon -Pedition=unified clean setupDecompWorkspace build
       - name: Inspect Unified artifact
         run: |
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar
           sha256sum build/unified/libs/AlienClient-Unified-1.8.9.jar | tee build/unified/SHA256SUMS.txt
       - name: Validate combat Xorg smoke runner syntax
         run: bash -n ./scripts/ci-combat-smoke-xorg.sh
+      - name: Bind the upcoming game test to exact built and JUnit-tested inputs
+        run: python3 ./scripts/package-unified.py --begin-validation
       - name: Run Combat Studio inside actual Forge 1.8.9 with screenshots
         run: bash ./scripts/ci-combat-smoke-xorg.sh
       - name: Summarize in-game checks
@@ -53,7 +59,13 @@ jobs:
         run: |
           echo "## Alien Unified Combat Studio" >> "$GITHUB_STEP_SUMMARY"
           echo "Actual Minecraft 1.8.9: $(head -n 1 build/unified/combat-smoke/result.txt)" >> "$GITHUB_STEP_SUMMARY"
-      - name: Upload JAR, JUnit, game screenshots and logs
+      - name: Validate packaging and stale-evidence rejection against real built artifacts
+        if: success()
+        run: python3 -m unittest discover -s scripts/tests -p 'test_package_unified.py' -v
+      - name: Package tested installable ZIP and standalone JAR
+        if: success()
+        run: python3 ./scripts/package-unified.py
+      - name: Upload installer, checksums, JUnit, screenshots and logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -66,3 +78,48 @@ jobs:
             build/unified/test-results/
             build/unified/reports/tests/
             build/unified/combat-smoke/
+            build/unified/validation-inputs.json
+            build/unified/distribution/
+
+  windows-package-check:
+    name: Windows | ZIP and JAR integrity (not Minecraft gameplay)
+    needs: unified
+    runs-on: windows-2022
+    timeout-minutes: 10
+    steps:
+      - name: Download the exact passing Unified artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: alien-unified-${{ github.run_id }}
+          path: artifact
+      - name: Extract the Windows installer and validate its SHA-256
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zip = 'artifact/distribution/AlienClient-Unified-Primeiro-Teste.zip'
+          if (-not (Test-Path -LiteralPath $zip)) { throw 'Validated installer ZIP missing' }
+          Expand-Archive -LiteralPath $zip -DestinationPath 'install-check' -Force
+          $jar = 'install-check/AlienClient-Unified-1.8.9.jar'
+          $hashes = 'install-check/SHA256SUMS.txt'
+          if (-not (Test-Path -LiteralPath $jar)) { throw 'Unified JAR missing from ZIP' }
+          if (-not (Test-Path -LiteralPath $hashes)) { throw 'SHA256SUMS.txt missing' }
+          $expectedLine = (Get-Content -LiteralPath $hashes -Raw).Trim()
+          if ($expectedLine -notmatch '^([0-9a-f]{64})  AlienClient-Unified-1\.8\.9\.jar$') {
+            throw 'Invalid SHA256SUMS format'
+          }
+          $expected = $Matches[1]
+          $actual = (Get-FileHash -LiteralPath $jar -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expected -ne $actual) { throw 'Windows-extracted JAR SHA256 mismatch' }
+          $count = @(Get-ChildItem 'install-check' -Filter '*.jar').Count
+          if ($count -ne 1) { throw "Expected one installable JAR, got $count" }
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $archive = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $jar).Path)
+          try {
+            $entries = @($archive.Entries | ForEach-Object { $_.FullName })
+            if ($entries -notcontains 'META-INF/MANIFEST.MF' -or
+                $entries -notcontains 'META-INF/alienclient/edition.json' -or
+                $entries -notcontains 'dev/alien/client/AlienClient.class') {
+              throw 'Expected Forge Unified entry points not found in JAR'
+            }
+          } finally { $archive.Dispose() }
+          Write-Host "Windows archive extraction and SHA256 passed: $actual"

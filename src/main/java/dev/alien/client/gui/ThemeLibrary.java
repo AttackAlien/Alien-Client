@@ -3,6 +3,7 @@ package dev.alien.client.gui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.gui.theme.ThemeConfig;
 
 import java.io.File;
 import java.io.ByteArrayOutputStream;
@@ -81,16 +82,34 @@ public final class ThemeLibrary {
         int accentColor = 0xffa882ff;
         float opacity = .94f, animationSpeed = 1f;
         boolean animations = true, rainbowAccent;
+        ThemeConfig ui;
         Theme() { }
         Theme(ClientConfig config) {
             accentColor = config.accentColor; opacity = config.opacity;
             animations = config.animations; animationSpeed = config.animationSpeed; rainbowAccent = config.rainbowAccent;
+            ui = config.ui == null ? new ThemeConfig() : config.ui.copy();
+            // The public legacy API still edits these aliases directly.
+            if ((ui.primary & 0xffffff) != (config.accentColor & 0xffffff)) ui.primary = config.accentColor;
+            ui.opacity = config.opacity;
+            ui.animationSpeed = config.animationSpeed;
         }
         void apply(ClientConfig config) {
             config.accentColor = 0xff000000 | accentColor;
             config.opacity = Math.max(.3f, Math.min(1f, opacity));
             config.animationSpeed = Math.max(.25f, Math.min(3f, animationSpeed));
             config.animations = animations; config.rainbowAccent = rainbowAccent;
+            if (ui != null) {
+                config.ui = ui.copy(); config.ui.normalize();
+                config.accentColor = config.ui.primary; config.opacity = config.ui.opacity;
+                config.animationSpeed = config.ui.animationSpeed;
+            } else {
+                // Legacy theme files contain only accent/opacity/motion fields.
+                // Keep the existing advanced layout tokens, and adapt those old fields.
+                if (config.ui == null) config.ui = new ThemeConfig();
+                config.ui.primary = config.accentColor; config.ui.opacity = config.opacity;
+                config.ui.animationSpeed = config.animationSpeed;
+                config.ui.preset = "Custom RGB"; config.ui.normalize();
+            }
             config.theme = "Custom";
         }
     }

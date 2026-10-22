@@ -145,9 +145,20 @@ public final class ConfigStore {
 
     private ClientConfig read(File file) throws IOException {
         try {
-            ClientConfig config = gson.fromJson(readBounded(file), ClientConfig.class);
+            com.google.gson.JsonElement document = new com.google.gson.JsonParser().parse(readBounded(file));
+            ClientConfig config = gson.fromJson(document, ClientConfig.class);
             if (config == null) throw new IOException("Empty profile");
             config.normalize();
+            // Profiles from Unified 0.3 only have these appearance aliases.
+            // Migrate once, while respecting explicit 0.4 design tokens.
+            if (document.isJsonObject() && (!document.getAsJsonObject().has("ui")
+                    || document.getAsJsonObject().get("ui").isJsonNull())) {
+                config.ui.primary = config.accentColor;
+                config.ui.opacity = config.opacity;
+                config.ui.animationSpeed = config.animationSpeed;
+                config.ui.preset = "Custom RGB";
+                config.ui.normalize();
+            }
             return config;
         } catch (RuntimeException e) { throw new IOException("Invalid JSON or unsupported profile", e); }
     }

@@ -4,8 +4,8 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 tool_dir="${ALIEN_TOOLS_DIR:-$repo_dir/.tools}"
-edition="${ALIEN_EDITION:-legit}"
-case "$edition" in legit|full) ;; *) printf 'ALIEN_EDITION must be legit or full\n' >&2; exit 1 ;; esac
+edition="${ALIEN_EDITION:-unified}"
+case "$edition" in legit|full|unified) ;; *) printf 'ALIEN_EDITION must be legit, full or unified\n' >&2; exit 1 ;; esac
 smoke_dir="build/$edition/smoke"
 mkdir -p "$smoke_dir"
 rm -f "$smoke_dir/result.txt"

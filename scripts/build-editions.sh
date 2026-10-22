@@ -6,7 +6,7 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 for edition in legit full; do
-  ./gradlew --no-daemon "-Pedition=$edition" build
+  ./gradlew --no-daemon "-Pedition=$edition" clean build
   ALIEN_EDITION="$edition" ./scripts/smoke-client.sh
 done
 release_dir="$repo_dir/build/releases"

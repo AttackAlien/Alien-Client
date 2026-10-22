@@ -3,6 +3,8 @@ package dev.alien.client.smoke;
 import dev.alien.client.AlienClient;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.world.SkyboxOptionsScreen;
+import dev.alien.client.world.SkyboxGalleryScreen;
+import dev.alien.client.world.WorldStudioScreen;
 import dev.alien.client.world.WorldManager;
 import dev.alien.client.world.WorldConfig;
 import java.awt.image.BufferedImage;
@@ -66,7 +68,7 @@ public final class AlienSkySmoke {
         try {
             if (elapsed(started)>160000L) throw new AssertionError("Sky smoke deadline at stage "+stage);
             // Texture reload is checked every 40 client ticks, so allow more than 2 seconds.
-            long interval = stage==2 || stage==8 ? 3500L : stage==1 ? 1000L : stage>=3 ? 1800L : 350L;
+            long interval = stage==2 || stage==9 ? 3500L : stage==1 ? 1000L : stage>=3 ? 1800L : 350L;
             if (elapsed(since)<interval) return;
             step();
         } catch(Throwable ex) {
@@ -88,7 +90,7 @@ public final class AlienSkySmoke {
         switch(stage) {
             case 0:
                 if (mc.currentScreen == null || !Loader.isModLoaded("alienclient")) return;
-                require("legit".equals(edition)||"full".equals(edition),"Valid edition was selected");
+                require("legit".equals(edition)||"full".equals(edition)||"unified".equals(edition),"Valid edition was selected");
                 require("alienclient".equals(AlienClient.MOD_ID),"Production mod has expected ID");
                 mc.gameSettings.limitFramerate = 30;
                 mc.gameSettings.pauseOnLostFocus = false;
@@ -153,7 +155,11 @@ public final class AlienSkySmoke {
                             && world().twinklingStars,
                         "New Sky Studio options persist after the actual config reload");
                 mc.gameSettings.hideGUI=false;
-                mc.displayGuiScreen(new SkyboxOptionsScreen(null));
+                mc.displayGuiScreen(new WorldStudioScreen(null));
+                click(mc.currentScreen,73);
+                click(mc.currentScreen,11);
+                require(mc.currentScreen instanceof SkyboxOptionsScreen,
+                        "Redesigned World Studio Imports opens preserved Skybox Options");
                 advance();return;
             case 7:
                 require(mc.currentScreen instanceof SkyboxOptionsScreen,
@@ -168,18 +174,37 @@ public final class AlienSkySmoke {
                         "Reset skybox options restores defaults without clearing selected PNG");
                 require("sky-smoke.cube.png".equals(world().skyboxFile),
                         "Skybox remains selected after options reset");
-                mc.displayGuiScreen(null);
-                mc.gameSettings.hideGUI=true;
-                world().skyboxFile="";
+                mc.displayGuiScreen(new WorldStudioScreen(null));
+                click(mc.currentScreen,73);
+                click(mc.currentScreen,12);
+                require(mc.currentScreen instanceof SkyboxGalleryScreen,
+                        "Redesigned World Studio Imports opens the new local Skybox Gallery");
                 advance();return;
             case 8:
+                require(mc.currentScreen instanceof SkyboxGalleryScreen,
+                        "New skybox gallery renders in the actual Minecraft GUI");
+                capture("sky-gallery-with-cubemap-preview");
+                assertGalleryTexture();
+                click(mc.currentScreen,30);
+                require(world().favoriteSkyboxes.contains("sky-smoke.cube.png"),
+                        "Gallery favorite button saves the selected PNG basename");
+                click(mc.currentScreen,31);
+                require("sky-smoke.cube.png".equals(world().skyboxFile) && world().enabled,
+                        "Gallery Apply selects a valid atlas for the live sky");
+                click(mc.currentScreen,32);
+                require(world().skyboxFile.isEmpty(),
+                        "Gallery Procedural action returns to built-in sky without changing game time");
+                mc.displayGuiScreen(null);
+                mc.gameSettings.hideGUI=true;
+                advance();return;
+            case 9:
                 require("Procedural sky active".equals(WorldManager.lastImportMessage),
                         "Removing filename releases atlas and restores procedural sky");
                 capture("sky-procedural-restored");
                 world().enabled=false;
                 world().weather="Server";
                 advance();return;
-            case 9:
+            case 10:
                 require(mc.theWorld.provider.getSkyRenderer()==null,
                         "Disabling custom sky restores vanilla renderer");
                 require(GL11.glGetError()==GL11.GL_NO_ERROR,
@@ -200,6 +225,24 @@ public final class AlienSkySmoke {
             default: throw new AssertionError("Unknown sky smoke stage "+stage);
         }
     }
+    /** Sample an interior point of face zero in the actual gallery framebuffer. */
+    private void assertGalleryTexture() throws Exception {
+        GuiScreen screen = mc.currentScreen;
+        int panelWidth = Math.min(660, screen.width - 22);
+        int listWidth = Math.max(125, panelWidth / 2 - 8);
+        int previewX = (screen.width - panelWidth) / 2 + listWidth + 10;
+        int previewW = Math.max(24, panelWidth - listWidth - 16);
+        int previewH = Math.max(30, screen.height - 52 - 100);
+        float scale = mc.displayWidth / (float)screen.width;
+        int sampleX = Math.round((previewX + 4 + (previewW - 8) / 6F) * scale);
+        int sampleY = Math.round((60 + 4 + Math.max(16, previewH - 8) / 4F) * scale);
+        BufferedImage framebuffer = ImageIO.read(new File(output,
+                "screenshots/sky-gallery-with-cubemap-preview.png"));
+        int actual = framebuffer.getRGB(sampleX, sampleY) & 0xFFFFFF;
+        require(distance(actual, COLORS[0]) < 40,
+                "Skybox Gallery shows the decoded atlas texture in its real preview framebuffer");
+    }
+
     private void advance(){stage++;since=System.nanoTime();System.out.println("ALIEN_SKY_SMOKE_STAGE "+stage);}
     private WorldConfig world(){return AlienClient.get().config().world;}
     private void face(float yaw,float pitch) {

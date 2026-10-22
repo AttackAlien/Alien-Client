@@ -5,7 +5,7 @@ set -euo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
 bash ./scripts/bootstrap.sh
-./gradlew --no-daemon -Pedition=unified setupDecompWorkspace build
+./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
 jar="$repo_dir/build/unified/libs/AlienClient-Unified-1.8.9.jar"
 test -s "$jar"
 distribution="$repo_dir/build/unified/distribution"

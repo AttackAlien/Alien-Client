@@ -1,0 +1,5 @@
+Open Sans Regular and Semibold
+Digitized data copyright (c) 2010-2011, Google Corporation.
+Licensed under the Apache License, Version 2.0; see LICENSE.txt.
+Source: https://www.opensans.com/; unmodified font binaries supplied by Debian fonts-open-sans.
+The Alien Client font atlas is generated at runtime from these bundled fonts.

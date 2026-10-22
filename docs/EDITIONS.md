@@ -1,3 +1,5 @@
+> A versão atual 0.4.0-alpha.1 aplica o [redesign da interface](UI-OVERHAUL.md) sobre esta separação. Os comandos e namespaces abaixo continuam válidos. A evidência da primeira fase permanece no tag v0.3.0-alpha.1; a galeria atual contém apenas o redesign.
+
 # Legit e Full — arquitetura 0.3.0-alpha.1
 
 Esta revisão entrega a **primeira fase** do [master plan](MASTER-PLAN.md): auditoria e separação de composições. A [auditoria da base 0.2.0](ARCHITECTURE-AUDIT.md) preserva o estado anterior e classifica as lacunas. A Full é uma **prévia de arquitetura**: ainda não implementa Aim Assist, AutoClicker, Reach, Velocity, Flight, Speed, ESP ou automações de inventário.
