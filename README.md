@@ -1,5 +1,7 @@
 # Alien Client
 
+> **Novo desenvolvimento (experimental): Alien Client Unified.** Em vez de instalar duas edições separadas, esta branch gera um único arquivo `AlienClient-Unified-1.8.9.jar` com perfis de combate OFF/LEGIT/FULL/CUSTOM configuráveis em jogo. A `main` e as versões publicadas ainda usam o sistema legado Legit/Full; veja [implementação, limites e migração](docs/UNIFIED-CLIENT.md). **Não misture os JARs no mesmo Forge.** Recursos como fake anti-aim/silent aim não estão implementados.
+
 Mod de personalização **local** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
 
 A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. Não há funcionalidades de combate, automação, alteração de atributos ou sincronização de cosméticos pela rede.
