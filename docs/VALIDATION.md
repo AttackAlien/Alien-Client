@@ -1,56 +1,46 @@
-**Desenvolvimento atual:** [validação separada Legit/Full 0.3.0-alpha.1](VALIDATION-EDITIONS.md). O relatório abaixo preserva a rodada da base visual 0.2.0.
+# Validação do redesign 0.4.0-alpha.1
 
-# Validação da versão 0.2.0
+Executada em 22/10/2026: Linux x86_64, Temurin 8u472, Gradle 2.14.1, ForgeGradle 2.1, Minecraft/Forge 1.8.9-11.15.1.2318 e Mesa llvmpipe. A [galeria atual](../captures/README.md) contém somente imagens desta revisão; as fotos antigas foram removidas da main a pedido do usuário.
 
-Executada em 21 de outubro de 2026, no Linux x86_64 do ambiente de nuvem, com Temurin 8u472, Gradle 2.14.1, ForgeGradle 2.1 e Forge 1.8.9-11.15.1.2318/stable_22. A validação anterior está no [tag 0.1.0](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/docs/VALIDATION.md).
+| Resultado final | Legit | Full |
+| --- | --- | --- |
+| Clean build e inspeção do JAR | Passou, 98 classes Java 8 | Passou, 98 classes Java 8 |
+| JUnit | 101 testes; zero falhas, erros ou ignorados | 101 testes; zero falhas, erros ou ignorados |
+| Minecraft/Forge real | 124 verificações passaram | 124 verificações passaram |
+| PNGs originais do framebuffer | 44 | 44 |
 
-## Compilação e testes
+[Resultado original Legit](../captures/atual/legit/result.txt) · [Resultado original Full](../captures/atual/full/result.txt) · [SHA-256 dos binários](../downloads/v0.4.0-alpha.1/SHA256SUMS.txt).
 
-**76 testes JUnit passaram, sem falhas, erros ou ignorados.** Cobrem configuração/perfis e migração, posições dos painéis, HUD e módulos ativos, temas, geometria das malhas, deformação/UV/normais da capa, texturas originais, limites dos cosméticos, importações e presets de céu/partículas.
+## Evidência gráfica
 
-`build` concluiu com sucesso usando Java 8 e dependências reais. O JAR é reofuscado pelo ForgeGradle; os testes gráficos permanecem em um source set separado e não integram o mod. O SHA-256 do binário publicado está em [downloads/SHA256SUMS.txt](../downloads/SHA256SUMS.txt).
+Foram capturados menu inicial, ClickGUI, Cosmetic Studio, World Studio, HUD Studio, Theme Studio, configurações/perfis e a edição Full, além dos efeitos e widgets no mundo. As capturas incluem 854×480, 960×600 (16:10) e 800×600 (4:3), com menus em escala 0,85. Guardas de bounds confirmaram controles dentro das telas exercitadas.
 
-## Minecraft/Forge real
+A execução confirmou o renderizador Open Sans real, passes de blur sobre o framebuffer, canvas HSV visível nos pixels, botões de temas alterando tokens persistentes, editor de atalho escrevendo uma tecla real, menus responsivos e ausência de erro OpenGL nas verificações. A prévia 3D passou a exigir pixels de pele na região da cabeça, além das malhas dos acessórios, para detectar regressão de transparência do personagem.
 
-**88 verificações passaram**, produzindo **35 PNGs originais do framebuffer** em um mundo integrado descartável. [Galeria](../captures/README.md) · [Resultado original](../captures/v0.2.0/result.txt) · [Hashes dos PNGs](../captures/v0.2.0/SHA256SUMS.txt).
+As regressões anteriores permaneceram: edição do HUD, perfis, nove interruptores reais, atalho Right Shift, eventos de keybinding, capa em movimento, panorama PNG, céu em 2/4 chunks, terreno preservado e horário/clima reais do servidor intactos. Os GIFs usam 12 PNGs originais por edição, sem interpolação, a 8 quadros/s; os PNGs não receberam retoques.
 
-Foram confirmados:
+## Problemas encontrados e corrigidos
 
-- Descoberta da versão 0.2.0 pelo Forge e menu inicial opcional.
-- Carregamento das classes atuais de desenvolvimento, excluindo JARs antigos.
-- Atalho real Right Shift abrindo os painéis flutuantes dentro do mundo.
-- Controles de aparência, desempenho, HUD, céu, efeitos e cosméticos alterando configurações reais.
-- Prévia 3D com rotação/zoom, chapéu curvo, Kabuto/Kitsune, asas e capa texturizada.
-- Movimento visível da capa: 12 quadros com intervalo mínimo de 100 ms; até **132 pixels alterados** na região restrita ao tecido. [Métrica](../captures/v0.2.0/cape-motion-metrics.txt).
-- Céu noturno em quatro e dois chunks, preservando terreno e jogador.
-- Panorama PNG importado desenhado e liberado ao voltar ao céu procedural.
-- Crystal cyan e Sakura rosa visivelmente diferentes no framebuffer, com HUD e partículas reais.
-- Horário do servidor avançando normalmente e estados reais de chuva/trovão preservados.
-- Renderizadores vanilla restaurados ao desativar céu/clima locais; OpenGL sem erros.
-- Perfis salvos/carregados e mundo encerrado pela ação vanilla Save and Quit, retornando ao menu inicial.
+- O corpo da prévia ficava invisível porque uma cor com alpha baixo do fundo era herdada pelo renderizador. O editor define cor branca opaca antes de desenhar o jogador; a validação agora verifica sua pele no framebuffer.
+- O canvas de cores era ocultado pelo estado de profundidade/culling herdado do mundo. Os editores de cores isolam esses estados ao desenhar; um teste de pixels confirma o canvas visível.
+- A lista do HUD podia sobrepor seus botões inferiores e os widgets apareciam sob a sidebar. O cálculo de linhas e o scissor do canvas foram corrigidos.
+- Uma rodada travou ao encerrar o mundo: a ação vanilla 1.8.9 fechava a conexão antes de agendar o shutdown, permitindo que o servidor parasse antes da tarefa. Somente o harness foi alterado para usar `Minecraft.loadWorld(null)` mantendo a conexão até o agendamento normal. As rodadas finais descarregaram o mundo e encerraram o processo com status zero. A Full registrou uma exceção de pacote de chunk tardio após o descarregamento; isso não foi classificado como validação de rede/multiplayer sem erros.
+- Builds incrementais antigos deixavam classes internas de telas removidas. Os pacotes finais foram recompilados com `clean build`, e o script agregado passou a limpar as saídas antes de empacotar.
 
-O GIF da galeria só reúne os 12 PNGs originais da capa, com paleta GIF e reprodução a 8 quadros/s, sem interpolação. Os PNGs não receberam retoques.
-
-## Comandos utilizados
-
-Ferramentas já preparadas em `/workspace/.alien-tools`:
+## Comandos executados
 
 ```bash
-cd /workspace/Alien-Client
-ALIEN_TOOLS_DIR=/workspace/.alien-tools ./gradlew --no-daemon build
-env -u DISPLAY ALIEN_TOOLS_DIR=/workspace/.alien-tools ./scripts/smoke-client.sh
+export ALIEN_TOOLS_DIR=/workspace/.alien-tools
+./gradlew --no-daemon -Pedition=full clean build
+env -u DISPLAY ALIEN_EDITION=full ./scripts/smoke-client.sh
+./gradlew --no-daemon -Pedition=legit clean build
+env -u DISPLAY ALIEN_EDITION=legit ./scripts/smoke-client.sh
 ```
 
-O script abre Xvfb, configura OpenGL por software, executa `./gradlew --no-daemon runSmokeClient`, valida `build/smoke/result.txt` e encerra a tela de teste. O jogo usa `build/smoke-runtime/`; as evidências ficam em `build/smoke/`. Para jogar em uma sessão gráfica local: `./gradlew runClient`.
+O runner usa Xvfb/OpenGL por software e diretórios descartáveis `build/<edition>/smoke-runtime`. Os resultados atuais ficam em `build/<edition>/smoke/`; o mod de teste e classes Minecraft/Forge não entram nos JARs. O verificador inspecionou bytecode, recursos, identidade da edição, origem das classes e reofuscação SRG.
 
-## Falhas encontradas e corrigidas
+## Limites
 
-O primeiro build registrou quatro falhas de expectativa dos testes antigos do HUD: a revisão passou de dez para doze widgets. Os testes foram atualizados para também cobrir os novos elementos e a migração dos layouts existentes; a execução final passou.
+Os testes gráficos executam classes atuais de desenvolvimento, separadas por edição. Os JARs foram compilados/reofuscados/inspecionados; instalação em launcher externo, Windows, GPU física, áudio, OptiFine, outros mods e servidores privados/públicos não foram validados. Consultas online de skin podem usar a aparência padrão; o ambiente não tem dispositivo de áudio. O limite de 30 FPS e os valores visíveis não são benchmark nem promessa de desempenho.
 
-A primeira execução gráfica da revisão encontrou um crash ao consultar `GL_SCISSOR_BOX`: LWJGL 2 exige buffer de 16 inteiros mesmo para uma propriedade com quatro componentes. O editor passou a reservar o tamanho exigido e restaurar os quatro componentes válidos. A revisão visual também encontrou sobreposição do HUD nos títulos dos painéis; o HUD comum agora fica oculto nos editores Alien, que mantêm suas próprias prévias. A execução seguinte passou as 88 verificações e encerrou normalmente.
-
-## Limitações da evidência
-
-O teste gráfico executa as classes de desenvolvimento atuais, com limite de 30 FPS e Mesa llvmpipe por software. Não é um benchmark e não mede comparativos vanilla/Forge/Alien. Nebula possui cobertura de configuração, mas não ganhou uma captura específica nesta rodada.
-
-O JAR foi compilado/reofuscado; instalação em launcher externo, áudio (sem dispositivo disponível), autenticação/multiplayer público, OptiFine, outros sistemas operacionais e hardware gráfico real ainda não foram validados. O jogo usou skin padrão. [Funcionalidades e pendências](FEATURES.md) · [Protocolo de benchmark](BENCHMARKS.md).
+Os 124 checks incluem capturas e guardas de estado; não significam 124 módulos. A mesma suíte JUnit foi executada em ambas as composições. Os limites de recursos/UI estão em [UI-OVERHAUL.md](UI-OVERHAUL.md); módulos avançados Full continuam planejados. Evidências históricas permanecem nos tags anteriores, sem manter as imagens antigas na galeria atual.

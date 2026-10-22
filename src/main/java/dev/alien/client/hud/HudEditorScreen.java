@@ -13,7 +13,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 /** Live layout editor; Escape and Done both persist the current layout. */
-public final class HudEditorScreen extends GuiScreen {
+public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
     private final GuiScreen parent;
     private final List<String> ids = new ArrayList<String>();
     private String selected = "fps";
@@ -27,50 +27,57 @@ public final class HudEditorScreen extends GuiScreen {
 
     private HudConfig cfg() { return HudManager.config(); }
 
+    private int tab;
+    private String status = "Drag widgets on the canvas / Shift bypasses snap";
+    private int rail = 142;
     @Override public void initGui() {
-        Keyboard.enableRepeatEvents(true);
-        ids.clear();
-        for (String id : cfg().widgets.keySet()) if (HudManager.known(id)) ids.add(id);
-        rows = Math.max(1, Math.min(10, (height - 196) / 18));
-        scroll = Math.max(0, Math.min(scroll, Math.max(0, ids.size() - rows)));
+        fontRendererObj=Ui.font(); Keyboard.enableRepeatEvents(true);
+        ids.clear(); for(String id:cfg().widgets.keySet()) if(HudManager.known(id))ids.add(id);
+        rail=Math.min(142,width/3+4);rows=Math.max(1,(height-164)/22);
+        scroll=Math.max(0,Math.min(scroll,Math.max(0,ids.size()-rows)));
         rebuildButtons();
-        custom = new GuiTextField(50, fontRendererObj, 12, height - 40, 146, 16);
-        custom.setMaxStringLength(100);
-        custom.setText(cfg().customText);
+        custom=new dev.alien.client.gui.ui.ModernTextField(50,fontRendererObj,rail+20,height-66,Math.max(70,width-rail-34),20);
+        custom.setMaxStringLength(100);custom.setText(cfg().customText);
     }
-
+    private void button(int id,int x,int y,int w,String label){buttonList.add(new Ui.Button(id,x,y,w,20,label));}
     private void rebuildButtons() {
         buttonList.clear();
-        for (int i = 0; i < rows && scroll + i < ids.size(); i++) {
-            String id = ids.get(scroll + i);
-            buttonList.add(new GuiButton(100 + scroll + i, 10, 56 + i * 18, 150, 17,
-                (cfg().widgets.get(id).enabled ? "[+] " : "[-] ") + HudConfig.label(id)));
+        button(11,width-64,12,52,"Done");button(14,width-164,12,94,"Compact preset");
+        button(40,12,53,(rail-18)/2,"Widgets");button(41,16+(rail-18)/2,53,(rail-18)/2,"Style");
+        if(tab==0){
+            for(int i=0;i<rows && scroll+i<ids.size();i++){
+                String id=ids.get(scroll+i);
+                buttonList.add(new Ui.Button(100+scroll+i,12,81+i*22,rail-12,20,HudConfig.label(id)).selected(id.equals(selected)));
+            }
+            button(20,12,height-78,(rail-18)/2,"Previous");button(21,16+(rail-18)/2,height-78,(rail-18)/2,"Next");
+        }else{
+            int x=12,y=81,w=rail-12;
+            button(13,x,y,w,"Backdrop / "+(cfg().background?"On":"Off"));y+=23;
+            button(42,x,y,w,"Font / "+(cfg().modernFont?"Modern":"Minecraft"));y+=23;
+            button(43,x,y,w,"Gradient / "+(cfg().gradient?"On":"Off"));y+=23;
+            if(height>260){button(44,x,y,w,"Shadow / "+(cfg().shadows?"On":"Off"));y+=23;}
+            button(45,x,y,w,"Opacity / "+Math.round(cfg().opacity*100)+"%");
         }
-        buttonList.add(new GuiButton(20, 10, 35, 42, 17, "Up"));
-        buttonList.add(new GuiButton(21, 54, 35, 42, 17, "Down"));
-        buttonList.add(new GuiButton(10, 100, 35, 60, 17, "Reset"));
-        buttonList.add(new GuiButton(0, 10, height - 132, 95, 18, "Toggle selected"));
-        buttonList.add(new GuiButton(1, 109, height - 132, 24, 18, "-"));
-        buttonList.add(new GuiButton(2, 136, height - 132, 24, 18, "+"));
-        buttonList.add(new GuiButton(3, 10, height - 110, 73, 18, "Snap: " + (cfg().snapToGrid ? "ON" : "OFF")));
-        buttonList.add(new GuiButton(13, 87, height - 110, 73, 18, "Backdrop"));
-        buttonList.add(new GuiButton(4, 10, height - 88, 46, 18, "Left"));
-        buttonList.add(new GuiButton(5, 60, height - 88, 46, 18, "Center"));
-        buttonList.add(new GuiButton(6, 110, height - 88, 50, 18, "Right"));
-        buttonList.add(new GuiButton(7, 10, height - 66, 46, 18, "Top"));
-        buttonList.add(new GuiButton(8, 60, height - 66, 46, 18, "Middle"));
-        buttonList.add(new GuiButton(9, 110, height - 66, 50, 18, "Bottom"));
-        buttonList.add(new GuiButton(11, 10, height - 20, 73, 18, "Done"));
-        buttonList.add(new GuiButton(12, 87, height - 20, 73, 18, "HUD: " + (cfg().enabled ? "ON" : "OFF")));
-        buttonList.add(new Ui.Button(14, width - 102, 4, 92, 18, "Compact preset"));
+        int x=12,y=height-38;int gap=4;
+        button(0,x,y,46,"Toggle");x+=50;button(1,x,y,22,"-");x+=26;button(2,x,y,22,"+");x+=26;
+        button(4,x,y,34,"Left");x+=38;button(5,x,y,42,"Center");x+=46;button(6,x,y,36,"Right");x+=40;
+        if(width>=390)button(3,x,y,60,"Snap / "+(cfg().snapToGrid?"On":"Off"));
+        else button(3,12,height-55,rail-12,"Snap / "+(cfg().snapToGrid?"On":"Off"));
+        if(width>=520){button(7,x+64,y,34,"Top");button(9,x+102,y,44,"Bottom");}
+        button(51,rail+20,53,54,"Export");button(52,rail+78,53,54,"Import");
+        if(width>400)button(46,rail+136,53,64,"Grid / "+(cfg().showGrid?"On":"Off"));
     }
 
-    @Override public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawRect(0, 0, width, height, 0x60101420);
-        if (cfg().snapToGrid) {
-            for (int x = 0; x < width; x += cfg().gridSize) drawRect(x, 28, x + 1, height, 0x112e3655);
-            for (int y = 28; y < height; y += cfg().gridSize) drawRect(0, y, width, y + 1, 0x112e3655);
+    @Override public void drawContents(int mouseX, int mouseY, float partialTicks) {
+        Ui.background(width,height);
+        if (cfg().showGrid) {
+            for(int x=rail+12;x<width;x+=cfg().gridSize*2)for(int y=82;y<height-78;y+=cfg().gridSize*2)
+                drawRect(x,y,x+1,y+1,0x283f4260);
         }
+        org.lwjgl.opengl.GL11.glPushAttrib(org.lwjgl.opengl.GL11.GL_SCISSOR_BIT|org.lwjgl.opengl.GL11.GL_ENABLE_BIT);
+        org.lwjgl.opengl.GL11.glEnable(org.lwjgl.opengl.GL11.GL_SCISSOR_TEST);
+        float pixelScale=framebufferScale();
+        org.lwjgl.opengl.GL11.glScissor(Math.round((rail+14)*pixelScale),Math.round(76*pixelScale),Math.round((width-rail-20)*pixelScale),Math.round((height-158)*pixelScale));
         for (Map.Entry<String, HudConfig.Widget> entry : cfg().widgets.entrySet()) {
             if (!HudManager.known(entry.getKey()) || entry.getValue() == null) continue;
             HudConfig.Widget widget = entry.getValue();
@@ -81,15 +88,18 @@ public final class HudEditorScreen extends GuiScreen {
                 drawRect(b[0] + b[2] - 5, b[1] + b[3] - 5, b[0] + b[2] + 2, b[1] + b[3] + 2, 0xffeeeeff);
             }
         }
-        drawRect(0, 0, width, 27, 0xf0121422);
-        drawString(fontRendererObj, "ALIEN / HUD EDITOR", 10, 8, 0xffd3b5ff);
-        if (width > 720) drawString(fontRendererObj, "Drag / resize / right click to toggle", 175, 8, 0xffc4c7da);
-        drawRect(6, 30, 165, height, 0xed121522);
-        HudConfig.Widget widget = cfg().widgets.get(selected);
-        String label = HudConfig.label(selected) + (widget == null ? "" : String.format(" %.2fx", widget.scale));
-        drawString(fontRendererObj, label, 10, height - 145, 0xffd3b5ff);
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        custom.drawTextBox();
+        org.lwjgl.opengl.GL11.glPopAttrib();
+        Ui.card(6,44,rail+6,height-91);
+        Ui.rounded(6,6,width-12,34,8,AlienClient.get().config().ui.surface);
+        Ui.icon("hud",16,17,13,Ui.accent());
+        fontRendererObj.drawString("HUD Studio",35,16,AlienClient.get().config().ui.text);
+        fontRendererObj.drawString("LIVE LAYOUT",rail+20,85,AlienClient.get().config().ui.muted);
+        String label=HudConfig.label(selected)+" / "+String.format(java.util.Locale.ROOT,"%.1fx",cfg().widgets.get(selected).scale);
+        fontRendererObj.drawString(label,rail+20,height-82,AlienClient.get().config().ui.text);
+        Ui.rounded(6,height-45,width-12,39,7,AlienClient.get().config().ui.surface);
+        super.drawContents(mouseX,mouseY,partialTicks);custom.drawTextBox();
+        dev.alien.client.gui.ui.Notifications.render(width,height);
+        if(height>280)fontRendererObj.drawString(fontRendererObj.trimStringToWidth(status,width-rail-28),rail+20,100,AlienClient.get().config().ui.muted);
     }
 
     private static void outline(int x, int y, int right, int bottom, int color) {
@@ -111,25 +121,37 @@ public final class HudEditorScreen extends GuiScreen {
             case 7: w.y = 0f; break;
             case 8: w.y = Math.max(0, (height - HudManager.bounds(selected, w, width, height)[3]) / 2f) / height; break;
             case 9: w.y = Math.max(0, height - HudManager.bounds(selected, w, width, height)[3]) / (float) height; break;
-            case 10: cfg().widgets.clear(); cfg().ensureDefaults(); break;
+            case 10: mc.displayGuiScreen(new dev.alien.client.gui.ui.ConfirmScreen(this,"Reset HUD","Restore the default widget positions?",()->{cfg().widgets.clear();cfg().ensureDefaults();AlienClient.get().save();}));return;
             case 11: mc.displayGuiScreen(parent); return;
             case 12: cfg().enabled = !cfg().enabled; break;
             case 13: cfg().background = !cfg().background; break;
             case 14: cfg().applyReferencePreset(); selected = "brand"; break;
+            case 40: tab=0;break;
+            case 41: tab=1;break;
+            case 42: cfg().modernFont=!cfg().modernFont;break;
+            case 43: cfg().gradient=!cfg().gradient;break;
+            case 44: cfg().shadows=!cfg().shadows;break;
+            case 45: cfg().opacity=cfg().opacity>.95f?.3f:Math.min(1,cfg().opacity+.1f);break;
+            case 46: cfg().showGrid=!cfg().showGrid;break;
+            case 51: HudLayouts.exportLayout(AlienClient.get().store().directory(),cfg());status="Exported hud/exports/layout.json";break;
+            case 52:
+                try{AlienClient.get().config().hud=HudLayouts.importLayout(AlienClient.get().store().directory());status="HUD layout imported";}
+                catch(IOException failure){status=failure.getMessage();}break;
             case 20: scroll = Math.max(0, scroll - 1); break;
             case 21: scroll = Math.min(Math.max(0, ids.size() - rows), scroll + 1); break;
             default: break;
         }
         AlienClient.get().save();
+        if(button.id==51||button.id==52)dev.alien.client.gui.ui.Notifications.push(status);
         rebuildButtons();
     }
 
     @Override protected void mouseClicked(int x, int y, int button) throws IOException {
         custom.mouseClicked(x, y, button);
-        if (x <= 170 || y < 28) {
+        if (x <= rail+12 || y < 80 || y>height-78) {
             super.mouseClicked(x, y, button);
             // A sidebar entry doubles as a drag handle, including for widgets under the panel.
-            if (button == 0 && x >= 10 && x <= 160 && y >= 56 && y < 56 + rows * 18) {
+            if (button == 0 && tab==0 && x >= 12 && x <= rail && y >= 81 && y < 81 + rows * 22) {
                 dragging = selected;
                 int[] b = HudManager.bounds(selected, cfg().widgets.get(selected), width, height);
                 dragX = b[2] / 2; dragY = b[3] / 2; resizing = false;
@@ -181,7 +203,7 @@ public final class HudEditorScreen extends GuiScreen {
         int delta = Mouse.getEventDWheel();
         if (delta == 0) return;
         int x = Mouse.getEventX() * width / mc.displayWidth;
-        if (x <= 170) {
+        if (x <= rail+12) {
             scroll = Math.max(0, Math.min(Math.max(0, ids.size() - rows), scroll + (delta > 0 ? -1 : 1)));
             rebuildButtons();
         } else {

@@ -31,13 +31,17 @@ public final class WorldManager {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final IRenderHandler sky = new Sky();
     private final IRenderHandler weather = new Weather();
+    private final IRenderHandler hiddenClouds = new IRenderHandler() {
+        @Override public void render(float partialTicks, WorldClient world, Minecraft minecraft) { }
+    };
+    public static ResourceLocation importedPreview;
     private final List<Particle> particles = new ArrayList<Particle>();
     private final Random random = new Random(0xA11E);
     private final double[][] starGeometry = createStars();
     private final double[][] skyLatitude = angles(25, -Math.PI / 2, Math.PI / 24);
     private final double[][] skyAzimuth = angles(65, 0, Math.PI * 2 / 64);
     private WorldProvider provider;
-    private IRenderHandler previousSky, previousWeather;
+    private IRenderHandler previousSky, previousWeather, previousClouds;
     private ResourceLocation importedSky;
     private String importedKey = "";
     private boolean wasGrounded;
@@ -70,7 +74,7 @@ public final class WorldManager {
         WorldProvider next = mc.theWorld == null ? null : mc.theWorld.provider;
         if (provider != next) {
             restore(); provider = next;
-            if (provider != null) { previousSky = provider.getSkyRenderer(); previousWeather = provider.getWeatherRenderer(); }
+            if (provider != null) { previousSky = provider.getSkyRenderer(); previousWeather = provider.getWeatherRenderer(); previousClouds = provider.getCloudRenderer(); }
             particles.clear(); wasGrounded = false;
         }
         if (provider == null) return;
@@ -87,6 +91,10 @@ public final class WorldManager {
         if (replaceWeather && provider.getWeatherRenderer() != weather) {
             previousWeather = provider.getWeatherRenderer(); provider.setWeatherRenderer(weather);
         } else if (!replaceWeather && provider.getWeatherRenderer() == weather) provider.setWeatherRenderer(previousWeather);
+        boolean hideClouds = surface && settings.enabled && "Hidden".equals(settings.cloudMode);
+        if (hideClouds && provider.getCloudRenderer() != hiddenClouds) {
+            previousClouds = provider.getCloudRenderer(); provider.setCloudRenderer(hiddenClouds);
+        } else if (!hideClouds && provider.getCloudRenderer() == hiddenClouds) provider.setCloudRenderer(previousClouds);
         tickParticles();
     }
 
@@ -98,6 +106,7 @@ public final class WorldManager {
         if (provider == null) return;
         if (provider.getSkyRenderer() == sky) provider.setSkyRenderer(previousSky);
         if (provider.getWeatherRenderer() == weather) provider.setWeatherRenderer(previousWeather);
+        if (provider.getCloudRenderer() == hiddenClouds) provider.setCloudRenderer(previousClouds);
     }
 
     private void loadSkybox(String name) {
@@ -111,10 +120,11 @@ public final class WorldManager {
             }
             if (key.equals(importedKey)) return;
             importedKey = key;
-            if (importedSky != null) { mc.getTextureManager().deleteTexture(importedSky); importedSky = null; }
+            if (importedSky != null) { importedPreview = null; mc.getTextureManager().deleteTexture(importedSky); importedSky = null; }
             if (file == null) { lastImportMessage = "Procedural sky active"; return; }
             BufferedImage image=SkyboxLoader.read(file);
             importedSky = mc.getTextureManager().getDynamicTextureLocation("alien_sky", new DynamicTexture(image));
+            importedPreview = importedSky;
             lastImportMessage = "Loaded " + file.getName();
         } catch (IOException | RuntimeException failure) {
             importedKey = key;
@@ -295,14 +305,14 @@ public final class WorldManager {
                     // Raw bind stays inside glPushAttrib, leaving GlStateManager's cached binding unchanged.
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                     GL11.glBindTexture(GL11.GL_TEXTURE_2D, minecraft.getTextureManager().getTexture(importedSky).getGlTextureId());
-                    GL11.glColor4f(1, 1, 1, 1);
+                    GL11.glColor4f(Math.min(1,settings.brightness), Math.min(1,settings.brightness), Math.min(1,settings.brightness), 1);
                 } else GL11.glDisable(GL11.GL_TEXTURE_2D);
                 for (int band = 0; band < 24; band++) {
                     GL11.glBegin(GL11.GL_QUAD_STRIP);
                     for (int segment = 0; segment <= 64; segment++) {
                         for (int j = 0; j < 2; j++) {
                             double[] latitude=skyLatitude[band+j],azimuth=skyAzimuth[segment];
-                            if (importedSky == null) rgb(mix(settings.skyBottom, settings.skyTop, (float)Math.max(0, latitude[0])), 1);
+                            if (importedSky == null) rgb(settings.skyColor(mix(settings.skyBottom, settings.skyTop, (float)Math.max(0, latitude[0]))), 1);
                             GL11.glTexCoord2f(segment / 64F, 1F - (band + j) / 24F);
                             GL11.glVertex3d(azimuth[1]*latitude[1]*100D,latitude[0]*100D,azimuth[0]*latitude[1]*100D);
                         }
@@ -326,7 +336,7 @@ public final class WorldManager {
                 if (settings.sunMoon) {
                     GL11.glPushMatrix();
                     GL11.glRotated(Math.toDegrees(angle), 0D, 0D, 1D);
-                    disk(90D, 5D, 0xFFE2AE); disk(-90D, 3.5D, 0xDAD9F9);
+                    disk(90D, 5D * settings.sunSize, 0xFFE2AE); disk(-90D, 3.5D * settings.moonSize, 0xDAD9F9);
                     GL11.glPopMatrix();
                 }
             } finally { GL11.glPopMatrix(); GL11.glPopAttrib(); }

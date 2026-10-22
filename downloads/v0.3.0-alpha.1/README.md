@@ -9,6 +9,6 @@
 
 Use Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8. Escolha **um** JAR e coloque em `mods`, removendo a versão Alien anterior. Os dois têm o mesmo ID Forge e não devem ser carregados juntos. Right Shift abre o menu.
 
-Ambas as composições passaram em 91 testes JUnit e 100 verificações gráficas em Minecraft/Forge real. [70 imagens reais](../../captures/editions/README.md) · [Relatório e comandos](../../docs/VALIDATION-EDITIONS.md) · [SHA-256](SHA256SUMS.txt).
+Ambas as composições passaram em 91 testes JUnit e 100 verificações gráficas em Minecraft/Forge real. [70 imagens reais](https://github.com/AttackAlien/Alien-Client/blob/v0.3.0-alpha.1/captures/editions/README.md) · [Relatório e comandos](../../docs/VALIDATION-EDITIONS.md) · [SHA-256](SHA256SUMS.txt).
 
 Os JARs foram reofuscados e inspecionados; a instalação em launcher externo e servidores privados/públicos ainda não foi validada. Sem benchmark de FPS, OptiFine ou GPU real.

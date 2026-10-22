@@ -1,0 +1,40 @@
+package dev.alien.client.gui.ui;
+
+import dev.alien.client.AlienClient;
+import dev.alien.client.gui.Ui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.Locale;
+import java.util.function.IntConsumer;
+
+/** Shared live HSV canvas, RGBA channels and HEX entry; no simulated color controls. */
+public final class ColorPickerScreen extends dev.alien.client.gui.PremiumScreen {
+    private final GuiScreen parent;private final String title;private final boolean allowAlpha;private final IntConsumer setter;
+    private float hue,saturation,brightness,opacity=1;private int color,left,top,panelW,panelH,svX,svY,svW,svH,drag;
+    private ModernTextField hex;private final ModernTextField[] channels=new ModernTextField[4];private String error="";
+    public ColorPickerScreen(GuiScreen parent,String title,int initial,boolean allowAlpha,IntConsumer setter){this.parent=parent;this.title=title;this.allowAlpha=allowAlpha;this.setter=setter;setFrom(initial,false);}
+    public ColorPickerScreen(GuiScreen parent,int initial,IntConsumer setter){this(parent,"Color studio",initial,false,setter);}
+    private void setFrom(int argb,boolean publish){color=allowAlpha?argb:argb|0xff000000;float[] hsv=Color.RGBtoHSB((color>>16)&255,(color>>8)&255,color&255,null);hue=hsv[0];saturation=hsv[1];brightness=hsv[2];opacity=(color>>>24)/255f;if(publish){setter.accept(color);refreshUnfocused();}}
+    @Override public void initGui(){fontRendererObj=Ui.font();Keyboard.enableRepeatEvents(true);panelW=Math.min(470,width-24);panelH=Math.min(283,height-24);left=(width-panelW)/2;top=(height-panelH)/2;svX=left+16;svY=top+48;svW=(panelW-49)*55/100;svH=Math.max(53,panelH-127);int rx=svX+svW+17,rw=left+panelW-rx-16;hex=new ModernTextField(0,fontRendererObj,rx,svY+26,rw,23).placeholder("#RRGGBB");hex.setMaxStringLength(allowAlpha?9:7);for(int i=0;i<4;i++){channels[i]=new ModernTextField(i+1,fontRendererObj,rx+(i%2)*(rw+6)/2,svY+65+(i/2)*36,(rw-6)/2,22);channels[i].setMaxStringLength(3);}buttonList.clear();buttonList.add(new Ui.Button(1,left+panelW-86,top+panelH-34,70,22,"Done"));buttonList.add(new Ui.Button(2,left+16,top+panelH-34,92,22,"Reset opacity"));buttonList.get(1).visible=allowAlpha;refreshFields();}
+    private void refreshFields(){if(hex==null)return;hex.setText(String.format(Locale.ROOT,allowAlpha?"#%08X":"#%06X",allowAlpha?color:color&0xffffff));int[] rgba={(color>>16)&255,(color>>8)&255,color&255,color>>>24};for(int i=0;i<4;i++)channels[i].setText(Integer.toString(rgba[i]));}
+    private void refreshUnfocused(){if(hex==null)return;if(!hex.isFocused())hex.setText(String.format(Locale.ROOT,allowAlpha?"#%08X":"#%06X",allowAlpha?color:color&0xffffff));int[] rgba={(color>>16)&255,(color>>8)&255,color&255,color>>>24};for(int i=0;i<4;i++)if(!channels[i].isFocused())channels[i].setText(Integer.toString(rgba[i]));}
+    private void updateColor(){int rgb=Color.HSBtoRGB(hue,saturation,brightness)&0xffffff;int next=(Math.round((allowAlpha?opacity:1)*255)<<24)|rgb;if(next!=color){color=next;setter.accept(color);refreshFields();}error="";}
+    @Override public void drawContents(int mx,int my,float pt){Ui.background(width,height);Ui.card(left,top,panelW,panelH);Ui.icon("color",left+16,top+14,15,Ui.accent());Ui.text(title,left+39,top+16,Ui.theme().text);Ui.text("HSV canvas",svX,svY-16,Ui.theme().muted);drawSV();float px=svX+saturation*svW,py=svY+(1-brightness)*svH;Ui.rounded(px-3,py-3,6,6,3,0xff11121a);Ui.rounded(px-2,py-2,4,4,2,0xffffffff);int hy=svY+svH+10;for(int i=0;i<svW;i++)drawRect(svX+i,hy,svX+i+1,hy+7,0xff000000|Color.HSBtoRGB(i/(float)Math.max(1,svW-1),1,1));Ui.rounded(svX+hue*svW-2,hy-2,4,11,2,0xffffffff);if(allowAlpha){int ay=hy+18;checker(svX,ay,svW,7);for(int i=0;i<svW;i++)drawRect(svX+i,ay,svX+i+1,ay+7,(Math.round(i/(float)Math.max(1,svW-1)*255)<<24)|(color&0xffffff));Ui.rounded(svX+opacity*svW-2,ay-2,4,11,2,0xffffffff);}int rx=hex.xPosition;Ui.text(allowAlpha?"ARGB / HEX":"RGB / HEX",rx,svY-16,Ui.theme().muted);checker(rx,svY,hex.width,17);Ui.rounded(rx,svY,hex.width,17,3,color);hex.drawTextBox();String[] labels={"RED","GREEN","BLUE","ALPHA"};for(int i=0;i<(allowAlpha?4:3);i++){Ui.text(labels[i],channels[i].xPosition,channels[i].yPosition-10,Ui.theme().muted);channels[i].drawTextBox();}Ui.text(error.isEmpty()?"Drag to preview live":error,svX,top+panelH-47,error.isEmpty()?Ui.theme().muted:0xffff8799);for(GuiButton b:buttonList)b.drawButton(mc,mx,my);}
+    private void drawSV(){int pure=0xff000000|Color.HSBtoRGB(hue,1,1);GL11.glPushAttrib(GL11.GL_ENABLE_BIT|GL11.GL_CURRENT_BIT|GL11.GL_COLOR_BUFFER_BIT|GL11.GL_LIGHTING_BIT|GL11.GL_DEPTH_BUFFER_BIT);try{GL11.glDisable(GL11.GL_TEXTURE_2D);GL11.glDisable(GL11.GL_DEPTH_TEST);GL11.glDisable(GL11.GL_CULL_FACE);GL11.glDisable(GL11.GL_LIGHTING);GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glDepthMask(false);GL11.glDisable(GL11.GL_DEPTH_TEST);GL11.glDisable(GL11.GL_CULL_FACE);GL11.glDisable(GL11.GL_LIGHTING);GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glEnable(GL11.GL_BLEND);GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);GL11.glShadeModel(GL11.GL_SMOOTH);GL11.glBegin(GL11.GL_QUADS);c(0xffffffff);GL11.glVertex2f(svX,svY);c(pure);GL11.glVertex2f(svX+svW,svY);c(0xff000000);GL11.glVertex2f(svX+svW,svY+svH);c(0xff000000);GL11.glVertex2f(svX,svY+svH);GL11.glEnd();}finally{GL11.glPopAttrib();}}
+    private static void c(int color){GL11.glColor4f(((color>>16)&255)/255f,((color>>8)&255)/255f,(color&255)/255f,(color>>>24)/255f);}
+    private static void checker(int x,int y,int w,int h){for(int xx=0;xx<w;xx+=5)for(int yy=0;yy<h;yy+=5)drawRect(x+xx,y+yy,x+Math.min(w,xx+5),y+Math.min(h,yy+5),((xx/5+yy/5)&1)==0?0xff545565:0xff343540);}
+    private void sample(int x,int y){if(drag==1){saturation=clamp((x-svX)/(float)svW);brightness=1-clamp((y-svY)/(float)svH);}else if(drag==2)hue=clamp((x-svX)/(float)svW);else if(drag==3)opacity=clamp((x-svX)/(float)svW);updateColor();}
+    private static float clamp(float n){return Math.max(0,Math.min(1,n));}
+    @Override protected void mouseClicked(int x,int y,int button)throws IOException{hex.mouseClicked(x,y,button);for(int i=0;i<(allowAlpha?4:3);i++)channels[i].mouseClicked(x,y,button);if(button==0&&x>=svX&&x<=svX+svW){if(y>=svY&&y<=svY+svH)drag=1;else if(y>=svY+svH+7&&y<=svY+svH+20)drag=2;else if(allowAlpha&&y>=svY+svH+25&&y<=svY+svH+38)drag=3;if(drag!=0){sample(x,y);return;}}super.mouseClicked(x,y,button);}
+    @Override protected void mouseClickMove(int x,int y,int button,long time){if(button==0&&drag!=0)sample(x,y);}
+    @Override protected void mouseReleased(int x,int y,int button){drag=0;super.mouseReleased(x,y,button);}
+    @Override protected void actionPerformed(GuiButton b){if(b.id==1){AlienClient.get().save();mc.displayGuiScreen(parent);}else if(b.id==2){opacity=1;updateColor();}}
+    @Override protected void keyTyped(char ch,int key)throws IOException{if(key==Keyboard.KEY_ESCAPE){mc.displayGuiScreen(parent);return;}boolean changed=hex.textboxKeyTyped(ch,key);for(int i=0;i<(allowAlpha?4:3);i++)changed|=channels[i].textboxKeyTyped(ch,key);if(!changed)return;try{if(hex.isFocused()){String text=hex.getText().replace("#","");int required=allowAlpha?8:6;if(text.length()!=required)return;long parsed=Long.parseLong(text,16);setFrom((int)parsed|(!allowAlpha?0xff000000:0),true);}else{int[] rgba={(color>>16)&255,(color>>8)&255,color&255,color>>>24};for(int i=0;i<4;i++)if(channels[i].isFocused()){int val=Integer.parseInt(channels[i].getText());if(val<0||val>255)throw new NumberFormatException();rgba[i]=val;}setFrom((rgba[3]<<24)|(rgba[0]<<16)|(rgba[1]<<8)|rgba[2],true);}error="";}catch(NumberFormatException invalid){error="Use HEX or channels 0–255";}}
+    @Override public void updateScreen(){hex.updateCursorCounter();for(ModernTextField field:channels)field.updateCursorCounter();}
+    @Override public void onGuiClosed(){Keyboard.enableRepeatEvents(false);AlienClient.get().save();}
+    @Override public boolean doesGuiPauseGame(){return false;}
+}

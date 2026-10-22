@@ -8,6 +8,8 @@ import dev.alien.client.world.EffectsConfig;
 import dev.alien.client.world.WorldConfig;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import dev.alien.client.gui.theme.ThemeConfig;
+import dev.alien.client.gui.InterfacePreferences;
 
 /** Versioned, client-only preferences. No server state belongs here. */
 public final class ClientConfig {
@@ -24,6 +26,8 @@ public final class ClientConfig {
     public String theme = "Nebula";
     public String menuLayout = "Panels";
     public PanelLayoutConfig panels = new PanelLayoutConfig();
+    public ThemeConfig ui = new ThemeConfig();
+    public InterfacePreferences interfacePrefs = new InterfacePreferences();
     public HudConfig hud = new HudConfig();
     public CosmeticConfig cosmetics = new CosmeticConfig();
     public WorldConfig world = new WorldConfig();
@@ -48,6 +52,10 @@ public final class ClientConfig {
         if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout)) menuLayout = "Panels";
         if (panels == null) panels = new PanelLayoutConfig();
         panels.normalize();
+        if (ui == null) ui = new ThemeConfig();
+        ui.normalize();
+        if (interfacePrefs == null) interfacePrefs = new InterfacePreferences();
+        interfacePrefs.normalize();
         if (hud == null) hud = new HudConfig();
         if (cosmetics == null) cosmetics = new CosmeticConfig();
         if (world == null) world = new WorldConfig();

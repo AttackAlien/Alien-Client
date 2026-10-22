@@ -10,6 +10,12 @@ public final class HudConfig {
     public boolean hideWithDebug = true;
     public boolean snapToGrid = true;
     public int gridSize = 8;
+    public boolean showGrid = true;
+    public float opacity = .88f;
+    public boolean modernFont = true;
+    public boolean gradient = true;
+    public boolean borders = true;
+    public boolean shadows = true;
     public String customText = "Alien Client";
     public Map<String, Widget> widgets = new LinkedHashMap<String, Widget>();
 
@@ -32,6 +38,7 @@ public final class HudConfig {
         add("performance", false, .35f, .04f);
         add("text", false, .45f, .15f);
         gridSize = Math.max(1, Math.min(32, gridSize));
+        opacity = Float.isFinite(opacity) ? Math.max(.15f, Math.min(1, opacity)) : .88f;
         if (customText == null) customText = "Alien Client";
         if (customText.length() > 100) customText = customText.substring(0, 100);
         for (Widget widget : widgets.values()) if (widget != null) widget.sanitize();

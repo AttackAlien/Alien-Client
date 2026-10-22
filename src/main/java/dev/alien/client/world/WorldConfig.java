@@ -13,6 +13,11 @@ public final class WorldConfig {
     public int visualHour = 18;
     public boolean sunMoon = true;
     public int stars = 320;
+    public float brightness = 1f;
+    public float sunSize = 1f;
+    public float moonSize = 1f;
+    /** Vanilla preserves the user's cloud renderer; Hidden installs a local empty renderer. */
+    public String cloudMode = "Vanilla";
     /** Server, Clear, Rain, Snow or Storm. Only the precipitation renderer changes. */
     public String weather = "Server";
     public float weatherIntensity = 0.5F;
@@ -27,9 +32,20 @@ public final class WorldConfig {
         if (skyboxFile == null || skyboxFile.length() > 160) skyboxFile = "";
         visualHour = Math.max(0, Math.min(23, visualHour));
         stars = Math.max(0, Math.min(1000, stars));
+        brightness = dev.alien.client.config.ClientConfig.clamp(brightness,.25f,1.5f);
+        sunSize = dev.alien.client.config.ClientConfig.clamp(sunSize,.2f,2f);
+        moonSize = dev.alien.client.config.ClientConfig.clamp(moonSize,.2f,2f);
+        if (!"Vanilla".equals(cloudMode) && !"Hidden".equals(cloudMode)) cloudMode = "Vanilla";
         fogDensity = Float.isNaN(fogDensity) ? 0.003F : Math.max(0.0001F, Math.min(0.04F, fogDensity));
         weatherIntensity = Float.isNaN(weatherIntensity) ? 0.5F : Math.max(0F, Math.min(1F, weatherIntensity));
         skyTop &= 0xFFFFFF; skyBottom &= 0xFFFFFF; fogColor &= 0xFFFFFF;
+    }
+
+    public int skyColor(int color) {
+        int r=Math.min(255,Math.max(0,Math.round(((color>>16)&255)*brightness)));
+        int g=Math.min(255,Math.max(0,Math.round(((color>>8)&255)*brightness)));
+        int b=Math.min(255,Math.max(0,Math.round((color&255)*brightness)));
+        return (r<<16)|(g<<8)|b;
     }
 
     public void applyTheme(String next) {

@@ -1,72 +1,45 @@
-# Alien Client
+# Alien Client — interface 0.4.0-alpha.1
 
-Mod de personalização **local** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
+Personalização local para **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**, com builds Legit e Full separados. A Full continua como prévia de arquitetura: módulos avançados de combate, movimento, ESP e automação ainda não estão implementados.
 
-A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. Não há funcionalidades de combate, automação, alteração de atributos ou sincronização de cosméticos pela rede.
+**[VER AS IMAGENS NOVAS DO REDESIGN](captures/README.md)** · [Baixar Legit ou Full](downloads/v0.4.0-alpha.1/README.md) · [Release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.4.0-alpha.1)
 
-## Baixar
+![Menu real do novo Alien Client](captures/atual/legit/01-title.png)
 
-**[Baixar Legit ou Full — 0.3.0-alpha.1](downloads/v0.3.0-alpha.1/README.md)** · [70 capturas reais das duas edições](captures/editions/README.md) · [Testes e comandos](docs/VALIDATION-EDITIONS.md). **A Full é uma prévia de arquitetura, sem módulos avançados implementados.** Instale uma edição por vez.
+A galeria atual contém somente capturas do redesign 0.4, obtidas no Minecraft/Forge real. As imagens antigas foram removidas da branch principal. Tags/releases anteriores preservam seu histórico.
 
-Base visual anterior:
+## O que mudou
 
-**[Baixar Alien Client 0.2.0.jar](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/downloads/alien-client-0.2.0.jar?raw=true)** · [Página da release](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.2.0) — pré-release para testes.
+Fonte Open Sans suavizada, painéis arredondados, sombras, componentes próprios, ícones vetoriais, seis temas persistentes, seletor HSV/RGBA/HEX e desfoque opcional real. O ClickGUI ganhou sidebar, pesquisa, filtros, favoritos e editor de atalhos. Cosmetic Studio, World Studio, HUD Studio, temas, configurações e efeitos usam o mesmo sistema visual.
 
-Baixe o JAR pelo link acima e coloque em `mods`. Requer **Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8**. O binário está versionado na pasta [downloads](downloads/), com SHA-256. O projeto para desenvolvimento está em [Source code (ZIP)](https://github.com/AttackAlien/Alien-Client/archive/refs/tags/v0.2.0.zip).
-
-**[Ver as capturas reais e a capa em movimento](captures/README.md)** · [Resultados e limitações da validação](docs/VALIDATION.md)
-
-## Compilar e testar
-
-Linux x86_64, com `bash`, `curl`, `tar`, `unzip`, `sha256sum` e Python 3.9+:
-
-```bash
-./scripts/bootstrap.sh
-./gradlew -Pedition=legit setupDecompWorkspace build
-./gradlew -Pedition=full setupDecompWorkspace build
-```
-
-O bootstrap instala Temurin **8u472** e Gradle **2.14.1** em `.tools/`, verificando SHA-256. O projeto usa **ForgeGradle 2.1**, mappings **stable_22** e TLS verificado. Não use Java 17/21 para executar esse ForgeGradle legado. A preparação baixa os arquivos originais do Minecraft; nenhuma cópia é incluída no mod.
-
-Neste ambiente preparado, as ferramentas ficam fora do checkout:
-
-```bash
-export ALIEN_TOOLS_DIR=/workspace/.alien-tools
-./gradlew -Pedition=legit build
-./gradlew -Pedition=full build
-```
-
-Saídas:
-
-- Mods reofuscados: `build/legit/libs/AlienClient-Legit-1.8.9.jar` e `build/full/libs/AlienClient-Full-1.8.9.jar`; instale um por vez.
-- Relatórios: `build/legit/reports/tests/index.html` e `build/full/reports/tests/index.html`.
-- Cliente gráfico: `./gradlew -Pedition=legit runClient` ou `-Pedition=full runClient`.
-- Validação completa das duas composições: `./scripts/build-editions.sh`; após aprovação, os dois binários ficam em `build/releases/`.
-
-No Windows, instale um JDK 8, configure `JAVA_HOME` e execute `gradlew.bat -Pedition=legit setupDecompWorkspace build`. O wrapper verifica o SHA-256 da distribuição Gradle. A execução Windows não foi validada nesta máquina Linux.
+Os motores existentes foram preservados: cosméticos curvos, capa animada, prévia 3D/UUID, céu/PNG, clima local, partículas, HUD e perfis. Veja [detalhes do redesign e seus limites](docs/UI-OVERHAUL.md), [arquitetura das edições](docs/EDITIONS.md) e [validação](docs/VALIDATION.md).
 
 ## Instalar e usar
 
-1. Instale o Forge **1.8.9-11.15.1.2318** no Minecraft Java 1.8.9 e use Java 8.
-2. Copie **somente** `alien-client-0.2.0.jar` para a pasta `mods` dessa instalação.
-3. Entre em um mundo e pressione **Right Shift**. O atalho pode ser alterado no menu Alien ou nos controles do Minecraft.
-4. Use os painéis flutuantes; arraste os cabeçalhos, role cada coluna e clique com o botão direito para abrir seu editor. **Settings** abre o menu Studio e permite alternar entre os dois layouts. As preferências ficam em `.minecraft/config/alien-client/`.
+1. Instale Minecraft Java 1.8.9, Forge 11.15.1.2318 e Java 8.
+2. Baixe **um único** JAR Legit ou Full e coloque em `mods`, removendo a versão Alien anterior. Os dois têm o mesmo ID Forge e não devem ser carregados juntos.
+3. Entre em um mundo e pressione **Right Shift**. Clique em um cartão para ver detalhes/editar a tecla; a estrela marca favoritos. Settings abre preferências/perfis e Themes abre o Theme Studio.
+4. As configurações Legit ficam em `config/alien-client/`; Full usa `config/alien-client-full/`. [Formatos de importação](docs/IMPORTS.md).
 
-Atalhos individuais dos nove interruptores principais podem ser definidos em **Options → Controls → Alien Modules** na revisão de arquitetura. Começam sem tecla e são salvos por perfil. A Full usa `config/alien-client-full/`, separado da Legit.
+No Cosmetic Studio, arraste a prévia para girar e use a roda para zoom. No HUD Studio, arraste/redimensione widgets; Shift ignora o snap. O Theme Studio compartilha tipografia, cores, transparência, raio, sombras e movimento entre os menus. Blur começa desligado; reduzir animações preserva trabalho gráfico.
 
-O menu inicial Alien é opcional: desative **Appearance → Home menu** para voltar ao menu padrão. O botão **Mods** continua disponível. Efeitos, céu e alterações de clima começam desativados; o HUD começa ativado.
+## Compilar e validar
 
-## Editores
+Linux x86_64 com bash, curl, tar, unzip, sha256sum e Python 3.9+:
 
-- **HUD Editor:** selecione e arraste os elementos; use a alça/canto ou a roda para redimensionar. A grade e os botões de alinhamento ajudam a organizar o layout. Há FPS, CPS esquerdo/direito, teclas, coordenadas, ping, relógio, inventário, armadura, memória/frame time, texto, marca Alien e lista dos efeitos visuais ativos. O **Compact preset** organiza o HUD branco sem fundo.
-- **Cosmetic Studio:** escolha chapéus curvos, máscara/óculos, asas, mochila, charm ou capa de tecido com emblema original. Arraste a prévia para girar em 360° e use a roda para zoom. Fit controla posição, rotação e escala; Motion ajusta ondulação, tamanho e detalhe da capa. Players seleciona jogadores presentes e preferências por UUID. A prévia 3D exige um jogador carregado.
-- **World Studio:** ative céu local, escolha um tema ou importe um panorama PNG, ajuste o horário visual e a neblina. Os presets **Crystal**, **Sakura** e **Nebula** combinam céu e partículas de diamantes, pétalas ou faíscas. Weather controla apenas a precipitação desenhada. O horário de iluminação dos blocos e as condições do servidor permanecem reais.
-- **Effects Studio:** controle movimento, aterrissagem, trilhas, qualidade, distância e quantidade. Camera / color filter oferece rotação visual leve e uma sobreposição de cor opcional.
-- **Appearance:** RGB, transparência, velocidade das animações, cores e biblioteca de temas.
-- **Profiles:** salve, carregue, importe e exporte um conjunto completo. Para associar um perfil a um servidor, salve-o, entre no servidor e use **Bind current server**. Ao sair, a configuração global é restaurada; alterações no perfil do servidor não sobrescrevem os padrões globais.
+```bash
+./scripts/bootstrap.sh
+export ALIEN_TOOLS_DIR=/workspace/.alien-tools
+./gradlew --no-daemon -Pedition=legit setupDecompWorkspace clean build
+./gradlew --no-daemon -Pedition=full setupDecompWorkspace clean build
+env -u DISPLAY ALIEN_EDITION=legit ./scripts/smoke-client.sh
+env -u DISPLAY ALIEN_EDITION=full ./scripts/smoke-client.sh
+```
 
-Nomes de perfis e temas usam letras, números, `_` e `-`. Veja os diretórios e formatos em [importações](docs/IMPORTS.md).
+O bootstrap verifica Temurin 8u472 e Gradle 2.14.1. ForgeGradle 2.1 usa mappings stable_22 e TLS verificado. Em uma máquina local, omita o export para usar `.tools/`. Não use Java 17/21 nesse ForgeGradle legado.
 
-Os perfis **Competitive**, **Balanced** e **Cinematic** alteram os limites de efeitos Alien. Não pressupõem ganho de FPS e não modificam as opções gráficas vanilla. Use o HUD de desempenho e o [protocolo de benchmark](docs/BENCHMARKS.md) para medir sua máquina.
+`./scripts/build-editions.sh` executa clean builds, inspeção dos binários e smoke gráfico das duas composições antes de copiar os JARs para `build/releases/`. Saídas individuais: `build/<edition>/libs/AlienClient-<Legit|Full>-1.8.9.jar`, relatórios em `build/<edition>/reports/tests/`, screenshots/resultados em `build/<edition>/smoke/`.
 
-Veja também [arquitetura e desenvolvimento](docs/DEVELOPMENT.md), [validação](docs/VALIDATION.md) e [dependências e licenças](docs/THIRD_PARTY.md).
+Com sessão gráfica local: `./gradlew -Pedition=legit runClient`, ou selecione full. Windows requer JDK 8 e `gradlew.bat -Pedition=legit setupDecompWorkspace clean build`; essa execução não foi validada nesta máquina Linux. O formato continua sendo mod Forge compatível com um futuro launcher; não há executável/launcher independente implementado.
+
+[Desenvolvimento](docs/DEVELOPMENT.md) · [Dependências e licenças](docs/THIRD_PARTY.md) · [Auditoria/master plan](docs/ARCHITECTURE-AUDIT.md) · [Protocolo de benchmark](docs/BENCHMARKS.md).

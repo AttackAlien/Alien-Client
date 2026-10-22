@@ -77,6 +77,10 @@ public final class AlienIntegrationSmoke {
     private boolean keysPrepared;
     private boolean skyBeforeKeys;
     private Integer savedSkyKey;
+    private int responsiveStep;
+    private long blurFramesBefore;
+    private boolean responsiveDone;
+    private int pickerColor;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception {
@@ -96,12 +100,12 @@ public final class AlienIntegrationSmoke {
         if (done || !disconnectRequested || event.phase != TickEvent.Phase.START) return;
         disconnectRequested = false;
         try {
-            // Use the game's own Save and Quit action while its server is still
-            // alive. Closing the channel a frame earlier can auto-stop the
-            // server before initiateShutdown schedules its final task.
-            mc.displayGuiScreen(new GuiIngameMenu());
-            click(1);
-        } catch (Exception failure) { throw new RuntimeException("Vanilla Save and Quit failed", failure); }
+            // Keep the connection alive until Minecraft schedules its integrated-server
+            // shutdown task. The 1.8.9 menu closes the channel first, which can race
+            // the server auto-stop and wait forever on a task after that thread ends.
+            mc.loadWorld((net.minecraft.client.multiplayer.WorldClient)null);
+            mc.displayGuiScreen(new GuiMainMenu());
+        } catch (Exception failure) { throw new RuntimeException("Minecraft world teardown failed", failure); }
     }
 
     @SubscribeEvent
@@ -345,6 +349,17 @@ public final class AlienIntegrationSmoke {
                     require(Math.abs(studio.previewZoom() - 1.1f) < .01f,
                             "Cosmetic preview supports bounded user-selected zoom");
                     capture("14-smooth-kasa-and-cloth-front");
+                    BufferedImage character=ImageIO.read(new File(output,"screenshots/14-smooth-kasa-and-cloth-front.png"));
+                    int[] canvas=studio.previewCanvasBounds();double unit=Math.min(100,(canvas[3]-11)/2.4)*studio.previewZoom();
+                    double baseline=canvas[1]+canvas[3]-4,center=canvas[0]+canvas[2]/2.;
+                    double px=character.getWidth()/(double)studio.width,py=character.getHeight()/(double)studio.height;
+                    int warm=0;
+                    for(int yy=(int)((baseline-unit*1.79)*py);yy<(baseline-unit*1.56)*py;yy++)
+                        for(int xx=(int)((center-unit*.13)*px);xx<(center+unit*.13)*px;xx++){
+                            int rgb=character.getRGB(xx,yy),r=rgb>>16&255,g=rgb>>8&255,b=rgb&255;
+                            if(r>g*1.12 && r>b*1.2 && r>35)warm++;
+                        }
+                    require(warm>10,"The live cosmetic preview renders the player's skin as well as the accessory meshes");
                     setPreviewPose(180, 1.1f);
                     liveScreenStage = 5; since = System.nanoTime(); return;
                 }
@@ -470,13 +485,13 @@ public final class AlienIntegrationSmoke {
                         "Atmosphere presets leave actual server rain and thunder unchanged");
                 require(GL11.glGetError() == GL11.GL_NO_ERROR,
                         "Ambient particles and restored sky preserve a clean OpenGL state");
-                AlienClient.get().store().deleteProfile("smoke_integration");
+
                 // Request the actual vanilla menu action at the next tick.
                 // Keep the channel open until that synchronous action runs.
-                disconnectRequested = true;
                 next(); return;
             }
             case 14:
+                if (!responsiveDone) { responsiveScreens(); return; }
                 if (mc.theWorld != null) return;
                 require(true, "Normal connection teardown unloads the disposable world");
                 mc.displayGuiScreen(new GuiMainMenu());
@@ -496,6 +511,68 @@ public final class AlienIntegrationSmoke {
                 return;
             default: throw new AssertionError("Unknown stage " + stage);
         }
+    }
+
+    private void responsiveScreens() throws Exception {
+        if(responsiveStep==0){
+            config().ui.blur=.6f;config().ui.font="Modern";config().rainbowAccent=false;
+            blurFramesBefore=dev.alien.client.gui.ui.BackdropBlur.renderedFrames();
+            mc.displayGuiScreen(new dev.alien.client.gui.ThemeEditorScreen(null));
+        } else if(responsiveStep==1){
+            require(dev.alien.client.gui.Ui.font() instanceof dev.alien.client.gui.ui.SmoothFont,"Alien screens use the actual bundled antialiased font renderer");
+            require(dev.alien.client.gui.ui.BackdropBlur.renderedFrames()>blurFramesBefore,"Optional Gaussian blur executes real framebuffer shader passes");
+            assertButtonsInsideScreen();capture("21-theme-editor-colors");
+            BufferedImage colors=ImageIO.read(new File(output,"screenshots/21-theme-editor-colors.png"));
+            Field pickerX=mc.currentScreen.getClass().getDeclaredField("pickerX"),pickerY=mc.currentScreen.getClass().getDeclaredField("pickerY");
+            pickerX.setAccessible(true);pickerY.setAccessible(true);
+            int sample=colors.getRGB((pickerX.getInt(mc.currentScreen)+3)*colors.getWidth()/mc.currentScreen.width,(pickerY.getInt(mc.currentScreen)+3)*colors.getHeight()/mc.currentScreen.height);
+            require((sample>>16&255)+(sample>>8&255)+(sample&255)>540,"The HSV color canvas is actually visible in the framebuffer");
+            click(102);require("Cyber Cyan".equals(config().ui.preset),"Theme palette button updates the actual persistent design tokens");
+            click(21);
+        } else if(responsiveStep==2){
+            assertButtonsInsideScreen();capture("22-theme-style-motion-blur");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Custom font, rounded components and blur preserve a clean OpenGL state");
+            config().ui.blur=0;config().ui.applyPreset("Alien Purple");
+            resizeWindow(960,600);mc.gameSettings.guiScale=2;
+            mc.displayGuiScreen(new dev.alien.client.gui.PanelMenuScreen(null));
+        } else if(responsiveStep==3){
+            assertButtonsInsideScreen();capture("23-clickgui-16x10");
+            mc.displayGuiScreen(new HudEditorScreen(null));
+            config().hud.widgets.get("fps").x=.5f;config().hud.widgets.get("fps").y=.45f;config().hud.widgets.get("fps").enabled=true;
+        } else if(responsiveStep==4){
+            assertButtonsInsideScreen();capture("24-hud-editor-16x10");
+            resizeWindow(800,600);config().ui.menuScale=.85f;
+            mc.displayGuiScreen(new dev.alien.client.gui.ThemeEditorScreen(null));
+        } else if(responsiveStep==5){
+            assertButtonsInsideScreen();capture("25-theme-editor-4x3-scaled");
+            mc.displayGuiScreen(new CosmeticStudioScreen(null));setPreviewPose(35,1.1f);
+        } else if(responsiveStep==6){
+            assertButtonsInsideScreen();capture("26-cosmetic-studio-4x3-scaled");
+            resizeWindow(854,480);config().ui.menuScale=1;
+            dev.alien.client.gui.PanelMenuScreen panel=new dev.alien.client.gui.PanelMenuScreen(null);
+            mc.displayGuiScreen(panel);panel.searchFor("sky");panel.selectModule("sky");
+        } else if(responsiveStep==7){
+            capture("27-module-settings-keybind");
+            int mw=Math.min(360,mc.currentScreen.width-32),x=Math.max(12,(mc.currentScreen.width-mw)/2),y=(mc.currentScreen.height-Math.min(194,mc.currentScreen.height-28))/2;
+            Method mouse=mc.currentScreen.getClass().getDeclaredMethod("mouseClicked",int.class,int.class,int.class);mouse.setAccessible(true);mouse.invoke(mc.currentScreen,x+30,y+130,0);
+            Method key=mc.currentScreen.getClass().getDeclaredMethod("keyTyped",char.class,int.class);key.setAccessible(true);key.invoke(mc.currentScreen,'g',34);
+            require(Integer.valueOf(34).equals(config().moduleKeys.get("sky")),"The actual ClickGUI key editor assigns a module shortcut");
+            config().moduleKeys.remove("sky");pickerColor=config().ui.primary;
+            mc.displayGuiScreen(new dev.alien.client.gui.ui.ColorPickerScreen(null,"Live RGBA / HSV",pickerColor,true,v->config().ui.primary=v));
+        } else if(responsiveStep==8){
+            assertButtonsInsideScreen();capture("28-color-picker-hsv-rgba");
+            mc.displayGuiScreen(new AlienMenuScreen(null).openPage(7));
+        } else if(responsiveStep==9){
+            capture("29-config-profiles");config().ui.primary=pickerColor;config().ui.blur=0;
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Responsive editors and custom controls preserve OpenGL state across window sizes");
+            AlienClient.get().store().deleteProfile("smoke_integration");
+            responsiveDone=true;disconnectRequested=true;
+        }
+        responsiveStep++;since=System.nanoTime();
+    }
+    private void resizeWindow(int w,int h) throws Exception {
+        org.lwjgl.opengl.Display.setDisplayMode(new org.lwjgl.opengl.DisplayMode(w,h));
+        Method resize=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);resize.setAccessible(true);resize.invoke(mc,w,h);
     }
 
     private ClientConfig config() { return AlienClient.get().config(); }

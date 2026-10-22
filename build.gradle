@@ -22,7 +22,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.3.0-alpha.1'
+version = '0.4.0-alpha.1'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
 sourceCompatibility = targetCompatibility = '1.8'

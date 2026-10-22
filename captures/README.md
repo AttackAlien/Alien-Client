@@ -1,69 +1,71 @@
-**Nova rodada:** [Legit e Full — 70 capturas reais, menus e capas em movimento](editions/README.md).
+# Imagens novas — redesign Alien Client 0.4
 
-# Alien Client 0.2.0 — imagens reais
+**Todas as imagens abaixo são capturas reais do Minecraft Java 1.8.9 / Forge 11.15.1.2318.** Não foram usados mockups, imagens ilustrativas, geração por IA ou retoques.
 
-Estas imagens vieram do framebuffer do **Minecraft Java 1.8.9 / Forge 11.15.1.2318**, executado em 21/10/2026 com Java 8, Xvfb e OpenGL por software. Sem imagens ilustrativas, geração por IA ou retoques. A navegação foi automatizada nos controles reais; o mundo local é descartável.
+As imagens antigas foram removidas da versão atual do repositório. Esta galeria mostra somente o redesign: menus próprios, Open Sans suavizada, cartões arredondados, sombras, nova navegação, estúdios e temas.
 
-**76 testes JUnit e 88 verificações gráficas passaram.** Foram obtidos 35 PNGs. O jogo estava limitado a 30 FPS; os números do HUD não são benchmark. [Relatório e comandos](../docs/VALIDATION.md) · [Resultado original](v0.2.0/result.txt) · [Todos os arquivos](v0.2.0/) · [Galeria anterior 0.1.0](https://github.com/AttackAlien/Alien-Client/blob/v0.1.0/captures/README.md).
+**101 testes JUnit e 124 verificações gráficas passaram em cada edição**, com 44 PNGs por execução. [Resultado Legit](atual/legit/result.txt) · [Resultado Full](atual/full/result.txt) · [Relatório e comandos](../docs/VALIDATION.md).
 
-Se a imagem não carregar no celular, toque no link **Abrir imagem**. O repositório é privado: abra com sua conta do GitHub autenticada.
+Toque em **Abrir imagem** para ver o arquivo inteiro no celular. O repositório é público; não é necessário entrar na conta.
 
-## 1. Menu inicial
+## Menu inicial
 
-[Abrir imagem](v0.2.0/01-title.png)
+[Abrir imagem](atual/legit/01-title.png)
 
-![Menu inicial real](v0.2.0/01-title.png)
+![Menu inicial novo, captura real](atual/legit/01-title.png)
 
-## 2. Painéis de módulos dentro do mundo
+## ClickGUI — categorias, pesquisa e módulos
 
-Painéis arrastáveis, busca, rolagem individual e páginas em resoluções menores. Settings mantém o acesso ao menu Studio.
+[Abrir imagem](atual/legit/23-clickgui-16x10.png) · [Detalhes e editor de atalhos](atual/legit/27-module-settings-keybind.png)
 
-[Abrir imagem](v0.2.0/09c-alien-menu-inside-world.png)
+![ClickGUI novo, dentro do Minecraft](atual/legit/23-clickgui-16x10.png)
 
-![Painéis reais dentro do Minecraft](v0.2.0/09c-alien-menu-inside-world.png)
+## Cosmetic Studio
 
-## 3. Cosmetic Studio — chapéu curvo e capa
+[Abrir imagem](atual/legit/26-cosmetic-studio-4x3-scaled.png) · [Ver capa por trás](atual/legit/15-cloth-cape-emblem-back.png) · [Kabuto/Kitsune](atual/legit/16-sculpted-samurai-kitsune.png)
 
-Chapéu kasa circular, capa de tecido com emblema original e prévia com rotação/zoom. O personagem continua com a geometria original do Minecraft.
+![Editor 3D novo, com o personagem real](atual/legit/26-cosmetic-studio-4x3-scaled.png)
 
-[Abrir imagem de frente](v0.2.0/14-smooth-kasa-and-cloth-front.png) · [Abrir imagem da capa](v0.2.0/15-cloth-cape-emblem-back.png)
+## World Studio — céu e atmosfera
 
-![Chapéu curvo na prévia real](v0.2.0/14-smooth-kasa-and-cloth-front.png)
+[Abrir imagem](atual/legit/09d-world-studio-inside-world.png)
 
-![Capa com emblema no jogo real](v0.2.0/15-cloth-cape-emblem-back.png)
+![World Studio novo dentro do mundo](atual/legit/09d-world-studio-inside-world.png)
 
-### Capa em movimento
+## HUD Studio
 
-GIF formado por **12 quadros originais do jogo**, capturados com intervalo mínimo de 100 ms e reproduzidos a 8 quadros/s. Sem interpolação. A comparação restrita à região do tecido encontrou até 132 pixels alterados entre os quadros. [Métrica original](v0.2.0/cape-motion-metrics.txt).
+[Abrir imagem](atual/legit/24-hud-editor-16x10.png) · [HUD funcionando sem o editor](atual/legit/18-crystal-cyan-sky-particles-hud.png)
 
-[Abrir animação](v0.2.0/capa-em-movimento.gif)
+![HUD Studio novo, captura real](atual/legit/24-hud-editor-16x10.png)
 
-![Gravação real da capa](v0.2.0/capa-em-movimento.gif)
+## Theme Studio — HSV, RGBA e HEX
 
-### Kabuto, máscara e asas
+[Abrir imagem](atual/legit/21-theme-editor-colors.png) · [Estilo, escala, movimento e blur](atual/legit/22-theme-style-motion-blur.png) · [Seletor de cores](atual/legit/28-color-picker-hsv-rgba.png)
 
-[Abrir Kabuto/Kitsune](v0.2.0/16-sculpted-samurai-kitsune.png) · [Abrir asas](v0.2.0/17-sculpted-wings-back-view.png)
+![Theme Studio novo, seletor real desenhado no jogo](atual/legit/21-theme-editor-colors.png)
 
-![Kabuto e máscara reais](v0.2.0/16-sculpted-samurai-kitsune.png)
+## Configurações e perfis
 
-![Asas na prévia real](v0.2.0/17-sculpted-wings-back-view.png)
+[Abrir imagem](atual/legit/29-config-profiles.png) · [Aparência](atual/legit/03-appearance.png) · [Efeitos](atual/legit/07-effects-studio.png)
 
-## 4. Personalização de céu e clima
+![Configurações novas, captura real](atual/legit/29-config-profiles.png)
 
-[Abrir editor](v0.2.0/09d-world-studio-inside-world.png)
+## Edição Full
 
-![World Studio dentro do mundo](v0.2.0/09d-world-studio-inside-world.png)
+A Full mantém os recursos visuais compartilhados e continua sendo uma prévia de arquitetura, sem módulos avançados implementados.
 
-## 5. HUD, céu e partículas funcionando
+[Abrir menu Full](atual/full/01-title.png) · [Abrir ClickGUI Full](atual/full/23-clickgui-16x10.png) · [Abrir editor 3D Full](atual/full/26-cosmetic-studio-4x3-scaled.png)
 
-Crystal: céu cyan, diamantes mint/dourados, FPS real e lista de recursos visuais ativos. Sakura: céu rosa e pétalas. Os efeitos são locais e preservam o horário/clima reais do servidor.
+![Menu real da edição Full com a nova interface](atual/full/01-title.png)
 
-[Abrir Crystal](v0.2.0/18-crystal-cyan-sky-particles-hud.png) · [Abrir Sakura](v0.2.0/19-sakura-petals-sky-hud.png) · [Abrir céu vanilla restaurado](v0.2.0/20-vanilla-sky-restored-after-presets.png)
+## Capa em movimento
 
-![Crystal e HUD real](v0.2.0/18-crystal-cyan-sky-particles-hud.png)
+GIF composto por 12 quadros originais do jogo, capturados com intervalo mínimo de 100 ms e reproduzidos a 8 quadros/s, sem interpolação.
 
-![Sakura e HUD real](v0.2.0/19-sakura-petals-sky-hud.png)
+[Abrir animação](atual/legit/capa-em-movimento.gif)
 
-## Limites
+![Capa real em movimento na interface nova](atual/legit/capa-em-movimento.gif)
 
-A capa usa deformação por ondas, sem colisões físicas; as partículas são formas planas voltadas para a câmera. Importação externa de modelos permanece em caixas JSON. Multiplayer público, launcher externo, OptiFine e GPUs reais não foram validados. [Escopo e funcionalidades pendentes](../docs/FEATURES.md).
+[Todos os PNGs Legit](atual/legit/) · [Todos os PNGs Full](atual/full/).
+
+A rodada incluiu 854×480, 960×600 e 800×600, além de escala de menu 0,85. Foi usado Java 8, Xvfb e OpenGL por software, com limite de 30 FPS. Não é benchmark; a instalação em launcher externo, OptiFine, áudio e multiplayer não foi validada. Os detalhes/limites estão no relatório.

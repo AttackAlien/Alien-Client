@@ -19,3 +19,7 @@ O JAR Alien contém somente o código e os recursos do mod. Minecraft, Forge, Op
 O build e os testes usam os avisos e licenças contidos nas distribuições de cada dependência. Ao distribuir novos modelos/texturas, preserve seus avisos e confirme que a licença permite o uso. Nenhum arquivo OptiFine faz parte deste projeto ou dos pacotes.
 
 As capturas de validação registram o Minecraft efetivamente executado e seus recursos fornecidos pela instalação de desenvolvimento. Elas são evidência de teste separada; não são usadas como texturas da interface nem como modelos do mod. A versão 0.2.0 não adiciona dependência externa para a nova geometria, o layout dos painéis ou as partículas.
+
+## Fonte da interface 0.4
+
+Open Sans Regular e Semibold, dados digitalizados copyright 2010–2011 Google Corporation, sob Apache License 2.0. Os binários vieram do pacote Debian `fonts-open-sans`, sem modificações. Licença e aviso são distribuídos em `assets/alienclient/fonts/LICENSE.txt` e `NOTICE.txt`; os atlas são gerados em tempo de execução. Os ícones e desenhos da interface Alien são vetores originais.

@@ -7,7 +7,7 @@ Auditoria de leitura do repositório para a Fase 1 do novo master plan. A refer�
 - Minecraft Java 1.8.9, Forge `11.15.1.2318`, mappings `stable_22`, Java 8, LWJGL 2, ForgeGradle 2.1 e Gradle 2.14.1.
 - 38 arquivos Java de produção, organizados em configuração, interface, HUD, cosméticos/malhas, mundo/efeitos e desempenho.
 - **76 testes JUnit aprovados**, com zero falhas, erros ou testes ignorados, segundo os XMLs existentes em `build/test-results/`.
-- **88 verificações gráficas aprovadas e 35 PNGs reais**, segundo `build/smoke/result.txt` e as capturas da rodada 0.2.0. A evidência preservada está na [galeria](../captures/README.md) e no [resultado original](../captures/v0.2.0/result.txt).
+- **88 verificações gráficas aprovadas e 35 PNGs reais**, segundo `build/smoke/result.txt` e as capturas da rodada 0.2.0. A evidência preservada está na [galeria](../captures/README.md) e no [resultado original](https://github.com/AttackAlien/Alien-Client/blob/v0.2.0/captures/v0.2.0/result.txt).
 - As verificações gráficas executaram classes atuais de desenvolvimento em Minecraft/Forge real, em mundo integrado descartável e OpenGL por software. Incluíram interface, controles, cosméticos, capa em movimento, céu a 2/4 chunks, panorama importado, perfis, preservação do horário/clima reais e encerramento pela ação vanilla.
 
 Esses resultados pertencem à base 0.2.0. Não são testes de duas edições, benchmark comparativo, validação de launcher externo ou teste em servidor privado/público. O total de verificações inclui guardas e capturas; não representa 88 módulos distintos. Esta auditoria não executou outra rodada do jogo nem alterou o código de produção.

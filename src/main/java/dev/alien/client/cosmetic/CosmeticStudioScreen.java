@@ -2,8 +2,14 @@ package dev.alien.client.cosmetic;
 
 import dev.alien.client.AlienClient;
 import dev.alien.client.gui.Ui;
+import dev.alien.client.gui.ui.ColorPickerScreen;
 import java.io.IOException;
 import java.nio.IntBuffer;
+import java.nio.FloatBuffer;
+import dev.alien.client.cosmetic.mesh.Mesh;
+import dev.alien.client.cosmetic.mesh.MeshView;
+import dev.alien.client.cosmetic.mesh.CosmeticMeshes;
+import dev.alien.client.cosmetic.mesh.CapeCloth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,19 +29,22 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 /** A live fitting room: every control edits the selected local cosmetic preset. */
-public final class CosmeticStudioScreen extends GuiScreen {
+public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScreen {
     static boolean drawingPreview;
     private final GuiScreen parent;
     private int page;
     private String target;
     private int left, top, panelWidth, controlX, controlWidth, bodyTop, bodyBottom;
-    private int previewX, previewWidth, rowStep, buttonHeight;
+    private int previewX, previewWidth, rowStep, buttonHeight, controlTop, railX, railWidth;
     private String status = "Drag the preview to turn. Scroll to zoom.";
     private long statusUntil;
     private GuiButton activeButton;
     private boolean draggingPreview, turntable;
     private int dragX, dragY;
     private float viewYaw = -24, viewPitch = -7, zoom = 1;
+    private float shownYaw = -24, shownPitch = -7, shownZoom = 1;
+    private final FloatBuffer previewLight = BufferUtils.createFloatBuffer(16);
+    private final CapeCloth thumbnailCape = new CapeCloth(8, 4);
     private long previousFrame = System.nanoTime();
     // LWJGL 2's glGetInteger wrapper requires room for 16 ints even for the
     // four-component GL_SCISSOR_BOX query. Only elements 0..3 are restored.
@@ -44,11 +53,11 @@ public final class CosmeticStudioScreen extends GuiScreen {
     public CosmeticStudioScreen(GuiScreen parent) { this.parent = parent; }
     /** View-only controls for accessibility and automated real-render checks. */
     public void setPreviewYaw(float degrees) {
-        if (!Float.isNaN(degrees) && !Float.isInfinite(degrees)) viewYaw = degrees % 360f;
+        if (!Float.isNaN(degrees) && !Float.isInfinite(degrees)) shownYaw = viewYaw = degrees % 360f;
         turntable = false;
     }
     public void setPreviewZoom(float value) {
-        if (!Float.isNaN(value) && !Float.isInfinite(value)) zoom = Math.max(.65f, Math.min(1.65f, value));
+        if (!Float.isNaN(value) && !Float.isInfinite(value)) shownZoom = zoom = Math.max(.65f, Math.min(1.65f, value));
     }
     public float previewYaw() { return viewYaw; }
     public float previewZoom() { return zoom; }
@@ -66,66 +75,71 @@ public final class CosmeticStudioScreen extends GuiScreen {
     }
 
     @Override public void initGui() {
+        fontRendererObj = Ui.font();
         Keyboard.enableRepeatEvents(true);
         buttonList.clear(); activeButton = null; draggingPreview = false;
-        panelWidth = Math.min(680, width - 16); left = (width - panelWidth) / 2; top = 6;
-        controlX = left + 10;
-        controlWidth = Math.max(145, (panelWidth - 34) / 2);
-        previewX = controlX + controlWidth + 12;
-        previewWidth = left + panelWidth - 10 - previewX;
-        int tabY = top + 33;
-        String[] tabs = {"Style", "Fit", "Players", "Imports", "Motion"};
-        int tabSpace = (panelWidth - 20) / tabs.length;
-        for (int i = 0; i < tabs.length; i++) {
-            buttonList.add(new StudioButton(2 + i, controlX + i * tabSpace, tabY,
-                    tabSpace - 3, 18, tabs[i]).selected(page == i));
-        }
-        buttonList.add(new StudioButton(0, left + panelWidth - 59, top + 7, 49, 18, "Done"));
-        bodyTop = tabY + 24; bodyBottom = height - 31;
-        rowStep = Math.min(24, Math.max(18, (bodyBottom - bodyTop - 1) / 7)); buttonHeight = rowStep - 3;
+        panelWidth = Math.min(980, width - 16); left = (width - panelWidth) / 2; top = 8;
+        railX = left + 8; railWidth = width < 370 ? 35 : 42;
+        controlX = railX + railWidth + 8;
+        controlWidth = Math.max(104, Math.min(232, Math.round((panelWidth - railWidth - 42) * .355f)));
+        previewX = controlX + controlWidth + 10;
+        previewWidth = left + panelWidth - 8 - previewX;
+        bodyTop = top + 35; bodyBottom = height - 27; controlTop = bodyTop + 13;
+        rowStep = Math.min(24, Math.max(18, (bodyBottom - controlTop - 2) / 7)); buttonHeight = rowStep - 3;
+        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion"};
+        int navStep = Math.min(34, (bodyBottom - bodyTop - 15) / 5);
+        for (int i = 0; i < tabs.length; i++) buttonList.add(new StudioButton(2 + i,
+                railX, bodyTop + 8 + i * navStep, railWidth, navStep - 4, tabs[i]).selected(page == i));
+        buttonList.add(new StudioButton(0, left + panelWidth - 56, top + 8, 45, 18, "Done"));
         CosmeticConfig.Accessory a = current();
         if (page == 0) {
-            row(10, 0, "Hat: " + title(a.hat));
-            row(11, 1, "Face: " + title(a.face));
-            row(12, 2, "Back: " + title(a.back));
-            row(13, 3, "Hand charm: " + on(a.charm));
-            pair(14, "Aura: " + on(a.aura), 15, "Trail: " + on(a.trail), 4);
-            pair(70, "Main color", 71, "Trim color", 5);
-            pair(16, "Ronin", 17, "Celestial", 6);
+            int cardStep = rowStep + 5;
+            buttonList.add(new AccessoryCard(10, controlTop, cardStep - 3, "HEADWEAR", title(a.hat)));
+            buttonList.add(new AccessoryCard(11, controlTop + cardStep, cardStep - 3, "FACE", title(a.face)));
+            buttonList.add(new AccessoryCard(12, controlTop + cardStep * 2, cardStep - 3, "BACK", title(a.back)));
+            int y = controlTop + cardStep * 3, step = rowStep - 4;
+            addAt(13, controlX, y, controlWidth, step - 1, "Charm: " + on(a.charm));
+            pairAt(14, "Aura: " + on(a.aura), 15, "Trail: " + on(a.trail), y + step, step - 1);
+            pairAt(70, "Fabric", 71, "Accent", y + step * 2, step - 1);
+            pairAt(16, "Ronin", 17, "Celestial", y + step * 3, step - 1);
         } else if (page == 1) {
-            int step = Math.min(22, Math.max(15, (bodyBottom - bodyTop - 1) / 8));
+            int step = Math.min(25, Math.max(16, (bodyBottom - controlTop - 2) / 8));
             String[] labels = {"Position X", "Position Y", "Position Z", "Rotation X", "Rotation Y", "Rotation Z", "Scale"};
             for (int i = 0; i < labels.length; i++) buttonList.add(new StudioSlider(50 + i, controlX,
-                    bodyTop + i * step, controlWidth, step - 3, labels[i], i));
-            buttonList.add(new StudioButton(18, controlX, bodyTop + 7 * step, controlWidth, step - 3, "Reset fit"));
+                    controlTop + i * step, controlWidth, step - 3, labels[i], i));
+            addAt(18, controlX, controlTop + 7 * step, controlWidth, step - 3, "Reset transform");
         } else if (page == 2) {
-            row(40, 0, "Choose player  >"); row(41, 1, "Visible: " + on(a.enabled));
-            row(42, 2, "Reset selected player"); row(43, 3, "Reset player overrides");
-            row(44, 4, "All cosmetics: " + on(config().enabled)); row(45, 5, "Copy your look here");
+            row(40, 0, "Select player"); row(41, 1, "Visible: " + on(a.enabled));
+            row(42, 2, "Reset selected"); row(43, 3, "Reset overrides");
+            row(44, 4, "Global: " + on(config().enabled)); row(45, 5, "Copy your look");
         } else if (page == 3) {
             row(60, 0, "Model: " + display(a.modelFile)); row(61, 1, "Texture: " + display(a.textureFile));
-            row(62, 2, "Reload local assets"); row(63, 3, "Create model example"); row(64, 4, "Clear imported model");
+            row(62, 2, "Reload library"); row(63, 3, "Create example"); row(64, 4, "Clear imported model");
         } else {
-            row(80, 0, "Animation: " + on(a.animations));
-            buttonList.add(new StudioSlider(81, controlX, bodyTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
-            buttonList.add(new StudioSlider(82, controlX, bodyTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
-            buttonList.add(new StudioSlider(83, controlX, bodyTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
-            row(84, 4, "Detail: " + a.detailLevel); row(86, 5, "Emblem: " + title(a.capePattern));
-            row(85, 6, "Reset motion & size");
+            row(80, 0, "Animate: " + on(a.animations));
+            buttonList.add(new StudioSlider(81, controlX, controlTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
+            buttonList.add(new StudioSlider(82, controlX, controlTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
+            buttonList.add(new StudioSlider(83, controlX, controlTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
+            row(84, 4, "Mesh / " + a.detailLevel); row(86, 5, "Emblem / " + title(a.capePattern));
+            row(85, 6, "Reset motion");
         }
-        buttonList.add(new StudioButton(90, previewX + previewWidth - 25, bodyTop + 6, 19, 16, "R"));
-        buttonList.add(new StudioButton(91, previewX + 7, bodyBottom - 17, previewWidth - 14, 14,
-                "Turntable: " + on(turntable)));
+        buttonList.add(new StudioButton(90, previewX + previewWidth - 24, bodyTop + 5, 18, 15, "R"));
+        buttonList.add(new StudioButton(91, previewX + 7, bodyBottom - 20, Math.max(37, previewWidth - 64), 15,
+                "Orbit: " + on(turntable)));
+        buttonList.add(new StudioButton(102, previewX + previewWidth - 50, bodyBottom - 20, 20, 15, "L"));
+        buttonList.add(new StudioButton(103, previewX + previewWidth - 27, bodyBottom - 20, 20, 15, "B"));
     }
 
-    private void row(int id, int row, String text) {
-        buttonList.add(new StudioButton(id, controlX, bodyTop + rowStep * row, controlWidth, buttonHeight, text));
+    private void addAt(int id, int x, int y, int w, int h, String text) {
+        buttonList.add(new StudioButton(id, x, y, w, h, text));
     }
-    private void pair(int id, String label, int otherId, String otherLabel, int row) {
-        int half = (controlWidth - 5) / 2;
-        buttonList.add(new StudioButton(id, controlX, bodyTop + rowStep * row, half, buttonHeight, label));
-        buttonList.add(new StudioButton(otherId, controlX + half + 5, bodyTop + rowStep * row,
-                controlWidth - half - 5, buttonHeight, otherLabel));
+    private void row(int id, int row, String text) {
+        addAt(id, controlX, controlTop + rowStep * row, controlWidth, buttonHeight, text);
+    }
+    private void pairAt(int id, String label, int otherId, String otherLabel, int y, int h) {
+        int half = (controlWidth - 4) / 2;
+        addAt(id, controlX, y, half, h, label);
+        addAt(otherId, controlX + half + 4, y, controlWidth - half - 4, h, otherLabel);
     }
 
     @Override protected void actionPerformed(GuiButton button) throws IOException {
@@ -160,14 +174,20 @@ public final class CosmeticStudioScreen extends GuiScreen {
                 catch (IOException e) { message("Unable to create example: " + e.getMessage()); }
                 break;
             case 64: a.modelFile = ""; a.textureFile = ""; break;
-            case 70: mc.displayGuiScreen(new ColorPicker(this, a, false)); return;
-            case 71: mc.displayGuiScreen(new ColorPicker(this, a, true)); return;
+            case 70: mc.displayGuiScreen(new ColorPickerScreen(this, "Fabric color", a.color | 0xff000000, false, rgb -> a.color = rgb & 0xffffff)); return;
+            case 71: mc.displayGuiScreen(new ColorPickerScreen(this, "Accent color", a.secondaryColor | 0xff000000, false, rgb -> a.secondaryColor = rgb & 0xffffff)); return;
             case 80: a.animations = !a.animations; break;
             case 84: a.detailLevel = cycle(a.detailLevel, "Low", "Balanced", "High"); break;
             case 85: a.capeFlutter = a.capeLength = a.hatSize = 1; a.animations = true; a.detailLevel = "Balanced"; break;
             case 86: a.capePattern = cycle(a.capePattern, "ALIEN", "MOON", "STARS", "PLAIN"); break;
-            case 90: viewYaw = -24; viewPitch = -7; zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
+            case 90: shownYaw = viewYaw = -24; shownPitch = viewPitch = -7; shownZoom = zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
             case 91: turntable = !turntable; break;
+            case 102:
+                config().previewLight = config().previewLight < .55f ? .8f : config().previewLight < .95f ? 1 : .35f;
+                message("Studio illumination / " + Math.round(config().previewLight * 100) + "%"); break;
+            case 103:
+                config().previewBackground = cycle(config().previewBackground, "Violet", "Graphite", "Slate");
+                message("Studio background / " + config().previewBackground); break;
             default: return;
         }
         AlienClient.get().save(); initGui();
@@ -186,48 +206,77 @@ public final class CosmeticStudioScreen extends GuiScreen {
         return target == null ? mc.thePlayer : null;
     }
 
-    @Override public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        drawGradientRect(left, top, left + panelWidth, height - 6, 0xf21a1728, 0xf20e111b);
-        drawRect(left, top, left + panelWidth, top + 2, Ui.accent());
-        drawRect(left + 10, top + 10, left + 12, top + 27, Ui.accent());
-        fontRendererObj.drawStringWithShadow("ALIEN / COSMETIC STUDIO", left + 19, top + 10, Ui.TEXT);
+    @Override public void drawContents(int mouseX, int mouseY, float partialTicks) {
+        Ui.background(width,height);
+        Ui.shadow(left, top, panelWidth, height - top - 8, Ui.theme().radius + 2, Ui.theme().shadow);
+        Ui.gradient(left, top, panelWidth, height - top - 8, Ui.theme().radius,
+                Ui.alpha(Ui.theme().surface, Ui.theme().opacity), Ui.alpha(Ui.mix(Ui.theme().surface, 0xff060911, .38f), Ui.theme().opacity));
+        Ui.rounded(left + 9, top + 9, 18, 18, 6, Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), .2f));
+        Ui.icon("cosmetics", left + 13, top + 13, 10, Ui.accent());
+        fontRendererObj.drawString("COSMETIC STUDIO", left + 33, top + 8, Ui.theme().text);
         EntityPlayer player = previewPlayer();
-        String name = player != null ? player.getName() : target == null ? "Join a world for your live preview" : "Offline player";
-        fontRendererObj.drawString(fontRendererObj.trimStringToWidth("Editing: " + name, panelWidth - 90), left + 19, top + 22, Ui.MUTED);
-        drawGradientRect(previewX, bodyTop, previewX + previewWidth, bodyBottom, 0xff252037, 0xff121724);
-        drawRect(previewX, bodyTop, previewX + previewWidth, bodyTop + 1, 0xff54416c);
-        drawRect(previewX, bodyTop, previewX + 1, bodyBottom, 0xff3b304f);
-        fontRendererObj.drawString("LIVE PREVIEW", previewX + 8, bodyTop + 9, 0xffb2a4d0);
-        int floorY = bodyBottom - 26;
-        drawRect(previewX + 12, floorY, previewX + previewWidth - 12, floorY + 1, 0xff42375c);
-        drawRect(previewX + previewWidth / 2 - 20, floorY + 2, previewX + previewWidth / 2 + 20, floorY + 3, 0xff776291);
+        String name = player != null ? player.getName() : target == null ? "Join a world for a live model" : "Offline player";
+        fontRendererObj.drawString(fontRendererObj.trimStringToWidth(name + " / local wardrobe", panelWidth - 110), left + 33, top + 21, Ui.theme().muted);
+        Ui.rounded(railX - 2, bodyTop, railWidth + 4, bodyBottom - bodyTop, 7, Ui.alpha(Ui.theme().surfaceRaised, .64f));
+        String[] sections = {"COLLECTION", "TRANSFORM", "PLAYER LOOKS", "LOCAL ASSETS", "ANIMATION"};
+        fontRendererObj.drawString(sections[page], controlX + 2, bodyTop, Ui.theme().muted);
+        drawStudioBackdrop();
         long now = System.nanoTime();
         float elapsed = Math.min(.1f, (now - previousFrame) / 1_000_000_000f); previousFrame = now;
-        if (turntable && !draggingPreview) viewYaw = (viewYaw + elapsed * 18f) % 360f;
+        boolean animated = AlienClient.get().config().animations && !Ui.theme().reducedMotion;
+        float response = animated ? 1 - (float)Math.exp(-elapsed * 16) : 1;
+        if (turntable && !draggingPreview && animated) viewYaw += elapsed * 18f;
+        shownYaw += (viewYaw - shownYaw) * response; shownPitch += (viewPitch - shownPitch) * response;
+        shownZoom += (zoom - shownZoom) * response;
         if (player != null) drawPlayer(player);
-        else {
-            drawCenteredString(fontRendererObj, "No player loaded", previewX + previewWidth / 2, bodyTop + (bodyBottom - bodyTop) / 2, Ui.MUTED);
-        }
+        else drawCenteredString(fontRendererObj, "No player loaded", previewX + previewWidth / 2,
+                    bodyTop + (bodyBottom - bodyTop) / 2, Ui.theme().muted);
         if (page == 3) {
-            fontRendererObj.drawString(fontRendererObj.trimStringToWidth("Local folder: config/" + dev.alien.client.edition.BuildEdition.CONFIG_DIRECTORY + "/cosmetics", controlWidth), controlX, bodyTop + rowStep * 5 + 2, Ui.MUTED);
-            String issue = CosmeticAssets.lastError;
-            if (!issue.isEmpty()) fontRendererObj.drawString(fontRendererObj.trimStringToWidth(issue, controlWidth), controlX, bodyTop + rowStep * 6, 0xffffaaad);
+            fontRendererObj.drawString(fontRendererObj.trimStringToWidth("config/" + dev.alien.client.edition.BuildEdition.CONFIG_DIRECTORY + "/cosmetics", controlWidth),
+                    controlX + 1, controlTop + rowStep * 5 + 2, Ui.theme().muted);
+            if (!CosmeticAssets.lastError.isEmpty()) fontRendererObj.drawString(fontRendererObj.trimStringToWidth(CosmeticAssets.lastError, controlWidth),
+                    controlX + 1, controlTop + rowStep * 6, 0xffed8d9b);
         }
         for (GuiButton button : buttonList) button.drawButton(mc, mouseX, mouseY);
-        if (page == 0) {
-            swatch(70, current().color); swatch(71, current().secondaryColor);
-        }
-        String footer = System.currentTimeMillis() < statusUntil ? status : "Drag preview to rotate  /  Scroll to zoom";
-        fontRendererObj.drawString(fontRendererObj.trimStringToWidth(footer, panelWidth - 94), left + 10, height - 20, Ui.MUTED);
-        fontRendererObj.drawString("LOCAL ONLY", left + panelWidth - 71, height - 20, 0xff8d7fa5);
+        if (page == 0) { swatch(70, current().color); swatch(71, current().secondaryColor); }
+        String footer = System.currentTimeMillis() < statusUntil ? status : "Drag to orbit  /  Scroll to zoom";
+        fontRendererObj.drawString(fontRendererObj.trimStringToWidth(footer, panelWidth - 86), left + 10, height - 18, Ui.theme().muted);
+        fontRendererObj.drawString("LOCAL ONLY", left + panelWidth - 65, height - 18, Ui.accent());
+        if (hover(102, mouseX, mouseY)) studioTooltip("Illumination / " + Math.round(config().previewLight * 100) + "%", mouseX, mouseY);
+        if (hover(103, mouseX, mouseY)) studioTooltip("Backdrop / " + config().previewBackground, mouseX, mouseY);
+        if (hover(90, mouseX, mouseY)) studioTooltip("Reset camera", mouseX, mouseY);
     }
 
-    private void swatch(int id, int color) {
-        for (GuiButton button : buttonList) if (button.id == id) {
-            drawRect(button.xPosition + button.width - 13, button.yPosition + 4,
-                    button.xPosition + button.width - 5, button.yPosition + button.height - 4, color | 0xff000000);
+    private void drawStudioBackdrop() {
+        int upper = "Graphite".equals(config().previewBackground) ? 0xff181c24
+                : "Slate".equals(config().previewBackground) ? 0xff234451 : 0xff302646;
+        int lower = "Graphite".equals(config().previewBackground) ? 0xff0c1018
+                : "Slate".equals(config().previewBackground) ? 0xff13212e : 0xff111522;
+        Ui.gradient(previewX, bodyTop, previewWidth, bodyBottom - bodyTop, 8, upper, lower);
+        Ui.rounded(previewX + 7, bodyTop + 6, 3, 3, 1.5f, 0xff5de3c1);
+        fontRendererObj.drawString("LIVE MODEL", previewX + 15, bodyTop + 3, 0xffc2c9d9);
+        int floor = bodyBottom - 25, center = previewX + previewWidth / 2;
+        for (int i = 0; i < 5; i++) {
+            int half = Math.max(12, previewWidth / 2 - 15 - i * 8);
+            drawRect(center - half, floor - i * 3, center + half, floor - i * 3 + 1, 0x092ecdeb);
         }
+        Ui.rounded(center - Math.min(38, previewWidth / 3), floor - 1,
+                Math.min(76, previewWidth * 2 / 3), 3, 1.5f, Ui.alpha(Ui.accent(), .26f));
+    }
+    private boolean hover(int id, int x, int y) {
+        for (GuiButton button : buttonList) if (button.id == id)
+            return x >= button.xPosition && x < button.xPosition + button.width && y >= button.yPosition && y < button.yPosition + button.height;
+        return false;
+    }
+    private void studioTooltip(String label, int x, int y) {
+        int w = fontRendererObj.getStringWidth(label) + 16;
+        int px = Math.max(4, Math.min(width - w - 4, x - w)), py = Math.max(4, y - 23);
+        Ui.shadow(px, py, w, 20, 5, .5f); Ui.rounded(px, py, w, 20, 5, Ui.theme().surfaceRaised);
+        fontRendererObj.drawString(label, px + 8, py + 5, Ui.theme().text);
+    }
+    private void swatch(int id, int color) {
+        for (GuiButton button : buttonList) if (button.id == id) Ui.rounded(button.xPosition + button.width - 12,
+                button.yPosition + 4, 7, button.height - 8, 2, color | 0xff000000);
     }
 
     /** Render a real entity, restoring every temporary orientation and render-manager value. */
@@ -238,22 +287,30 @@ public final class CosmeticStudioScreen extends GuiScreen {
         float oldViewY = manager.playerViewY, oldViewX = manager.playerViewX;
         boolean shadow = manager.isRenderShadow(), debug = manager.isDebugBoundingBox();
         boolean depth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
+        boolean lit = GL11.glIsEnabled(GL11.GL_LIGHTING), light0 = GL11.glIsEnabled(GL11.GL_LIGHT0), light1 = GL11.glIsEnabled(GL11.GL_LIGHT1);
+        boolean material = GL11.glIsEnabled(GL11.GL_COLOR_MATERIAL);
+        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
         boolean scissor = GL11.glIsEnabled(GL11.GL_SCISSOR_TEST);
         savedScissor.clear(); GL11.glGetInteger(GL11.GL_SCISSOR_BOX, savedScissor);
-        ScaledResolution resolution = new ScaledResolution(mc); int factor = resolution.getScaleFactor();
+        ScaledResolution resolution = new ScaledResolution(mc); float factor = framebufferScale();
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
-        GL11.glScissor(previewX * factor, (height - bodyBottom + 20) * factor,
-                previewWidth * factor, Math.max(1, bodyBottom - bodyTop - 40) * factor);
+        GL11.glScissor(Math.round(previewX*factor),mc.displayHeight-Math.round((bodyBottom-20)*factor),
+                Math.round(previewWidth*factor),Math.round(Math.max(1,bodyBottom-bodyTop-40)*factor));
         drawingPreview = true;
         GlStateManager.pushMatrix();
         try {
-            float scale = Math.min(100, (bodyBottom - bodyTop - 51) / 2.4f) * zoom;
+            float scale = Math.min(100, (bodyBottom - bodyTop - 51) / 2.4f) * shownZoom;
             GlStateManager.translate(previewX + previewWidth / 2f, bodyBottom - 24f, 100);
             GlStateManager.scale(-scale, scale, scale);
             GlStateManager.rotate(180, 0, 0, 1);
-            GlStateManager.rotate(viewPitch, 1, 0, 0);
+            GlStateManager.rotate(shownPitch, 1, 0, 0);
+            GlStateManager.color(1,1,1,1);
             RenderHelper.enableStandardItemLighting();
-            GlStateManager.rotate(viewYaw, 0, 1, 0);
+            float illumination = Math.max(.25f, Math.min(1f, config().previewLight));
+            lightVector(GL11.GL_LIGHT_MODEL_AMBIENT, .18f + illumination * .42f, false, 0);
+            lightVector(GL11.GL_DIFFUSE, .18f + illumination * .52f, true, GL11.GL_LIGHT0);
+            lightVector(GL11.GL_DIFFUSE, .12f + illumination * .42f, true, GL11.GL_LIGHT1);
+            GlStateManager.rotate(shownYaw, 0, 1, 0);
             GlStateManager.enableDepth(); GlStateManager.enableColorMaterial();
             player.renderYawOffset = player.rotationYaw = player.rotationYawHead = player.prevRotationYawHead = 0;
             player.rotationPitch = 0;
@@ -274,7 +331,17 @@ public final class CosmeticStudioScreen extends GuiScreen {
             if (depth) GlStateManager.enableDepth(); else GlStateManager.disableDepth();
             GL11.glScissor(savedScissor.get(0), savedScissor.get(1), savedScissor.get(2), savedScissor.get(3));
             if (!scissor) GL11.glDisable(GL11.GL_SCISSOR_TEST);
+            GL11.glPopAttrib();
+            if (lit) GlStateManager.enableLighting(); else GlStateManager.disableLighting();
+            if (light0) GlStateManager.enableLight(0); else GlStateManager.disableLight(0);
+            if (light1) GlStateManager.enableLight(1); else GlStateManager.disableLight(1);
+            if (material) GlStateManager.enableColorMaterial(); else GlStateManager.disableColorMaterial();
         }
+    }
+
+    private void lightVector(int property, float value, boolean source, int light) {
+        previewLight.clear(); previewLight.put(value).put(value).put(value).put(1).rewind();
+        if (source) GL11.glLight(light, property, previewLight); else GL11.glLightModel(property, previewLight);
     }
 
     @Override protected void mouseClicked(int x, int y, int button) throws IOException {
@@ -294,7 +361,11 @@ public final class CosmeticStudioScreen extends GuiScreen {
     }
     @Override protected void mouseReleased(int x, int y, int button) {
         draggingPreview = false;
-        if (activeButton != null) { activeButton.mouseReleased(x, y); activeButton = null; }
+        if (activeButton != null) {
+            activeButton.mouseReleased(x, y);
+            if (activeButton instanceof Ui.Slider) AlienClient.get().save();
+            activeButton = null;
+        }
     }
     @Override public void handleMouseInput() throws IOException {
         super.handleMouseInput(); int wheel = Mouse.getEventDWheel();
@@ -327,144 +398,132 @@ public final class CosmeticStudioScreen extends GuiScreen {
         int index = values.indexOf(value) + 1; return values.get(index >= values.size() ? 0 : index);
     }
 
-    private static final class StudioButton extends GuiButton {
-        private boolean selected;
+    private static class StudioButton extends GuiButton {
+        protected boolean selected;
+        private float hoverAmount;
         StudioButton(int id, int x, int y, int w, int h, String text) { super(id, x, y, w, h, text); }
         StudioButton selected(boolean selected) { this.selected = selected; return this; }
         @Override public void drawButton(Minecraft mc, int x, int y) {
             if (!visible) return;
             hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
-            int fill = selected ? 0xff49375f : hovered && enabled ? 0xff373146 : 0xff272633;
-            Ui.panel(xPosition, yPosition, width, height, fill);
-            if (selected) drawRect(xPosition, yPosition + 3, xPosition + 2, yPosition + height - 3, Ui.accent());
-            String text = mc.fontRendererObj.trimStringToWidth(displayString, width - ((id == 70 || id == 71) ? 22 : 12));
-            mc.fontRendererObj.drawStringWithShadow(text, xPosition + 6, yPosition + (height - 8) / 2f, enabled ? Ui.TEXT : Ui.MUTED);
+            boolean animated = AlienClient.get().config().animations && !Ui.theme().reducedMotion;
+            hoverAmount += ((hovered && enabled ? 1 : 0) - hoverAmount) * (animated ? .22f : 1);
+            if (id >= 2 && id <= 6) {
+                int fill = selected ? Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), .28f)
+                        : Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), hoverAmount * .1f);
+                Ui.rounded(xPosition + 1, yPosition, width - 2, height, 5, fill);
+                String icon = new String[]{"cosmetics", "settings", "player", "import", "effects"}[id - 2];
+                Ui.icon(icon, xPosition + width / 2f - 4, yPosition + 4, 8, selected ? Ui.accent() : Ui.theme().muted);
+                String label = Ui.font().trimStringToWidth(displayString, width - 3);
+                Ui.font().drawString(label, xPosition + (width - Ui.font().getStringWidth(label)) / 2f,
+                        yPosition + height - 12, selected ? Ui.theme().text : Ui.theme().muted, false);
+                return;
+            }
+            if (displayString.endsWith(": ON") || displayString.endsWith(": OFF")) {
+                String label = displayString.substring(0, displayString.lastIndexOf(':'));
+                Ui.switchControl(xPosition, yPosition, width, height, label, displayString.endsWith(": ON"), hoverAmount);
+            } else {
+                Ui.rounded(xPosition, yPosition, width, height, Math.min(5, height / 3f),
+                        Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), hoverAmount * .15f));
+                if (id == 90 || id == 102 || id == 103) {
+                    Ui.icon(id == 90 ? "reset" : id == 102 ? "sun" : "world", xPosition + width / 2f - 4,
+                            yPosition + height / 2f - 4, 8, Ui.theme().muted);
+                } else {
+                    String label = Ui.font().trimStringToWidth(displayString, width - ((id == 70 || id == 71) ? 17 : 10));
+                    Ui.font().drawString(label, xPosition + 5, yPosition + (height - Ui.font().FONT_HEIGHT) / 2f,
+                            enabled ? Ui.theme().text : Ui.theme().muted, false);
+                }
+            }
             mouseDragged(mc, x, y);
         }
         @Override protected int getHoverState(boolean hovered) { return 0; }
     }
 
-    private final class StudioSlider extends GuiButton {
-        private final String label;
-        private final int field;
-        private boolean dragging;
-        StudioSlider(int id, int x, int y, int width, int height, String label, int field) {
-            super(id, x, y, width, height, ""); this.label = label; this.field = field;
+    private final class AccessoryCard extends StudioButton {
+        private final String category, value;
+        AccessoryCard(int id, int y, int h, String category, String value) {
+            super(id, controlX, y, controlWidth, h, value); this.category = category; this.value = value;
         }
-        private float min() { return field == 6 ? .25f : field == 7 ? 0 : field == 8 ? .65f : field == 9 ? .75f : field < 3 ? -16 : -180; }
-        private float max() { return field == 6 ? 3 : field == 7 ? 2 : field == 8 || field == 9 ? 1.35f : field < 3 ? 16 : 180; }
-        private float value() {
-            CosmeticConfig.Accessory a = current();
-            switch (field) {
-                case 0: return a.offsetX; case 1: return a.offsetY; case 2: return a.offsetZ;
-                case 3: return a.rotationX; case 4: return a.rotationY; case 5: return a.rotationZ;
-                case 6: return a.scale; case 7: return a.capeFlutter; case 8: return a.capeLength; default: return a.hatSize;
-            }
+        @Override public void drawButton(Minecraft mc, int mx, int my) {
+            hovered = mx >= xPosition && mx < xPosition + width && my >= yPosition && my < yPosition + height;
+            Ui.rounded(xPosition, yPosition, width, height, 5,
+                    Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), hovered ? .15f : .04f));
+            Ui.rounded(xPosition + 2, yPosition + 2, 27, height - 4, 4, Ui.alpha(Ui.accent(), .10f));
+            drawAccessoryThumbnail(id, xPosition + 15, yPosition + height / 2f, 24, height - 5);
+            Ui.font().drawString(category, xPosition + 34, yPosition + 2, Ui.theme().muted);
+            Ui.font().drawString(Ui.font().trimStringToWidth(value, width - 39), xPosition + 34,
+                    yPosition + height - 12, Ui.theme().text);
         }
-        private void update(int x) {
-            float value = min() + Math.max(0, Math.min(1, (x - xPosition - 4f) / Math.max(1, width - 8f))) * (max() - min());
-            CosmeticConfig.Accessory a = current();
-            switch (field) {
-                case 0: a.offsetX = value; break; case 1: a.offsetY = value; break; case 2: a.offsetZ = value; break;
-                case 3: a.rotationX = value; break; case 4: a.rotationY = value; break; case 5: a.rotationZ = value; break;
-                case 6: a.scale = value; break; case 7: a.capeFlutter = value; break; case 8: a.capeLength = value; break; default: a.hatSize = value;
-            }
-        }
-        @Override public void drawButton(Minecraft mc, int x, int y) {
-            if (dragging) update(x);
-            drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xff252431);
-            int progress = Math.round((value() - min()) / (max() - min()) * width);
-            drawRect(xPosition, yPosition + height - 2, xPosition + progress, yPosition + height, Ui.accent());
-            String right = String.format(Locale.ROOT, "%.2f", value());
-            mc.fontRendererObj.drawStringWithShadow(label, xPosition + 5, yPosition + (height - 8) / 2f, Ui.MUTED);
-            mc.fontRendererObj.drawStringWithShadow(right, xPosition + width - mc.fontRendererObj.getStringWidth(right) - 5,
-                    yPosition + (height - 8) / 2f, Ui.TEXT);
-        }
-        @Override public boolean mousePressed(Minecraft mc, int x, int y) {
-            if (!super.mousePressed(mc, x, y)) return false; dragging = true; update(x); return true;
-        }
-        @Override public void mouseReleased(int x, int y) { if (dragging) AlienClient.get().save(); dragging = false; }
     }
 
-    /** Color control with a live RGB preview, swatches and a portable hex value. */
-    private static final class ColorPicker extends GuiScreen {
-        private final CosmeticStudioScreen parent;
-        private final CosmeticConfig.Accessory accessory;
-        private final boolean trim;
-        private int x, y, w;
-        private GuiTextField hex;
-        private GuiButton active;
-        ColorPicker(CosmeticStudioScreen parent, CosmeticConfig.Accessory accessory, boolean trim) {
-            this.parent = parent; this.accessory = accessory; this.trim = trim;
+    /** Real cached accessory geometry, not a picture or a generated mockup. */
+    private void drawAccessoryThumbnail(int id, float centerX, float centerY, float w, float h) {
+        CosmeticConfig.Accessory a = current();
+        MeshView mesh;
+        if (id == 10) mesh = CosmeticMeshes.hat(a.hat);
+        else if (id == 11) mesh = CosmeticMeshes.face(a.face);
+        else if ("CAPE".equals(a.back)) { thumbnailCape.update(0, 0, 0); mesh = thumbnailCape; }
+        else mesh = CosmeticMeshes.back(a.back, true);
+        if (mesh.vertexCount() == 0) {
+            Ui.rounded(centerX - 4, centerY - 1, 8, 2, 1, Ui.theme().muted); return;
         }
-        private int color() { return (trim ? accessory.secondaryColor : accessory.color) & 0xffffff; }
-        private void color(int rgb) { if (trim) accessory.secondaryColor = rgb; else accessory.color = rgb; }
-        @Override public void initGui() {
-            Keyboard.enableRepeatEvents(true); buttonList.clear();
-            w = Math.min(280, width - 24); x = (width - w) / 2; y = Math.max(8, (height - 194) / 2);
-            for (int channel = 0; channel < 3; channel++) buttonList.add(new ColorSlider(10 + channel, x + 12, y + 52 + channel * 25, w - 24, channel));
-            int[] palette = {0xB79AFF, 0x74E0D4, 0xE5B979, 0xF5E9DC, 0xC94C69, 0x352738, 0x4F91B5, 0xE8EDF7};
-            int cell = (w - 24) / palette.length;
-            for (int i = 0; i < palette.length; i++) buttonList.add(new ColorSwatch(30 + i, x + 12 + i * cell, y + 132, cell - 3, palette[i]));
-            hex = new GuiTextField(2, fontRendererObj, x + 12, y + 159, w - 111, 20); hex.setMaxStringLength(6); syncHex();
-            buttonList.add(new StudioButton(0, x + w - 89, y + 159, 77, 20, "Done"));
+        float minX=Float.MAX_VALUE,minY=Float.MAX_VALUE,minZ=Float.MAX_VALUE,maxX=-Float.MAX_VALUE,maxY=-Float.MAX_VALUE,maxZ=-Float.MAX_VALUE;
+        for(int i=0;i<mesh.vertexCount();i++) {
+            minX=Math.min(minX,mesh.x(i)); maxX=Math.max(maxX,mesh.x(i));
+            minY=Math.min(minY,mesh.y(i)); maxY=Math.max(maxY,mesh.y(i));
+            minZ=Math.min(minZ,mesh.z(i)); maxZ=Math.max(maxZ,mesh.z(i));
         }
-        private void syncHex() { if (hex != null) hex.setText(String.format(Locale.ROOT, "%06X", color())); }
-        @Override public void drawScreen(int mx, int my, float ticks) {
-            parent.drawScreen(-100, -100, ticks); drawRect(0, 0, width, height, 0xb8000000);
-            drawGradientRect(x, y, x + w, y + 194, 0xff242032, 0xff141722);
-            drawRect(x, y, x + w, y + 2, Ui.accent());
-            fontRendererObj.drawStringWithShadow(trim ? "TRIM / RGB COLOR" : "MAIN / RGB COLOR", x + 12, y + 13, Ui.TEXT);
-            drawRect(x + 12, y + 31, x + w - 12, y + 43, color() | 0xff000000);
-            hex.drawTextBox(); for (GuiButton button : buttonList) button.drawButton(mc, mx, my);
-        }
-        @Override protected void actionPerformed(GuiButton button) {
-            if (button.id == 0) { applyHex(); AlienClient.get().save(); mc.displayGuiScreen(parent); }
-            else if (button instanceof ColorSwatch) { color(((ColorSwatch)button).rgb); syncHex(); AlienClient.get().save(); }
-        }
-        private void applyHex() { if (hex.getText().matches("[0-9A-Fa-f]{6}")) color(Integer.parseInt(hex.getText(), 16)); }
-        @Override protected void mouseClicked(int mx, int my, int button) throws IOException {
-            hex.mouseClicked(mx, my, button);
-            if (button == 0) for (GuiButton control : buttonList) if (control.mousePressed(mc, mx, my)) {
-                active = control; control.playPressSound(mc.getSoundHandler());
-                if (!(control instanceof ColorSlider)) actionPerformed(control); return;
+        float scale = Math.min(w / Math.max(1,maxX-minX),h / Math.max(1,maxY-minY)) * 13;
+        int previousTexture = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_TEXTURE_BIT | GL11.GL_POLYGON_BIT);
+        GlStateManager.pushMatrix();
+        try {
+            GL11.glDisable(GL11.GL_LIGHTING); GL11.glDisable(GL11.GL_CULL_FACE);
+            GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GlStateManager.translate(centerX, centerY, 70);
+            GlStateManager.scale(scale, scale, scale); GlStateManager.rotate(-12,1,0,0); GlStateManager.rotate(-24,0,1,0);
+            GlStateManager.translate(-(minX+maxX)/32f,-(minY+maxY)/32f,-(minZ+maxZ)/32f);
+            if (mesh instanceof Mesh) CosmeticMeshRenderer.draw((Mesh)mesh,a.color,a.secondaryColor);
+            else {
+                GL11.glEnable(GL11.GL_TEXTURE_2D); mc.getTextureManager().bindTexture(CapeTextures.get(a));
+                GL11.glBegin(GL11.GL_TRIANGLES);
+                for(int i=0;i<mesh.vertexCount();i++) {
+                    GL11.glColor4f(.9f,.9f,.9f,1); GL11.glTexCoord2f(thumbnailCape.u(i),thumbnailCape.v(i));
+                    GL11.glVertex3f(mesh.x(i)/16f,mesh.y(i)/16f,mesh.z(i)/16f);
+                }
+                GL11.glEnd();
             }
+        } finally {
+            GlStateManager.popMatrix(); GL11.glPopAttrib(); GlStateManager.bindTexture(previousTexture);
         }
-        @Override protected void mouseReleased(int mx, int my, int button) { if (active != null) { active.mouseReleased(mx, my); active = null; } }
-        @Override protected void keyTyped(char character, int key) throws IOException {
-            if (key == Keyboard.KEY_ESCAPE) { applyHex(); AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
-            if (hex.textboxKeyTyped(character, key)) { applyHex(); return; }
-            super.keyTyped(character, key);
+    }
+
+    private float sliderMin(int field) {
+        return field == 6 ? .25f : field == 7 ? 0 : field == 8 ? .65f : field == 9 ? .75f : field < 3 ? -16 : -180;
+    }
+    private float sliderMax(int field) {
+        return field == 6 ? 3 : field == 7 ? 2 : field == 8 || field == 9 ? 1.35f : field < 3 ? 16 : 180;
+    }
+    private float sliderValue(int field) {
+        CosmeticConfig.Accessory a = current();
+        switch (field) {
+            case 0: return a.offsetX; case 1: return a.offsetY; case 2: return a.offsetZ;
+            case 3: return a.rotationX; case 4: return a.rotationY; case 5: return a.rotationZ;
+            case 6: return a.scale; case 7: return a.capeFlutter; case 8: return a.capeLength; default: return a.hatSize;
         }
-        @Override public void updateScreen() { hex.updateCursorCounter(); }
-        @Override public void onGuiClosed() { applyHex(); AlienClient.get().save(); Keyboard.enableRepeatEvents(false); }
-        @Override public boolean doesGuiPauseGame() { return false; }
-        private final class ColorSlider extends GuiButton {
-            final int channel; boolean dragging;
-            ColorSlider(int id, int x, int y, int width, int channel) { super(id, x, y, width, 20, ""); this.channel = channel; }
-            int shift() { return 16 - channel * 8; }
-            void update(int mx) {
-                int next = Math.max(0, Math.min(255, Math.round((mx - xPosition) / (float)width * 255)));
-                color((color() & ~(255 << shift())) | next << shift()); syncHex();
-            }
-            @Override public void drawButton(Minecraft mc, int mx, int my) {
-                if (dragging) update(mx);
-                int value = (color() >> shift()) & 255;
-                drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xff302c40);
-                drawRect(xPosition, yPosition + height - 3, xPosition + width * value / 255, yPosition + height, (255 << shift()) | 0xff000000);
-                mc.fontRendererObj.drawStringWithShadow(new String[]{"Red", "Green", "Blue"}[channel], xPosition + 6, yPosition + 6, Ui.MUTED);
-                String text = Integer.toString(value); mc.fontRendererObj.drawStringWithShadow(text, xPosition + width - 6 - mc.fontRendererObj.getStringWidth(text), yPosition + 6, Ui.TEXT);
-            }
-            @Override public boolean mousePressed(Minecraft mc, int mx, int my) { if (!super.mousePressed(mc, mx, my)) return false; dragging = true; update(mx); return true; }
-            @Override public void mouseReleased(int mx, int my) { dragging = false; AlienClient.get().save(); }
+    }
+    private void sliderValue(int field, float value) {
+        CosmeticConfig.Accessory a = current();
+        switch (field) {
+            case 0: a.offsetX=value; break; case 1: a.offsetY=value; break; case 2: a.offsetZ=value; break;
+            case 3: a.rotationX=value; break; case 4: a.rotationY=value; break; case 5: a.rotationZ=value; break;
+            case 6: a.scale=value; break; case 7: a.capeFlutter=value; break; case 8: a.capeLength=value; break; default:a.hatSize=value;
         }
-        private static final class ColorSwatch extends GuiButton {
-            final int rgb;
-            ColorSwatch(int id, int x, int y, int width, int rgb) { super(id, x, y, width, 17, ""); this.rgb = rgb; }
-            @Override public void drawButton(Minecraft mc, int x, int y) {
-                drawRect(xPosition, yPosition, xPosition + width, yPosition + height, 0xff62596f);
-                drawRect(xPosition + 1, yPosition + 1, xPosition + width - 1, yPosition + height - 1, rgb | 0xff000000);
-            }
+    }
+    private final class StudioSlider extends Ui.Slider {
+        StudioSlider(int id,int x,int y,int width,int height,String label,int field) {
+            super(id,x,y,width,height,label,CosmeticStudioScreen.this.sliderMin(field),CosmeticStudioScreen.this.sliderMax(field),field<6?.1f:.01f,
+                    CosmeticStudioScreen.this.sliderValue(field),value -> CosmeticStudioScreen.this.sliderValue(field,value));
         }
     }
 }
