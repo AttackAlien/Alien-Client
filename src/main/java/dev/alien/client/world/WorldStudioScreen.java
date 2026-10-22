@@ -51,8 +51,11 @@ public final class WorldStudioScreen extends GuiScreen {
         skybox.setMaxStringLength(120); skybox.setText(c.skyboxFile);
         add(7, second, y, "Apply RGB / PNG"); y+=22;
         add(8, left, y, "Reset world visuals"); add(9, second, y, "Open visual effects");
-        buttonList.add(new GuiButton(10,width/2-146,height-25,142,20,"Atmosphere presets"));
-        buttonList.add(new GuiButton(0,width/2+4,height-25,142,20,"Done"));
+        int footerWidth = Math.min(125, Math.max(68, (width - 36) / 3));
+        int footerLeft = (width - (footerWidth * 3 + 12)) / 2;
+        buttonList.add(new GuiButton(10, footerLeft, height-25, footerWidth,20,"Atmosphere"));
+        buttonList.add(new GuiButton(11, footerLeft+footerWidth+6,height-25,footerWidth,20,"Sky options"));
+        buttonList.add(new GuiButton(0, footerLeft+footerWidth*2+12,height-25,footerWidth,20,"Done"));
     }
 
     private void add(int id, int x, int y, String label) { buttonList.add(new GuiButton(id,x,y,columnWidth,20,label)); }
@@ -81,6 +84,7 @@ public final class WorldStudioScreen extends GuiScreen {
             case 8: AlienClient.get().config().world=new WorldConfig(); break;
             case 9: applyFields(); mc.displayGuiScreen(new EffectsScreen(this)); return;
             case 10: applyFields(); mc.displayGuiScreen(new AtmospherePresetScreen(this)); return;
+            case 11: applyFields(); mc.displayGuiScreen(new SkyboxOptionsScreen(this)); return;
             default: return;
         }
         AlienClient.get().save(); initGui();
@@ -107,7 +111,7 @@ public final class WorldStudioScreen extends GuiScreen {
             drawCenteredString(fontRendererObj,WorldManager.lastImportMessage,width/2,height-43,0x948CA5);
         }
         if (topColor.isFocused() || bottomColor.isFocused()) drawCenteredString(fontRendererObj,"Sky top / horizon RGB hex (RRGGBB)",width/2,22,0xB9ADC9);
-        else if (skybox.isFocused()) drawCenteredString(fontRendererObj,"PNG basename; empty = procedural sky",width/2,22,0xB9ADC9);
+        else if (skybox.isFocused()) drawCenteredString(fontRendererObj,"PNG or .cube.png atlas; empty = procedural sky",width/2,22,0xB9ADC9);
     }
 
     @Override protected void keyTyped(char character,int keyCode) throws IOException {

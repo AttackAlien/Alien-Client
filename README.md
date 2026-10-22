@@ -4,7 +4,11 @@
 
 Mod de personalização **local** para Minecraft Java **1.8.9 / Forge 11.15.1.2318**, escrito em Java 8. Menu, HUD, acessórios 3D, céus e efeitos com identidade visual própria. Não exige launcher independente.
 
-A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. Não há funcionalidades de combate, automação, alteração de atributos ou sincronização de cosméticos pela rede.
+A base visual **0.2.0** foi preservada. O desenvolvimento **0.3.0-alpha.1** inicia a separação **Legit/Full** pedida no novo plano: [auditoria](docs/ARCHITECTURE-AUDIT.md), [arquitetura das edições](docs/EDITIONS.md) e [master plan](docs/MASTER-PLAN.md). A Full é uma prévia de arquitetura; os módulos avançados ainda estão planejados. A base compartilhada implementa os estúdios abaixo; [escopo e limitações](docs/FEATURES.md) distingue o que funciona das extensões ainda pendentes. As versões históricas Legit/Full não possuem módulos de combate; a build Unified experimental adiciona perfis configuráveis. Não há alteração de atributos de servidor ou sincronização de cosméticos pela rede.
+
+## Experimento de integração open source (branch de revisão)
+
+A branch `feature/panelstudio-ui-foundation` inicia a integração **incremental** de duas classes Java 8 do [PanelStudio](https://github.com/lukflug/PanelStudio) (MIT): animação por tempo real no hover e novos cantos suaves nos botões Alien, sem substituir os editores testados. **Isso ainda não é o ClickGUI PanelStudio completo** e não constitui novo release compilado; consulte a [comparação de projetos e a validação pendente](docs/OPEN_SOURCE_REVIEW.md). A fonte padrão do Minecraft e os demais layouts ainda precisam de atualização.
 
 ## Baixar
 

@@ -61,6 +61,12 @@ sourceSets {
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
+    skySmoke {
+        java.setSrcDirs(['src/skySmoke/java'])
+        resources.setSrcDirs(['src/skySmoke/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
     combatSmoke {
         java.setSrcDirs(['src/combatSmoke/java'])
         resources.setSrcDirs(['src/combatSmoke/resources'])
@@ -94,6 +100,33 @@ afterEvaluate {
         systemProperty 'alien.smoke.output', file("${buildDir}/smoke").absolutePath
         systemProperty 'alien.smoke.edition', selectedEdition
         systemProperty 'alien.smoke.mainClasses', sourceSets.main.output.classesDir.absolutePath
+        systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+task runSkySmokeClient(type: JavaExec, dependsOn: ['classes', 'skySmokeClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Launch actual Minecraft/Forge with only the disposable Sky Studio smoke mod'
+}
+
+afterEvaluate {
+    runSkySmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.skySmoke.output
+        workingDir = file("${buildDir}/sky-smoke-runtime")
+        def smokeArgs = new ArrayList(runClient.args)
+        def gameDirIndex = smokeArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
+            smokeArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = smokeArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.sky.smoke', 'true'
+        systemProperty 'alien.sky.smoke.output', file("${buildDir}/sky-smoke").absolutePath
+        systemProperty 'alien.sky.smoke.edition', selectedEdition
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }

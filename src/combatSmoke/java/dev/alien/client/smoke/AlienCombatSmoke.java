@@ -92,7 +92,12 @@ public final class AlienCombatSmoke {
                                 false,false,WorldType.FLAT));
                 advance();return;
             case 1:
-                if(mc.theWorld==null||mc.thePlayer==null||mc.thePlayer.ticksExisted<40)return;
+                if(mc.theWorld==null||mc.thePlayer==null)return;
+                // Minecraft may still display a pausing GUI right after
+                // launchIntegratedServer. Unpause before waiting for 40 ticks,
+                // or the smoke waits forever after the integrated server pauses.
+                if(mc.currentScreen!=null)mc.displayGuiScreen(null);
+                if(mc.thePlayer.ticksExisted<40)return;
                 require(mc.theWorld.provider.getDimensionId()==0,
                         "Minecraft integrated Overworld loaded in Forge 1.8.9");
                 mc.gameSettings.clouds=0;

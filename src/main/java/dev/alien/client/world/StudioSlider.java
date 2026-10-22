@@ -20,7 +20,7 @@ final class StudioSlider extends GuiButton {
     }
 
     private void updateLabel() {
-        displayString = label + ": " + (max <= 1 ? String.format(java.util.Locale.ROOT, "%.2f", value)
+        displayString = label + ": " + ((max <= 1 || "Drift deg/sec".equals(label)) ? String.format(java.util.Locale.ROOT, "%.2f", value)
                 : String.format(java.util.Locale.ROOT, "%.0f", value));
     }
 

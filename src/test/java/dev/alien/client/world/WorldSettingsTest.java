@@ -11,6 +11,18 @@ public class WorldSettingsTest {
         assertEquals("Nebula",c.theme);assertEquals("Server",c.weather);assertEquals(23,c.visualHour);assertEquals(1000,c.stars);
         assertEquals(.003F,c.fogDensity,0);assertEquals(1F,c.weatherIntensity,0);assertEquals(0x445566,c.skyTop);assertEquals("",c.skyboxFile);
     }
+    @Test public void optionalSkyboxSettingsNormalizeButPreserveOldFields() {
+        WorldConfig c=new WorldConfig();c.skyboxYaw=Float.NaN;c.skyboxDrift=Float.POSITIVE_INFINITY;
+        c.skyboxBrightness=-5F;c.skyboxFile="nebula.cube.png";c.weather="Rain";c.timeOverride=true;
+        c.normalize();
+        assertEquals(0F,c.skyboxYaw,0F);assertEquals(0F,c.skyboxDrift,0F);
+        assertEquals(.2F,c.skyboxBrightness,0F);
+        assertEquals("nebula.cube.png",c.skyboxFile);assertEquals("Rain",c.weather);assertTrue(c.timeOverride);
+        c.skyboxYaw=900F;c.skyboxDrift=8F;c.skyboxBrightness=Float.NaN;c.normalize();
+        assertEquals(360F,c.skyboxYaw,0F);assertEquals(2F,c.skyboxDrift,0F);
+        assertEquals(1F,c.skyboxBrightness,0F);
+    }
+
     @Test public void themePresetsHaveDifferentPalettesAndKeepEffectsOptional() {
         WorldConfig c=new WorldConfig();int first=c.skyTop;c.applyTheme("Aurora");
         assertNotEquals(first,c.skyTop);assertEquals("Aurora",c.theme);assertFalse(c.enabled);

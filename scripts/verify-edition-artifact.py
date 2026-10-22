@@ -239,7 +239,12 @@ def verify(repository, jar, edition, version):
                 continue
             require(not entry.filename.endswith(".java"), "Source files must not ship in the binary JAR")
             if entry.filename.endswith(".class"):
-                require(entry.filename.startswith("dev/alien/client/"), "Foreign/Minecraft classes bundled: %s" % entry.filename)
+                panelstudio_mit_classes = {
+                    "com/lukflug/panelstudio/base/Animation.class",
+                    "com/lukflug/panelstudio/base/SettingsAnimation.class",
+                }
+                require(entry.filename.startswith("dev/alien/client/") or entry.filename in panelstudio_mit_classes,
+                        "Foreign/Minecraft classes bundled: %s" % entry.filename)
                 require(not entry.filename.startswith("dev/alien/client/smoke/"), "Smoke classes bundled in production")
                 parsed = classfile(archive.read(entry))
                 require(entry.filename == parsed["name"] + ".class", "Classfile identity disagrees with its ZIP path")

@@ -39,6 +39,7 @@ public final class WorldManager {
     private WorldProvider provider;
     private IRenderHandler previousSky, previousWeather;
     private ResourceLocation importedSky;
+    private SkyboxAtlas importedAtlas;
     private String importedKey = "";
     private boolean wasGrounded;
     private long ticks;
@@ -112,10 +113,12 @@ public final class WorldManager {
             if (key.equals(importedKey)) return;
             importedKey = key;
             if (importedSky != null) { mc.getTextureManager().deleteTexture(importedSky); importedSky = null; }
+            importedAtlas = null;
             if (file == null) { lastImportMessage = "Procedural sky active"; return; }
             BufferedImage image=SkyboxLoader.read(file);
+            if (SkyboxAtlas.isCubeFile(file.getName())) importedAtlas = SkyboxAtlas.validate(image.getWidth(), image.getHeight());
             importedSky = mc.getTextureManager().getDynamicTextureLocation("alien_sky", new DynamicTexture(image));
-            lastImportMessage = "Loaded " + file.getName();
+            lastImportMessage = "Loaded " + (importedAtlas == null ? "panorama " : "cubemap ") + file.getName();
         } catch (IOException | RuntimeException failure) {
             importedKey = key;
             lastImportMessage = "Skybox: " + failure.getMessage();
@@ -295,19 +298,19 @@ public final class WorldManager {
                     // Raw bind stays inside glPushAttrib, leaving GlStateManager's cached binding unchanged.
                     GL11.glEnable(GL11.GL_TEXTURE_2D);
                     GL11.glBindTexture(GL11.GL_TEXTURE_2D, minecraft.getTextureManager().getTexture(importedSky).getGlTextureId());
-                    GL11.glColor4f(1, 1, 1, 1);
-                } else GL11.glDisable(GL11.GL_TEXTURE_2D);
-                for (int band = 0; band < 24; band++) {
-                    GL11.glBegin(GL11.GL_QUAD_STRIP);
-                    for (int segment = 0; segment <= 64; segment++) {
-                        for (int j = 0; j < 2; j++) {
-                            double[] latitude=skyLatitude[band+j],azimuth=skyAzimuth[segment];
-                            if (importedSky == null) rgb(mix(settings.skyBottom, settings.skyTop, (float)Math.max(0, latitude[0])), 1);
-                            GL11.glTexCoord2f(segment / 64F, 1F - (band + j) / 24F);
-                            GL11.glVertex3d(azimuth[1]*latitude[1]*100D,latitude[0]*100D,azimuth[0]*latitude[1]*100D);
-                        }
+                    float brightness = settings.skyboxBrightness;
+                    GL11.glColor4f(brightness, brightness, brightness, 1F);
+                    GL11.glPushMatrix();
+                    try {
+                        GL11.glRotated(settings.skyboxYaw + (ticks + partialTicks) * settings.skyboxDrift / 20D, 0D, 1D, 0D);
+                        if (importedAtlas != null) renderCube(importedAtlas);
+                        else renderSphere(settings, true);
+                    } finally {
+                        GL11.glPopMatrix();
                     }
-                    GL11.glEnd();
+                } else {
+                    GL11.glDisable(GL11.GL_TEXTURE_2D);
+                    renderSphere(settings, false);
                 }
                 GL11.glDisable(GL11.GL_TEXTURE_2D);
                 double hour = settings.timeOverride ? settings.visualHour : ((clientWorld.getWorldTime() % 24000L) / 1000D + 6) % 24;
@@ -317,7 +320,10 @@ public final class WorldManager {
                 GL11.glBegin(GL11.GL_POINTS);
                 for (int i = 0; i < Math.min(settings.stars,starGeometry.length); i++) {
                     double[] star = starGeometry[i];
-                    GL11.glColor4f((float)star[3], .8F, 1F, night);
+                    float shimmer = settings.twinklingStars
+                            ? (float)(.7D + .3D * Math.sin((ticks + partialTicks) * .065D + i * 1.17D))
+                            : 1F;
+                    GL11.glColor4f((float)star[3], .8F, 1F, night * shimmer);
                     GL11.glVertex3d(star[0], star[1], star[2]);
                 }
                 GL11.glEnd();
@@ -330,6 +336,35 @@ public final class WorldManager {
                     GL11.glPopMatrix();
                 }
             } finally { GL11.glPopMatrix(); GL11.glPopAttrib(); }
+        }
+
+        private void renderSphere(WorldConfig settings, boolean textured) {
+            for (int band = 0; band < 24; band++) {
+                GL11.glBegin(GL11.GL_QUAD_STRIP);
+                for (int segment = 0; segment <= 64; segment++) {
+                    for (int j = 0; j < 2; j++) {
+                        double[] latitude = skyLatitude[band + j], azimuth = skyAzimuth[segment];
+                        if (!textured) rgb(mix(settings.skyBottom, settings.skyTop,
+                                (float)Math.max(0, latitude[0])), 1);
+                        GL11.glTexCoord2f(segment / 64F, 1F - (band + j) / 24F);
+                        GL11.glVertex3d(azimuth[1] * latitude[1] * 100D,
+                                latitude[0] * 100D, azimuth[0] * latitude[1] * 100D);
+                    }
+                }
+                GL11.glEnd();
+            }
+        }
+
+        private void renderCube(SkyboxAtlas atlas) {
+            GL11.glBegin(GL11.GL_QUADS);
+            for (int face = 0; face < 6; face++) {
+                for (int corner = 0; corner < 4; corner++) {
+                    GL11.glTexCoord2f(atlas.u(face, corner), atlas.v(face, corner));
+                    GL11.glVertex3d(atlas.coordinate(face, corner, 0),
+                            atlas.coordinate(face, corner, 1), atlas.coordinate(face, corner, 2));
+                }
+            }
+            GL11.glEnd();
         }
 
         private void disk(double x, double radius, int color) {
