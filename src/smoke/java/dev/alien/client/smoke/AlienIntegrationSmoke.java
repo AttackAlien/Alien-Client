@@ -391,9 +391,43 @@ public final class AlienIntegrationSmoke {
                     mc.displayGuiScreen(new CosmeticStudioScreen(null)); setPreviewPose(150, 1.05f);
                     liveScreenStage = 8; since = System.nanoTime(); return;
                 }
-                capture("17-sculpted-wings-back-view");
-                require(GL11.glGetError() == GL11.GL_NO_ERROR,
-                        "Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state");
+                if (liveScreenStage == 8) {
+                    capture("17-sculpted-wings-back-view");
+                    require(GL11.glGetError() == GL11.GL_NO_ERROR,
+                            "Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state");
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null));
+                    click(7); // The new sixth tab: Looks
+                    liveScreenStage = 9; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 9) {
+                    require(mc.currentScreen instanceof CosmeticStudioScreen,
+                            "Cosmetic Looks gallery opens during actual Forge rendering");
+                    assertButtonsInsideScreen();
+                    capture("21-cosmetic-looks-gallery");
+                    click(112); // Sakura builtin look
+                    require("KITSUNE".equals(config().cosmetics.self.face)
+                                    && config().cosmetics.self.trail,
+                            "Sakura preset updates real cosmetic meshes and particle options");
+                    int savedColor = config().cosmetics.self.color;
+                    click(120); // Save slot 1
+                    require(config().cosmetics.savedLooks.containsKey("1"),
+                            "Cosmetic look slot persists in active profile config");
+                    config().cosmetics.self.color = 0x112233;
+                    click(121); // Load slot 1
+                    require(savedColor == config().cosmetics.self.color,
+                            "Loading saved look restores independent cosmetic snapshot");
+                    click(113); // Phantom builtin look
+                    require("FUTURE".equals(config().cosmetics.self.face),
+                            "Phantom look selects the original futuristic visor");
+                    AlienClient.get().save();
+                    AlienClient.get().store().load();
+                    require(config().cosmetics.savedLooks.containsKey("1"),
+                            "Saved look remains available after actual disk config reload");
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null));
+                    click(7);
+                    liveScreenStage = 10; since = System.nanoTime(); return;
+                }
+                capture("22-cosmetic-phantom-look");
                 mc.displayGuiScreen(new HudEditorScreen(null));
                 next(); return;
             }
