@@ -36,7 +36,8 @@ final class SkyboxAtlas {
 
     float v(int face, int corner) {
         check(face, corner);
-        return 1F - ((face / 3) * size + (corner < 2 ? .5F : size - .5F)) / (size * 2F);
+        // Minecraft's BufferedImage upload uses source row 0 at GL v=0.
+        return ((face / 3) * size + (corner < 2 ? .5F : size - .5F)) / (size * 2F);
     }
 
     double coordinate(int face, int corner, int axis) {
