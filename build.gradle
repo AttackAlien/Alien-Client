@@ -8,15 +8,17 @@ buildscript {
     }
 }
 
-// Select source roots before ForgeGradle captures any generated-source/output
-// paths. Full implementation sources are never on a Legit compiler classpath.
-def selectedEdition = project.hasProperty('edition') ? project.property('edition').toString() : 'legit'
-if (!(selectedEdition in ['legit', 'full'])) {
-    throw new GradleException('edition must be exactly legit or full')
+// Unified is now the default distributable. Keep old edition roots for
+// backwards-compatibility builds while users migrate profiles.
+def selectedEdition = project.hasProperty('edition') ? project.property('edition').toString() : 'unified'
+if (!(selectedEdition in ['legit', 'full', 'unified'])) {
+    throw new GradleException('edition must be legit, full or unified')
 }
 ext.alienEdition = selectedEdition
-ext.alienEditionName = selectedEdition == 'legit' ? 'Alien Client Legit' : 'Alien Client Full'
-ext.alienEditionDescription = selectedEdition == 'legit' ? 'Visuals & Performance' : 'Architecture preview'
+ext.alienEditionName = selectedEdition == 'unified' ? 'Alien Client' :
+        selectedEdition == 'legit' ? 'Alien Client Legit' : 'Alien Client Full'
+ext.alienEditionDescription = selectedEdition == 'unified' ? 'Unified / configurable combat' :
+        selectedEdition == 'legit' ? 'Visuals & Performance' : 'Architecture preview'
 buildDir = file("build/${selectedEdition}")
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -24,7 +26,8 @@ apply from: 'scripts/https-assets.gradle'
 
 version = '0.3.0-alpha.1'
 group = 'dev.alien.client'
-archivesBaseName = selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
+archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
+        selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
@@ -61,6 +64,12 @@ sourceSets {
     skySmoke {
         java.setSrcDirs(['src/skySmoke/java'])
         resources.setSrcDirs(['src/skySmoke/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+    combatSmoke {
+        java.setSrcDirs(['src/combatSmoke/java'])
+        resources.setSrcDirs(['src/combatSmoke/resources'])
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
@@ -118,6 +127,31 @@ afterEvaluate {
         systemProperty 'alien.sky.smoke', 'true'
         systemProperty 'alien.sky.smoke.output', file("${buildDir}/sky-smoke").absolutePath
         systemProperty 'alien.sky.smoke.edition', selectedEdition
+        systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+task runCombatSmokeClient(type: JavaExec, dependsOn: ['classes', 'combatSmokeClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Launch isolated real Minecraft/Forge to validate Unified Combat Studio'
+}
+afterEvaluate {
+    runCombatSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.combatSmoke.output
+        workingDir = file("${buildDir}/combat-smoke-runtime")
+        def smokeArgs = new ArrayList(runClient.args)
+        def gameDirIndex = smokeArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
+            smokeArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = smokeArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.combat.smoke', 'true'
+        systemProperty 'alien.combat.smoke.output', file("${buildDir}/combat-smoke").absolutePath
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }

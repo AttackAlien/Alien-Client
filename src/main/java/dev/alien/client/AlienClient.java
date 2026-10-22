@@ -1,6 +1,7 @@
 package dev.alien.client;
 
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.combat.CombatManager;
 import dev.alien.client.config.ConfigStore;
 import dev.alien.client.edition.BuildEdition;
 import dev.alien.client.module.ModuleManager;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** Entry point for the cosmetic-only Forge client mod. */
+/** Single Forge client entry point; combat is opt-in inside Unified. */
 @Mod(modid = AlienClient.MOD_ID, name = BuildEdition.NAME, version = AlienClient.VERSION,
         clientSideOnly = true, acceptedMinecraftVersions = "[1.8.9]", acceptableRemoteVersions = "*")
 public final class AlienClient {
@@ -72,6 +73,7 @@ public final class AlienClient {
         moduleBindings = new ModuleKeybindManager(modules, () -> config());
         performance = new PerformanceEngine();
         register(this); register(performance); register(new HudManager()); register(new WorldManager());
+        if ("unified".equals(BuildEdition.ID)) register(new CombatManager());
         CosmeticManager cosmetics = new CosmeticManager();
         cosmetics.install(); register(cosmetics);
         LOG.info("{} {} initialized: {} registered visual modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);

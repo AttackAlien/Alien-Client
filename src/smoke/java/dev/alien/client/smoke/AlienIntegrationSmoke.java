@@ -417,7 +417,9 @@ public final class AlienIntegrationSmoke {
             case 13: {
                 if (elapsed(since) < 3000) return;
                 if (atmosphereStage == 0) {
-                    require(WorldManager.lastImportMessage.startsWith("Loaded smoke.png"), "Imported PNG skybox decodes and uploads to the real renderer");
+                    require(WorldManager.lastImportMessage.startsWith("Loaded panorama smoke.png")
+                                    || WorldManager.lastImportMessage.startsWith("Loaded smoke.png"),
+                            "Imported PNG skybox decodes and uploads to the real renderer");
                     capture("12-imported-skybox-live-world");
                     int importedPixel = skyPixel("12-imported-skybox-live-world");
                     require(colorDistance(importedPixel, auroraSkyPixel) > 50, "Imported skybox visibly changes the rendered sky");

@@ -4,7 +4,8 @@ public enum ModuleCategory {
     HUD("HUD"),
     COSMETICS("Cosmetics"),
     WORLD("World"),
-    EFFECTS("Effects");
+    EFFECTS("Effects"),
+    COMBAT("Combat");
 
     private final String label;
 

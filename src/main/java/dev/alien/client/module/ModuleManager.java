@@ -1,6 +1,7 @@
 package dev.alien.client.module;
 
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.edition.BuildEdition;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -54,6 +55,24 @@ public final class ModuleManager {
         manager.register(new ModuleDescriptor("color_filter", "Color filter", ModuleCategory.EFFECTS,
                 "Enable the local color overlay when visual effects are enabled.", GameplayImpact.LOCAL_VISUAL, AccessLevel.SHARED,
                 () -> current(config).effects.colorFilter, value -> current(config).effects.colorFilter = value));
+        if (allowFull && "unified".equals(BuildEdition.ID)) {
+            manager.register(new ModuleDescriptor("aim_assist", "Aim assist", ModuleCategory.COMBAT,
+                    "Optional gradual aim help towards visible players; not silent aim.",
+                    GameplayImpact.GAMEPLAY_CHANGING, AccessLevel.FULL,
+                    () -> current(config).combat.aimAssist,
+                    value -> {
+                        current(config).combat.aimAssist = value;
+                        current(config).combat.preset = "CUSTOM";
+                    }));
+            manager.register(new ModuleDescriptor("click_assist", "Click assist", ModuleCategory.COMBAT,
+                    "Optional repeated vanilla attack actions while left mouse is held.",
+                    GameplayImpact.GAMEPLAY_CHANGING, AccessLevel.FULL,
+                    () -> current(config).combat.clickAssist,
+                    value -> {
+                        current(config).combat.clickAssist = value;
+                        current(config).combat.preset = "CUSTOM";
+                    }));
+        }
         return manager;
     }
 

@@ -1,6 +1,7 @@
 package dev.alien.client.gui;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.edition.BuildEdition;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
 import dev.alien.client.hud.HudEditorScreen;
@@ -22,7 +23,7 @@ import java.util.Locale;
 
 /** Live client control center. Studio buttons open the actual in-game editors. */
 public class AlienMenuScreen extends GuiScreen {
-    private static final String[] PAGES = {"Dashboard", "Appearance", "Performance", "HUD Editor", "Cosmetic Studio", "World Studio", "Effects Studio", "Profiles"};
+    private static final String[] PAGES = {"Dashboard", "Appearance", "Performance", "HUD Editor", "Cosmetic Studio", "World Studio", "Effects Studio", "Profiles", "Combat Studio"};
     private final GuiScreen parent;
     private final List<Label> labels = new ArrayList<Label>();
     private GuiTextField search, name;
@@ -63,10 +64,11 @@ public class AlienMenuScreen extends GuiScreen {
 
     private void rebuild() {
         buttonList.clear(); labels.clear();
-        int navHeight = Math.max(14, Math.min(25, (panelH - 65) / 8 - 2));
+        int navHeight = Math.max(14, Math.min(25, (panelH - 65) / 9 - 2));
         int navY = panelY + 52;
         String filter = searchValue.trim().toLowerCase(Locale.ROOT);
         for (int i = 0; i < PAGES.length; i++) {
+            if (i == 8 && !"unified".equals(BuildEdition.ID)) continue;
             if (!filter.isEmpty() && !PAGES[i].toLowerCase(Locale.ROOT).contains(filter)) continue;
             buttonList.add(new Ui.Button(10 + i, panelX + 9, navY, sideW - 18, navHeight, PAGES[i]).selected(page == i));
             navY += navHeight + 2;
@@ -88,9 +90,14 @@ public class AlienMenuScreen extends GuiScreen {
         studio(14, "Cosmetic Studio", "3D accessories and local player overrides.", row + 52);
         studio(15, "World Studio", "Visual sky, atmosphere and weather.", row + 104);
         studio(16, "Effects Studio", "Motion particles and cosmetic effects.", row + 156);
-        label("Performance preset: " + config().performance.preset, row + 218, Ui.MUTED);
-        label("Menu key: " + keyName(config().menuKey) + "  |  All changes save automatically.", row + 234, Ui.MUTED);
-        contentHeight = 316;
+        int details = row + 218;
+        if ("unified".equals(BuildEdition.ID)) {
+            studio(18, "Combat Studio", "Off / Legit / Full / Custom; tune aim and click assist.", row + 208);
+            details += 52;
+        }
+        label("Performance preset: " + config().performance.preset, details, Ui.MUTED);
+        label("Menu key: " + keyName(config().menuKey) + "  |  All changes save automatically.", details + 16, Ui.MUTED);
+        contentHeight = details - y + 82;
     }
 
     private void studio(int id, String title, String description, int y) {
@@ -215,8 +222,8 @@ public class AlienMenuScreen extends GuiScreen {
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         int id = button.id;
         if (id == 90) { mc.displayGuiScreen(parent); return; }
-        if (id >= 10 && id < 18) { navigate(id - 10); return; }
-        if (id >= 413 && id <= 416) { navigate(id - 410); return; }
+        if (id >= 10 && id < 19) { navigate(id - 10); return; }
+        if (id >= 413 && id <= 418) { navigate(id - 410); return; }
         ClientConfig c = config();
         if (id == 100) c.menuReplacement = !c.menuReplacement;
         else if (id == 101) c.animations = !c.animations;
@@ -246,6 +253,8 @@ public class AlienMenuScreen extends GuiScreen {
         else if (next == 4) mc.displayGuiScreen(new CosmeticStudioScreen(this));
         else if (next == 5) mc.displayGuiScreen(new WorldStudioScreen(this));
         else if (next == 6) mc.displayGuiScreen(new EffectsScreen(this));
+        else if (next == 8 && "unified".equals(BuildEdition.ID))
+            mc.displayGuiScreen(new CombatStudioScreen(this));
         else { page = next; scroll = 0; rebuild(); }
     }
 
