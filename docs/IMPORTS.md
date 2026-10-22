@@ -26,11 +26,34 @@ Os recursos ficam em cache por nome, com no máximo 32 combinações de modelo/t
 
 Na aba **Motion**, a capa integrada oferece emblemas **Alien**, **Moon**, **Stars** e **Plain**, além de cor principal e de acabamento. Essas texturas são geradas localmente; seus UVs acompanham o movimento da malha. O campo Texture da aba Imports se aplica ao modelo externo preso à cabeça, não à capa integrada. Não há importador de arte arbitrária para os emblemas da capa.
 
-## Céu 360°
+## Céu 360°: panoramas e cubemaps
 
-Coloque um PNG equiretangular em `skyboxes/` e informe apenas o nome, por exemplo `galaxia.png`, no World Studio. Ative Custom sky e use **Apply RGB / PNG**. O arquivo é recarregado após mudanças no disco, com verificação periódica de aproximadamente dois segundos.
+O World Studio continua aceitando **panoramas equiretangulares PNG** em `skyboxes/`. Informe um nome como `galaxia.png`, ative **Custom sky** e use **Apply RGB / PNG**. As mudanças no arquivo são detectadas automaticamente em aproximadamente dois segundos. Proporção 2:1 é recomendada, mas o importador antigo continua aceitando outras proporções.
 
-Limites: 16 MiB, largura 2..4096 e altura 2..2048. Uma proporção 2:1 é recomendada para evitar distorção; o importador aceita outras proporções. Não são aceitos nomes com diretórios, URLs ou caminhos que escapem do diretório de importação. Apague o nome para voltar ao céu procedural. Use apenas recursos que você criou ou tem licença para utilizar.
+**Novo:** PNGs terminados em `.cube.png` são interpretados como **atlas 3×2** de seis faces quadradas, nesta ordem:
+
+```text
++-------------------+-------------------+-------------------+
+| +X (East)         | -X (West)         | +Y (Up)           |
++-------------------+-------------------+-------------------+
+| -Y (Down)         | +Z (South)        | -Z (North)        |
++-------------------+-------------------+-------------------+
+```
+
+Cada face deve medir **64..1024 px**, sempre quadrada. Exemplos válidos: 192×128 (64 px por face), 1536×1024 (512 px por face) e 3072×2048 (1024 px por face). Salve como `meuceu.cube.png` e selecione esse nome no World Studio. O programa mantém o atlas em uma única textura para evitar seis uploads.
+
+Use o botão **Sky options** do World Studio para ajustar:
+
+- **Skybox yaw**: rotação local da textura importada, entre 0 e 360 graus.
+- **Drift deg/sec**: movimento lento do céu entre 0 e 2 graus por segundo (desligado por padrão).
+- **PNG brightness**: iluminação da textura entre 20% e 100%.
+- **Twinkling stars**: pequena variação do brilho das estrelas procedurais (desligado por padrão).
+
+As opções acompanham perfis JSON; `Reset skybox options` volta aos defaults sem remover o PNG escolhido.
+
+Os limites do importador permanecem: 16 MiB por PNG, largura 2..4096 e altura 2..2048; atlas também precisa ter células quadradas. Não são aceitos diretórios, URLs ou caminhos que escapem da pasta. Apague o nome do arquivo para restaurar o céu procedural. Use recursos próprios ou com licença apropriada.
+
+Esta implementação não suporta seis arquivos independentes, HDR/EXR nem formatos de skyboxes de mods modernos. A orientação das faces e possíveis costuras precisam de verificação visual em execução real no Minecraft.
 
 Aplicar uma paleta **Crystal**, **Sakura** ou **Nebula** em Atmosphere presets limpa a seleção de PNG para usar o céu procedural correspondente. O arquivo no disco é preservado; basta selecionar seu nome novamente para voltar ao panorama importado.
 

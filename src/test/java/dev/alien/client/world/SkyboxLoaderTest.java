@@ -40,6 +40,18 @@ public class SkyboxLoaderTest {
         try{SkyboxLoader.read(file);fail("accepted oversized PNG");}catch(IOException expected){assertTrue(expected.getMessage().contains("4096"));}
     }
 
+    @Test public void acceptsSixFaceCubeAtlasAndRejectsInvalidGeometry() throws Exception {
+        File dir = files.newFolder("cube-atlas");
+        File valid = new File(dir,"nebula.cube.png");
+        ImageIO.write(new BufferedImage(192,128,BufferedImage.TYPE_INT_RGB),"png",valid);
+        BufferedImage loaded=SkyboxLoader.read(SkyboxLoader.resolve(dir,valid.getName()));
+        assertEquals(64,SkyboxAtlas.validate(loaded.getWidth(),loaded.getHeight()).faceSize());
+        File invalid = new File(dir,"bad.cube.png");
+        ImageIO.write(new BufferedImage(192,120,BufferedImage.TYPE_INT_RGB),"png",invalid);
+        try { SkyboxLoader.read(invalid); fail("Accepted malformed cubemap"); }
+        catch(IOException expected) { assertTrue(expected.getMessage().contains("3x2")); }
+    }
+
     @Test public void rejectsCorruptInput()throws Exception {
         File file=files.newFile("corrupt.png");Files.write(file.toPath(),new byte[]{1,2,3,4});
         try{SkyboxLoader.read(file);fail("accepted corrupt PNG");}catch(IOException expected){assertNotNull(expected.getMessage());}
