@@ -1,6 +1,7 @@
 package dev.alien.client.config;
 
 import dev.alien.client.cosmetic.CosmeticConfig;
+import dev.alien.client.combat.CombatConfig;
 import dev.alien.client.hud.HudConfig;
 import dev.alien.client.performance.PerformanceConfig;
 import dev.alien.client.gui.PanelLayoutConfig;
@@ -29,6 +30,7 @@ public final class ClientConfig {
     public WorldConfig world = new WorldConfig();
     public EffectsConfig effects = new EffectsConfig();
     public PerformanceConfig performance = new PerformanceConfig();
+    public CombatConfig combat = new CombatConfig();
 
     public void normalize() {
         if (version != 1) throw new IllegalArgumentException("Unsupported config version: " + version);
@@ -53,11 +55,13 @@ public final class ClientConfig {
         if (world == null) world = new WorldConfig();
         if (effects == null) effects = new EffectsConfig();
         if (performance == null) performance = new PerformanceConfig();
+        if (combat == null) combat = new CombatConfig();
         hud.ensureDefaults();
         cosmetics.normalize();
         world.normalize();
         effects.normalize();
         performance.normalize();
+        combat.normalize();
     }
 
     public static float clamp(float value, float min, float max) {
