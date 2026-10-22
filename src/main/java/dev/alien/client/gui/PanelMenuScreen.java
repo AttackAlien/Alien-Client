@@ -87,7 +87,7 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         } else if ("Combat".equals(category)) {
             if (!"unified".equals(BuildEdition.ID)) return rows;
             rows.add(toggle("Combat enabled", () -> c.combat.enabled,
-                    () -> c.combat.enabled = !c.combat.enabled));
+                    () -> { c.combat.enabled = !c.combat.enabled; c.combat.preset = "CUSTOM"; }));
             rows.add(moduleToggle("Aim assist", "aim_assist"));
             rows.add(moduleToggle("Click assist", "click_assist"));
             rows.add(action("Legit preset", () -> c.combat.applyPreset("LEGIT")));
