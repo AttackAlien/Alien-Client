@@ -1,0 +1,97 @@
+name: Alien Client - Forge 1.8.9 CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alien-forge-bounded-v2-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  forge:
+    name: "Forge 1.8.9 | ${{ matrix.edition }}"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        edition: [legit, full]
+
+    env:
+      ALIEN_TOOLS_DIR: ${{ github.workspace }}/.tools
+      GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      EDITION: ${{ matrix.edition }}
+      ALIEN_SMOKE_TIMEOUT_SECONDS: "420"
+
+    steps:
+      - name: Check out the branch under test
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Select Java 8 (ForgeGradle 2.1 requirement)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Install headless OpenGL display dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            xserver-xorg-core xserver-xorg-video-dummy x11-xserver-utils x11-utils mesa-utils \
+            libgl1 libgl1-mesa-dri libxrandr2 libxi6 libxcursor1 libxtst6 libxinerama1 libasound2
+
+      - name: Bootstrap verified JDK 8 and Gradle 2.14.1
+        run: |
+          bash ./scripts/bootstrap.sh
+          . ./scripts/gradle-env.sh
+          java -version
+          test "$(java -version 2>&1 | head -1 | grep -c '1.8.')" -eq 1
+
+      - name: Build, run JUnit and verify the actual edition JAR
+        run: |
+          ./gradlew --no-daemon "-Pedition=$EDITION" setupDecompWorkspace build
+          test -s "build/$EDITION/libs/AlienClient-${EDITION^}-1.8.9.jar"
+          sha256sum "build/$EDITION/libs/AlienClient-${EDITION^}-1.8.9.jar" \
+            | tee "build/$EDITION/SHA256SUMS.txt"
+
+      - name: Validate CI smoke script syntax
+        run: bash -n ./scripts/ci-smoke-xorg.sh
+
+      - name: Run real Minecraft/Forge smoke tests (Xorg dummy + Mesa)
+        run: |
+          ALIEN_EDITION="$EDITION" bash ./scripts/ci-smoke-xorg.sh
+          grep -Eq '^PASS [1-9][0-9]* checks$' "build/$EDITION/smoke/result.txt"
+
+      - name: Summarize validation
+        if: success()
+        run: |
+          echo "### Alien Client - $EDITION" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Java 8 / Minecraft Forge 1.8.9" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Gradle build, JUnit, reobfuscated JAR inspection: PASS" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Actual Minecraft/Forge smoke test: $(head -n 1 "build/$EDITION/smoke/result.txt")" >> "$GITHUB_STEP_SUMMARY"
+          echo "- SHA256: $(cut -d ' ' -f 1 "build/$EDITION/SHA256SUMS.txt")" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload mod, reports and evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: "alien-${{ matrix.edition }}-${{ github.run_id }}"
+          if-no-files-found: warn
+          retention-days: 14
+          path: |
+            build/${{ matrix.edition }}/libs/*.jar
+            build/${{ matrix.edition }}/SHA256SUMS.txt
+            build/${{ matrix.edition }}/test-results/
+            build/${{ matrix.edition }}/reports/tests/
+            build/${{ matrix.edition }}/smoke/
+            build/${{ matrix.edition }}/smoke-runtime/logs/latest.log
+            build/${{ matrix.edition }}/smoke-runtime/crash-reports/

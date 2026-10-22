@@ -1,11 +1,12 @@
 package dev.alien.client.gui;
 
+import com.lukflug.panelstudio.base.SettingsAnimation;
 import dev.alien.client.AlienClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 
-/** Small original immediate-mode UI toolkit; uses Minecraft's bundled font. */
+/** Lightweight Alien render helpers and PanelStudio-based time interpolation; still uses Minecraft's bundled font. */
 public final class Ui extends Gui {
     public static final int TEXT = 0xfff3f1ff;
     public static final int MUTED = 0xffa3a0b5;
@@ -36,12 +37,33 @@ public final class Ui extends Gui {
         drawRect(x, y + 2, x + width, y + height - 2, color);
     }
 
+    /**
+     * Compact, no-stencil rounded rectangle. Called only for interactive UI surfaces,
+     * not the in-world renderer. Every strip is opaque to avoid alpha accumulation.
+     */
+    public static void roundedPanel(int x, int y, int width, int height, int color) {
+        if (width <= 0 || height <= 0) return;
+        int radius = Math.min(4, Math.min(width, height) / 2);
+        if (radius < 2) { drawRect(x, y, x + width, y + height, color); return; }
+        drawRect(x + radius, y, x + width - radius, y + height, color);
+        drawRect(x, y + radius, x + width, y + height - radius, color);
+        for (int i = 1; i < radius; i++) {
+            int inset = (int) Math.ceil(radius - Math.sqrt(radius * radius - (radius - i) * (radius - i)));
+            drawRect(x + inset, y + i, x + width - inset, y + i + 1, color);
+            drawRect(x + inset, y + height - i - 1, x + width - inset, y + height - i, color);
+        }
+    }
+
     public static final class Button extends GuiButton {
         private boolean selected;
-        private float hover;
+        // PanelStudio MIT animation: elapsed-time easing instead of per-frame increments.
+        private final SettingsAnimation hoverAnimation = new SettingsAnimation(
+                () -> Math.max(1, Math.round(150f / Math.max(.25f, AlienClient.get().config().animationSpeed))),
+                System::currentTimeMillis);
 
         public Button(int id, int x, int y, int width, int height, String text) {
             super(id, x, y, width, height, text);
+            hoverAnimation.initValue(0);
         }
 
         public Button selected(boolean value) { selected = value; return this; }
@@ -49,11 +71,17 @@ public final class Ui extends Gui {
         @Override public void drawButton(Minecraft mc, int mouseX, int mouseY) {
             if (!visible) return;
             hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-            hover += ((hovered && enabled ? 1f : 0f) - hover) * (AlienClient.get().config().animations ? .25f : 1f);
-            int base = selected ? mix(0xff242132, accent(), .28f) : 0xff22222e;
-            panel(xPosition, yPosition, width, height, mix(base, accent(), hover * .18f));
-            if (selected) drawRect(xPosition, yPosition + 4, xPosition + 2, yPosition + height - 4, accent());
-            mc.fontRendererObj.drawStringWithShadow(displayString, xPosition + 9, yPosition + (height - 8) / 2, enabled ? TEXT : MUTED);
+            double target = hovered && enabled ? 1 : 0;
+            if (hoverAnimation.getTarget() != target) hoverAnimation.setValue(target);
+            float hover = (float) (AlienClient.get().config().animations ? hoverAnimation.getValue() : target);
+            int accentColor = accent();
+            int base = selected ? mix(0xff242132, accentColor, .28f) : 0xff22222e;
+            int border = mix(0xff3a3549, accentColor, selected ? .36f : hover * .28f);
+            roundedPanel(xPosition, yPosition, width, height, border);
+            roundedPanel(xPosition + 1, yPosition + 1, width - 2, height - 2, mix(base, accentColor, hover * .17f));
+            if (selected && height >= 10) drawRect(xPosition + 2, yPosition + 5, xPosition + 4, yPosition + height - 5, accentColor);
+            String label = mc.fontRendererObj.trimStringToWidth(displayString, Math.max(0, width - 18));
+            mc.fontRendererObj.drawStringWithShadow(label, xPosition + 9, yPosition + (height - 8) / 2, enabled ? TEXT : MUTED);
             mouseDragged(mc, mouseX, mouseY);
         }
     }
