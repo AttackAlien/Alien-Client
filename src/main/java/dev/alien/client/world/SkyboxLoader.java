@@ -34,6 +34,8 @@ final class SkyboxLoader {
                 int width=reader.getWidth(0),height=reader.getHeight(0);
                 if(!"png".equalsIgnoreCase(reader.getFormatName()) || width<2 || height<2 || width>4096 || height>2048)
                     throw new IOException("PNG must be 2..4096 by 2..2048 pixels");
+                // Reject malformed 3x2 atlas dimensions before decoding pixels.
+                if (SkyboxAtlas.isCubeFile(file.getName())) SkyboxAtlas.validate(width,height);
                 BufferedImage image=reader.read(0);
                 if(image==null)throw new IOException("Cannot decode PNG");
                 return image;
