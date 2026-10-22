@@ -8,15 +8,17 @@ buildscript {
     }
 }
 
-// Select source roots before ForgeGradle captures any generated-source/output
-// paths. Full implementation sources are never on a Legit compiler classpath.
-def selectedEdition = project.hasProperty('edition') ? project.property('edition').toString() : 'legit'
-if (!(selectedEdition in ['legit', 'full'])) {
-    throw new GradleException('edition must be exactly legit or full')
+// Unified is now the default distributable. Keep old edition roots for
+// backwards-compatibility builds while users migrate profiles.
+def selectedEdition = project.hasProperty('edition') ? project.property('edition').toString() : 'unified'
+if (!(selectedEdition in ['legit', 'full', 'unified'])) {
+    throw new GradleException('edition must be legit, full or unified')
 }
 ext.alienEdition = selectedEdition
-ext.alienEditionName = selectedEdition == 'legit' ? 'Alien Client Legit' : 'Alien Client Full'
-ext.alienEditionDescription = selectedEdition == 'legit' ? 'Visuals & Performance' : 'Architecture preview'
+ext.alienEditionName = selectedEdition == 'unified' ? 'Alien Client' :
+        selectedEdition == 'legit' ? 'Alien Client Legit' : 'Alien Client Full'
+ext.alienEditionDescription = selectedEdition == 'unified' ? 'Unified / configurable combat' :
+        selectedEdition == 'legit' ? 'Visuals & Performance' : 'Architecture preview'
 buildDir = file("build/${selectedEdition}")
 
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -24,7 +26,8 @@ apply from: 'scripts/https-assets.gradle'
 
 version = '0.3.0-alpha.1'
 group = 'dev.alien.client'
-archivesBaseName = selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
+archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
+        selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
 sourceCompatibility = targetCompatibility = '1.8'
 
 minecraft {
