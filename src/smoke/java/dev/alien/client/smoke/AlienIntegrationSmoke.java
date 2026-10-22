@@ -96,12 +96,16 @@ public final class AlienIntegrationSmoke {
         if (done || !disconnectRequested || event.phase != TickEvent.Phase.START) return;
         disconnectRequested = false;
         try {
-            // Use the game's own Save and Quit action while its server is still
-            // alive. Closing the channel a frame earlier can auto-stop the
-            // server before initiateShutdown schedules its final task.
-            mc.displayGuiScreen(new GuiIngameMenu());
-            click(1);
-        } catch (Exception failure) { throw new RuntimeException("Vanilla Save and Quit failed", failure); }
+            // In Forge 1.8.9 the menu's Save and Quit action sends a disconnect
+            // packet *before* Minecraft.loadWorld(null) requests integrated-server
+            // shutdown. The server may stop as soon as the packet arrives.
+            // initiateShutdown then waits for a queued task on a dead server,
+            // deadlocking the client thread (captured by the CI SIGQUIT dump).
+            // Shut down the integrated server through loadWorld first, while
+            // its worker is still alive, then show the usual Minecraft title.
+            mc.loadWorld(null);
+            mc.displayGuiScreen(new GuiMainMenu());
+        } catch (Exception failure) { throw new RuntimeException("Integrated server teardown failed", failure); }
     }
 
     @SubscribeEvent
