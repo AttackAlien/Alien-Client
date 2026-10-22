@@ -5,7 +5,7 @@ import java.util.Map;
 
 /** Serializable positions are fractions of the available panel travel range. */
 public final class PanelLayoutConfig {
-    public static final String[] CATEGORIES = {"HUD", "Cosmetics", "World", "Effects", "Client"};
+    public static final String[] CATEGORIES = {"HUD", "Cosmetics", "World", "Effects", "Combat", "Client"};
     public Map<String, Column> columns = new LinkedHashMap<String, Column>();
 
     public PanelLayoutConfig() { normalize(); }
