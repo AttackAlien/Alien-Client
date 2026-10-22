@@ -60,12 +60,18 @@ public final class ModuleManager {
                     "Optional gradual aim help towards visible players; not silent aim.",
                     GameplayImpact.GAMEPLAY_CHANGING, AccessLevel.FULL,
                     () -> current(config).combat.aimAssist,
-                    value -> current(config).combat.aimAssist = value));
+                    value -> {
+                        current(config).combat.aimAssist = value;
+                        current(config).combat.preset = "CUSTOM";
+                    }));
             manager.register(new ModuleDescriptor("click_assist", "Click assist", ModuleCategory.COMBAT,
                     "Optional repeated vanilla attack actions while left mouse is held.",
                     GameplayImpact.GAMEPLAY_CHANGING, AccessLevel.FULL,
                     () -> current(config).combat.clickAssist,
-                    value -> current(config).combat.clickAssist = value));
+                    value -> {
+                        current(config).combat.clickAssist = value;
+                        current(config).combat.preset = "CUSTOM";
+                    }));
         }
         return manager;
     }
