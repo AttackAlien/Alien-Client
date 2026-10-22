@@ -1,6 +1,7 @@
 package dev.alien.client.hud;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.gui.Ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +62,7 @@ public final class HudEditorScreen extends GuiScreen {
         buttonList.add(new GuiButton(9, 110, height - 66, 50, 18, "Bottom"));
         buttonList.add(new GuiButton(11, 10, height - 20, 73, 18, "Done"));
         buttonList.add(new GuiButton(12, 87, height - 20, 73, 18, "HUD: " + (cfg().enabled ? "ON" : "OFF")));
+        buttonList.add(new Ui.Button(14, width - 102, 4, 92, 18, "Compact preset"));
     }
 
     @Override public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -81,7 +83,7 @@ public final class HudEditorScreen extends GuiScreen {
         }
         drawRect(0, 0, width, 27, 0xf0121422);
         drawString(fontRendererObj, "ALIEN / HUD EDITOR", 10, 8, 0xffd3b5ff);
-        if (width > 480) drawString(fontRendererObj, "Drag widgets | Corner / wheel: scale | Right click: toggle", 175, 8, 0xffc4c7da);
+        if (width > 720) drawString(fontRendererObj, "Drag / resize / right click to toggle", 175, 8, 0xffc4c7da);
         drawRect(6, 30, 165, height, 0xed121522);
         HudConfig.Widget widget = cfg().widgets.get(selected);
         String label = HudConfig.label(selected) + (widget == null ? "" : String.format(" %.2fx", widget.scale));
@@ -113,6 +115,7 @@ public final class HudEditorScreen extends GuiScreen {
             case 11: mc.displayGuiScreen(parent); return;
             case 12: cfg().enabled = !cfg().enabled; break;
             case 13: cfg().background = !cfg().background; break;
+            case 14: cfg().applyReferencePreset(); selected = "brand"; break;
             case 20: scroll = Math.max(0, scroll - 1); break;
             case 21: scroll = Math.min(Math.max(0, ids.size() - rows), scroll + 1); break;
             default: break;

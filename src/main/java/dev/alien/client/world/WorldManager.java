@@ -34,12 +34,20 @@ public final class WorldManager {
     private final List<Particle> particles = new ArrayList<Particle>();
     private final Random random = new Random(0xA11E);
     private final double[][] starGeometry = createStars();
+    private final double[][] skyLatitude = angles(25, -Math.PI / 2, Math.PI / 24);
+    private final double[][] skyAzimuth = angles(65, 0, Math.PI * 2 / 64);
     private WorldProvider provider;
     private IRenderHandler previousSky, previousWeather;
     private ResourceLocation importedSky;
     private String importedKey = "";
     private boolean wasGrounded;
     private long ticks;
+
+    private static double[][] angles(int count,double start,double step) {
+        double[][] result=new double[count][2];
+        for(int i=0;i<count;i++) { result[i][0]=Math.sin(start+i*step);result[i][1]=Math.cos(start+i*step); }
+        return result;
+    }
 
     private static double[][] createStars() {
         Random starRandom = new Random(73);
@@ -179,11 +187,22 @@ public final class WorldManager {
                         settings.trails ? 28 : 12);
             }
         }
+        if (settings.ambient && (ticks & 1) == 0 && particles.size() < budget) {
+            int count="Low".equals(settings.quality)?1:2;
+            for(int i=0;i<count && particles.size()<budget;i++) {
+                double angle=random.nextDouble()*Math.PI*2, radius=1.1+random.nextDouble()*2.8;
+                boolean petal="Petal".equals(settings.shape);
+                add(mc.thePlayer.posX+Math.cos(angle)*radius,
+                        mc.thePlayer.posY+.5+random.nextDouble()*2.6,
+                        mc.thePlayer.posZ+Math.sin(angle)*radius,
+                        petal?.005D:-.002D,petal?-.012D:.007D,petal?.003D:.001D,52+random.nextInt(24));
+            }
+        }
         wasGrounded = ground;
     }
 
     private void add(double x, double y, double z, double vx, double vy, double vz, int life) {
-        particles.add(new Particle(x, y, z, vx, vy, vz, life));
+        particles.add(new Particle(x, y, z, vx, vy, vz, life,random.nextDouble()*Math.PI*2));
     }
 
     /**
@@ -217,21 +236,32 @@ public final class WorldManager {
         double distance = Math.min(effects().distance, AlienClient.get().config().performance.effectDistance);
         double maxDistance = distance * distance;
         net.minecraft.util.Vec3 look = camera.getLook(event.partialTicks);
-        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POINT_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POINT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
         GL11.glPushMatrix();
         try {
             GL11.glTranslated(-cx, -cy, -cz);
             GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             GL11.glEnable(GL11.GL_DEPTH_TEST); GL11.glDepthMask(false);
-            GL11.glEnable(GL11.GL_POINT_SMOOTH); GL11.glPointSize(effects().size);
-            int color = effects().color;
-            GL11.glBegin(GL11.GL_POINTS);
+            GL11.glDisable(GL11.GL_CULL_FACE);
+            GL11.glShadeModel(GL11.GL_SMOOTH);
+            double yaw=Math.toRadians(mc.getRenderManager().playerViewY),pitch=Math.toRadians(mc.getRenderManager().playerViewX);
+            double rx=Math.cos(yaw),rz=Math.sin(yaw),ux=-Math.sin(yaw)*Math.sin(pitch),uy=Math.cos(pitch),uz=Math.cos(yaw)*Math.sin(pitch);
+            EffectsConfig settings=effects();
+            ParticleShapes.Shape shape=ParticleShapes.get(settings.shape);
+            GL11.glBegin(GL11.GL_TRIANGLES);
             for (Particle particle : particles) {
                 double dx = particle.x - cx, dy = particle.y - cy, dz = particle.z - cz;
                 if (dx * dx + dy * dy + dz * dz > maxDistance || dx * look.xCoord + dy * look.yCoord + dz * look.zCoord < -2D) continue;
-                rgb(color, Math.min(0.85F, particle.life / (float)particle.initialLife));
-                GL11.glVertex3d(particle.x, particle.y, particle.z);
+                int color=(particle.initialLife&1)==0?settings.color:settings.secondaryColor;
+                float fade=Math.min(1F,Math.min((particle.initialLife-particle.life)/6F,particle.life/12F));
+                double size=.028D*settings.size,rotation=particle.rotation+(ticks+event.partialTicks)*.025D;
+                double cs=Math.cos(rotation),sn=Math.sin(rotation);
+                for(int i=0;i<shape.vertexCount();i++) {
+                    double u=shape.u(i),v=shape.v(i),px=(u*cs-v*sn)*size,py=(u*sn+v*cs)*size;
+                    rgb(i%3==0?mix(color,0xFFFFFF,.38F):color,fade*(i%3==0?.9F:.72F));
+                    GL11.glVertex3d(particle.x+rx*px+ux*py,particle.y+uy*py,particle.z+rz*px+uz*py);
+                }
             }
             GL11.glEnd();
         } finally { GL11.glPopMatrix(); GL11.glPopAttrib(); }
@@ -252,13 +282,14 @@ public final class WorldManager {
     private final class Sky extends IRenderHandler {
         @Override public void render(float partialTicks, WorldClient clientWorld, Minecraft minecraft) {
             WorldConfig settings = world();
-            GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_POINT_BIT | GL11.GL_TEXTURE_BIT);
+            GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_POINT_BIT | GL11.GL_TEXTURE_BIT | GL11.GL_LIGHTING_BIT);
             GL11.glPushMatrix();
             try {
                 // Keep the sky inside the far plane even at the vanilla minimum view distance.
                 GL11.glScalef(.32F,.32F,.32F);
                 GL11.glDisable(GL11.GL_FOG); GL11.glDisable(GL11.GL_ALPHA_TEST); GL11.glDisable(GL11.GL_LIGHTING);
                 GL11.glDisable(GL11.GL_CULL_FACE); GL11.glDepthMask(false);
+                GL11.glShadeModel(GL11.GL_SMOOTH);
                 GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 if (importedSky != null) {
                     // Raw bind stays inside glPushAttrib, leaving GlStateManager's cached binding unchanged.
@@ -269,13 +300,11 @@ public final class WorldManager {
                 for (int band = 0; band < 24; band++) {
                     GL11.glBegin(GL11.GL_QUAD_STRIP);
                     for (int segment = 0; segment <= 64; segment++) {
-                        double azimuth = segment * Math.PI * 2 / 64;
                         for (int j = 0; j < 2; j++) {
-                            double latitude = -Math.PI / 2 + (band + j) * Math.PI / 24;
-                            if (importedSky == null) rgb(mix(settings.skyBottom, settings.skyTop, (float)Math.max(0, Math.sin(latitude))), 1);
+                            double[] latitude=skyLatitude[band+j],azimuth=skyAzimuth[segment];
+                            if (importedSky == null) rgb(mix(settings.skyBottom, settings.skyTop, (float)Math.max(0, latitude[0])), 1);
                             GL11.glTexCoord2f(segment / 64F, 1F - (band + j) / 24F);
-                            GL11.glVertex3d(Math.cos(azimuth) * Math.cos(latitude) * 100D, Math.sin(latitude) * 100D,
-                                    Math.sin(azimuth) * Math.cos(latitude) * 100D);
+                            GL11.glVertex3d(azimuth[1]*latitude[1]*100D,latitude[0]*100D,azimuth[0]*latitude[1]*100D);
                         }
                     }
                     GL11.glEnd();
@@ -383,8 +412,9 @@ public final class WorldManager {
         double x, y, z, vx, vy, vz;
         int life;
         final int initialLife;
-        Particle(double x, double y, double z, double vx, double vy, double vz, int life) {
-            this.x=x; this.y=y; this.z=z; this.vx=vx; this.vy=vy; this.vz=vz; this.life=life; initialLife=life;
+        final double rotation;
+        Particle(double x, double y, double z, double vx, double vy, double vz, int life,double rotation) {
+            this.x=x; this.y=y; this.z=z; this.vx=vx; this.vy=vy; this.vz=vz; this.life=life; initialLife=life;this.rotation=rotation;
         }
     }
 }

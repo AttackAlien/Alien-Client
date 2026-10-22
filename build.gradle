@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.1.0'
+version = '0.2.0'
 group = 'dev.alien.client'
 archivesBaseName = 'alien-client'
 sourceCompatibility = targetCompatibility = '1.8'

@@ -48,6 +48,28 @@ public class CosmeticConfigTest {
         assertEquals(1, self.scale, 0);
     }
 
+    @Test public void clothAndHatSettingsAreBoundedAndCopied() {
+        CosmeticConfig.Accessory a = new CosmeticConfig.Accessory();
+        a.capeFlutter = Float.NaN; a.capeLength = 100; a.hatSize = -3;
+        a.detailLevel = "Unbounded"; a.animations = false;
+        a.normalize();
+        assertEquals(0, a.capeFlutter, 0); assertEquals(1.35f, a.capeLength, 0);
+        assertEquals(.75f, a.hatSize, 0); assertEquals("Low", a.detailLevel);
+        CosmeticConfig.Accessory copy = a.copy();
+        assertEquals(a.capeLength, copy.capeLength, 0); assertEquals(a.capeFlutter, copy.capeFlutter, 0);
+        assertEquals(a.hatSize, copy.hatSize, 0); assertEquals(a.detailLevel, copy.detailLevel);
+        assertFalse(copy.animations);
+        copy.capeLength = .7f; assertEquals(1.35f, a.capeLength, 0);
+    }
+
+    @Test public void oldProfilesReceiveNewClothDefaults() {
+        CosmeticConfig.Accessory a = new com.google.gson.Gson().fromJson("{\"hat\":\"JAPANESE\",\"back\":\"CAPE\"}", CosmeticConfig.Accessory.class);
+        a.normalize();
+        assertEquals(1f, a.hatSize, 0); assertEquals(1f, a.capeLength, 0);
+        assertEquals(1f, a.capeFlutter, 0); assertTrue(a.animations);
+        assertEquals("Balanced", a.detailLevel);
+    }
+
     @Test public void importerAllowsOnlyBoundedBasenamesWithExpectedExtension() {
         assertEquals("hat-model_1.json", CosmeticConfig.safeName("hat-model_1.json", ".json"));
         assertEquals("", CosmeticConfig.safeName("../hat.json", ".json"));

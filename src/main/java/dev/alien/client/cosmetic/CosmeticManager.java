@@ -3,8 +3,6 @@ package dev.alien.client.cosmetic;
 import dev.alien.client.AlienClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -13,8 +11,9 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.util.HashMap;
-import java.util.Map;
+import dev.alien.client.cosmetic.mesh.CapeCloth;
+import dev.alien.client.cosmetic.mesh.CosmeticMeshes;
+import org.lwjgl.opengl.GL11;
 
 /** Original procedural accessories rendered only by the local client. */
 public final class CosmeticManager {
@@ -78,119 +77,116 @@ public final class CosmeticManager {
 
     private final class AccessoryLayer implements LayerRenderer<AbstractClientPlayer> {
         private final RenderPlayer renderer;
-        private final Map<String, ModelRenderer> models = new HashMap<String, ModelRenderer>();
+        private final CapeCloth lowCape = new CapeCloth(8, 4);
+        private final CapeCloth balancedCape = new CapeCloth(14, 6);
+        private final CapeCloth highCape = new CapeCloth(24, 12);
 
-        AccessoryLayer(RenderPlayer renderer) {
-            this.renderer = renderer;
-            models.put("JAPANESE", model(new float[][] {
-                {-8,-9,-8,16,1,16}, {-6,-10,-6,12,1,12}, {-4,-11,-4,8,1,8}, {-2,-12,-2,4,1,4}}));
-            models.put("SAMURAI", model(new float[][] {
-                {-5,-9,-5,10,2,10}, {-4,-11,-4,8,2,8}, {-7,-8,-2,2,4,5}, {5,-8,-2,2,4,5}}));
-            models.put("SAMURAI_TRIM", model(new float[][] {{-5,-13,-4,1,5,1},{4,-13,-4,1,5,1},{-3,-10,-5,6,1,1}}));
-            models.put("CROWN", model(new float[][] {
-                {-5,-9,-5,10,1,1}, {-5,-9,4,10,1,1}, {-5,-9,-4,1,1,8}, {4,-9,-4,1,1,8},
-                {-5,-12,-5,2,3,2}, {3,-12,-5,2,3,2}, {-1,-13,-5,2,4,1}, {-5,-12,3,2,3,2}, {3,-12,3,2,3,2}}));
-            models.put("KITSUNE", model(new float[][] {{-4,-7,-5,8,6,1},{-4,-10,-5,2,3,1},{2,-10,-5,2,3,1},{-1,-4,-6,2,2,1}}));
-            models.put("KITSUNE_TRIM", model(new float[][] {{-3,-6,-6,2,1,1},{1,-6,-6,2,1,1},{-1,-3,-7,2,1,1}}));
-            models.put("FUTURE", model(new float[][] {{-4,-7,-5,8,4,1},{-5,-6,-4,1,2,3},{4,-6,-4,1,2,3}}));
-            models.put("FUTURE_TRIM", model(new float[][] {{-3,-6,-6,6,1,1},{-1,-3,-6,2,1,1}}));
-            models.put("GLASSES", model(new float[][] {{-4,-6,-5,3,2,1},{1,-6,-5,3,2,1},{-1,-6,-5,2,1,1},{-5,-6,-4,1,1,5},{4,-6,-4,1,1,5}}));
-            models.put("CAPE", model(new float[][] {{-5,1,3,10,15,1}}));
-            models.put("BACKPACK", model(new float[][] {{-4,2,2,8,9,4}}));
-            models.put("BACKPACK_TRIM", model(new float[][] {{-3,7,6,6,3,1},{-4,0,3,1,3,2},{3,0,3,1,3,2}}));
-            models.put("WING_LEFT", model(new float[][] {{1,2,3,6,2,1},{4,4,3,7,2,1},{7,6,3,7,2,1},{10,8,3,6,2,1},{12,10,3,3,2,1}}));
-            models.put("WING_RIGHT", model(new float[][] {{-7,2,3,6,2,1},{-11,4,3,7,2,1},{-14,6,3,7,2,1},{-16,8,3,6,2,1},{-15,10,3,3,2,1}}));
-            models.put("CHARM", model(new float[][] {{-1,10,-1,2,3,2},{-2,13,-2,4,4,4}}));
-        }
+        AccessoryLayer(RenderPlayer renderer) { this.renderer = renderer; }
 
         @Override public void doRenderLayer(AbstractClientPlayer player, float limbSwing, float limbAmount,
                 float partialTicks, float age, float yaw, float pitch, float scale) {
             Minecraft mc = Minecraft.getMinecraft();
             boolean preview = CosmeticStudioScreen.drawingPreview;
-            if (!config().enabled || mc.thePlayer == null || player.isSpectator() ||
-                    player.isInvisibleToPlayer(mc.thePlayer) || (!preview && !inRange(player))) return;
+            if (!config().enabled || mc.thePlayer == null || player.isSpectator()
+                    || player.isInvisibleToPlayer(mc.thePlayer) || (!preview && !inRange(player))) return;
             CosmeticConfig.Accessory a = forPlayer(player);
             if (a == null || !a.enabled || (!preview && rendered >= AlienClient.get().config().performance.maxCosmetics)) return;
             if (!preview) rendered++;
+            boolean animated = a.animations && AlienClient.get().config().animations;
+            float phase = animated ? player.ticksExisted + partialTicks : 0;
+            float movement = animated ? (float)Math.min(2, Math.hypot(player.posX-player.prevPosX,player.posZ-player.prevPosZ)*10) : 0;
+            int previousTexture = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+            // Use raw attribute changes here: push/pop also restores the states
+            // tracked by GlStateManager without leaving its caches out of sync.
+            GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_CURRENT_BIT | GL11.GL_LIGHTING_BIT
+                    | GL11.GL_TEXTURE_BIT | GL11.GL_POLYGON_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
             GlStateManager.pushMatrix();
             try {
-                GlStateManager.disableTexture2D();
+                GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glDisable(GL11.GL_LIGHTING);
+                GL11.glDisable(GL11.GL_CULL_FACE); GL11.glShadeModel(GL11.GL_SMOOTH);
+                GL11.glEnable(GL11.GL_DEPTH_TEST); GL11.glDepthMask(true);
                 if (player.isSneaking()) GlStateManager.translate(0, .2f, 0);
+                drawHead(player, a);
                 GlStateManager.pushMatrix();
                 try {
-                renderer.getMainModel().bipedHead.postRender(.0625f);
-                transform(a);
-                render(a.hat, a.color);
-                render(a.hat + "_TRIM", a.secondaryColor);
-                render(a.face, a.color);
-                render(a.face + "_TRIM", a.secondaryColor);
-                CosmeticAssets.Imported imported = CosmeticAssets.get(a.modelFile, a.textureFile);
-                if (imported != null) {
-                    if (imported.texture != null) {
-                        GlStateManager.enableTexture2D();
-                        mc.getTextureManager().bindTexture(imported.texture);
-                        GlStateManager.color(1, 1, 1, 1);
-                    } else color(a.color);
-                    imported.model.render(.0625f);
-                    GlStateManager.disableTexture2D();
-                }
-                } finally { GlStateManager.popMatrix(); }
-                GlStateManager.pushMatrix();
-                try {
-                renderer.getMainModel().bipedBody.postRender(.0625f);
-                transform(a);
-                if ("WINGS".equals(a.back)) {
-                    float flap = (float) Math.sin(age * .12f) * 12;
-                    GlStateManager.pushMatrix();
-                    try { GlStateManager.rotate(flap, 0, 1, 0); render("WING_LEFT", a.color); }
-                    finally { GlStateManager.popMatrix(); }
-                    GlStateManager.pushMatrix();
-                    try { GlStateManager.rotate(-flap, 0, 1, 0); render("WING_RIGHT", a.secondaryColor); }
-                    finally { GlStateManager.popMatrix(); }
-                } else {
-                    if ("CAPE".equals(a.back)) GlStateManager.rotate(-8 - Math.min(35, limbAmount * 40), 1, 0, 0);
-                    render(a.back, a.color); render(a.back + "_TRIM", a.secondaryColor);
-                }
+                    renderer.getMainModel().bipedBody.postRender(.0625f);
+                    transform(a);
+                    if ("CAPE".equals(a.back)) drawCape(a, phase, movement, animated);
+                    else if ("WINGS".equals(a.back)) {
+                        float flap = animated ? 11f + (float)Math.sin(phase*.11f)*13f + movement*4 : 12;
+                        GlStateManager.pushMatrix();
+                        try { GlStateManager.rotate(flap,0,1,0); CosmeticMeshRenderer.draw(CosmeticMeshes.back("WINGS",true),a.color,a.secondaryColor); }
+                        finally { GlStateManager.popMatrix(); }
+                        GlStateManager.pushMatrix();
+                        try { GlStateManager.rotate(-flap,0,1,0); CosmeticMeshRenderer.draw(CosmeticMeshes.back("WINGS",false),a.color,a.secondaryColor); }
+                        finally { GlStateManager.popMatrix(); }
+                    } else CosmeticMeshRenderer.draw(CosmeticMeshes.back(a.back,true),a.color,a.secondaryColor);
                 } finally { GlStateManager.popMatrix(); }
                 if (a.charm) {
                     GlStateManager.pushMatrix();
                     try {
-                        renderer.getMainModel().bipedRightArm.postRender(.0625f);
-                        transform(a); render("CHARM", a.secondaryColor);
+                        renderer.getMainModel().bipedRightArm.postRender(.0625f); transform(a);
+                        if (animated) GlStateManager.rotate((float)Math.sin(phase*.08f)*9,0,0,1);
+                        CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }
                 }
             } finally {
-                GlStateManager.color(1, 1, 1, 1);
-                GlStateManager.enableTexture2D();
-                mc.getTextureManager().bindTexture(player.getLocationSkin());
-                GlStateManager.popMatrix();
+                GlStateManager.popMatrix(); GL11.glPopAttrib();
+                // Binding dynamic/imported textures changes MC's binding cache;
+                // restore it to the actual texture reinstated by glPopAttrib.
+                GlStateManager.bindTexture(previousTexture);
+            }
+        }
+
+        private void drawHead(AbstractClientPlayer player, CosmeticConfig.Accessory a) {
+            GlStateManager.pushMatrix();
+            try {
+                renderer.getMainModel().bipedHead.postRender(.0625f); transform(a);
+                GlStateManager.pushMatrix();
+                try { GlStateManager.scale(a.hatSize,a.hatSize,a.hatSize); CosmeticMeshRenderer.draw(CosmeticMeshes.hat(a.hat),a.color,a.secondaryColor); }
+                finally { GlStateManager.popMatrix(); }
+                CosmeticMeshRenderer.draw(CosmeticMeshes.face(a.face),a.color,a.secondaryColor);
+                CosmeticAssets.Imported imported = CosmeticAssets.get(a.modelFile,a.textureFile);
+                if (imported != null) {
+                    if (imported.texture != null) {
+                        GL11.glEnable(GL11.GL_TEXTURE_2D); Minecraft.getMinecraft().getTextureManager().bindTexture(imported.texture);
+                        GL11.glColor4f(1,1,1,1);
+                    } else GL11.glColor4f(((a.color>>16)&255)/255f,((a.color>>8)&255)/255f,(a.color&255)/255f,1);
+                    imported.model.render(.0625f); GL11.glDisable(GL11.GL_TEXTURE_2D);
+                }
+            } finally { GlStateManager.popMatrix(); }
+        }
+
+        private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated) {
+            CapeCloth cloth = "Low".equals(a.detailLevel) ? lowCape : "High".equals(a.detailLevel) ? highCape : balancedCape;
+            if ("Competitive".equals(AlienClient.get().config().performance.preset)) cloth=lowCape;
+            cloth.update(phase,movement,animated ? a.capeFlutter : 0);
+            GlStateManager.pushMatrix();
+            try {
+                GlStateManager.scale(1,a.capeLength,1);
+                GL11.glEnable(GL11.GL_TEXTURE_2D); GL11.glEnable(GL11.GL_CULL_FACE);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(CapeTextures.get(a));
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MIN_FILTER,GL11.GL_LINEAR);
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MAG_FILTER,GL11.GL_LINEAR);
+                GL11.glBegin(GL11.GL_TRIANGLES);
+                for(int i=0;i<cloth.vertexCount();i++) {
+                    float shade=Math.min(1,cloth.shade(i)+.13f);
+                    GL11.glColor4f(shade,shade,shade,1);
+                    GL11.glNormal3f(cloth.nx(i),cloth.ny(i),cloth.nz(i));
+                    GL11.glTexCoord2f(cloth.u(i),cloth.v(i));
+                    GL11.glVertex3f(cloth.x(i)/16f,cloth.y(i)/16f,cloth.z(i)/16f);
+                }
+                GL11.glEnd();
+            } finally {
+                GL11.glDisable(GL11.GL_CULL_FACE); GL11.glDisable(GL11.GL_TEXTURE_2D); GlStateManager.popMatrix();
             }
         }
 
         private void transform(CosmeticConfig.Accessory a) {
-            GlStateManager.translate(a.offsetX / 16f, a.offsetY / 16f, a.offsetZ / 16f);
-            GlStateManager.rotate(a.rotationX, 1, 0, 0);
-            GlStateManager.rotate(a.rotationY, 0, 1, 0);
-            GlStateManager.rotate(a.rotationZ, 0, 0, 1);
-            GlStateManager.scale(a.scale, a.scale, a.scale);
+            GlStateManager.translate(a.offsetX/16f,a.offsetY/16f,a.offsetZ/16f);
+            GlStateManager.rotate(a.rotationX,1,0,0); GlStateManager.rotate(a.rotationY,0,1,0); GlStateManager.rotate(a.rotationZ,0,0,1);
+            GlStateManager.scale(a.scale,a.scale,a.scale);
         }
-
-        private void render(String name, int color) {
-            ModelRenderer model = models.get(name);
-            if (model != null) { color(color); model.render(.0625f); }
-        }
-
         @Override public boolean shouldCombineTextures() { return false; }
-    }
-
-    private static void color(int rgb) {
-        GlStateManager.color(((rgb >> 16) & 255) / 255f, ((rgb >> 8) & 255) / 255f, (rgb & 255) / 255f, 1);
-    }
-
-    private static ModelRenderer model(float[][] boxes) {
-        ModelBase base = new ModelBase() { };
-        ModelRenderer renderer = new ModelRenderer(base, 0, 0);
-        for (float[] b : boxes) renderer.addBox(b[0], b[1], b[2], (int)b[3], (int)b[4], (int)b[5]);
-        return renderer;
     }
 }

@@ -2,6 +2,8 @@
 
 O código dos acessórios e da interface foi criado para este projeto. Não foram copiados recursos ou implementações do Lunar Client, GameSense/Skeet ou outros clientes proprietários. Os nomes no pedido servem como referências de objetivos e não indicam associação.
 
+As malhas curvas de chapéus/máscaras/acessórios, a deformação da capa, os emblemas Alien/Moon/Stars, as formas de partículas e as paletas são gerados pelo código do projeto. O emblema Alien usa um desenho próprio. Referências visuais não autorizam reproduzir logotipos, skins, modelos, texturas ou identidade de terceiros; nenhum vídeo, frame ou mídia de redes sociais integra esses recursos.
+
 O JAR Alien contém somente o código e os recursos do mod. Minecraft, Forge, OptiFine, skins e bibliotecas externas não são incorporados nele. Usuários precisam obter Minecraft e Forge pelos canais autorizados e cumprir as regras dos servidores onde jogam.
 
 | Componente | Uso | Licença/origem |
@@ -15,3 +17,5 @@ O JAR Alien contém somente o código e os recursos do mod. Minecraft, Forge, Op
 | JUnit 4 | Somente testes | Eclipse Public License 1.0 |
 
 O build e os testes usam os avisos e licenças contidos nas distribuições de cada dependência. Ao distribuir novos modelos/texturas, preserve seus avisos e confirme que a licença permite o uso. Nenhum arquivo OptiFine faz parte deste projeto ou dos pacotes.
+
+As capturas de validação registram o Minecraft efetivamente executado e seus recursos fornecidos pela instalação de desenvolvimento. Elas são evidência de teste separada; não são usadas como texturas da interface nem como modelos do mod. A versão 0.2.0 não adiciona dependência externa para a nova geometria, o layout dos painéis ou as partículas.

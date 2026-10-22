@@ -51,7 +51,8 @@ public final class WorldStudioScreen extends GuiScreen {
         skybox.setMaxStringLength(120); skybox.setText(c.skyboxFile);
         add(7, second, y, "Apply RGB / PNG"); y+=22;
         add(8, left, y, "Reset world visuals"); add(9, second, y, "Open visual effects");
-        buttonList.add(new GuiButton(0, width/2-60, height-25, 120, 20, "Done"));
+        buttonList.add(new GuiButton(10,width/2-146,height-25,142,20,"Atmosphere presets"));
+        buttonList.add(new GuiButton(0,width/2+4,height-25,142,20,"Done"));
     }
 
     private void add(int id, int x, int y, String label) { buttonList.add(new GuiButton(id,x,y,columnWidth,20,label)); }
@@ -64,7 +65,7 @@ public final class WorldStudioScreen extends GuiScreen {
             case 0: applyFields(); mc.displayGuiScreen(parent); return;
             case 1: c.enabled=!c.enabled; break;
             case 2: {
-                String[] themes={"Nebula","Galaxy","Aurora","Japanese"};
+                String[] themes={"Nebula","Galaxy","Aurora","Japanese","Crystal","Sakura"};
                 int index=0; for(int i=0;i<themes.length;i++) if(themes[i].equals(c.theme)) index=i;
                 c.applyTheme(themes[(index+1)%themes.length]); break;
             }
@@ -79,6 +80,7 @@ public final class WorldStudioScreen extends GuiScreen {
             case 7: applyFields(); break;
             case 8: AlienClient.get().config().world=new WorldConfig(); break;
             case 9: applyFields(); mc.displayGuiScreen(new EffectsScreen(this)); return;
+            case 10: applyFields(); mc.displayGuiScreen(new AtmospherePresetScreen(this)); return;
             default: return;
         }
         AlienClient.get().save(); initGui();

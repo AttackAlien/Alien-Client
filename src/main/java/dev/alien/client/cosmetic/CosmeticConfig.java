@@ -40,6 +40,12 @@ public final class CosmeticConfig {
         public boolean trail;
         public float offsetX, offsetY, offsetZ, rotationX, rotationY, rotationZ;
         public float scale = 1;
+        public float hatSize = 1;
+        public float capeLength = 1;
+        public float capeFlutter = 1;
+        public boolean animations = true;
+        public String detailLevel = "Balanced";
+        public String capePattern = "ALIEN";
         public int color = 0xB79AFF;
         public int secondaryColor = 0x36DCC9;
         /** Optional basename in the dedicated cosmetics directory; never a URL. */
@@ -54,6 +60,11 @@ public final class CosmeticConfig {
             offsetZ = clamp(offsetZ, -16, 16);
             rotationX = clamp(rotationX, -180, 180); rotationY = clamp(rotationY, -180, 180);
             rotationZ = clamp(rotationZ, -180, 180); scale = clamp(scale, .25f, 3);
+            hatSize = clamp(hatSize, .75f, 1.35f);
+            capeLength = clamp(capeLength, .65f, 1.35f);
+            capeFlutter = clamp(capeFlutter, 0, 2);
+            detailLevel = choice(detailLevel, "Low", "Balanced", "High");
+            capePattern = choice(capePattern, "ALIEN", "MOON", "STARS", "PLAIN");
             modelFile = safeName(modelFile, ".json");
             textureFile = safeName(textureFile, ".png");
         }
@@ -65,6 +76,9 @@ public final class CosmeticConfig {
             a.offsetX = offsetX; a.offsetY = offsetY; a.offsetZ = offsetZ;
             a.rotationX = rotationX; a.rotationY = rotationY; a.rotationZ = rotationZ;
             a.scale = scale; a.color = color; a.secondaryColor = secondaryColor;
+            a.hatSize = hatSize; a.capeLength = capeLength; a.capeFlutter = capeFlutter;
+            a.animations = animations; a.detailLevel = detailLevel;
+            a.capePattern = capePattern;
             a.modelFile = modelFile; a.textureFile = textureFile;
             return a;
         }

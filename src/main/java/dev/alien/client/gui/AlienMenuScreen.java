@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 /** Live client control center. Studio buttons open the actual in-game editors. */
-public final class AlienMenuScreen extends GuiScreen {
+public class AlienMenuScreen extends GuiScreen {
     private static final String[] PAGES = {"Dashboard", "Appearance", "Performance", "HUD Editor", "Cosmetic Studio", "World Studio", "Effects Studio", "Profiles"};
     private final GuiScreen parent;
     private final List<Label> labels = new ArrayList<Label>();
@@ -38,6 +38,12 @@ public final class AlienMenuScreen extends GuiScreen {
     private long opened = System.nanoTime();
 
     public AlienMenuScreen(GuiScreen parent) { this.parent = parent; }
+
+    /** Keep the classic studio available while allowing the in-world panel layout. */
+    public static AlienMenuScreen create(GuiScreen parent) {
+        return "Panels".equals(AlienClient.get().config().menuLayout)
+                ? new PanelMenuScreen(parent) : new AlienMenuScreen(parent);
+    }
 
     @Override public void initGui() {
         Keyboard.enableRepeatEvents(true);
@@ -116,7 +122,8 @@ public final class AlienMenuScreen extends GuiScreen {
         add(123, contentX + half + 8, y + 385, half, "Import theme");
         label("Import: themes/imports/<name>.json", y + 421, Ui.MUTED);
         label("Export: themes/exports/<name>.json", y + 436, Ui.MUTED);
-        contentHeight = 459;
+        add(104, contentX, y + 459, contentW, "Module menu: " + c.menuLayout + " / switch");
+        contentHeight = 495;
     }
 
     private void performance(int y) {
@@ -215,6 +222,7 @@ public final class AlienMenuScreen extends GuiScreen {
         else if (id == 101) c.animations = !c.animations;
         else if (id == 102) capturingKey = !capturingKey;
         else if (id == 103) c.rainbowAccent = !c.rainbowAccent;
+        else if (id == 104) c.menuLayout = "Panels".equals(c.menuLayout) ? "Studio" : "Panels";
         else if (id >= 110 && id <= 113) {
             String[] names = {"Nebula", "Sakura", "Ocean", "Ember"};
             int[] colors = {0xffa882ff, 0xffff8ebc, 0xff5ed3e6, 0xffffad62};
@@ -313,6 +321,7 @@ public final class AlienMenuScreen extends GuiScreen {
 
     @Override public void handleMouseInput() throws IOException {
         super.handleMouseInput();
+        if (name == null) return; // The floating-panel subclass has its own controls.
         int wheel = Mouse.getEventDWheel();
         if (wheel != 0) {
             nameValue = name.getText();

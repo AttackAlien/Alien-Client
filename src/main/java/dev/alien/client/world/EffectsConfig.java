@@ -3,11 +3,14 @@ package dev.alien.client.world;
 /** Every effect is independently optional and has a bounded rendering budget. */
 public final class EffectsConfig {
     public boolean enabled = false;
-    public boolean movement = true;
-    public boolean landing = true;
-    public boolean trails = true;
+    public boolean movement = false;
+    public boolean landing = false;
+    public boolean trails = false;
+    public boolean ambient = false;
+    public String shape = "Diamond";
     public String quality = "Balanced";
     public int color = 0xAF83FF;
+    public int secondaryColor = 0xE8C7FF;
     public float size = 3F;
     public float distance = 24F;
     public int budget = 96;
@@ -18,7 +21,8 @@ public final class EffectsConfig {
 
     public void normalize() {
         if (!("Low".equals(quality) || "Balanced".equals(quality) || "High".equals(quality))) quality = "Balanced";
-        color &= 0xFFFFFF;
+        if (!("Diamond".equals(shape) || "Petal".equals(shape) || "Spark".equals(shape))) shape = "Diamond";
+        color &= 0xFFFFFF; secondaryColor &= 0xFFFFFF;
         size = Float.isNaN(size) ? 3F : Math.max(1F, Math.min(8F, size));
         distance = Float.isNaN(distance) ? 24F : Math.max(4F, Math.min(64F, distance));
         budget = Math.max(0, Math.min(256, budget));

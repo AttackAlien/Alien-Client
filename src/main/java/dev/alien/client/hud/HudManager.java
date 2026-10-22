@@ -7,6 +7,9 @@ import java.util.ArrayDeque;
 import java.util.Date;
 import java.util.Deque;
 import java.util.Map;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -42,7 +45,9 @@ public final class HudManager {
         if (event.type != RenderGameOverlayEvent.ElementType.ALL) return;
         Minecraft mc = Minecraft.getMinecraft();
         HudConfig config = config();
-        if (mc.thePlayer == null || !config.enabled || mc.currentScreen instanceof HudEditorScreen) return;
+        if (mc.thePlayer == null || !config.enabled) return;
+        // Alien screens draw their own chrome and previews over the world.
+        if (mc.currentScreen != null && mc.currentScreen.getClass().getName().startsWith("dev.alien.client.")) return;
         if (config.hideWithDebug && mc.gameSettings.showDebugInfo) return;
         ScaledResolution resolution = new ScaledResolution(mc);
         for (Map.Entry<String, HudConfig.Widget> entry : config.widgets.entrySet()) {
@@ -54,7 +59,7 @@ public final class HudManager {
     static boolean known(String id) {
         return "fps".equals(id) || "cps".equals(id) || "keys".equals(id) || "coordinates".equals(id)
             || "ping".equals(id) || "clock".equals(id) || "inventory".equals(id) || "armor".equals(id)
-            || "performance".equals(id) || "text".equals(id);
+            || "performance".equals(id) || "text".equals(id) || "brand".equals(id) || "modules".equals(id);
     }
 
     static HudConfig config() {
@@ -66,7 +71,14 @@ public final class HudManager {
     public static int[] bounds(String id, HudConfig.Widget widget, int screenWidth, int screenHeight) {
         Minecraft mc = Minecraft.getMinecraft();
         int w = 96, h = 20;
-        if ("keys".equals(id)) { w = 76; h = 76; }
+        if ("brand".equals(id)) { w = Math.max(124, mc.fontRendererObj.getStringWidth("ALIEN  |  " + Minecraft.getDebugFPS() + " FPS") + 14); h = 22; }
+        else if ("modules".equals(id)) {
+            List<String> labels = moduleLabels();
+            w = 84;
+            for (String label : labels) w = Math.max(w, mc.fontRendererObj.getStringWidth(label) + 12);
+            h = Math.max(12, labels.size() * 12);
+        }
+        else if ("keys".equals(id)) { w = 76; h = 76; }
         else if ("inventory".equals(id)) { w = 168; h = 60; }
         else if ("armor".equals(id)) { w = 92; h = 82; }
         else if ("performance".equals(id)) { w = 158; h = 54; }
@@ -85,9 +97,14 @@ public final class HudManager {
         GlStateManager.translate(b[0], b[1], 0);
         GlStateManager.scale(widget.scale, widget.scale, 1f);
         GlStateManager.enableBlend();
-        if (config().background) Gui.drawRect(0, 0, b[4], b[5], 0xb5161825);
-        Gui.drawRect(0, 0, 2, b[5], 0xff000000 | AlienClient.get().config().accentColor);
-        if ("fps".equals(id)) text(Minecraft.getDebugFPS() + " FPS", 7, 6, 0xffeeeeff);
+        boolean custom = "brand".equals(id) || "modules".equals(id);
+        if (!custom) {
+            if (config().background) Gui.drawRect(0, 0, b[4], b[5], 0xb00b0c12);
+            Gui.drawRect(0, 0, 2, b[5], 0xff000000 | AlienClient.get().config().accentColor);
+        }
+        if ("brand".equals(id)) brand(b[4]);
+        else if ("modules".equals(id)) modules(b[4], preview);
+        else if ("fps".equals(id)) text(Minecraft.getDebugFPS() + " FPS", 7, 6, 0xffeeeeff);
         else if ("cps".equals(id)) text(count(LEFT) + " / " + count(RIGHT) + " CPS", 7, 6, 0xffeeeeff);
         else if ("ping".equals(id)) text(ping(mc) + " ms", 7, 6, 0xffeeeeff);
         else if ("clock".equals(id)) text(CLOCK.format(new Date()), 7, 6, 0xffeeeeff);
@@ -145,6 +162,40 @@ public final class HudManager {
         }
         GlStateManager.color(1f, 1f, 1f, 1f);
         GlStateManager.popMatrix();
+    }
+
+    private static void brand(int width) {
+        int accent = 0xff000000 | AlienClient.get().config().accentColor;
+        if (config().background) Gui.drawRect(0, 0, width, 22, 0xb00b0c12);
+        Gui.drawRect(0, 2, 2, 18, accent);
+        text("\u00a7lALIEN", 7, 6, 0xfffaf8ff);
+        int divider = Minecraft.getMinecraft().fontRendererObj.getStringWidth("\u00a7lALIEN") + 13;
+        Gui.drawRect(divider, 5, divider + 1, 15, 0x887f788d);
+        text(Minecraft.getDebugFPS() + " FPS", divider + 7, 6, 0xffe8e5f0);
+        Gui.drawRect(7, 19, 28, 20, accent);
+    }
+
+    private static List<String> moduleLabels() {
+        List<String> labels = HudModules.active(AlienClient.get().config());
+        Collections.sort(labels, new Comparator<String>() {
+            @Override public int compare(String a, String b) {
+                return Integer.compare(Minecraft.getMinecraft().fontRendererObj.getStringWidth(b), Minecraft.getMinecraft().fontRendererObj.getStringWidth(a));
+            }
+        });
+        return labels;
+    }
+
+    private static void modules(int width, boolean preview) {
+        List<String> labels = moduleLabels();
+        if (labels.isEmpty() && preview) { text("No active visuals", 6, 2, 0xff9991a8); return; }
+        int y = 0, accent = 0xff000000 | AlienClient.get().config().accentColor;
+        for (String label : labels) {
+            int rowWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(label) + 12;
+            if (config().background) Gui.drawRect(0, y, rowWidth, y + 12, 0x93090a10);
+            Gui.drawRect(0, y + 2, 1, y + 10, accent);
+            text(label, 6, y + 2, 0xffefedf7);
+            y += 12;
+        }
     }
 
     private static int count(Deque<Long> clicks) {

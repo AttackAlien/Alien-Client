@@ -49,7 +49,7 @@ public final class AlienMainMenu extends GuiMainMenu {
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         if (button.id == 1) mc.displayGuiScreen(new GuiSelectWorld(this));
         if (button.id == 2) mc.displayGuiScreen(new GuiMultiplayer(this));
-        if (button.id == 3) mc.displayGuiScreen(new AlienMenuScreen(this));
+        if (button.id == 3) mc.displayGuiScreen(AlienMenuScreen.create(this));
         if (button.id == 4) mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
         if (button.id == 5) mc.shutdown();
         if (button.id == 6) mc.displayGuiScreen(new GuiModList(this));

@@ -2,12 +2,14 @@ package dev.alien.client.smoke;
 
 import dev.alien.client.AlienClient;
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.cosmetic.CosmeticConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
 import dev.alien.client.gui.AlienMainMenu;
 import dev.alien.client.gui.AlienMenuScreen;
 import dev.alien.client.hud.HudConfig;
 import dev.alien.client.hud.HudEditorScreen;
 import dev.alien.client.hud.HudManager;
+import dev.alien.client.world.AtmospherePresets;
 import dev.alien.client.world.EffectsScreen;
 import dev.alien.client.world.VisualStyleScreen;
 import dev.alien.client.world.WorldManager;
@@ -61,6 +63,13 @@ public final class AlienIntegrationSmoke {
     private boolean minimumDistancePending;
     private int liveScreenStage;
     private boolean disconnectRequested;
+    private int capeMotionFrame;
+    private int[] firstCapePixels;
+    private int changedCapePixels;
+    private int atmosphereStage;
+    private int crystalSkyPixel;
+    private long atmosphereServerTime;
+    private boolean atmosphereRain, atmosphereThunder;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception {
@@ -93,7 +102,8 @@ public final class AlienIntegrationSmoke {
         if (done || event.phase != TickEvent.Phase.END) return;
         try {
             if (elapsed(started) > 180_000) throw new AssertionError("Smoke timed out at stage " + stage);
-            if (elapsed(since) < 700) return;
+            long minimumWait = stage == 10 && liveScreenStage == 6 ? 100 : 700;
+            if (elapsed(since) < minimumWait) return;
             step();
         } catch (Throwable failure) {
             done = true;
@@ -236,6 +246,8 @@ public final class AlienIntegrationSmoke {
                 if (liveScreenStage == 0) {
                     require(mc.theWorld != null && mc.currentScreen instanceof AlienMenuScreen,
                             "Alien module menu remains open and renders inside the loaded world");
+                    require("PanelMenuScreen".equals(mc.currentScreen.getClass().getSimpleName()),
+                            "The actual registered shortcut opens the floating panel menu layout");
                     capture("09c-alien-menu-inside-world");
                     mc.displayGuiScreen(new WorldStudioScreen(new AlienMenuScreen(null)));
                     liveScreenStage = 1; since = System.nanoTime(); return;
@@ -247,10 +259,74 @@ public final class AlienIntegrationSmoke {
                     mc.displayGuiScreen(new CosmeticStudioScreen(null));
                     liveScreenStage = 2; since = System.nanoTime(); return;
                 }
-                assertButtonsInsideScreen();
-                String old = config().cosmetics.self.hat;
-                click(10); require(!old.equals(config().cosmetics.self.hat), "Cosmetic accessory selector edits the actual player preset");
-                capture("10-cosmetic-live-player-preview");
+                if (liveScreenStage == 2) {
+                    assertButtonsInsideScreen();
+                    String old = config().cosmetics.self.hat;
+                    click(10);
+                    require(!old.equals(config().cosmetics.self.hat), "Cosmetic accessory selector edits the actual player preset");
+                    liveScreenStage = 3; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 3) {
+                    // Capture after a fresh rendered frame, not in the same frame
+                    // that changed the selector and rebuilt its controls.
+                    capture("10-cosmetic-live-player-preview");
+                    prepareClothPreset();
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null));
+                    setPreviewPose(35, 1.1f);
+                    liveScreenStage = 4; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 4) {
+                    CosmeticStudioScreen studio = (CosmeticStudioScreen) mc.currentScreen;
+                    require(Math.abs(studio.previewYaw() - 35) < .01f,
+                            "Cosmetic preview supports a stable user-selected turntable angle");
+                    require(Math.abs(studio.previewZoom() - 1.1f) < .01f,
+                            "Cosmetic preview supports bounded user-selected zoom");
+                    capture("14-smooth-kasa-and-cloth-front");
+                    setPreviewPose(180, 1.1f);
+                    liveScreenStage = 5; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 5) {
+                    capture("15-cloth-cape-emblem-back");
+                    capeMotionFrame = 0; firstCapePixels = null; changedCapePixels = 0;
+                    liveScreenStage = 6; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 6) {
+                    String filename = String.format(java.util.Locale.ROOT, "cape-motion-%02d", capeMotionFrame);
+                    capture(filename);
+                    int[] pixels = previewBodyPixels(filename);
+                    if (firstCapePixels == null) firstCapePixels = pixels;
+                    else {
+                        if (pixels.length != firstCapePixels.length) throw new AssertionError("Preview changed size during motion capture");
+                        int changed = 0;
+                        for (int i = 0; i < pixels.length; i++) if (colorDistance(pixels[i], firstCapePixels[i]) > 20) changed++;
+                        changedCapePixels = Math.max(changedCapePixels, changed);
+                    }
+                    capeMotionFrame++; since = System.nanoTime();
+                    if (capeMotionFrame < 12) return;
+                    require(changedCapePixels >= 12,
+                            "Animated cloth produces visible changes inside the back-view player region across actual rendered frames");
+                    Files.write(new File(output, "cape-motion-metrics.txt").toPath(),
+                            ("12 original framebuffer frames, minimum interval 100 ms; maximum changed body-region pixels="
+                                    + changedCapePixels + "\n").getBytes(StandardCharsets.UTF_8));
+                    CosmeticConfig.Accessory a = config().cosmetics.self;
+                    a.hat = "SAMURAI"; a.face = "KITSUNE"; a.back = "CAPE";
+                    a.color = 0x292130; a.secondaryColor = 0xD6B56C; a.capePattern = "MOON";
+                    AlienClient.get().save();
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null)); setPreviewPose(35, 1.1f);
+                    liveScreenStage = 7; return;
+                }
+                if (liveScreenStage == 7) {
+                    capture("16-sculpted-samurai-kitsune");
+                    CosmeticConfig.Accessory a = config().cosmetics.self;
+                    a.hat = "CROWN"; a.face = "NONE"; a.back = "WINGS";
+                    a.color = 0xB79AFF; a.secondaryColor = 0x5EDBCD;
+                    AlienClient.get().save();
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null)); setPreviewPose(150, 1.05f);
+                    liveScreenStage = 8; since = System.nanoTime(); return;
+                }
+                capture("17-sculpted-wings-back-view");
+                require(GL11.glGetError() == GL11.GL_NO_ERROR,
+                        "Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state");
                 mc.displayGuiScreen(new HudEditorScreen(null));
                 next(); return;
             }
@@ -271,19 +347,72 @@ public final class AlienIntegrationSmoke {
                 // Apply the import afterward to test the renderer with that active profile.
                 config().world.skyboxFile = "smoke.png";
                 next(); return;
-            case 13:
+            case 13: {
                 if (elapsed(since) < 3000) return;
-                require(WorldManager.lastImportMessage.startsWith("Loaded smoke.png"), "Imported PNG skybox decodes and uploads to the real renderer");
-                capture("12-imported-skybox-live-world");
-                int importedPixel = skyPixel("12-imported-skybox-live-world");
-                require(colorDistance(importedPixel, auroraSkyPixel) > 50, "Imported skybox visibly changes the rendered sky");
-                require(AlienClient.get().lastError().isEmpty(), "No Alien Client persistence errors during the runtime workflow");
-                require(GL11.glGetError() == GL11.GL_NO_ERROR, "OpenGL reports no error after studios and live world rendering");
+                if (atmosphereStage == 0) {
+                    require(WorldManager.lastImportMessage.startsWith("Loaded smoke.png"), "Imported PNG skybox decodes and uploads to the real renderer");
+                    capture("12-imported-skybox-live-world");
+                    int importedPixel = skyPixel("12-imported-skybox-live-world");
+                    require(colorDistance(importedPixel, auroraSkyPixel) > 50, "Imported skybox visibly changes the rendered sky");
+                    require(AlienClient.get().lastError().isEmpty(), "No Alien Client persistence errors during the runtime workflow");
+                    require(GL11.glGetError() == GL11.GL_NO_ERROR, "OpenGL reports no error after studios and live world rendering");
+                    atmosphereServerTime = mc.getIntegratedServer().worldServerForDimension(0).getWorldTime();
+                    atmosphereRain = mc.getIntegratedServer().worldServerForDimension(0).getWorldInfo().isRaining();
+                    atmosphereThunder = mc.getIntegratedServer().worldServerForDimension(0).getWorldInfo().isThundering();
+                    prepareClothPreset();
+                    config().hud.applyReferencePreset();
+                    AtmospherePresets.apply(config().world, config().effects, "Crystal");
+                    require(config().world.enabled && "Crystal".equals(config().world.theme)
+                                    && config().effects.enabled && config().effects.ambient && "Diamond".equals(config().effects.shape),
+                            "Crystal preset enables the real cyan sky and ambient diamond particle settings");
+                    require(config().hud.enabled && config().hud.widgets.get("brand").enabled
+                                    && config().hud.widgets.get("modules").enabled && !config().hud.background,
+                            "Reference HUD enables its live brand and active visual modules list");
+                    AlienClient.get().save();
+                    atmosphereStage = 1; since = System.nanoTime(); return;
+                }
+                if (atmosphereStage == 1) {
+                    require("Procedural sky active".equals(WorldManager.lastImportMessage),
+                            "Applying a procedural preset releases the previously uploaded PNG skybox");
+                    capture("18-crystal-cyan-sky-particles-hud");
+                    crystalSkyPixel = skyPixel("18-crystal-cyan-sky-particles-hud");
+                    require(((crystalSkyPixel >> 8) & 255) > ((crystalSkyPixel >> 16) & 255)
+                                    && (crystalSkyPixel & 255) > ((crystalSkyPixel >> 16) & 255),
+                            "Crystal preset produces an actual cyan sky in the game framebuffer");
+                    AtmospherePresets.apply(config().world, config().effects, "Sakura");
+                    require("Sakura".equals(config().world.theme) && config().effects.enabled
+                                    && config().effects.ambient && "Petal".equals(config().effects.shape),
+                            "Sakura preset changes the actual sky palette and ambient petal particle settings");
+                    AlienClient.get().save();
+                    atmosphereStage = 2; since = System.nanoTime(); return;
+                }
+                if (atmosphereStage == 2) {
+                    capture("19-sakura-petals-sky-hud");
+                    require(colorDistance(skyPixel("19-sakura-petals-sky-hud"), crystalSkyPixel) > 50,
+                            "Sakura produces a visibly different rendered sky from Crystal");
+                    config().world.enabled = false; config().world.timeOverride = false;
+                    config().world.weather = "Server"; config().world.fogEnabled = false;
+                    config().effects.enabled = false;
+                    AlienClient.get().save();
+                    atmosphereStage = 3; since = System.nanoTime(); return;
+                }
+                require(mc.theWorld.provider.getSkyRenderer() == null && mc.theWorld.provider.getWeatherRenderer() == null,
+                        "Disabling local sky and weather restores the vanilla dimension renderers");
+                capture("20-vanilla-sky-restored-after-presets");
+                long finalServerTime = mc.getIntegratedServer().worldServerForDimension(0).getWorldTime();
+                require(finalServerTime > atmosphereServerTime && finalServerTime - atmosphereServerTime < 500,
+                        "Atmosphere presets leave actual server time advancing normally");
+                require(atmosphereRain == mc.getIntegratedServer().worldServerForDimension(0).getWorldInfo().isRaining()
+                                && atmosphereThunder == mc.getIntegratedServer().worldServerForDimension(0).getWorldInfo().isThundering(),
+                        "Atmosphere presets leave actual server rain and thunder unchanged");
+                require(GL11.glGetError() == GL11.GL_NO_ERROR,
+                        "Ambient particles and restored sky preserve a clean OpenGL state");
                 AlienClient.get().store().deleteProfile("smoke_integration");
                 // Request the actual vanilla menu action at the next tick.
                 // Keep the channel open until that synchronous action runs.
                 disconnectRequested = true;
                 next(); return;
+            }
             case 14:
                 if (mc.theWorld != null) return;
                 require(true, "Normal connection teardown unloads the disposable world");
@@ -307,6 +436,42 @@ public final class AlienIntegrationSmoke {
     }
 
     private ClientConfig config() { return AlienClient.get().config(); }
+    private void prepareClothPreset() {
+        // Competitive was tested earlier; use the requested high cloth detail
+        // for these visual checks instead of its deliberate low-detail cap.
+        config().performance.preset = "Balanced";
+        CosmeticConfig.Accessory a = config().cosmetics.self;
+        a.enabled = true; a.hat = "JAPANESE"; a.face = "NONE"; a.back = "CAPE";
+        a.charm = false; a.aura = false; a.trail = false;
+        a.color = 0x252333; a.secondaryColor = 0xD6B56C;
+        a.offsetX = a.offsetY = a.offsetZ = a.rotationX = a.rotationY = a.rotationZ = 0;
+        a.scale = 1; a.hatSize = 1; a.capeLength = 1.1f; a.capeFlutter = 1.3f;
+        a.animations = true; a.detailLevel = "High"; a.capePattern = "ALIEN";
+        AlienClient.get().save();
+    }
+    private void setPreviewPose(float yaw, float zoom) {
+        CosmeticStudioScreen studio = (CosmeticStudioScreen) mc.currentScreen;
+        studio.setPreviewYaw(yaw); studio.setPreviewZoom(zoom);
+    }
+    /** Sample the model area only: excludes HUD clock, panel labels and controls. */
+    private int[] previewBodyPixels(String name) throws Exception {
+        BufferedImage frame = ImageIO.read(new File(output, "screenshots/" + name + ".png"));
+        CosmeticStudioScreen studio = (CosmeticStudioScreen) mc.currentScreen;
+        int[] bounds = studio.previewCanvasBounds();
+        double sx = frame.getWidth() / (double) mc.currentScreen.width;
+        double sy = frame.getHeight() / (double) mc.currentScreen.height;
+        double modelScale = Math.min(100, (bounds[3] - 11) / 2.4) * studio.previewZoom();
+        double baseline = bounds[1] + bounds[3] - 4;
+        // This narrow rectangle lies over the back cloth itself, away from
+        // independently animated arms, the head, the HUD clock and panel art.
+        int x = (int) Math.round((bounds[0] + bounds[2] * .5 - modelScale * .18) * sx);
+        int y = (int) Math.round((baseline - modelScale * 1.30) * sy);
+        int w = (int) Math.round(modelScale * .36 * sx);
+        int h = (int) Math.round(modelScale * .65 * sy);
+        if (x < 0 || y < 0 || w <= 0 || h <= 0 || x + w > frame.getWidth() || y + h > frame.getHeight())
+            throw new AssertionError("Invalid cosmetic preview sample region");
+        return frame.getRGB(x, y, w, h, null, 0, w);
+    }
     private void next() { stage++; since = System.nanoTime(); }
     private static long elapsed(long start) { return (System.nanoTime() - start) / 1_000_000; }
     private void require(boolean condition, String check) {

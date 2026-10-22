@@ -9,18 +9,20 @@ public class HudConfigTest {
 
     @Test public void defaultLayoutContainsEveryInformationalWidget() {
         HudConfig config = new HudConfig();
-        assertEquals(10, config.widgets.size());
-        for (String key : new String[] {"fps", "cps", "keys", "coordinates", "ping", "clock", "inventory", "armor", "performance", "text"}) {
+        assertEquals(12, config.widgets.size());
+        for (String key : new String[] {"brand", "modules", "fps", "cps", "keys", "coordinates", "ping", "clock", "inventory", "armor", "performance", "text"}) {
             assertNotNull(key, config.widgets.get(key));
         }
-        assertTrue(config.widgets.get("fps").enabled);
+        assertTrue(config.widgets.get("brand").enabled);
+        assertTrue(config.widgets.get("modules").enabled);
+        assertFalse(config.widgets.get("fps").enabled);
         assertFalse(config.widgets.get("inventory").enabled);
     }
 
     @Test public void missingMapInImportedProfileRestoresUsableDefaults() {
         HudConfig config = gson.fromJson("{\"widgets\":null}", HudConfig.class);
         config.ensureDefaults();
-        assertEquals(10, config.widgets.size());
+        assertEquals(12, config.widgets.size());
         assertNotNull(config.widgets.get("fps"));
     }
 
@@ -31,7 +33,7 @@ public class HudConfigTest {
         assertFalse(config.widgets.get("clock").enabled);
         assertEquals(.25f, config.widgets.get("clock").x, .0001f);
         assertEquals(1.5f, config.widgets.get("clock").scale, .0001f);
-        assertEquals(10, config.widgets.size());
+        assertEquals(12, config.widgets.size());
     }
 
     @Test public void nonFiniteTransformsCannotPoisonRenderCoordinates() {
@@ -73,7 +75,7 @@ public class HudConfigTest {
     @Test public void unknownFutureWidgetEntriesDoNotBreakKnownDefaults() {
         HudConfig config = gson.fromJson("{\"widgets\":{\"future_widget\":null,\"future_widget_2\":{\"enabled\":true,\"x\":99,\"scale\":-2}}}", HudConfig.class);
         config.ensureDefaults();
-        assertEquals(12, config.widgets.size());
+        assertEquals(14, config.widgets.size());
         assertNotNull(config.widgets.get("fps"));
         assertNull(config.widgets.get("future_widget"));
         assertEquals(1f, config.widgets.get("future_widget_2").x, 0f);
@@ -105,5 +107,32 @@ public class HudConfigTest {
         config.ensureDefaults();
         assertEquals(before, gson.toJson(config));
         assertSame(edited, config.widgets.get("fps"));
+    }
+
+    @Test public void legacyLayoutsKeepExistingOverlaysAndOptIntoNewWidgets() {
+        HudConfig config = gson.fromJson("{\"widgets\":{\"fps\":{\"enabled\":true,\"x\":0.4,\"y\":0.7,\"scale\":1.5}}}", HudConfig.class);
+        config.ensureDefaults();
+        assertTrue(config.widgets.get("fps").enabled);
+        assertEquals(.4f, config.widgets.get("fps").x, 0f);
+        assertEquals(1.5f, config.widgets.get("fps").scale, 0f);
+        assertFalse(config.widgets.get("brand").enabled);
+        assertFalse(config.widgets.get("modules").enabled);
+    }
+
+    @Test public void compactPresetRemovesRedundantStatsAndRestoresUsableBounds() {
+        HudConfig config = new HudConfig();
+        config.enabled = false;
+        config.widgets.get("brand").scale = 3;
+        config.widgets.get("fps").enabled = true;
+        config.applyReferencePreset();
+        assertTrue(config.enabled);
+        assertFalse(config.background);
+        assertTrue(config.widgets.get("brand").enabled);
+        assertTrue(config.widgets.get("modules").enabled);
+        assertTrue(config.widgets.get("coordinates").enabled);
+        assertEquals(1f, config.widgets.get("brand").scale, 0f);
+        int enabled = 0;
+        for (HudConfig.Widget widget : config.widgets.values()) if (widget.enabled) enabled++;
+        assertEquals(3, enabled);
     }
 }

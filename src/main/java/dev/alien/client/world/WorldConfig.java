@@ -20,7 +20,8 @@ public final class WorldConfig {
     public String skyboxFile = "";
 
     public void normalize() {
-        if (!("Nebula".equals(theme) || "Galaxy".equals(theme) || "Aurora".equals(theme) || "Japanese".equals(theme))) theme = "Nebula";
+        if (!("Nebula".equals(theme) || "Galaxy".equals(theme) || "Aurora".equals(theme) || "Japanese".equals(theme)
+                || "Crystal".equals(theme) || "Sakura".equals(theme))) theme = "Nebula";
         if (weather == null || !("Server".equals(weather) || "Clear".equals(weather)
                 || "Rain".equals(weather) || "Snow".equals(weather) || "Storm".equals(weather))) weather = "Server";
         if (skyboxFile == null || skyboxFile.length() > 160) skyboxFile = "";
@@ -37,6 +38,10 @@ public final class WorldConfig {
             skyTop = 0x050D2A; skyBottom = 0x423170; fogColor = 0x605479;
         } else if ("Aurora".equals(next)) {
             skyTop = 0x061F32; skyBottom = 0x286D73; fogColor = 0x5A8A88;
+        } else if ("Crystal".equals(next)) {
+            skyTop = 0x209ED5; skyBottom = 0xC8F4F6; fogColor = 0xD4EDF0;
+        } else if ("Sakura".equals(next)) {
+            skyTop = 0x606FA1; skyBottom = 0xF1B7CA; fogColor = 0xEAD1DC;
         } else if ("Japanese".equals(next)) {
             skyTop = 0x393263; skyBottom = 0xD78C97; fogColor = 0xC096A3;
         } else {

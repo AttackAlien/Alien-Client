@@ -40,7 +40,8 @@ public final class EffectsScreen extends GuiScreen {
         buttonList.add(new GuiButton(6,x+w/2+3,y,w/2-3,20,"Apply RGB hex")); y+=22;
         buttonList.add(new GuiButton(7,x,y,w/2-3,20,"Reset effects"));
         buttonList.add(new GuiButton(0,x+w/2+3,y,w/2-3,20,"Done"));
-        buttonList.add(new GuiButton(8,x,y+22,w,20,"Camera sway / color filter"));
+        buttonList.add(new GuiButton(8,x,y+22,w/2-3,20,"Camera / color"));
+        buttonList.add(new GuiButton(9,x+w/2+3,y+22,w/2-3,20,"Presets / shapes"));
     }
 
     private static String on(boolean v){return v?"ON":"OFF";}
@@ -57,6 +58,7 @@ public final class EffectsScreen extends GuiScreen {
             case 6:applyColor();break;
             case 7:AlienClient.get().config().effects=new EffectsConfig();break;
             case 8:applyColor();mc.displayGuiScreen(new VisualStyleScreen(this));return;
+            case 9:applyColor();mc.displayGuiScreen(new AtmospherePresetScreen(this));return;
             default:return;
         }
         AlienClient.get().save();initGui();

@@ -3,6 +3,7 @@ package dev.alien.client.config;
 import dev.alien.client.cosmetic.CosmeticConfig;
 import dev.alien.client.hud.HudConfig;
 import dev.alien.client.performance.PerformanceConfig;
+import dev.alien.client.gui.PanelLayoutConfig;
 import dev.alien.client.world.EffectsConfig;
 import dev.alien.client.world.WorldConfig;
 
@@ -18,6 +19,8 @@ public final class ClientConfig {
     public int accentColor = 0xffa882ff;
     public int menuKey = 54;
     public String theme = "Nebula";
+    public String menuLayout = "Panels";
+    public PanelLayoutConfig panels = new PanelLayoutConfig();
     public HudConfig hud = new HudConfig();
     public CosmeticConfig cosmetics = new CosmeticConfig();
     public WorldConfig world = new WorldConfig();
@@ -31,6 +34,9 @@ public final class ClientConfig {
         if (menuKey < 0 || menuKey > 255) menuKey = 54;
         accentColor |= 0xff000000;
         if (theme == null || theme.length() > 64) theme = "Nebula";
+        if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout)) menuLayout = "Panels";
+        if (panels == null) panels = new PanelLayoutConfig();
+        panels.normalize();
         if (hud == null) hud = new HudConfig();
         if (cosmetics == null) cosmetics = new CosmeticConfig();
         if (world == null) world = new WorldConfig();

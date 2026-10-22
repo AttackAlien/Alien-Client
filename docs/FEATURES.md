@@ -1,18 +1,31 @@
-# Escopo da versão 0.1.0
+# Escopo da versão 0.2.0
+
+A tabela descreve a implementação disponível no código. Resultados de compilação e execução gráfica são registrados separadamente em [VALIDATION.md](VALIDATION.md); a presença de um controle não demonstra compatibilidade com outros mods ou ganho de FPS.
 
 | Área | Implementado | Limites e extensões pendentes |
 | --- | --- | --- |
 | Base Forge | Mod apenas de cliente, inicialização, tecla configurável, configuração JSON atômica, backups de dados inválidos | Sem launcher próprio; requer Minecraft/Forge do usuário |
-| Interface | Menu inicial opcional, categorias, pesquisa de categorias, gradientes, RGB, transparência, sliders, atalhos, animações, temas JSON | Fonte padrão do jogo; pesquisa não indexa cada opção dos subeditores |
-| HUD | Dez tipos de elementos, arraste, escala, alinhamento, grade, prévia, texto, salvamento em perfis | Um elemento de texto personalizado; não há editor de scripts/plugins de HUD |
-| Cosméticos | Modelos originais de chapéu japonês/samurai/coroa, kitsune/máscara futurista/óculos, capa/asas/mochila, charm ligado ao braço da mão, aura/trilha | Geometria baseada em caixas; não importa OBJ/glTF/Blockbench nem altera skins |
+| Interface | Menu inicial opcional; layouts Panels e Studio; colunas flutuantes arrastáveis, recolhíveis e com rolagem; busca de módulos; gradientes, RGB, transparência, sliders, atalhos, animações e temas JSON | Fonte padrão do jogo; Studio pesquisa categorias e não cada opção dos subeditores; telas pequenas distribuem colunas em páginas |
+| HUD | Doze tipos de elementos, incluindo marca Alien com FPS real e lista de visuais habilitados; arraste, escala, alinhamento, grade, prévia, texto e preset compacto | Um elemento de texto personalizado; a lista reflete configurações locais e não módulos de combate; não há editor de scripts/plugins de HUD |
+| Cosméticos | Malhas originais trianguladas para kasa cônico, kabuto, coroa, kitsune, visor, óculos, asas, mochila e charm; capa curva animada com textura e emblemas; aura/trilha | A capa usa deformação procedural, sem simulação física de colisões; o importador externo continua limitado a caixas JSON; não altera skins |
+| Cosmetic Studio | Prévia 3D com arraste para girar, roda para zoom, turntable e reset; abas Style/Fit/Players/Imports/Motion; seletor RGB/hex, presets Ronin/Celestial, ajuste de tamanho, posição, rotação, capa e detalhe | Requer jogador carregado para prévia; emblemas são os padrões locais Alien/Moon/Stars/Plain, sem editor arbitrário de desenhos |
 | Inspector | Seleção de jogadores carregados e UUIDs já salvos, acessórios por jogador, reset individual/global | Sem editor arbitrário de skin; jogador offline não tem prévia |
 | Importação | Modelos JSON de caixas, texturas PNG e panoramas equiretangulares PNG locais | Sem download por URL, pacotes ZIP, scripts ou formatos de animação externos |
-| Mundo | Temas Galaxy/Aurora/Japanese/Nebula, panorama 360°, gradiente, estrelas, sol/lua, horário visual, neblina | Apenas dimensão 0; discos de sol/lua, sem editor de suas texturas; não altera a iluminação real do terreno |
+| Mundo | Temas Galaxy/Aurora/Japanese/Nebula/Crystal/Sakura, panorama 360°, gradiente, estrelas, sol/lua, horário visual e neblina; caminho de céu para distâncias de 2/3 chunks | Apenas dimensão 0; discos de sol/lua, sem editor de suas texturas; não altera a iluminação real do terreno |
 | Clima | Precipitação visual Server/Clear/Rain/Snow/Storm, intensidade e orçamento | Storm é chuva visual intensa; não cria trovões/raios/áudio; chuva real pode continuar audível no modo Clear |
-| Efeitos | Movimento, aterrissagem, trilhas, acessórios animados, animações de interface, roll de câmera e filtro de cor | Não há editor de animação específico de itens nem pipeline de pós-processamento/shaders |
-| Desempenho | Limites de partículas/acessórios, distância, descarte de partículas atrás da câmera, cache de modelos/texturas/estrelas, FPS/frame time/P95/memória | Limites são por subsistema e não abrangem partículas vanilla; sem promessas ou resultados comparativos de FPS |
+| Efeitos | Movimento, aterrissagem, trilhas e partículas ambientes em formas Diamond/Petal/Spark; paletas integradas Crystal/Sakura/Nebula; animações de acessórios/interface, roll de câmera e filtro de cor | Partículas são malhas planas voltadas à câmera, sem shaders volumétricos; não há editor de animação específico de itens nem pipeline de pós-processamento |
+| Desempenho | Limites de partículas/acessórios, distância, descarte de partículas atrás da câmera, caches limitados de malhas/texturas/estrelas, grade de capa reutilizada, detalhe Low/Balanced/High, FPS/frame time/P95/memória | O detalhe altera a subdivisão da capa, sem sistema geral de LOD para todos os modelos; limites são por subsistema e não abrangem partículas vanilla; sem promessas ou resultados comparativos de FPS |
 | Perfis | Persistência, import/export, padrões, associação por servidor e restauração global | Associação local; nenhuma configuração enviada ao servidor |
+
+## Uso dos novos controles
+
+Right Shift abre o layout configurado. **Panels** é o padrão e reúne HUD, Cosmetics, World, Effects e Client em colunas. Arraste o cabeçalho para reposicionar, use o controle da extremidade direita para recolher e o ícone de editor ao lado ou o botão direito para abrir o editor. A roda percorre as opções. As posições e o estado recolhido são salvos no perfil. **Reset** restaura o layout das colunas, sem restaurar todas as configurações do cliente. Em **Settings → Appearance → Module menu**, escolha **Studio** para o painel com navegação lateral.
+
+No HUD Editor, **Compact preset** deixa marca/FPS, lista de visuais habilitados e coordenadas. Os demais elementos continuam disponíveis para ativação e edição. Perfis anteriores mantêm suas posições; os dois elementos novos podem ser ativados individualmente no editor ou pelo preset.
+
+No Cosmetic Studio, **Style** escolhe acessórios e cores; **Fit** ajusta transformações; **Players** controla overrides por UUID; **Imports** mantém o formato externo de caixas; **Motion** controla animação, ondulação/comprimento da capa, tamanho do chapéu, detalhe e emblema. O desenho do emblema acompanha as coordenadas da malha deformada. A opção global de animações e a opção do acessório podem interromper o movimento.
+
+**World Studio → Atmosphere presets** ou **Effects Studio → Presets / shapes** abre as paletas. **Crystal** combina céu ciano e partículas em losango; **Sakura**, entardecer rosado e pétalas; **Nebula**, noite violeta e brilhos. Aplicar uma paleta ativa céu e efeitos, configura horário visual, neblina, clima visual Clear e cores, e limpa o nome do panorama importado. A aba **Particles** permite alternar forma, partículas ambientes e o interruptor geral. Os ajustes finos de quantidade, tamanho, distância e qualidade permanecem no Effects Studio.
 
 ## Compatibilidade com OptiFine
 
