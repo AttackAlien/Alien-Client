@@ -1,0 +1,50 @@
+name: Alien Client Unified | Forge 1.8.9
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alien-unified-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unified:
+    name: Unified JAR | Java 8
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      ALIEN_TOOLS_DIR: ${{ github.workspace }}/.tools
+      GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+      - name: Bootstrap verified JDK 8 and Gradle 2.14.1
+        run: bash ./scripts/bootstrap.sh
+      - name: Compile Unified, run JUnit and verify actual JAR provenance
+        run: ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace build
+      - name: Inspect Unified artifact
+        run: |
+          test -s build/unified/libs/AlienClient-Unified-1.8.9.jar
+          sha256sum build/unified/libs/AlienClient-Unified-1.8.9.jar | tee build/unified/SHA256SUMS.txt
+      - name: Upload single installer and test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alien-unified-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            build/unified/libs/AlienClient-Unified-1.8.9.jar
+            build/unified/SHA256SUMS.txt
+            build/unified/test-results/
+            build/unified/reports/tests/
