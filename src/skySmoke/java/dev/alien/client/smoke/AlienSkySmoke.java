@@ -78,7 +78,9 @@ public final class AlienSkySmoke {
             } catch(Exception writing){writing.printStackTrace();}
             ex.printStackTrace();
             System.err.println("ALIEN_SKY_SMOKE_FAIL stage="+stage);
-            System.exit(1);
+            // Forge 1.8.9 traps System.exit in mod classes; let Minecraft report
+            // a genuine failed smoke rather than masking it as an exit failure.
+            throw new RuntimeException("Sky Studio integration smoke failed", ex);
         }
     }
 
@@ -190,7 +192,7 @@ public final class AlienSkySmoke {
                 }
                 System.out.println("ALIEN_SKY_SMOKE_PASS checks="+checks.size());
                 // Deliberately discard the smoke world: this is an isolated test runtime.
-                System.exit(0);
+                mc.shutdown();
                 return;
             default: throw new AssertionError("Unknown sky smoke stage "+stage);
         }
@@ -228,7 +230,10 @@ public final class AlienSkySmoke {
         require(screenshot!=null && screenshot.getWidth()==mc.displayWidth
                   && screenshot.getHeight()==mc.displayHeight,
                   "Real framebuffer screenshot "+name);
-        int pixel=screenshot.getRGB(screenshot.getWidth()/2,screenshot.getHeight()/2)&0xFFFFFF;
+        // Vanilla clouds can cross the exact screen center, even with a valid
+        // cubemap behind them. The lower-central sample stays on the sky face
+        // when the test camera looks upwards at -90 or -35 degrees.
+        int pixel=screenshot.getRGB(screenshot.getWidth()/2,screenshot.getHeight()*3/4)&0xFFFFFF;
         System.out.println("ALIEN_SKY_SMOKE_PIXEL "+name+" #"+Integer.toHexString(pixel));
         return pixel;
     }
