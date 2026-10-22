@@ -2,7 +2,7 @@
   {
     "modid": "alienclient",
     "name": "${editionName}",
-    "description": "${editionDescription}. Local cosmetics, HUD and world customization. Advanced Full modules are not implemented in this architecture preview.",
+    "description": "${editionDescription}. Local HUD, cosmetics, world customization and optional configurable combat controls (Unified build).",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/AttackAlien/Alien-Client",
