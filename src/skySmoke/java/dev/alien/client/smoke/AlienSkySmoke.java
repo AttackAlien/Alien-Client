@@ -112,6 +112,9 @@ public final class AlienSkySmoke {
                 mc.gameSettings.hideGUI=true;
                 mc.gameSettings.thirdPersonView=0;
                 mc.gameSettings.renderDistanceChunks=4;
+                // Vanilla cloud sprites obscure color samples; disable them only
+                // inside the disposable test runtime, never in shipped client code.
+                mc.gameSettings.clouds=0;
                 face(0F,-90F);
                 AlienClient.get().save();
                 advance();return;
@@ -230,10 +233,9 @@ public final class AlienSkySmoke {
         require(screenshot!=null && screenshot.getWidth()==mc.displayWidth
                   && screenshot.getHeight()==mc.displayHeight,
                   "Real framebuffer screenshot "+name);
-        // Vanilla clouds can cross the exact screen center, even with a valid
-        // cubemap behind them. The lower-central sample stays on the sky face
-        // when the test camera looks upwards at -90 or -35 degrees.
-        int pixel=screenshot.getRGB(screenshot.getWidth()/2,screenshot.getHeight()*3/4)&0xFFFFFF;
+        // Stay below transient upper-screen overlays in the framebuffer
+        // while looking skyward at -90 or -35 degrees.
+        int pixel=screenshot.getRGB(screenshot.getWidth()/2,screenshot.getHeight()*4/5)&0xFFFFFF;
         System.out.println("ALIEN_SKY_SMOKE_PIXEL "+name+" #"+Integer.toHexString(pixel));
         return pixel;
     }
