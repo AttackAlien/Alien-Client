@@ -3,7 +3,7 @@
 CI workflow: [`.github/workflows/forge-ci.yml`](../.github/workflows/forge-ci.yml).
 
 ## Scope
-- Trigger: pull requests targeting `main` (including new commits to PR #3); manual `workflow_dispatch` once the workflow exists on the default branch. Avoid duplicated PR/push jobs on the same revision.
+- Trigger: push to the feature branch and pull requests targeting `main` (including new commits to PR #3); manual `workflow_dispatch` once the workflow exists on the default branch. Push and PR can produce separate runs; prefer the latest PR run when reviewing.
 - Matrix: **Legit** and **Full**, independent Linux runners (Ubuntu 22.04).
 - Toolchain: Java 8 with `actions/setup-java`, then the repository's pinned, SHA-256-verified Temurin 8u472 and Gradle 2.14.1; ForgeGradle 2.1, Minecraft/Forge 1.8.9 from official endpoints.
 - Pipeline: JUnit via `build`, code compilation, ForgeGradle reobfuscation, built-JAR provenance verification, SHA256, and **real game smoke run** via Xorg with a connected dummy display and Mesa software OpenGL.
@@ -20,7 +20,7 @@ If GitHub Actions is disabled, first enable it in repository **Settings → Acti
 ## Limits and troubleshooting
 - Green means the code builds and the smoke scenarios pass **in Linux with software OpenGL**. It does not prove Windows, OptiFine, other mods, dedicated servers, real NVIDIA/AMD performance or actual FPS improvement.
 - Legacy ForgeGradle may encounter upstream 404/429/TLS/dependency availability failures; inspect the job's first failing step/log before changing repository dependencies or disabling verification.
-- New commits on the PR head branch trigger the `pull_request` workflow regardless of draft status, **if Actions are enabled and GitHub's policy accepts it**.
+- Pushes to the feature branch and PR updates trigger the workflow regardless of PR draft status, **if Actions are enabled and GitHub's policy accepts it**.
 - The workflow does not use GitHub release publishing, repository write permissions, account tokens or remote game servers.
 - Do not confuse old versioned screenshots under `captures/` with evidence from this run: only `build/<edition>/smoke/` in the current artifact is current.
 
