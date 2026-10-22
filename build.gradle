@@ -61,6 +61,12 @@ sourceSets {
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
+    combatSmoke {
+        java.setSrcDirs(['src/combatSmoke/java'])
+        resources.setSrcDirs(['src/combatSmoke/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
 }
 
 task runSmokeClient(type: JavaExec, dependsOn: ['classes', 'smokeClasses', 'makeStart']) {
@@ -88,6 +94,31 @@ afterEvaluate {
         systemProperty 'alien.smoke.output', file("${buildDir}/smoke").absolutePath
         systemProperty 'alien.smoke.edition', selectedEdition
         systemProperty 'alien.smoke.mainClasses', sourceSets.main.output.classesDir.absolutePath
+        systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+task runCombatSmokeClient(type: JavaExec, dependsOn: ['classes', 'combatSmokeClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Launch isolated real Minecraft/Forge to validate Unified Combat Studio'
+}
+afterEvaluate {
+    runCombatSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.combatSmoke.output
+        workingDir = file("${buildDir}/combat-smoke-runtime")
+        def smokeArgs = new ArrayList(runClient.args)
+        def gameDirIndex = smokeArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
+            smokeArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = smokeArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.combat.smoke', 'true'
+        systemProperty 'alien.combat.smoke.output', file("${buildDir}/combat-smoke").absolutePath
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }
