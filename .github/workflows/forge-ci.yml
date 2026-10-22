@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: alien-forge-${{ github.workflow }}-${{ github.ref }}
+  group: alien-forge-bounded-v2-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
