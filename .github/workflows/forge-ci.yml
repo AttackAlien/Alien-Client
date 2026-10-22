@@ -1,6 +1,9 @@
 name: Alien Client - Forge 1.8.9 CI
 
 on:
+  push:
+    branches:
+      - feature/panelstudio-ui-foundation
   pull_request:
     branches:
       - main
