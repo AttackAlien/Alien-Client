@@ -18,6 +18,14 @@ public final class WorldConfig {
     public float weatherIntensity = 0.5F;
     /** A PNG basename under config/alien-client/skyboxes; blank uses procedural sky. */
     public String skyboxFile = "";
+    /** Local image-only orientation (no camera or server changes). */
+    public float skyboxYaw = 0F;
+    /** Optional rotation, degrees per second; disabled by default. */
+    public float skyboxDrift = 0F;
+    /** Imported image luminance, 0.2..1.0. */
+    public float skyboxBrightness = 1F;
+    /** Optional star shimmer; default preserves original stars. */
+    public boolean twinklingStars = false;
 
     public void normalize() {
         if (!("Nebula".equals(theme) || "Galaxy".equals(theme) || "Aurora".equals(theme) || "Japanese".equals(theme)
@@ -26,10 +34,18 @@ public final class WorldConfig {
                 || "Rain".equals(weather) || "Snow".equals(weather) || "Storm".equals(weather))) weather = "Server";
         if (skyboxFile == null || skyboxFile.length() > 160) skyboxFile = "";
         visualHour = Math.max(0, Math.min(23, visualHour));
+        skyboxYaw = bounded(skyboxYaw, 0F, 360F, 0F);
+        skyboxDrift = bounded(skyboxDrift, 0F, 2F, 0F);
+        skyboxBrightness = bounded(skyboxBrightness, .2F, 1F, 1F);
         stars = Math.max(0, Math.min(1000, stars));
         fogDensity = Float.isNaN(fogDensity) ? 0.003F : Math.max(0.0001F, Math.min(0.04F, fogDensity));
         weatherIntensity = Float.isNaN(weatherIntensity) ? 0.5F : Math.max(0F, Math.min(1F, weatherIntensity));
         skyTop &= 0xFFFFFF; skyBottom &= 0xFFFFFF; fogColor &= 0xFFFFFF;
+    }
+
+    private static float bounded(float value, float min, float max, float fallback) {
+        return Float.isNaN(value) || Float.isInfinite(value) ? fallback
+                : Math.max(min, Math.min(max, value));
     }
 
     public void applyTheme(String next) {
