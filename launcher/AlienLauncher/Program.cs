@@ -338,39 +338,55 @@ internal sealed class LauncherWindow : Form
         File.Move(staging, destination, true);
     }
 
-    private async Task<string> InstallCoreAsync()
+    private async Task<(MinecraftLauncher Runtime, string Version)> InstallCoreAsync(GameChoice selected)
     {
-        VerifyAndCopyAlien(); // Only our jar in an isolated instance; user-added mods remain untouched.
-        SetStatus("Instalando Forge 1.8.9 e verificando bibliotecas...");
-        var forgeInstaller = new ForgeInstaller(launcher);
-        string version = await forgeInstaller.Install(GameVersion, ForgeBuild, new ForgeInstallOptions
+        if (selected.Alien)
         {
-            InstallerOutput = new Progress<string>(_ => SetStatus("Instalando Forge...")),
-            SkipIfAlreadyInstalled = true
-        });
-        SetStatus("Baixando/verificando arquivos oficiais de Minecraft...");
-        await launcher.InstallAsync(version);
-        return version;
+            VerifyAndCopyAlien(); // The same validated 1.8.9 mod: never injected into another version.
+            SetStatus("Instalando Forge 1.8.9 e verificando bibliotecas...");
+            var forgeInstaller = new ForgeInstaller(launcher);
+            string forgeVersion = await forgeInstaller.Install(GameVersion, ForgeBuild, new ForgeInstallOptions
+            {
+                InstallerOutput = new Progress<string>(_ => SetStatus("Instalando Forge...")),
+                SkipIfAlreadyInstalled = true
+            });
+            SetStatus("Baixando/verificando arquivos oficiais de Minecraft...");
+            await launcher.InstallAsync(forgeVersion);
+            return (launcher, forgeVersion);
+        }
+
+        // Each vanilla Minecraft version has isolated saves, mods and settings.
+        // No Alien jar, Forge, or custom combat modules are deployed in vanilla profiles.
+        SetStatus("Instalando Minecraft Vanilla " + selected.Version + "...");
+        var vanillaLauncher = new MinecraftLauncher(new MinecraftPath(InstanceFor(selected)));
+        await vanillaLauncher.InstallAsync(selected.Version);
+        return (vanillaLauncher, selected.Version);
     }
 
     private async Task InstallAsync()
     {
-        await InstallCoreAsync();
-        SetStatus("Alien Client 0.4 instalado. Faça login e clique JOGAR.");
+        GameChoice selected = SelectedGame;
+        await InstallCoreAsync(selected);
+        SetStatus(selected.Alien
+            ? "Alien Client 0.4 instalado. Clique em JOGAR ALIEN."
+            : "Minecraft Vanilla " + selected.Version + " instalado. Clique em JOGAR MINECRAFT.");
     }
 
     private async Task PlayAsync()
     {
+        GameChoice selected = SelectedGame;
         if (session == null) await Authenticate();
         if (session == null) throw new InvalidOperationException("Login Microsoft necessário.");
-        string version = await InstallCoreAsync();
-        SetStatus("Iniciando Minecraft com Alien Client...");
-        var process = await launcher.BuildProcessAsync(version, new MLaunchOption
+        var installed = await InstallCoreAsync(selected);
+        SetStatus(selected.Alien ? "Iniciando Alien Client..." :
+            "Iniciando Minecraft Vanilla " + selected.Version + "...");
+        var process = await installed.Runtime.BuildProcessAsync(installed.Version, new MLaunchOption
         {
             Session = session,
             MaximumRamMb = (int)memory.Value
         });
         if (!process.Start()) throw new InvalidOperationException("O processo do Minecraft não iniciou.");
-        SetStatus("Minecraft iniciado. Boa partida!");
+        SetStatus(selected.Alien ? "Alien Client iniciado!" :
+            "Minecraft Vanilla " + selected.Version + " iniciado!");
     }
 }
