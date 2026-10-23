@@ -781,8 +781,9 @@ public final class AlienIntegrationSmoke {
     }
     private int skyPixel(String name) throws Exception {
         BufferedImage image = ImageIO.read(new File(output, "screenshots/" + name + ".png"));
-        // Clear sky to the right of the character, below the diagnostic HUD.
-        int x = image.getWidth() * 3 / 4, y = image.getHeight() / 3;
+        // Reserved clear gap between left widgets and the diagnostics panel.
+        // The premium Armor panel occupies the former right-side sample.
+        int x = image.getWidth() / 3, y = image.getHeight() / 3;
         int pixel = image.getRGB(x, y);
         System.out.println("ALIEN_SMOKE_SKY " + name + " x=" + x + " y=" + y + " rgb=" + Integer.toHexString(pixel & 0xFFFFFF));
         return pixel;
