@@ -16,6 +16,7 @@ import org.lwjgl.input.Keyboard;
 public final class PerformanceDashboardScreen extends PremiumScreen {
     private final GuiScreen parent;
     private int left, top, panelWidth, panelHeight;
+    private boolean compactGraph;
     private String notice = "Graph shows the last 240 gameplay frames, not menu FPS.";
 
     public PerformanceDashboardScreen(GuiScreen parent) { this.parent = parent; }
@@ -32,6 +33,8 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
         int bw = Math.max(65, (panelWidth - 30) / 4);
         int y = top + panelHeight - 70;
         buttonList.add(new Ui.Button(0, left + panelWidth - 68, top + 8, 58, 20, "Back"));
+        if (panelHeight < 335) buttonList.add(new Ui.Button(9, left + panelWidth - 136,
+                top + 8, 58, 20, compactGraph ? "Stats" : "Graph"));
         buttonList.add(new Ui.Button(1, left + 10, top + 37, bw, 21, "Adaptive " + (config().adaptiveEnabled?"ON":"OFF")));
         buttonList.add(new Ui.Button(2, left + 14 + bw, top + 37, bw, 21, "Metrics " + (config().diagnostics?"ON":"OFF")));
         buttonList.add(new Ui.Button(3, left + 18 + 2*bw, top + 37, bw, 21, "FPS -10"));
@@ -45,23 +48,26 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
     @Override public void drawContents(int mx, int my, float partialTicks) {
         Ui.background(width, height);
         Ui.panel(left, top, panelWidth, panelHeight, Ui.theme().surface);
-        Ui.text("ALIEN / PERFORMANCE ENGINE 2.0", left + 12, top + 12, Ui.theme().text);
+        Ui.text(fontRendererObj.trimStringToWidth("ALIEN / PERFORMANCE ENGINE 2.0",
+                panelWidth - (panelHeight < 335 ? 153 : 85)), left + 12, top + 12, Ui.theme().text);
         Ui.text("Target: " + config().targetFps + " FPS   |   Quality: "
                         + Math.round(engine().qualityScale()*100) + "%  |  Alien-only budgets",
                 left+12,top+66,Ui.theme().muted);
         int x=left+12, y=top+88;
-        Ui.text(String.format(Locale.ROOT,"Frame %.1fms     P95 %.1fms     P99 %.1fms",
-                engine().frameTimeMs(),engine().percentile95Ms(),engine().percentile99Ms()),x,y,Ui.theme().text);
-        Ui.text("Frames " + engine().frameCount() + "   |   Spikes " + engine().spikeCount()
-                + "   |   Heap " + engine().usedMemoryMb() + "MB",x,y+15,Ui.theme().muted);
-        Ui.text("Effective caps: " + engine().particleBudget() + " particles, "
-                + engine().cosmeticBudget() + " cosmetics, " + Math.round(engine().effectDistance()) + " blocks",
-                x,y+29,Ui.theme().muted);
+        if (panelHeight >= 335 || !compactGraph) {
+            Ui.text(String.format(Locale.ROOT,"Frame %.1fms     P95 %.1fms     P99 %.1fms",
+                    engine().frameTimeMs(),engine().percentile95Ms(),engine().percentile99Ms()),x,y,Ui.theme().text);
+            Ui.text("Frames " + engine().frameCount() + "   |   Spikes " + engine().spikeCount()
+                    + "   |   Heap " + engine().usedMemoryMb() + "MB",x,y+15,Ui.theme().muted);
+            Ui.text("Effective caps: " + engine().particleBudget() + " particles, "
+                    + engine().cosmeticBudget() + " cosmetics, " + Math.round(engine().effectDistance()) + " blocks",
+                    x,y+29,Ui.theme().muted);
+        }
 
         // Explicitly separate chart, legend, A/B results and footer on compact 4:3 screens.
-        int graphX=x, graphY=top+151;
-        int graphW=panelWidth-24, graphH=Math.max(25,panelHeight-316);
-        if (panelHeight >= 335) {
+        int graphX=x, graphY=top+(panelHeight < 335 ? 86 : 151);
+        int graphW=panelWidth-24, graphH=panelHeight < 335 ? 43 : Math.max(25,panelHeight-316);
+        if (panelHeight >= 335 || compactGraph) {
             Ui.rounded(graphX,graphY,graphW,graphH,5,Ui.theme().surfaceRaised);
             double[] samples=engine().frameHistory();
             double maxMs=Math.max(33.3,Math.max(config().spikeThresholdMs*1.5,
@@ -91,9 +97,9 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
                     x,benchY+14,Ui.theme().text);
             Ui.text(fontRendererObj.trimStringToWidth(resultLine(1,"EFFECTS"),panelWidth-24),
                     x,benchY+28,Ui.theme().text);
-        } else {
+        } else if (!compactGraph) {
             Ui.text(fontRendererObj.trimStringToWidth(
-                    "Compact mode: use lower Minecraft GUI Scale to see the full graph",
+                    "Tap Graph above for frame history / smaller GUI Scale for full view",
                     panelWidth-24),x,top+135,Ui.theme().muted);
         }
         Ui.text(fontRendererObj.trimStringToWidth(notice,panelWidth-24),x,top+panelHeight-38,Ui.theme().muted);
@@ -121,6 +127,7 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
                 }
                 notice="Join a world before starting a sample.";break;
             case 7: engine().cancelBenchmark();notice="Sample cancelled.";break;
+            case 9: compactGraph = !compactGraph; initGui(); return;
             case 8:
                 config().adaptiveEnabled=false;
                 notice="Adaptive OFF; effective quality is now 100%. Saved budgets unchanged.";break;
