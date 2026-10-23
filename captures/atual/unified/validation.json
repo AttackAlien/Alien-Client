@@ -1,40 +1,40 @@
 {
-  "captured_utc": "2026-10-23T14:44:05.948459+00:00",
-  "code_revision": "f25304750ac8d73d4c01d5ccf1d213c6083f0b59",
-  "version": "0.4.0-alpha.3",
+  "captured_utc": "2026-10-23T15:22:15.688607+00:00",
+  "code_revision": "67b4830e00b9620e15b8177a5421cda00491be63",
+  "version": "0.4.0-alpha.4",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xvfb / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
-    "ultimate": "PASS 73 checks",
+    "ultimate": "PASS 92 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks"
   },
   "junit": {
     "unified": {
-      "tests": 155,
+      "tests": 160,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "legit": {
-      "tests": 155,
+      "tests": 160,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "full": {
-      "tests": 155,
+      "tests": 160,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "e6131a1ddfef8731026eb4596b6805b9c3beb2291f2761a35e017940d6797a5f",
-    "junit_sha256": "3c67ea751908a8b67a11e3c272351df2c7526cb718276fabe50e225106fc2efc",
-    "runtime_sha256": "5f800ea57a97361c64064b0a44bd1e7939f49a701335168651808388ee597c48",
-    "source_sha256": "11bcf711e2b529405518ad9cc87077d13331d2e02ff4eed74d78261bc6e4606a",
-    "started_ns": 1792765270490573156
+    "jar_sha256": "4efb1df3fc55886ee6f44b47747d0e93de130f2e1dd17459747a89128c34b2f5",
+    "junit_sha256": "7fe5a36bdb4ade415d1a33800825084b88a74272818b06da102cacfb7dc7ca6b",
+    "runtime_sha256": "ba43fd41e05ab1e1745c367c5dfec5d45782a1e2ecbb37c45e872f0e7ad9dabf",
+    "source_sha256": "2bed0948bdf88ef5178d28a96327a6d03705d71fb4ec654cf8f22af36f7b0e04",
+    "started_ns": 1792768778091386540
   },
   "screenshots": {
     "01-title.png": "general",
@@ -114,6 +114,14 @@
     "60-particles-sakura-live.png": "ultimate",
     "61-particles-pvp-live.png": "ultimate",
     "62-particle-studio-controls.png": "ultimate",
+    "63-sakura-wreath-world.png": "ultimate",
+    "64-cc0-fabric-cape-studio.png": "ultimate",
+    "65-cosmetic-ribbon-controls.png": "ultimate",
+    "66-ribbon-trail-and-cape-moving.png": "ultimate",
+    "67-ribbon-curved-path.png": "ultimate",
+    "68-cape-relaxed-after-motion.png": "ultimate",
+    "69-woven-kasa-world.png": "ultimate",
+    "70-sakura-cosmetic-studio.png": "ultimate",
     "sky/sky-cube-dimmed.png": "sky",
     "sky/sky-cube-north.png": "sky",
     "sky/sky-cube-south.png": "sky",
