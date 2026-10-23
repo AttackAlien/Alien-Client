@@ -41,7 +41,65 @@ internal sealed class LauncherWindow : Form
     private readonly Button signIn = new();
     private readonly Button install = new();
     private readonly Button play = new();
+    private readonly ComboBox gameChoice = new();
+    private readonly Button refreshVersions = new();
+    private readonly Label versionHint = new();
     private bool busy;
+
+    private sealed record GameChoice(string Label, string Version, bool Alien)
+    {
+        public override string ToString() => Label;
+    }
+
+    private GameChoice SelectedGame => gameChoice.SelectedItem as GameChoice
+        ?? throw new InvalidOperationException("Escolha uma versão antes de continuar.");
+
+    private static string InstanceFor(GameChoice selected)
+    {
+        if (selected.Alien) return Instance;
+        if (!Regex.IsMatch(selected.Version, @"^\d+\.\d+(\.\d+)?$"))
+            throw new InvalidOperationException("Identificador de versão inválido.");
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            "AlienLauncher", "instances", "vanilla-" + selected.Version);
+    }
+
+    private void AddGameChoice(GameChoice selected)
+    {
+        foreach (object item in gameChoice.Items)
+        {
+            if (item is GameChoice found && found.Version == selected.Version && found.Alien == selected.Alien)
+                return;
+        }
+        gameChoice.Items.Add(selected);
+    }
+
+    private async Task RefreshVersionsAsync()
+    {
+        SetStatus("Consultando versões oficiais do Minecraft...");
+        var versions = await launcher.GetAllVersionsAsync();
+        string? activeVersion = (gameChoice.SelectedItem as GameChoice)?.Version;
+        bool activeAlien = (gameChoice.SelectedItem as GameChoice)?.Alien ?? true;
+        int discovered = 0;
+        foreach (var version in versions)
+        {
+            string id = version.Name;
+            if (!Regex.IsMatch(id, @"^\d+\.\d+(\.\d+)?$")) continue;
+            if (!string.Equals(version.GetVersionType().ToString(), "release",
+                StringComparison.OrdinalIgnoreCase)) continue;
+            AddGameChoice(new GameChoice("Minecraft " + id + " (Vanilla)", id, false));
+            discovered++;
+        }
+        foreach (object item in gameChoice.Items)
+        {
+            if (item is GameChoice c && c.Version == activeVersion && c.Alien == activeAlien)
+            {
+                gameChoice.SelectedItem = item;
+                break;
+            }
+        }
+        SetStatus("Versões oficiais carregadas: " + discovered +
+            ". Alien Client permanece exclusivo da versão 1.8.9.");
+    }
 
     public LauncherWindow()
     {
@@ -64,6 +122,39 @@ internal sealed class LauncherWindow : Form
             Color.FromArgb(248, 249, 254)));
         Controls.Add(Title("Interface premium, Combat Studio, cosméticos, skybox e Performance Engine V2.",
             46, 194, 10, FontStyle.Regular, Color.FromArgb(175, 182, 203)));
+
+        Controls.Add(Title("VERSÃO DO JOGO", 46, 218, 10, FontStyle.Bold,
+            Color.FromArgb(161, 170, 197)));
+        gameChoice.Location = new Point(180, 213);
+        gameChoice.Size = new Size(466, 29);
+        gameChoice.DropDownStyle = ComboBoxStyle.DropDownList;
+        gameChoice.DropDownHeight = 360;
+        gameChoice.BackColor = Color.FromArgb(27, 32, 52);
+        gameChoice.ForeColor = Color.White;
+        AddGameChoice(new GameChoice("Alien Client 0.4 (Forge 1.8.9)", GameVersion, true));
+        foreach (string v in new[] { "1.8.9", "1.12.2", "1.16.5", "1.20.1", "1.21.1" })
+            AddGameChoice(new GameChoice("Minecraft " + v + " (Vanilla)", v, false));
+        gameChoice.SelectedIndex = 0;
+        gameChoice.SelectedIndexChanged += (_, _) =>
+        {
+            GameChoice target = SelectedGame;
+            play.Text = target.Alien ? "JOGAR ALIEN" : "JOGAR MINECRAFT";
+            SetStatus(target.Alien
+                ? "Alien Client 0.4 + Forge 1.8.9 — recursos e combate disponíveis."
+                : "Minecraft " + target.Version + " Vanilla — sem os módulos do Alien.");
+        };
+        Controls.Add(gameChoice);
+
+        refreshVersions.Text = "ATUALIZAR LISTA";
+        refreshVersions.Location = new Point(668, 212);
+        refreshVersions.Size = new Size(207, 29);
+        refreshVersions.FlatStyle = FlatStyle.Flat;
+        refreshVersions.FlatAppearance.BorderSize = 0;
+        refreshVersions.BackColor = Color.FromArgb(48, 51, 78);
+        refreshVersions.ForeColor = Color.White;
+        refreshVersions.Cursor = Cursors.Hand;
+        refreshVersions.Click += async (_, _) => await RunTaskAsync(RefreshVersionsAsync);
+        Controls.Add(refreshVersions);
 
         var container = new Panel
         {
@@ -118,7 +209,7 @@ internal sealed class LauncherWindow : Form
         folderButton.FlatAppearance.BorderSize = 0;
         folderButton.Click += (_, _) =>
         {
-            string directory = Path.Combine(Instance, "mods");
+            string directory = Path.Combine(InstanceFor(SelectedGame), "mods");
             Directory.CreateDirectory(directory);
             Process.Start(new ProcessStartInfo(directory) { UseShellExecute = true });
         };
@@ -180,7 +271,7 @@ internal sealed class LauncherWindow : Form
     {
         if (busy) return;
         busy = true;
-        signIn.Enabled = install.Enabled = play.Enabled = false;
+        signIn.Enabled = install.Enabled = play.Enabled = refreshVersions.Enabled = gameChoice.Enabled = false;
         progress.Style = ProgressBarStyle.Marquee;
         try { await action(); }
         catch (Exception ex)
@@ -194,7 +285,7 @@ internal sealed class LauncherWindow : Form
         finally
         {
             busy = false;
-            signIn.Enabled = install.Enabled = play.Enabled = true;
+            signIn.Enabled = install.Enabled = play.Enabled = refreshVersions.Enabled = gameChoice.Enabled = true;
             progress.Style = ProgressBarStyle.Blocks;
             progress.Value = 0;
         }
