@@ -1,73 +1,79 @@
-> **Prévia do redesign 0.4:** estas capturas e binários pertencem ao código testado na branch [ui-overhaul-20261022](https://github.com/AttackAlien/Alien-Client/tree/ui-overhaul-20261022). A integração com o Unified/Sky Studio Ultimate mais recente está no [PR #8](https://github.com/AttackAlien/Alien-Client/pull/8); o código atual da main foi preservado.
+# Capturas atuais — Alien Client Unified
 
-# Imagens novas — redesign Alien Client 0.4
+Capturadas em **23/10/2026** executando Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8 / Mesa / Xvfb. Código-base `933f93ef3498f204ee3858c78785fd4b7992d937`. **161 verificações gráficas passaram** nesta sessão. Sem ilustrações, IA ou retoques.
 
-**Todas as imagens abaixo são capturas reais do Minecraft Java 1.8.9 / Forge 11.15.1.2318.** Não foram usados mockups, imagens ilustrativas, geração por IA ou retoques.
-
-As imagens antigas foram removidas da versão atual do repositório. Esta galeria mostra somente o redesign: menus próprios, Open Sans suavizada, cartões arredondados, sombras, nova navegação, estúdios e temas.
-
-**101 testes JUnit e 124 verificações gráficas passaram em cada edição**, com 44 PNGs por execução. [Resultado Legit](atual/legit/result.txt) · [Resultado Full](atual/full/result.txt) · [Relatório e comandos](../docs/UI-OVERHAUL-VALIDATION.md).
-
-Toque em **Abrir imagem** para ver o arquivo inteiro no celular. O repositório é público; não é necessário entrar na conta.
+As imagens anteriores foram removidas desta galeria. Esta primeira sessão registra a base atual antes de HUD Ultimate e novos módulos Full; esses recursos ainda estão em desenvolvimento nesta branch.
 
 ## Menu inicial
 
-[Abrir imagem](atual/legit/01-title.png)
+[Abrir imagem](atual/unified/01-title.png)
 
-![Menu inicial novo, captura real](atual/legit/01-title.png)
+![Menu inicial](atual/unified/01-title.png)
 
-## ClickGUI — categorias, pesquisa e módulos
+## Menu de módulos dentro do mundo
 
-[Abrir imagem](atual/legit/23-clickgui-16x10.png) · [Detalhes e editor de atalhos](atual/legit/27-module-settings-keybind.png)
+[Abrir imagem](atual/unified/09c-alien-menu-inside-world.png)
 
-![ClickGUI novo, dentro do Minecraft](atual/legit/23-clickgui-16x10.png)
+![Menu de módulos dentro do mundo](atual/unified/09c-alien-menu-inside-world.png)
 
-## Cosmetic Studio
+## Cosmetic Studio 3D
 
-[Abrir imagem](atual/legit/26-cosmetic-studio-4x3-scaled.png) · [Ver capa por trás](atual/legit/15-cloth-cape-emblem-back.png) · [Kabuto/Kitsune](atual/legit/16-sculpted-samurai-kitsune.png)
+[Abrir imagem](atual/unified/26-cosmetic-studio-4x3-scaled.png)
 
-![Editor 3D novo, com o personagem real](atual/legit/26-cosmetic-studio-4x3-scaled.png)
+![Cosmetic Studio 3D](atual/unified/26-cosmetic-studio-4x3-scaled.png)
 
-## World Studio — céu e atmosfera
+## Looks salvos
 
-[Abrir imagem](atual/legit/09d-world-studio-inside-world.png)
+[Abrir imagem](atual/unified/30-cosmetic-looks-gallery.png)
 
-![World Studio novo dentro do mundo](atual/legit/09d-world-studio-inside-world.png)
+![Looks salvos](atual/unified/30-cosmetic-looks-gallery.png)
 
-## HUD Studio
+## Capa com emblema
 
-[Abrir imagem](atual/legit/24-hud-editor-16x10.png) · [HUD funcionando sem o editor](atual/legit/18-crystal-cyan-sky-particles-hud.png)
+[Abrir imagem](atual/unified/15-cloth-cape-emblem-back.png)
 
-![HUD Studio novo, captura real](atual/legit/24-hud-editor-16x10.png)
+![Capa com emblema](atual/unified/15-cloth-cape-emblem-back.png)
 
-## Theme Studio — HSV, RGBA e HEX
+## Céu e clima
 
-[Abrir imagem](atual/legit/21-theme-editor-colors.png) · [Estilo, escala, movimento e blur](atual/legit/22-theme-style-motion-blur.png) · [Seletor de cores](atual/legit/28-color-picker-hsv-rgba.png)
+[Abrir imagem](atual/unified/09d-world-studio-inside-world.png)
 
-![Theme Studio novo, seletor real desenhado no jogo](atual/legit/21-theme-editor-colors.png)
+![Céu e clima](atual/unified/09d-world-studio-inside-world.png)
 
-## Configurações e perfis
+## HUD funcionando com partículas
 
-[Abrir imagem](atual/legit/29-config-profiles.png) · [Aparência](atual/legit/03-appearance.png) · [Efeitos](atual/legit/07-effects-studio.png)
+[Abrir imagem](atual/unified/18-crystal-cyan-sky-particles-hud.png)
 
-![Configurações novas, captura real](atual/legit/29-config-profiles.png)
+![HUD funcionando com partículas](atual/unified/18-crystal-cyan-sky-particles-hud.png)
 
-## Edição Full
+## HUD Editor atual
 
-A Full mantém os recursos visuais compartilhados e continua sendo uma prévia de arquitetura, sem módulos avançados implementados.
+[Abrir imagem](atual/unified/24-hud-editor-16x10.png)
 
-[Abrir menu Full](atual/full/01-title.png) · [Abrir ClickGUI Full](atual/full/23-clickgui-16x10.png) · [Abrir editor 3D Full](atual/full/26-cosmetic-studio-4x3-scaled.png)
+![HUD Editor atual](atual/unified/24-hud-editor-16x10.png)
 
-![Menu real da edição Full com a nova interface](atual/full/01-title.png)
+## Combat Studio atual
 
-## Capa em movimento
+[Abrir imagem](atual/unified/33-unified-combat-studio.png)
 
-GIF composto por 12 quadros originais do jogo, capturados com intervalo mínimo de 100 ms e reproduzidos a 8 quadros/s, sem interpolação.
+![Combat Studio atual](atual/unified/33-unified-combat-studio.png)
 
-[Abrir animação](atual/legit/capa-em-movimento.gif)
+## Performance Engine 2.0
 
-![Capa real em movimento na interface nova](atual/legit/capa-em-movimento.gif)
+[Abrir imagem](atual/unified/32-performance-engine-dashboard.png)
 
-[Todos os PNGs Legit](atual/legit/) · [Todos os PNGs Full](atual/full/).
+![Performance Engine 2.0](atual/unified/32-performance-engine-dashboard.png)
 
-A rodada incluiu 854×480, 960×600 e 800×600, além de escala de menu 0,85. Foi usado Java 8, Xvfb e OpenGL por software, com limite de 30 FPS. Não é benchmark; a instalação em launcher externo, OptiFine, áudio e multiplayer não foi validada. Os detalhes/limites estão no relatório.
+## Temas e cores
+
+[Abrir imagem](atual/unified/21-theme-editor-colors.png)
+
+![Temas e cores](atual/unified/21-theme-editor-colors.png)
+
+## Perfis
+
+[Abrir imagem](atual/unified/29-config-profiles.png)
+
+![Perfis](atual/unified/29-config-profiles.png)
+
+[Todos os PNGs](atual/unified/) · [Resultado real](atual/unified/result.txt) · [SHA-256](atual/unified/SHA256SUMS.txt) · [Capa em movimento](atual/unified/capa-em-movimento.gif)
