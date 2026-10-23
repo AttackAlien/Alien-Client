@@ -1,0 +1,95 @@
+name: Alien Launcher | Windows EXE
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "launcher/**"
+      - ".github/workflows/alien-launcher.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  windows-launcher:
+    name: Windows x64 | compile EXE and verify bundled mod
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      ALIEN_MAIN_SHA: "933f93ef3498f204ee3858c78785fd4b7992d937"
+      ALIEN_MAIN_RUN: "39956674445"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Verify pinned Unified build finished successfully
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $headers = @{ Authorization = "Bearer $env:GH_TOKEN"; "User-Agent" = "AlienLauncher-CI" }
+          $uri = "https://api.github.com/repos/AttackAlien/Alien-Client/actions/runs/$env:ALIEN_MAIN_RUN"
+          $run = Invoke-RestMethod -Uri $uri -Headers $headers
+          if ($run.head_sha -ne $env:ALIEN_MAIN_SHA -or $run.conclusion -ne 'success' -or $run.head_branch -ne 'main') {
+            throw 'The pinned Unified JAR must come from the successful protected main build'
+          }
+
+      - name: Publish self-contained Windows launcher
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          dotnet restore launcher/AlienLauncher/AlienLauncher.csproj
+          if ($LASTEXITCODE -ne 0) { throw 'NuGet restore failed' }
+          dotnet publish launcher/AlienLauncher/AlienLauncher.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -o launcher-dist
+          if ($LASTEXITCODE -ne 0) { throw 'Windows publish failed' }
+          if (-not (Test-Path launcher-dist/AlienLauncher.exe)) { throw 'Launcher EXE missing' }
+
+      - name: Download validated Unified client from pinned successful CI run
+        uses: actions/download-artifact@v4
+        with:
+          name: alien-unified-39956674445
+          run-id: 39956674445
+          repository: AttackAlien/Alien-Client
+          github-token: ${{ github.token }}
+          path: verified-unified
+
+      - name: Verify bundled JAR integrity and package portable Windows ZIP
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $source = 'verified-unified/distribution/AlienClient-Unified-1.8.9.jar'
+          $hashfile = 'verified-unified/distribution/SHA256SUMS.txt'
+          if (-not (Test-Path $source) -or -not (Test-Path $hashfile)) { throw 'Verified client and checksum missing' }
+          $line = (Get-Content $hashfile -Raw).Trim()
+          if ($line -cnotmatch '^([0-9a-f]{64})  AlienClient-Unified-1\.8\.9\.jar$') { throw 'Invalid SHA256SUMS.txt' }
+          $sha = $Matches[1]
+          $actual = (Get-FileHash $source -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sha -ne $actual) { throw 'Bundled Alien Client SHA256 mismatch' }
+          New-Item -ItemType Directory -Force -Path launcher-dist/payload | Out-Null
+          Copy-Item -LiteralPath $source -Destination launcher-dist/payload/AlienClient-Unified-1.8.9.jar
+          Copy-Item -LiteralPath $hashfile -Destination launcher-dist/payload/SHA256SUMS.txt
+          Copy-Item -LiteralPath launcher/README.md -Destination launcher-dist/LEIA-ME-ALIEN-LAUNCHER.md
+          $exeBytes = [System.IO.File]::ReadAllBytes((Resolve-Path launcher-dist/AlienLauncher.exe))
+          if ($exeBytes[0] -ne 77 -or $exeBytes[1] -ne 90) { throw 'EXE is not a Windows PE binary' }
+          Compress-Archive -Path 'launcher-dist/*' -DestinationPath AlienLauncher-Windows-x64-0.1-alpha.zip -Force
+          $zipHash = (Get-FileHash AlienLauncher-Windows-x64-0.1-alpha.zip -Algorithm SHA256).Hash
+          "$zipHash  AlienLauncher-Windows-x64-0.1-alpha.zip" | Out-File -FilePath ALIEN-LAUNCHER-SHA256SUMS.txt -Encoding ascii
+          Write-Host "Verified launcher and bundled client SHA256: $sha"
+
+      - name: Upload portable Windows launcher and hashes
+        uses: actions/upload-artifact@v4
+        with:
+          name: alien-launcher-win64-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            AlienLauncher-Windows-x64-0.1-alpha.zip
+            ALIEN-LAUNCHER-SHA256SUMS.txt
