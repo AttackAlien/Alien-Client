@@ -70,6 +70,8 @@ public final class CosmeticConfig {
         public boolean charm;
         public boolean aura;
         public boolean trail;
+        public String trailStyle = "Ribbon";
+        public float trailWidth = .16f, trailLifetime = .9f, trailOpacity = .8f;
         public float offsetX, offsetY, offsetZ, rotationX, rotationY, rotationZ;
         public float scale = 1;
         public float hatSize = 1;
@@ -85,7 +87,7 @@ public final class CosmeticConfig {
         public String textureFile = "";
 
         public void normalize() {
-            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN");
+            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA");
             face = choice(face, "NONE", "KITSUNE", "FUTURE", "GLASSES");
             back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK");
             offsetX = clamp(offsetX, -16, 16); offsetY = clamp(offsetY, -16, 16);
@@ -95,6 +97,10 @@ public final class CosmeticConfig {
             hatSize = clamp(hatSize, .75f, 1.35f);
             capeLength = clamp(capeLength, .65f, 1.35f);
             capeFlutter = clamp(capeFlutter, 0, 2);
+            trailStyle = choice(trailStyle, "Ribbon", "Particles");
+            trailWidth = clamp(trailWidth, .04f, .45f);
+            trailLifetime = clamp(trailLifetime, .25f, 2);
+            trailOpacity = clamp(trailOpacity, .1f, 1);
             detailLevel = choice(detailLevel, "Low", "Balanced", "High");
             capePattern = choice(capePattern, "ALIEN", "MOON", "STARS", "PLAIN");
             modelFile = safeName(modelFile, ".json");
@@ -105,6 +111,7 @@ public final class CosmeticConfig {
             Accessory a = new Accessory();
             a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
             a.charm = charm; a.aura = aura; a.trail = trail;
+            a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;
             a.offsetX = offsetX; a.offsetY = offsetY; a.offsetZ = offsetZ;
             a.rotationX = rotationX; a.rotationY = rotationY; a.rotationZ = rotationZ;
             a.scale = scale; a.color = color; a.secondaryColor = secondaryColor;

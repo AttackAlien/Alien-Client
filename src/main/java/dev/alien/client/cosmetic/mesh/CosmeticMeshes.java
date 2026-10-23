@@ -17,6 +17,7 @@ public final class CosmeticMeshes {
     static {
         Map<String,Mesh> hats = new LinkedHashMap<String,Mesh>();
         hats.put("JAPANESE",kasa()); hats.put("SAMURAI",samurai()); hats.put("CROWN",crown());
+        hats.put("SAKURA",sakura());
         HATS=Collections.unmodifiableMap(hats);
         Map<String,Mesh> faces = new LinkedHashMap<String,Mesh>();
         faces.put("KITSUNE",kitsune()); faces.put("FUTURE",visor()); faces.put("GLASSES",glasses());
@@ -50,6 +51,31 @@ public final class CosmeticMeshes {
                 b.quad(radial(inner[0],inner[1]-.018,a-d),radial(outer[0],outer[1]-.018,a-d),
                         radial(outer[0],outer[1]-.018,a+d),radial(inner[0],inner[1]-.018,a+d),Mesh.HIGHLIGHT);
             }
+        }
+        for(int ring=1;ring<19;ring++){
+            double radius=ring*8.5/19;int band=0;
+            while(band<profile.length-2&&profile[band+1][0]<radius)band++;
+            double f=(radius-profile[band][0])/(profile[band+1][0]-profile[band][0]);
+            float y=(float)(profile[band][1]+(profile[band+1][1]-profile[band][1])*f-.025);
+            lathe(b,new float[][]{{(float)radius-.018f,y},{(float)radius+.018f,y+.01f}},SECTORS,0,TAU,Mesh.SHADOW);
+        }
+        return b.build();
+    }
+
+    private static Mesh sakura(){
+        MeshBuilder b=new MeshBuilder();
+        float[][] ring=new float[13][2];
+        for(int i=0;i<ring.length;i++){double a=i*TAU/12;ring[i][0]=(float)(4.95+Math.cos(a)*.16);ring[i][1]=(float)(-8.7+Math.sin(a)*.16);}
+        lathe(b,ring,48,0,TAU,Mesh.ACCENT);
+        for(int flower=0;flower<7;flower++){
+            double angle=flower*TAU/7,cx=Math.cos(angle)*5,cz=Math.sin(angle)*5;
+            for(int petal=0;petal<5;petal++){
+                double p=petal*TAU/5;
+                ellipsoid(b,(float)(cx-Math.sin(angle)*Math.cos(p)*.62),(float)(-9.35+Math.sin(p)*.62),
+                        (float)(cz+Math.cos(angle)*Math.cos(p)*.62),.42f,.42f,.42f,12,6,Mesh.MAIN);
+            }
+            ellipsoid(b,(float)(cx*1.055),-9.35f,(float)(cz*1.055),.27f,.27f,.27f,12,6,Mesh.HIGHLIGHT);
+            ellipsoid(b,(float)(cx*.91),-8.9f,(float)(cz*.91),.28f,.13f,.62f,10,6,Mesh.ACCENT);
         }
         return b.build();
     }

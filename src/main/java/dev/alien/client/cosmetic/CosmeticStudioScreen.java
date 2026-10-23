@@ -121,7 +121,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             buttonList.add(new StudioSlider(82, controlX, controlTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
             buttonList.add(new StudioSlider(83, controlX, controlTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
             row(84, 4, "Mesh / " + a.detailLevel); row(86, 5, "Emblem / " + title(a.capePattern));
-            row(85, 6, "Reset motion");
+            pairAt(85,"Reset motion",87,"Trail settings",controlTop+rowStep*6,buttonHeight);
         } else {
             pairAt(110, "Ronin", 111, "Celestial", controlTop, buttonHeight);
             pairAt(112, "Sakura", 113, "Phantom", controlTop + rowStep, buttonHeight);
@@ -157,7 +157,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         if (button.id == 0) { AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
         if (button.id >= 2 && button.id <= 7) { page = button.id - 2; initGui(); return; }
         switch (button.id) {
-            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN"); break;
+            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA"); break;
             case 11: a.face = cycle(a.face, "NONE", "KITSUNE", "FUTURE", "GLASSES"); break;
             case 12: a.back = cycle(a.back, "NONE", "CAPE", "WINGS", "BACKPACK"); break;
             case 13: a.charm = !a.charm; break;
@@ -188,6 +188,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             case 84: a.detailLevel = cycle(a.detailLevel, "Low", "Balanced", "High"); break;
             case 85: a.capeFlutter = a.capeLength = a.hatSize = 1; a.animations = true; a.detailLevel = "Balanced"; break;
             case 86: a.capePattern = cycle(a.capePattern, "ALIEN", "MOON", "STARS", "PLAIN"); break;
+            case 87: mc.displayGuiScreen(new CosmeticTrailScreen(this,a)); return;
             case 90: shownYaw = viewYaw = -24; shownPitch = viewPitch = -7; shownZoom = zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
             case 91: turntable = !turntable; break;
             case 120: case 122: case 124: {
