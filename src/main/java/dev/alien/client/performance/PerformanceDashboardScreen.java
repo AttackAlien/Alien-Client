@@ -92,7 +92,9 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
             Ui.text(fontRendererObj.trimStringToWidth(resultLine(1,"EFFECTS"),panelWidth-24),
                     x,benchY+28,Ui.theme().text);
         } else {
-            Ui.text("Compact layout: A/B details available with a larger window",x,benchY,Ui.theme().muted);
+            Ui.text(fontRendererObj.trimStringToWidth(
+                    "Compact mode: use lower Minecraft GUI Scale to see the full graph",
+                    panelWidth-24),x,top+135,Ui.theme().muted);
         }
         Ui.text(fontRendererObj.trimStringToWidth(notice,panelWidth-24),x,top+panelHeight-38,Ui.theme().muted);
         for(GuiButton button:buttonList)button.drawButton(mc,mx,my);
