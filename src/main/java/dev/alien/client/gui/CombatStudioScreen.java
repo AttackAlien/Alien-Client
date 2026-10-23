@@ -63,6 +63,13 @@ public final class CombatStudioScreen extends GuiScreen {
     @Override protected void actionPerformed(GuiButton button)throws IOException {
         int id=button.id;
         if(id==0){AlienClient.get().save();mc.displayGuiScreen(parent);return;}
+        if(id==50){
+            if(mc.theWorld!=null&&!mc.isSingleplayer()){
+                if(AlienClient.get().combatSession().isApproved(mc.theWorld,config())) AlienClient.get().combatSession().revoke();
+                else AlienClient.get().combatSession().approve(mc.theWorld,config(),false);
+            }
+            initGui();return;
+        }
         CombatConfig c=config();
         if(id>=10&&id<=12)c.applyPreset(new String[]{"OFF","LEGIT","FULL"}[id-10]);
         else if(id==20||id==21)tuning=id==21;
