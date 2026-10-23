@@ -35,12 +35,15 @@ internal sealed class LauncherWindow : Form
     private MSession? session;
     private readonly Label account = new();
     private readonly Label status = new();
+    private readonly Label heroTitle = new();
+    private readonly Label heroDescription = new();
     private readonly RichTextBox events = new();
     private readonly ProgressBar progress = new();
     private readonly NumericUpDown memory = new();
     private readonly Button signIn = new();
     private readonly Button install = new();
     private readonly Button play = new();
+    private readonly Button folderButton = new();
     private readonly ComboBox gameChoice = new();
     private readonly Button refreshVersions = new();
     private bool busy;
@@ -116,10 +119,25 @@ internal sealed class LauncherWindow : Form
         Controls.Add(Title("LAUNCHER", 162, 40, 14, FontStyle.Bold, Color.FromArgb(220, 220, 244)));
         Controls.Add(Title("MINECRAFT 1.8.9  /  FORGE 11.15.1.2318", 46, 87, 11,
             FontStyle.Regular, Color.FromArgb(143, 157, 185)));
-        Controls.Add(Title("CLIENTE UNIFICADO 0.4", 46, 154, 23, FontStyle.Bold,
-            Color.FromArgb(248, 249, 254)));
-        Controls.Add(Title("Interface premium, Combat Studio, cosméticos, skybox e Performance Engine V2.",
-            46, 194, 10, FontStyle.Regular, Color.FromArgb(175, 182, 203)));
+        var title = Title("CLIENTE UNIFICADO 0.4", 46, 154, 23, FontStyle.Bold,
+            Color.FromArgb(248, 249, 254));
+        heroTitle.Text = title.Text;
+        heroTitle.Location = title.Location;
+        heroTitle.AutoSize = true;
+        heroTitle.Font = title.Font;
+        heroTitle.ForeColor = title.ForeColor;
+        heroTitle.BackColor = Color.Transparent;
+        Controls.Add(heroTitle);
+
+        var tagline = Title("Interface premium, Combat Studio, cosméticos, skybox e Performance Engine V2.",
+            46, 194, 10, FontStyle.Regular, Color.FromArgb(175, 182, 203));
+        heroDescription.Text = tagline.Text;
+        heroDescription.Location = tagline.Location;
+        heroDescription.AutoSize = true;
+        heroDescription.Font = tagline.Font;
+        heroDescription.ForeColor = tagline.ForeColor;
+        heroDescription.BackColor = Color.Transparent;
+        Controls.Add(heroDescription);
 
         Controls.Add(Title("VERSÃO DO JOGO", 46, 218, 10, FontStyle.Bold,
             Color.FromArgb(161, 170, 197)));
@@ -137,6 +155,11 @@ internal sealed class LauncherWindow : Form
         {
             GameChoice target = SelectedGame;
             play.Text = target.Alien ? "JOGAR ALIEN" : "JOGAR MINECRAFT";
+            heroTitle.Text = target.Alien ? "CLIENTE UNIFICADO 0.4" : "MINECRAFT " + target.Version;
+            heroDescription.Text = target.Alien
+                ? "Interface premium, Combat Studio, cosméticos, skybox e Performance Engine V2."
+                : "Versão oficial Vanilla. O Alien Client continua disponível apenas no Forge 1.8.9.";
+            folderButton.Text = target.Alien ? "ABRIR PASTA DE MODS" : "ABRIR PASTA DO PERFIL";
             SetStatus(target.Alien
                 ? "Alien Client 0.4 + Forge 1.8.9 — recursos e combate disponíveis."
                 : "Minecraft " + target.Version + " Vanilla — sem os módulos do Alien.");
@@ -197,17 +220,19 @@ internal sealed class LauncherWindow : Form
         Controls.Add(Title("MB", 270, 442, 10, FontStyle.Regular,
             Color.FromArgb(161, 170, 197)));
 
-        var folderButton = new Button
-        {
-            Text = "ABRIR PASTA DE MODS", Location = new Point(570, 435),
-            Size = new Size(305, 34), FlatStyle = FlatStyle.Flat,
-            BackColor = Color.FromArgb(31, 37, 58), ForeColor = Color.White,
-            Cursor = Cursors.Hand
-        };
+        folderButton.Text = "ABRIR PASTA DE MODS";
+        folderButton.Location = new Point(570, 435);
+        folderButton.Size = new Size(305, 34);
+        folderButton.FlatStyle = FlatStyle.Flat;
+        folderButton.BackColor = Color.FromArgb(31, 37, 58);
+        folderButton.ForeColor = Color.White;
+        folderButton.Cursor = Cursors.Hand;
         folderButton.FlatAppearance.BorderSize = 0;
         folderButton.Click += (_, _) =>
         {
-            string directory = Path.Combine(InstanceFor(SelectedGame), "mods");
+            var selected = SelectedGame;
+            string directory = selected.Alien
+                ? Path.Combine(InstanceFor(selected), "mods") : InstanceFor(selected);
             Directory.CreateDirectory(directory);
             Process.Start(new ProcessStartInfo(directory) { UseShellExecute = true });
         };
