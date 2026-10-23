@@ -27,7 +27,7 @@ public final class CombatManager {
         }
         ClientConfig root=AlienClient.get().config();
         CombatConfig c=root.combat;
-        if(c==null||!c.enabled){lastTarget=null;return;}
+        if(!AlienClient.get().combatSession().permits(mc.theWorld,c,mc.isSingleplayer()) || c==null||!c.enabled){lastTarget=null;lastClick=0;return;}
         boolean held=Mouse.isButtonDown(0);
         if(c.aimAssist && (!c.requireAttackHeld || held)) {
             EntityPlayer target=selectTarget(mc,c);

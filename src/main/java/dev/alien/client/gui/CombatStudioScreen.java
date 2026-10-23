@@ -46,7 +46,11 @@ public final class CombatStudioScreen extends PremiumScreen {
             slider(42,109+stride*2,"Target select range",2F,6F,.1F,c.targetRange,value->c.targetRange=value);
             slider(43,109+stride*3,"Click assist CPS",1F,12F,1F,c.clicksPerSecond,value->c.clicksPerSecond=value);
         }
-        buttonList.add(new Ui.Button(0,left+panelWidth/2-62,height-28,124,21,"Done"));
+        boolean multiplayer = mc.theWorld != null && !mc.isSingleplayer();
+        if(multiplayer) buttonList.add(new Ui.Button(50,left,height-28,panelWidth/2-5,21,
+                AlienClient.get().combatSession().isApproved(mc.theWorld,config())?"Revoke access":"Allow on server"));
+        buttonList.add(new Ui.Button(0,multiplayer?left+panelWidth/2+5:left+panelWidth/2-62,
+                height-28,multiplayer?panelWidth/2-5:124,21,"Done"));
     }
 
     private void toggle(int id,int x,int y,int w,String name,boolean enabled) {
@@ -64,6 +68,15 @@ public final class CombatStudioScreen extends PremiumScreen {
     @Override protected void actionPerformed(GuiButton button)throws IOException {
         int id=button.id;
         if(id==0){AlienClient.get().save();mc.displayGuiScreen(parent);return;}
+        if(id==50) {
+            if(mc.theWorld!=null && !mc.isSingleplayer()) {
+                if(AlienClient.get().combatSession().isApproved(mc.theWorld,config()))
+                    AlienClient.get().combatSession().revoke();
+                else
+                    AlienClient.get().combatSession().approve(mc.theWorld,config(),false);
+            }
+            initGui();return;
+        }
         CombatConfig c=config();
         if(id>=10&&id<=12)c.applyPreset(new String[]{"OFF","LEGIT","FULL"}[id-10]);
         else if(id==20||id==21)tuning=id==21;
@@ -86,6 +99,10 @@ public final class CombatStudioScreen extends PremiumScreen {
         String status="Profile: "+config().preset+" / "+(config().enabled?"MASTER ON":"MASTER OFF");
         Ui.text(status,left+panelWidth-fontRendererObj.getStringWidth(status),17,Ui.theme().muted);
         Ui.text("Presets and controls save with your active profile",left,32,Ui.theme().muted);
+        if(mc.theWorld!=null&&!mc.isSingleplayer()) Ui.text(
+                AlienClient.get().combatSession().isApproved(mc.theWorld,config())
+                        ?"This server session: ALLOWED":"This server session: BLOCKED",
+                left,62,Ui.theme().muted);
         super.drawContents(mouseX,mouseY,partialTicks);
         if(height>330) {
             Ui.centered("Aim tracks players; click assist requires holding left mouse.",width/2f,height-58,Ui.theme().muted);
