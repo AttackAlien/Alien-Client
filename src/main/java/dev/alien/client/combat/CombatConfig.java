@@ -2,6 +2,7 @@ package dev.alien.client.combat;
 
 /** Explicit user-controlled combat presets. Never changes server-side reach or hit rules. */
 public final class CombatConfig {
+    public FullToolsConfig tools=new FullToolsConfig();
     public String preset = "OFF";
     public boolean enabled;
     public boolean aimAssist;
@@ -14,6 +15,8 @@ public final class CombatConfig {
     public float clicksPerSecond = 6F;
 
     public void applyPreset(String presetName) {
+        if(tools==null)tools=new FullToolsConfig();
+        if(!"CUSTOM".equals(presetName))tools.off();
         if ("OFF".equals(presetName)) {
             preset = "OFF"; enabled = false; aimAssist = false; clickAssist = false;
             requireAttackHeld = true; visibleTargetsOnly = true;
@@ -23,6 +26,7 @@ public final class CombatConfig {
             requireAttackHeld = true; visibleTargetsOnly = true;
             aimStrength = .12F; aimFov = 25F; targetRange = 3.3F; clicksPerSecond = 6F;
         } else if ("FULL".equals(presetName)) {
+            tools.full();
             preset = "FULL"; enabled = true; aimAssist = true; clickAssist = true;
             requireAttackHeld = false; visibleTargetsOnly = true;
             aimStrength = .55F; aimFov = 110F; targetRange = 5F; clicksPerSecond = 10F;
@@ -33,6 +37,7 @@ public final class CombatConfig {
     }
 
     public void normalize() {
+        if(tools==null)tools=new FullToolsConfig();tools.normalize();
         if (!"OFF".equals(preset) && !"LEGIT".equals(preset)
                 && !"FULL".equals(preset) && !"CUSTOM".equals(preset)) preset = "OFF";
         aimStrength = bounded(aimStrength,.01F,1F,.15F);

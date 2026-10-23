@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.4.0-alpha.2'
+version = '0.4.0-alpha.3'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -70,6 +70,12 @@ sourceSets {
     combatSmoke {
         java.setSrcDirs(['src/combatSmoke/java'])
         resources.setSrcDirs(['src/combatSmoke/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+    ultimateSmoke {
+        java.setSrcDirs(['src/ultimateSmoke/java'])
+        resources.setSrcDirs(['src/ultimateSmoke/resources'])
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
@@ -152,6 +158,31 @@ afterEvaluate {
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.combat.smoke', 'true'
         systemProperty 'alien.combat.smoke.output', file("${buildDir}/combat-smoke").absolutePath
+        systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+task runUltimateSmokeClient(type: JavaExec, dependsOn: ['classes', 'ultimateSmokeClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Launch isolated real Minecraft/Forge to validate HUD Ultimate and Full modules'
+}
+afterEvaluate {
+    runUltimateSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.ultimateSmoke.output
+        workingDir = file("${buildDir}/ultimate-smoke-runtime")
+        def smokeArgs = new ArrayList(runClient.args)
+        def gameDirIndex = smokeArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < smokeArgs.size()) {
+            smokeArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = smokeArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.ultimate.smoke', 'true'
+        systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/ultimate-smoke").absolutePath
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }

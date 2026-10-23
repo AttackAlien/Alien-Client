@@ -162,8 +162,8 @@ public final class AlienIntegrationSmoke {
                 }
                 require(markerCount == 1, "Exactly one edition resource is on the running game classpath");
                 boolean unified = "unified".equals(BuildEdition.ID);
-                require(AlienClient.get().modules().modules().size() == (unified ? 11 : 9),
-                        "The runtime preserves all nine visual switches and Unified's two combat switches");
+                require(AlienClient.get().modules().modules().size() == (unified ? 17 : 9),
+                        "The runtime preserves all nine visual switches and Unified's eight gameplay switches");
                 int visuals = 0, combat = 0;
                 for (ModuleDescriptor descriptor : AlienClient.get().modules().modules()) {
                     if (descriptor.accessLevel() == AccessLevel.SHARED
@@ -171,7 +171,7 @@ public final class AlienIntegrationSmoke {
                     else if (descriptor.accessLevel() == AccessLevel.FULL
                             && descriptor.gameplayImpact() == GameplayImpact.GAMEPLAY_CHANGING) combat++;
                 }
-                require(visuals == 9 && combat == (unified ? 2 : 0),
+                require(visuals == 9 && combat == (unified ? 8 : 0),
                         "Edition access and actual gameplay impact survive the redesign integration");
                 require(!config().combat.enabled && !config().combat.aimAssist && !config().combat.clickAssist,
                         "Existing combat features remain disabled on a new profile");

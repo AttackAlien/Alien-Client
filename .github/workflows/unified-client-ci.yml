@@ -58,6 +58,8 @@ jobs:
         run: python3 ./scripts/package-unified.py --begin-validation
       - name: Run Combat Studio inside actual Forge 1.8.9 with screenshots
         run: bash ./scripts/ci-combat-smoke-xorg.sh
+      - name: Validate HUD Ultimate and Full tools in real Forge
+        run: bash ./scripts/ci-ultimate-smoke-xorg.sh
       - name: Summarize in-game checks
         if: success()
         run: |
@@ -84,6 +86,7 @@ jobs:
             build/unified/smoke/
             build/unified/sky-smoke/
             build/unified/combat-smoke/
+            build/unified/ultimate-smoke/
             build/unified/validation-inputs.json
             build/unified/distribution/
 

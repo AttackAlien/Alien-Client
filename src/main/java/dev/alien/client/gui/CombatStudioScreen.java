@@ -28,8 +28,10 @@ public final class CombatStudioScreen extends PremiumScreen {
         String[] presets={"OFF","LEGIT","FULL"};
         for(int i=0;i<3;i++)buttonList.add(new Ui.Button(10+i,left+i*(third+6),45,third,23,
                 presets[i]+(presets[i].equals(config().preset)?" *":"")));
-        buttonList.add(new Ui.Button(20,left,77,(panelWidth-8)/2,22,"Presets / switches"));
-        buttonList.add(new Ui.Button(21,left+(panelWidth-8)/2+8,77,(panelWidth-8)/2,22,"Tune aim and CPS"));
+        int tab=(panelWidth-12)/3;
+        buttonList.add(new Ui.Button(20,left,77,tab,22,"Switches"));
+        buttonList.add(new Ui.Button(21,left+tab+6,77,tab,22,"Aim / CPS"));
+        buttonList.add(new Ui.Button(22,left+(tab+6)*2,77,tab,22,"Full modules"));
         if(!tuning) {
             CombatConfig c=config();
             toggle(30,left,110,panelWidth,"Combat master",c.enabled);
@@ -68,6 +70,7 @@ public final class CombatStudioScreen extends PremiumScreen {
     @Override protected void actionPerformed(GuiButton button)throws IOException {
         int id=button.id;
         if(id==0){AlienClient.get().save();mc.displayGuiScreen(parent);return;}
+        if(id==22){mc.displayGuiScreen(new FullToolsScreen(this));return;}
         if(id==50) {
             if(mc.theWorld!=null && !mc.isSingleplayer()) {
                 if(AlienClient.get().combatSession().isApproved(mc.theWorld,config()))
