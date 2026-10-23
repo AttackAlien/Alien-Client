@@ -459,6 +459,15 @@ public final class AlienIntegrationSmoke {
                         "Performance Engine 2.0 dashboard opens in actual Minecraft");
                 assertButtonsInsideScreen();
                 capture("32-performance-engine-dashboard");
+                boolean compactToggle = false;
+                for (GuiButton control : buttons()) if (control.id == 9) compactToggle = true;
+                if (compactToggle) {
+                    click(9);
+                    capture("33-performance-engine-compact-graph");
+                    require(mc.currentScreen instanceof PerformanceDashboardScreen,
+                            "Compact Graph/Stats view works at Minecraft GUI scale 2");
+                    click(9);
+                }
                 click(1);
                 require(config().performance.adaptiveEnabled,
                         "Adaptive Alien-only visual budgets can be explicitly enabled");
