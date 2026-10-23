@@ -8,6 +8,7 @@ import dev.alien.client.module.GameplayImpact;
 import dev.alien.client.module.ModuleDescriptor;
 import dev.alien.client.cosmetic.CosmeticConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
+import dev.alien.client.performance.PerformanceDashboardScreen;
 import dev.alien.client.gui.AlienMainMenu;
 import dev.alien.client.gui.AlienMenuScreen;
 import dev.alien.client.hud.HudConfig;
@@ -449,7 +450,22 @@ public final class AlienIntegrationSmoke {
                     click(7);
                     liveScreenStage = 10; since = System.nanoTime(); return;
                 }
-                capture("31-cosmetic-phantom-look");
+                if (liveScreenStage == 10) {
+                    capture("31-cosmetic-phantom-look");
+                    mc.displayGuiScreen(new PerformanceDashboardScreen(null));
+                    liveScreenStage = 11; since = System.nanoTime(); return;
+                }
+                require(mc.currentScreen instanceof PerformanceDashboardScreen,
+                        "Performance Engine 2.0 dashboard opens in actual Minecraft");
+                assertButtonsInsideScreen();
+                capture("32-performance-engine-dashboard");
+                click(1);
+                require(config().performance.adaptiveEnabled,
+                        "Adaptive Alien-only visual budgets can be explicitly enabled");
+                click(8);
+                require(!config().performance.adaptiveEnabled
+                        && config().performance.maxParticles > 0,
+                        "Disabling adaptive quality preserves saved performance budgets");
                 mc.displayGuiScreen(new HudEditorScreen(null));
                 next(); return;
             }
