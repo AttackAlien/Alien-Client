@@ -16,7 +16,7 @@ public final class PerformanceEngine {
     private final BenchmarkCapture.Result[] results = new BenchmarkCapture.Result[2];
     private BenchmarkCapture capturing;
     private int captureSlot = -1;
-    private long lastFrame;
+    private long lastFrame, lastAdaptiveCheck;
     private Object lastWorld;
     private boolean adaptiveWasEnabled;
 
@@ -32,7 +32,7 @@ public final class PerformanceEngine {
             captureSlot = -1;
             results[0] = results[1] = null;
             lastWorld = mc.theWorld;
-            lastFrame = 0;
+            lastFrame = lastAdaptiveCheck = 0;
         }
         PerformanceConfig config = AlienClient.get().config().performance;
         if (!config.adaptiveEnabled && adaptiveWasEnabled) adaptive.reset();
@@ -43,8 +43,11 @@ public final class PerformanceEngine {
             double ms = (now - lastFrame) / 1_000_000d;
             if (ms > 0 && ms <= 500 && (config.diagnostics || config.adaptiveEnabled || capturing != null)) {
                 history.add(ms, config.spikeThresholdMs);
-                if (config.adaptiveEnabled)
+                // Percentile sorting only once per second, never on every game frame.
+                if (config.adaptiveEnabled && (lastAdaptiveCheck == 0 || now - lastAdaptiveCheck >= 1_000_000_000L)) {
                     adaptive.update(history.p95(), history.count(), config.targetFps, now);
+                    lastAdaptiveCheck = now;
+                }
                 if (capturing != null && capturing.record(ms, now)) {
                     results[captureSlot] = capturing.result();
                     capturing = null;
