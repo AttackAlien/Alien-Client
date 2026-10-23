@@ -2,6 +2,7 @@ package dev.alien.client;
 
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.combat.CombatManager;
+import dev.alien.client.combat.CombatSessionGuard;
 import dev.alien.client.config.ConfigStore;
 import dev.alien.client.edition.BuildEdition;
 import dev.alien.client.module.ModuleManager;
@@ -39,6 +40,7 @@ public final class AlienClient {
     public static final String VERSION = "0.3.0-alpha.1";
     public static final Logger LOG = LogManager.getLogger("AlienClient");
     @Mod.Instance(MOD_ID) private static AlienClient instance;
+    private final CombatSessionGuard combatSession = new CombatSessionGuard();
     private ConfigStore store;
     private PerformanceEngine performance;
     private KeyBinding menuBinding;
@@ -53,6 +55,7 @@ public final class AlienClient {
     public ClientConfig config() { return store.config(); }
     public ConfigStore store() { return store; }
     public PerformanceEngine performance() { return performance; }
+    public CombatSessionGuard combatSession() { return combatSession; }
     public ModuleManager modules() { return modules; }
     public String lastError() { return lastError; }
 
