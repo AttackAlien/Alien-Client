@@ -181,7 +181,7 @@ public final class WorldManager {
             if (--particle.life <= 0) iterator.remove();
             else { particle.x += particle.vx; particle.y += particle.vy; particle.z += particle.vz; particle.vy -= 0.001D; }
         }
-        int budget = Math.min(settings.effectiveBudget(), Math.max(0, AlienClient.get().config().performance.maxParticles));
+        int budget = Math.min(settings.effectiveBudget(), Math.max(0, AlienClient.get().performance().particleBudget()));
         while (particles.size() > budget) particles.remove(0);
         boolean ground = mc.thePlayer.onGround;
         double movement = Math.abs(mc.thePlayer.posX - mc.thePlayer.prevPosX) + Math.abs(mc.thePlayer.posZ - mc.thePlayer.prevPosZ);
@@ -247,7 +247,7 @@ public final class WorldManager {
         double cx = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * event.partialTicks;
         double cy = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * event.partialTicks;
         double cz = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * event.partialTicks;
-        double distance = Math.min(effects().distance, AlienClient.get().config().performance.effectDistance);
+        double distance = Math.min(effects().distance, AlienClient.get().performance().effectDistance());
         double maxDistance = distance * distance;
         net.minecraft.util.Vec3 look = camera.getLook(event.partialTicks);
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POINT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
@@ -423,7 +423,7 @@ public final class WorldManager {
             double cy = camera.lastTickPosY + (camera.posY-camera.lastTickPosY)*partialTicks;
             double cz = camera.lastTickPosZ + (camera.posZ-camera.lastTickPosZ)*partialTicks;
             boolean snow = "Snow".equals(settings.weather);
-            int budget = Math.min(240, Math.max(0, AlienClient.get().config().performance.maxParticles));
+            int budget = Math.min(240, Math.max(0, AlienClient.get().performance().particleBudget()));
             int count = (int)(budget * settings.weatherIntensity);
             Random weatherRandom = new Random(91);
             GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_POINT_BIT | GL11.GL_LINE_BIT);
