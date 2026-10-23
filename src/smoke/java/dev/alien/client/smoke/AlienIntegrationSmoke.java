@@ -179,8 +179,8 @@ public final class AlienIntegrationSmoke {
                 File expectedClasses = new File(output.getParentFile(), "classes/main").getCanonicalFile();
                 require(loadedFrom.getCanonicalFile().toPath().startsWith(expectedClasses.toPath()),
                         "Smoke loads current main classes directly, excluding the packaged jar (actual " + loadedFrom + ")");
-                require(HudManager.bounds("performance", config().hud.widgets.get("performance"), 427, 240)[3] == 54,
-                        "Runtime HUD uses the latest three-line diagnostic widget");
+                require(HudManager.bounds("performance", config().hud.widgets.get("performance"), 427, 240)[3] == 70,
+                        "Runtime HUD uses the Performance 2.0 four-line diagnostic widget");
                 require(mc.currentScreen instanceof AlienMainMenu, "Optional main menu replaces vanilla title screen");
                 mc.gameSettings.pauseOnLostFocus = false;
                 mc.gameSettings.limitFramerate = 30;
