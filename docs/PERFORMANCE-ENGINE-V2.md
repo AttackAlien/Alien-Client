@@ -1,10 +1,10 @@
 # Alien Client — Performance Engine 2.0 (experimental)
 
-Base: PR #9 (Unified + redesign 0.4). This feature is isolated in a child branch and must not be merged before PR #9.
+Base: Unified 0.4 redesign from merged PR #9. PR #10 targets protected `main` and extends it with Performance Engine 2.0.
 
 ## Implemented and measurable
 
-- **Game-only telemetry**: last 240 frames in a bounded circular buffer with mean, P95, P99 and spike count. No measurements while paused/in GUI/unloaded. Pauses longer than 500 ms are excluded. Spike threshold is saved (default 50 ms).
+- **Game-only telemetry**: last 240 frames in a bounded circular buffer with mean, P95, P99 and spike count. No measurements while paused/in GUI/unloaded. Pauses longer than 500 ms are excluded. Spike threshold is saved (default 50 ms). The spike counter reports only the current 240-frame window: overwritten frames stop counting, and editing the threshold reclassifies samples already present.
 - **Graphical dashboard**: chart is drawn with at most 150 columns to reduce menu draw calls; on small Minecraft GUI Scale 2 windows, use the compact **Graph / Stats** toggle to switch between chart and metrics; A/B details stay hidden in compact mode rather than overlapping. Open **Right Shift → Settings → Performance → Open live Performance Dashboard**. The chart is a snapshot of the last 240 *gameplay* frames, not a fabricated live rendering benchmark while a menu is open.
 - **Adaptive Quality (OPT-IN, OFF by default)**: based on P95 against an adjustable 30–240 FPS target, the runtime scale smoothly drops the **Alien-only** particle count, cosmetic rendering count and effect distance to no less than 40% of the user budgets. Recovery is slower; there is a 5-second cooldown. Saved maximums remain untouched. The 3D cape uses its existing low-subdivision mesh when far away or heavily degraded. Original position/appearance values are not edited.
 - **Manual BASE/EFFECTS benchmark**: collect two 15-second, in-world sessions. Press BASE, play without changing the scene if possible, then reopen dashboard. Change only the Alien features you intend to compare, press EFFECTS and repeat in the *same* scene. Statistics (frame count, mean, P95, P99) are in memory; they are NOT a repeatable scientific benchmark unless conditions are controlled. The benchmark does not toggle mods or graphics automatically. It is cancelled on world change. Sample collection excludes menus and pauses.
@@ -28,4 +28,4 @@ Base: PR #9 (Unified + redesign 0.4). This feature is isolated in a child branch
 5. Try a small window and reduced GUI scale; ensure graph and buttons remain inside the screen.
 6. Reopen the game with an older JSON profile: adaptive mode remains OFF and target defaults to 90 FPS.
 
-Automation checks: `PerformanceEngineV2Test` verifies ring/statistics, hysteresis, bounds, benchmark storage and migration. The real Minecraft smoke suite opens the dashboard, captures a screenshot, exercises adaptive enable/disable and verifies persisted budgets survive.
+Automation checks: `PerformanceEngineV2Test` verifies ring/statistics, spike counter rollover and threshold changes, hysteresis, bounds, benchmark storage and migration. The real Minecraft smoke suite opens the dashboard, captures a screenshot, exercises adaptive enable/disable and verifies persisted budgets survive.
