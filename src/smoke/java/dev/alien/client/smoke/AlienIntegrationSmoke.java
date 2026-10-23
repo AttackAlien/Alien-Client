@@ -457,16 +457,23 @@ public final class AlienIntegrationSmoke {
                 }
                 require(mc.currentScreen instanceof PerformanceDashboardScreen,
                         "Performance Engine 2.0 dashboard opens in actual Minecraft");
-                assertButtonsInsideScreen();
-                capture("32-performance-engine-dashboard");
-                boolean compactToggle = false;
-                for (GuiButton control : buttons()) if (control.id == 9) compactToggle = true;
-                if (compactToggle) {
-                    click(9);
+                if (liveScreenStage == 11) {
+                    assertButtonsInsideScreen();
+                    capture("32-performance-engine-dashboard");
+                    boolean compactToggle = false;
+                    for (GuiButton control : buttons()) if (control.id == 9) compactToggle = true;
+                    if (compactToggle) {
+                        click(9); // Switch drawing state now; screenshot must wait for the next actual frame.
+                        liveScreenStage = 12; since = System.nanoTime(); return;
+                    }
+                    liveScreenStage = 13;
+                }
+                if (liveScreenStage == 12) {
                     capture("33-performance-engine-compact-graph");
                     require(mc.currentScreen instanceof PerformanceDashboardScreen,
-                            "Compact Graph/Stats view works at Minecraft GUI scale 2");
+                            "Compact Graph/Stats view renders on a separate Minecraft frame");
                     click(9);
+                    liveScreenStage = 13; since = System.nanoTime(); return;
                 }
                 click(1);
                 require(config().performance.adaptiveEnabled,
