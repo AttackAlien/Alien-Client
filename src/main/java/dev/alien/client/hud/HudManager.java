@@ -248,7 +248,7 @@ public final class HudManager {
         return info == null ? "--" : Integer.toString(info.getResponseTime());
     }
     private static void text(String text, int x, int y, int color) {
-        font().drawStringWithShadow(text, x, y, Ui.alpha("Light".equals(config().theme)?UltimateHud.textColor():color,config().opacity*activeOpacity*((color>>>24)/255f)));
+        font().drawStringWithShadow(text, x, y, Ui.alpha((color==0xff8790a5||color==0xffb6bdd1||color==0xff9991a8)?UltimateHud.muted():UltimateHud.textColor(),config().opacity*activeOpacity*((color>>>24)/255f)));
     }
     private static void key(KeyBinding binding, String label, int x, int y, int w, int h) {
         int code = binding.getKeyCode();

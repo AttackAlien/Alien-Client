@@ -56,9 +56,9 @@ public final class UltimateHud extends Gui {
         return m.thePlayer!=null&&m.currentScreen==null&&h.enabled&&h.widgets.get("crosshair").enabled
                 &&!(h.hideWithDebug&&m.gameSettings.showDebugInfo)&&m.gameSettings.thirdPersonView==0&&!m.thePlayer.isSpectator();}
     public static int themeAccent(){return "Cyan".equals(cfg().theme)?0xff43d9ed:"Light".equals(cfg().theme)?0xff7455c3:Ui.accent();}
-    public static int textColor(){return "Light".equals(cfg().theme)?0xff202636:Ui.theme().text;}
-    public static int muted(){return "Light".equals(cfg().theme)?0xff536074:Ui.theme().muted;}
-    public static int surface(){return "Light".equals(cfg().theme)?0xffeef1f7:"Midnight".equals(cfg().theme)?0xff10121b:Ui.theme().surface;}
+    public static int textColor(){return "Light".equals(cfg().theme)?0xff202636:"Inherit".equals(cfg().theme)?Ui.theme().text:0xfff5f3fc;}
+    public static int muted(){return "Light".equals(cfg().theme)?0xff536074:"Inherit".equals(cfg().theme)?Ui.theme().muted:0xff98a7bc;}
+    public static int surface(){return "Light".equals(cfg().theme)?0xffeef1f7:"Midnight".equals(cfg().theme)?0xff10121b:"Cyan".equals(cfg().theme)?0xff10191f:Ui.theme().surface;}
     private static int color(int rgb){return Ui.alpha(rgb,alpha*((rgb>>>24)/255f));}
     private static void text(String s,int x,int y,int rgb){(cfg().modernFont?Ui.font():mc().fontRendererObj).drawString(s,x,y,color(rgb),false);}
     private static void card(int w,int h){

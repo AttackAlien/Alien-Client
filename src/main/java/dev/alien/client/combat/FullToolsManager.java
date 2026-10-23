@@ -19,7 +19,9 @@ public final class FullToolsManager {
     private float previousPitch;
     private boolean using,drinking,ownsPitch;
     private EntityPlayer ownedPlayer;
-    private long bridgeAt,potionAt;
+    private long bridgeAt,potionAt,useAt;
+    private static boolean busy;
+    public static boolean busy(){return busy;}
     private static long placedBlocks,foodsStarted,potionsStarted;
     public static long placedBlocks(){return placedBlocks;}
     public static long foodsStarted(){return foodsStarted;}
@@ -29,7 +31,7 @@ public final class FullToolsManager {
         if(using)KeyBinding.setKeyBindState(useKey,physical(useKey));
         if(m.thePlayer!=null&&m.thePlayer==ownedPlayer){if(originalSlot>=0&&m.thePlayer.inventory.currentItem==ownedSlot)m.thePlayer.inventory.currentItem=originalSlot;
             if(ownsPitch&&Math.abs(m.thePlayer.rotationPitch-90)<.1f)m.thePlayer.rotationPitch=previousPitch;}
-        originalSlot=ownedSlot=-1;ownedPlayer=null;using=drinking=ownsPitch=false;pendingSplash=0;
+        busy=false;originalSlot=ownedSlot=-1;ownedPlayer=null;using=drinking=ownsPitch=false;pendingSplash=0;
     }
     @SubscribeEvent public void tick(TickEvent.ClientTickEvent e){
         if(e.phase!=TickEvent.Phase.END)return;
@@ -39,6 +41,7 @@ public final class FullToolsManager {
                 ||!AlienClient.get().combatSession().permits(m.theWorld,c,m.isSingleplayer())){stop(m);return;}
         FullToolsConfig f=c.tools;
         if(using){
+            if(System.nanoTime()-useAt>6000000000L){stop(m);return;}
             if(m.thePlayer.inventory.currentItem!=ownedSlot||(!drinking&&!f.autoFood)||(drinking&&!f.autoPotion)){stop(m);return;}
             ItemStack held=m.thePlayer.getHeldItem();
             if(pendingSplash>0){
@@ -46,7 +49,7 @@ public final class FullToolsManager {
                 return;
             }
             boolean finished=held==null||(!drinking&&m.thePlayer.getFoodStats().getFoodLevel()>=f.foodThreshold)
-                    ||(drinking&&!(held.getItem() instanceof ItemPotion));
+                    ||(drinking&&(!(held.getItem() instanceof ItemPotion)||m.thePlayer.getHealth()>f.potionHealth));
             if(finished){stop(m);potionAt=System.nanoTime();}else KeyBinding.setKeyBindState(useKey,true);
             return;
         }
@@ -54,7 +57,7 @@ public final class FullToolsManager {
             if(f.autoPotion&&m.thePlayer.getHealth()<=f.potionHealth&&System.nanoTime()-potionAt>1200000000L){
                 int slot=potionSlot(m,f);if(slot>=0){begin(m,slot,true);return;}
             }
-            if(f.autoFood&&m.thePlayer.getFoodStats().getFoodLevel()<f.foodThreshold){
+            if(f.autoFood&&m.thePlayer.canEat(false)&&m.thePlayer.getFoodStats().getFoodLevel()<f.foodThreshold){
                 int slot=foodSlot(m);if(slot>=0){begin(m,slot,false);return;}
             }
         }
@@ -65,7 +68,7 @@ public final class FullToolsManager {
     }
     private void begin(Minecraft m,int slot,boolean potion){
         ownedPlayer=m.thePlayer;originalSlot=m.thePlayer.inventory.currentItem;ownedSlot=slot;m.thePlayer.inventory.currentItem=slot;
-        using=true;drinking=potion;useKey=m.gameSettings.keyBindUseItem.getKeyCode();
+        using=true;busy=true;useAt=System.nanoTime();drinking=potion;useKey=m.gameSettings.keyBindUseItem.getKeyCode();
         if(potion){potionsStarted++;ItemStack held=m.thePlayer.getHeldItem();
             if(ItemPotion.isSplash(held.getMetadata())){previousPitch=m.thePlayer.rotationPitch;ownsPitch=true;m.thePlayer.rotationPitch=90;pendingSplash=2;return;}
         }else foodsStarted++;

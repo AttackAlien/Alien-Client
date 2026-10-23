@@ -199,11 +199,12 @@ public final class AlienUltimateSmoke {
             require(!m.gameSettings.keyBindUseItem.isKeyDown(),"Automation leaves no stuck use key after master OFF");
             server(()->{EntityPlayerMP p=serverPlayer();p.setHealth(8);p.inventory.mainInventory[5]=new ItemStack(Items.potionitem,1,16389);p.inventoryContainer.detectAndSendChanges();});
             c().combat.enabled=true;c().combat.tools.autoPotion=true;c().combat.tools.potionHealth=10;
+            dummy();faceDummy(0);c().combat.tools.aimbot=true;
             beforePotions=FullToolsManager.potionsStarted();angleBefore=m.thePlayer.rotationPitch;next();return;
         case 27:
             if(FullToolsManager.potionsStarted()<=beforePotions||serverPlayer().getHealth()<=8){if(elapsed(since)<12000)return;throw new AssertionError("Splash potion did not heal");}
             require(serverPlayer().getHealth()>8,"Auto Potion splash mode heals through a real thrown potion on the integrated server");
-            require(Math.abs(m.thePlayer.rotationPitch-angleBefore)<.1f,"Splash potion restores the original camera pitch");
+            require(Math.abs(m.thePlayer.rotationPitch-angleBefore)<.1f,"Splash potion owns its camera while Aimbot is enabled and restores the pitch");
             capture("54-auto-splash-potion-result");c().combat.tools.autoPotion=false;
             server(()->{EntityPlayerMP p=serverPlayer();p.getFoodStats().setFoodLevel(6);p.inventory.mainInventory[4]=new ItemStack(Items.bread,3);p.inventoryContainer.detectAndSendChanges();});
             c().combat.tools.autoFood=true;beforeFoods=FullToolsManager.foodsStarted();oldSlot=m.thePlayer.inventory.currentItem;next();return;
