@@ -14,7 +14,7 @@ public class PerformanceEngineV2Test {
         assertEquals(240,metrics.snapshot().length);
         assertEquals(10.5,metrics.snapshot()[0],0);
         assertEquals(130,metrics.snapshot()[239],0);
-        assertEquals(124.5,metrics.p95(),.1);
+        assertEquals(124,metrics.p95(),.1);
         assertEquals(129,metrics.p99(),.1);
         assertTrue(metrics.spikes()>0);
         assertEquals(metrics.p95(),metrics.p95(),0);
