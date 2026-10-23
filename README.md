@@ -41,7 +41,7 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 ## ✦ O que é o Alien Client?
 
-O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da \`main\`.
+O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -118,15 +118,15 @@ O launcher é experimental e o fluxo completo de login e inicialização ainda r
 ### Opção B — Minecraft Forge + Alien Client
 
 1. Instale o **Minecraft Java 1.8.9**, o **Forge 11.15.1.2318** e use **Java 8**.
-2. Abra [**Alien Client Unified CI**](https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml?query=branch%3Amain) e escolha uma execução **verde da \`main\`**.
-3. Baixe o artefato \`alien-unified-<run_id>\` e extraia \`distribution/AlienClient-Unified-1.8.9.jar\`.
-4. Copie o JAR para a pasta \`mods\` da instalação Forge 1.8.9. **Remova outros JARs do Alien Client** desse perfil.
+2. Abra [**Alien Client Unified CI**](https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml?query=branch%3Amain) e escolha uma execução **verde da `main`**.
+3. Baixe o artefato `alien-unified-<run_id>` e extraia `distribution/AlienClient-Unified-1.8.9.jar`.
+4. Copie o JAR para a pasta `mods` da instalação Forge 1.8.9. **Remova outros JARs do Alien Client** desse perfil.
 5. Entre em um mundo e aperte **Right Shift** para abrir a interface.
 
 **[→ Guia de instalação e primeiro teste](docs/PRIMEIRO-TESTE-UNIFIED.md)** · **[→ Builds validados pelo GitHub Actions](https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml)**
 
 > [!TIP]
-> Use uma **instância separada** para testar outros mods e faça backup de \`config/alien-client/\`. O JAR é um **mod Forge**, não um executável independente. O download de artefatos do Actions normalmente exige login no GitHub.
+> Use uma **instância separada** para testar outros mods e faça backup de `config/alien-client/`. O JAR é um **mod Forge**, não um executável independente. O download de artefatos do Actions normalmente exige login no GitHub.
 
 ## ✦ Performance com dados, não promessas
 
@@ -140,14 +140,14 @@ O benchmark BASE / EFFECTS permite comparar duas sessões no mesmo cenário. **N
 
 O projeto usa **Java 8**, **Minecraft Forge 1.8.9** e **ForgeGradle**. Para compilar a edição Unified em um ambiente compatível:
 
-\`\`\`bash
+```bash
 git clone https://github.com/AttackAlien/Alien-Client.git
 cd Alien-Client
 bash scripts/bootstrap.sh
 ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
-\`\`\`
+```
 
-Saída esperada: \`build/unified/libs/AlienClient-Unified-1.8.9.jar\`. A integração contínua executa testes JUnit, verificações gráficas do Minecraft em ambiente Linux e inspeção de artefatos. A verificação do ZIP no Windows **não substitui** o teste jogando em um PC Windows real.
+Saída esperada: `build/unified/libs/AlienClient-Unified-1.8.9.jar`. A integração contínua executa testes JUnit, verificações gráficas do Minecraft em ambiente Linux e inspeção de artefatos. A verificação do ZIP no Windows **não substitui** o teste jogando em um PC Windows real.
 
 | Documentação | Links |
 |:--|:--|
@@ -156,7 +156,7 @@ Saída esperada: \`build/unified/libs/AlienClient-Unified-1.8.9.jar\`. A integra
 | Qualidade e compatibilidade | [CI](docs/CI.md) · [Testes e benchmarks](docs/BENCHMARKS.md) · [Desenvolvimento](docs/DEVELOPMENT.md) |
 | Créditos e componentes externos | [Licenças de terceiros](docs/THIRD_PARTY.md) · [Revisão open source](docs/OPEN_SOURCE_REVIEW.md) |
 
-As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, prefira o **Unified da \`main\`**.
+As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, prefira o **Unified da `main`**.
 
 ---
 
