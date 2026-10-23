@@ -5,17 +5,32 @@ import java.util.Arrays;
 /** Pure Java bounded frame-time recorder. Sorting is cached until samples change. */
 public final class FrameMetrics {
     private final double[] history = new double[240];
+    private final boolean[] spikeHistory = new boolean[history.length];
+    private double lastSpikeThreshold = Double.NaN;
     private int count, cursor, spikes;
     private double sum, cachedP95, cachedP99;
     private boolean dirty = true;
 
     public void add(double millis, double spikeThreshold) {
         if (Double.isNaN(millis) || Double.isInfinite(millis) || millis <= 0 || millis > 500) return;
-        if (count == history.length) sum -= history[cursor]; else count++;
+        if (Double.compare(spikeThreshold, lastSpikeThreshold) != 0) {
+            // A threshold edit must reclassify recent samples, not accumulate old flags.
+            lastSpikeThreshold = spikeThreshold;
+            spikes = 0;
+            for (int i = 0; i < count; i++) {
+                spikeHistory[i] = history[i] >= spikeThreshold;
+                if (spikeHistory[i]) spikes++;
+            }
+        }
+        if (count == history.length) {
+            sum -= history[cursor];
+            if (spikeHistory[cursor]) spikes--;
+        } else count++;
         history[cursor] = millis;
+        spikeHistory[cursor] = millis >= spikeThreshold;
+        if (spikeHistory[cursor]) spikes++;
         sum += millis;
         cursor = (cursor + 1) % history.length;
-        if (millis >= spikeThreshold) spikes++;
         dirty = true;
     }
 
@@ -46,6 +61,8 @@ public final class FrameMetrics {
     public void clear() {
         count = cursor = spikes = 0;
         sum = cachedP95 = cachedP99 = 0;
+        lastSpikeThreshold = Double.NaN;
+        Arrays.fill(spikeHistory, false);
         dirty = true;
     }
 }
