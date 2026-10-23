@@ -1,8 +1,8 @@
 {
   "game": "Minecraft Java 1.8.9 / Forge 11.15.1.2318",
-  "version": "0.4.0-alpha.3",
-  "recorded_revision": "f25304750ac8d73d4c01d5ccf1d213c6083f0b59",
-  "last_code_revision": "18c84442ffab1cdbd84d70bec3d7b9e50c2c56ea",
+  "version": "0.4.0-alpha.4",
+  "recorded_revision": "67b4830e00b9620e15b8177a5421cda00491be63",
+  "last_code_revision": "67b4830e00b9620e15b8177a5421cda00491be63",
   "capture": "FFmpeg x11grab; Xvfb 1280x720; 20 fps; no audio",
   "editing": "Full MP4 concatenates four actual screen recordings without speed change, overlays or synthesized frames. Loading and actual resolution changes remain. GIF selects normal-speed excerpts, scaled to 480 pixels and 5 fps with reduced colors.",
   "chapters": [
@@ -10,94 +10,94 @@
       "phase": "general",
       "title": "Menus, cosmeticos, temas, mundo e perfis",
       "start_seconds": 0,
-      "duration_seconds": 71.2,
-      "recorded_utc": "2026-10-23T14:37:59Z",
+      "duration_seconds": 69.7,
+      "recorded_utc": "2026-10-23T15:17:45Z",
       "result": "PASS 161 checks"
     },
     {
       "phase": "sky",
       "title": "Sky Studio, cubemap e galeria tecnica",
-      "start_seconds": 71.2,
-      "duration_seconds": 34.1,
-      "recorded_utc": "2026-10-23T14:39:20Z",
+      "start_seconds": 69.7,
+      "duration_seconds": 33.6,
+      "recorded_utc": "2026-10-23T15:19:04Z",
       "result": "PASS 37 checks"
     },
     {
       "phase": "combat",
       "title": "Combat Studio: mira, clique e perfis",
-      "start_seconds": 105.3,
+      "start_seconds": 103.3,
       "duration_seconds": 21.6,
-      "recorded_utc": "2026-10-23T14:40:04Z",
+      "recorded_utc": "2026-10-23T15:19:47Z",
       "result": "PASS 24 checks"
     },
     {
       "phase": "ultimate",
       "title": "HUD Ultimate, Full tools e particulas aprimoradas",
-      "start_seconds": 126.9,
-      "duration_seconds": 54.65,
-      "recorded_utc": "2026-10-23T14:40:35Z",
-      "result": "PASS 73 checks"
+      "start_seconds": 124.9,
+      "duration_seconds": 64.15,
+      "recorded_utc": "2026-10-23T15:20:18Z",
+      "result": "PASS 92 checks"
     }
   ],
   "gif_selection": [
     {
       "phase": "general",
       "marker": "01-title",
-      "start_seconds": 7.6,
+      "start_seconds": 15.2,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "09c-alien-menu-inside-world",
-      "start_seconds": 25.8,
+      "start_seconds": 23.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "14-smooth-kasa-and-cloth-front",
-      "start_seconds": 28.8,
+      "start_seconds": 26.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "15-cloth-cape-emblem-back",
-      "start_seconds": 29.8,
+      "start_seconds": 27.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "17-sculpted-wings-back-view",
-      "start_seconds": 33.8,
+      "start_seconds": 31.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "32-performance-engine-dashboard",
-      "start_seconds": 36.8,
+      "start_seconds": 34.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "21-theme-editor-colors",
-      "start_seconds": 55.8,
+      "start_seconds": 54.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "29-config-profiles",
-      "start_seconds": 62.8,
+      "start_seconds": 60.8,
       "duration_seconds": 3
     },
     {
       "phase": "general",
       "marker": "18-crystal-cyan-sky-particles-hud",
-      "start_seconds": 48.8,
+      "start_seconds": 46.8,
       "duration_seconds": 3
     },
     {
       "phase": "sky",
       "marker": "sky-gallery-with-cubemap-preview",
-      "start_seconds": 25.8,
+      "start_seconds": 24.8,
       "duration_seconds": 3
     },
     {
@@ -115,7 +115,7 @@
     {
       "phase": "ultimate",
       "marker": "43-hud-ultimate-editor",
-      "start_seconds": 16.8,
+      "start_seconds": 17.8,
       "duration_seconds": 3
     },
     {
@@ -151,20 +151,68 @@
     {
       "phase": "ultimate",
       "marker": "59-particles-cinematic-live",
-      "start_seconds": 44.8,
+      "start_seconds": 45.8,
       "duration_seconds": 3
     },
     {
       "phase": "ultimate",
       "marker": "60-particles-sakura-live",
-      "start_seconds": 48.8,
+      "start_seconds": 49.8,
       "duration_seconds": 3
     },
     {
       "phase": "ultimate",
       "marker": "62-particle-studio-controls",
-      "start_seconds": 50.8,
+      "start_seconds": 51.8,
       "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "63-sakura-wreath-world",
+      "start_seconds": 53.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "64-cc0-fabric-cape-studio",
+      "start_seconds": 53.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "65-cosmetic-ribbon-controls",
+      "start_seconds": 54.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "66-ribbon-trail-and-cape-moving",
+      "start_seconds": 56.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "67-ribbon-curved-path",
+      "start_seconds": 57.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "68-cape-relaxed-after-motion",
+      "start_seconds": 60.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "69-woven-kasa-world",
+      "start_seconds": 60.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "70-sakura-cosmetic-studio",
+      "start_seconds": 61.8,
+      "duration_seconds": 2.3500000000000085
     }
   ],
   "mp4": {
@@ -176,7 +224,7 @@
         "width": 1280,
         "height": 720,
         "r_frame_rate": "20/1",
-        "nb_frames": "3630"
+        "nb_frames": "3781"
       },
       {
         "codec_name": "bin_data",
@@ -185,8 +233,8 @@
       }
     ],
     "format": {
-      "duration": "181.550000",
-      "size": "12851087"
+      "duration": "189.050000",
+      "size": "14991586"
     }
   },
   "gif": {
@@ -198,12 +246,12 @@
         "width": 480,
         "height": 270,
         "r_frame_rate": "5/1",
-        "nb_frames": "315"
+        "nb_frames": "432"
       }
     ],
     "format": {
-      "duration": "63.000000",
-      "size": "3520580"
+      "duration": "86.400000",
+      "size": "6250831"
     }
   }
 }

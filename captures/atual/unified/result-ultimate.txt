@@ -1,4 +1,4 @@
-PASS 73 checks
+PASS 92 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -75,3 +75,22 @@ PASS Particle shape, opacity, glow, flow and lifetime persist in Unified profile
 PASS Real framebuffer capture 62-particle-studio-controls
 PASS Effects OFF clears particle simulation and rendering
 PASS All particle meshes, glow passes and controls preserve clean OpenGL state
+PASS New sculpted Sakura headwear is active in the actual player renderer
+PASS Real framebuffer capture 63-sakura-wreath-world
+PASS Real framebuffer capture 64-cc0-fabric-cape-studio
+PASS Motion tab opens actual per-player ribbon controls
+PASS Real framebuffer capture 65-cosmetic-ribbon-controls
+PASS Classic particle option remains available and ribbon-only sliders are disabled
+PASS Wreath and ribbon preferences round-trip with Unified profiles
+PASS Real X11 player movement produces a rendered continuous ribbon
+PASS Ribbon geometry respects the shared performance segment limit
+PASS Actual player movement drives the cape's damped spring response
+PASS Real framebuffer capture 66-ribbon-trail-and-cape-moving
+PASS Ribbon remains rendered while turning in front third-person view
+PASS Real framebuffer capture 67-ribbon-curved-path
+PASS Stationary trail fully expires after its configured lifetime
+PASS Real framebuffer capture 68-cape-relaxed-after-motion
+PASS Real framebuffer capture 69-woven-kasa-world
+PASS Real framebuffer capture 70-sakura-cosmetic-studio
+PASS Reduced cosmetic animation leaves no active ribbon simulation
+PASS CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state

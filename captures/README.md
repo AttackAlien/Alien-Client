@@ -1,12 +1,30 @@
-# Capturas atuais — Unified 0.4.0-alpha.3
+# Capturas atuais — Unified 0.4.0-alpha.4
 
-**89 PNGs originais**, capturados em **23/10/2026**, entre 14:38 e 14:41 UTC, executando Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8 / Linux, Mesa e Xvfb. Código: `18c84442ffab1cdbd84d70bec3d7b9e50c2c56ea`; revisão gravada: `f25304750ac8d73d4c01d5ccf1d213c6083f0b59`. Sem imagens por IA, montagens ou retoques.
+**97 PNGs originais**, capturados em **23/10/2026**, entre 15:17 e 15:21 UTC, executando Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8 / Linux, Mesa e Xvfb. Código: `67b4830e00b9620e15b8177a5421cda00491be63`; revisão gravada: `67b4830e00b9620e15b8177a5421cda00491be63`. Sem imagens por IA, montagens ou retoques.
 
-As fotos anteriores foram substituídas nesta galeria. Quatro sessões novas da mesma revisão: **161 verificações gerais, 73 HUD/Full/partículas, 37 céu e 24 combate**, todas aprovadas. Os números incluem verificações de captura do framebuffer. Não são um benchmark de FPS.
+As fotos anteriores foram substituídas nesta galeria. Quatro sessões novas da mesma revisão: **161 verificações gerais, 92 HUD/Full/partículas/cosméticos, 37 céu e 24 combate**, todas aprovadas. Os números incluem verificações de captura do framebuffer. Não são um benchmark de FPS.
 
-**[Vídeo completo — 3min02s e GIF — 1min03s](video-atual/README.md)**
+**[Vídeo completo — 3min09s e GIF — 1min26s](video-atual/README.md)**
 
-[Todos os PNGs](atual/unified/) · [Testes e comandos](../docs/HUD-ULTIMATE-VALIDATION.md) · [PR #15](https://github.com/AttackAlien/Alien-Client/pull/15) · [JAR de teste](../downloads/v0.4.0-alpha.3/)
+[Todos os PNGs](atual/unified/) · [Testes e comandos](../docs/VISUAL-POLISH-VALIDATION.md) · [PR #16](https://github.com/AttackAlien/Alien-Client/pull/16) · [JAR de teste](../downloads/v0.4.0-alpha.4/)
+
+## Trilha Ribbon e capa em movimento
+
+[Abrir foto original](atual/unified/66-ribbon-trail-and-cape-moving.png) · [Controles](atual/unified/65-cosmetic-ribbon-controls.png) · [Capa após parar](atual/unified/68-cape-relaxed-after-motion.png)
+
+![Fita contínua e capa reais](atual/unified/66-ribbon-trail-and-cape-moving.png)
+
+## Novo headwear Sakura e kasa refinado
+
+[Abrir Studio](atual/unified/70-sakura-cosmetic-studio.png) · [Coroa no mundo](atual/unified/63-sakura-wreath-world.png) · [Kasa](atual/unified/69-woven-kasa-world.png)
+
+![Coroa Sakura 3D no Studio](atual/unified/70-sakura-cosmetic-studio.png)
+
+## Trama de tecido CC0 na capa
+
+[Foto original](atual/unified/64-cc0-fabric-cape-studio.png) · [Fontes, autoria e licença](../docs/VISUAL-POLISH-REFERENCES.md)
+
+![Tecido real no renderizador da capa](atual/unified/64-cc0-fabric-cape-studio.png)
 
 ## Partículas Cinematic — brilho e bordas suaves
 

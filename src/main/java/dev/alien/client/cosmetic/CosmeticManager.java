@@ -13,6 +13,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import dev.alien.client.cosmetic.mesh.CapeCloth;
 import dev.alien.client.cosmetic.mesh.CosmeticMeshes;
+import dev.alien.client.cosmetic.mesh.CapeDynamics;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.lwjgl.opengl.GL11;
 
 /** Original procedural accessories rendered only by the local client. */
@@ -20,6 +25,12 @@ public final class CosmeticManager {
     private boolean installed;
     private int rendered;
     private int tick;
+    private final RibbonTrails ribbons=new RibbonTrails();
+    private static float lastCapeBend;
+    public static float lastCapeBend(){return lastCapeBend;}
+    public static int activeRibbonCount(){return RibbonTrails.activeCount();}
+    public static int drawnRibbonSegments(){return RibbonTrails.drawnSegments();}
+    @SubscribeEvent public void renderRibbons(RenderWorldLastEvent event){ribbons.render(event);}
 
     public void install() {
         if (installed) return;
@@ -37,6 +48,7 @@ public final class CosmeticManager {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getMinecraft();
+        ribbons.tick(mc,config());
         if (mc.theWorld == null || mc.thePlayer == null || mc.isGamePaused()) return;
         tick++;
         if ((tick & 3) != 0 || !config().enabled) return;
@@ -48,7 +60,7 @@ public final class CosmeticManager {
             CosmeticConfig.Accessory accessory = forPlayer(player);
             if (accessory == null || !accessory.enabled || player.isInvisibleToPlayer(mc.thePlayer) || !inRange(player)) continue;
             boolean moving = player.motionX * player.motionX + player.motionZ * player.motionZ > .0025;
-            if (accessory.aura || (accessory.trail && moving)) {
+            if (accessory.aura || (accessory.trail && "Particles".equals(accessory.trailStyle) && moving)) {
                 double angle = tick * .09 + emitted;
                 double radius = accessory.aura ? .5 : .15;
                 double y = accessory.aura ? player.posY + .3 + .4 * Math.sin(angle) : player.posY + .1;
@@ -80,6 +92,9 @@ public final class CosmeticManager {
         private final CapeCloth lowCape = new CapeCloth(8, 4);
         private final CapeCloth balancedCape = new CapeCloth(14, 6);
         private final CapeCloth highCape = new CapeCloth(24, 12);
+        private final Map<UUID,CapeDynamics> dynamics=new LinkedHashMap<UUID,CapeDynamics>();
+        private final CapeDynamics previewDynamics=new CapeDynamics();
+        private Object capeWorld;
 
         AccessoryLayer(RenderPlayer renderer) { this.renderer = renderer; }
 
@@ -114,7 +129,17 @@ public final class CosmeticManager {
                     if ("CAPE".equals(a.back)) {
                         float limit = AlienClient.get().performance().effectDistance();
                         boolean distant = !preview && player.getDistanceSqToEntity(mc.thePlayer) > (limit * .55f) * (limit * .55f);
-                        drawCape(a, phase, movement, animated, distant);
+                        if(capeWorld!=mc.theWorld){dynamics.clear();capeWorld=mc.theWorld;}
+                        CapeDynamics response=preview?previewDynamics:dynamics.get(player.getUniqueID());
+                        if(response==null){if(dynamics.size()>=64)dynamics.remove(dynamics.keySet().iterator().next());response=new CapeDynamics();dynamics.put(player.getUniqueID(),response);}
+                        if(animated&&preview)response.update(phase,0,0,0,0);
+                        else if(animated){
+                            double bodyYaw=Math.toRadians(player.renderYawOffset),vx=(player.posX-player.prevPosX)*20,vz=(player.posZ-player.prevPosZ)*20;
+                            response.update(phase,(float)Math.hypot(vx,vz),(float)(vx*Math.cos(bodyYaw)+vz*Math.sin(bodyYaw)),
+                                    (float)((player.posY-player.prevPosY)*20),net.minecraft.util.MathHelper.wrapAngleTo180_float(player.renderYawOffset-player.prevRenderYawOffset));
+                        }else response.reset();
+                        if(!preview&&player==mc.thePlayer)lastCapeBend=response.bend();
+                        drawCape(a, phase, movement, animated, distant,response);
                     }
                     else if ("WINGS".equals(a.back)) {
                         float flap = animated ? 11f + (float)Math.sin(phase*.11f)*13f + movement*4 : 12;
@@ -161,10 +186,10 @@ public final class CosmeticManager {
             } finally { GlStateManager.popMatrix(); }
         }
 
-        private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated, boolean distant) {
+        private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated, boolean distant,CapeDynamics response) {
             CapeCloth cloth = "Low".equals(a.detailLevel) ? lowCape : "High".equals(a.detailLevel) ? highCape : balancedCape;
             if ("Competitive".equals(AlienClient.get().config().performance.preset) || distant || AlienClient.get().performance().qualityScale() < .65f) cloth=lowCape;
-            cloth.update(phase,movement,animated ? a.capeFlutter : 0);
+            cloth.update(phase,movement,animated ? a.capeFlutter : 0,response.bend(),response.sway());
             GlStateManager.pushMatrix();
             try {
                 GlStateManager.scale(1,a.capeLength,1);

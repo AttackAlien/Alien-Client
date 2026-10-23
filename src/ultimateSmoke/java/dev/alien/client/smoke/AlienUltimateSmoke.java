@@ -8,6 +8,7 @@ import dev.alien.client.gui.*;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.world.*;
 import dev.alien.client.world.WorldManager;
+import dev.alien.client.cosmetic.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.nio.file.Files;
@@ -48,13 +49,13 @@ public final class AlienUltimateSmoke {
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
             if(elapsed(start)>230000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==15||stage==17?2500:700;
+            long wait=stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("FAIL stage "+stage);for(String check:checks)w.println("PASS "+check);failure.printStackTrace(w);
             }catch(Exception ignored){}
-            if(robot!=null){robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);}
+            if(robot!=null){robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);}
             throw new RuntimeException("HUD Ultimate / Full integration failed",failure);
         }
     }
@@ -260,6 +261,47 @@ public final class AlienUltimateSmoke {
         case 39:
             require(WorldManager.liveParticleCount()==0&&WorldManager.drawnParticleCount()==0,"Effects OFF clears particle simulation and rendering");
             require(GL11.glGetError()==GL11.GL_NO_ERROR,"All particle meshes, glow passes and controls preserve clean OpenGL state");
+            c().cosmetics.enabled=true;CosmeticConfig.Accessory outfit=c().cosmetics.self;
+            outfit.enabled=true;outfit.hat="SAKURA";outfit.face="NONE";outfit.back="CAPE";outfit.capePattern="MOON";
+            outfit.color=0xEFADCC;outfit.secondaryColor=0x775AB1;outfit.detailLevel="High";outfit.animations=true;
+            outfit.trail=true;outfit.trailStyle="Ribbon";outfit.trailWidth=.22f;outfit.trailLifetime=1.2f;outfit.aura=false;
+            server(()->{EntityPlayerMP p=serverPlayer();p.clearActivePotions();p.setHealth(20);p.getFoodStats().setFoodLevel(20);
+                for(int i=0;i<4;i++)p.inventory.armorInventory[i]=null;p.inventoryContainer.detectAndSendChanges();});
+            m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw=0;m.thePlayer.rotationPitch=0;next();return;
+        case 40:
+            require("SAKURA".equals(c().cosmetics.self.hat),"New sculpted Sakura headwear is active in the actual player renderer");
+            capture("63-sakura-wreath-world");CosmeticStudioScreen fabric=new CosmeticStudioScreen(null);m.displayGuiScreen(fabric);fabric.setPreviewYaw(155);fabric.setPreviewZoom(1.3f);next();return;
+        case 41:
+            capture("64-cc0-fabric-cape-studio");click(6);click(87);next();return;
+        case 42:
+            require(m.currentScreen instanceof CosmeticTrailScreen,"Motion tab opens actual per-player ribbon controls");
+            capture("65-cosmetic-ribbon-controls");click(2);
+            require("Particles".equals(c().cosmetics.self.trailStyle)&&!button(3).enabled,"Classic particle option remains available and ribbon-only sliders are disabled");
+            click(2);c().cosmetics.self.trailOpacity=.72f;AlienClient.get().store().saveProfile("cosmetic_polish_smoke");
+            c().cosmetics.self.trailWidth=.04f;
+            require(AlienClient.get().store().loadProfile("cosmetic_polish_smoke")&&c().cosmetics.self.trailWidth==.22f
+                    &&c().cosmetics.self.trailOpacity==.72f&&"SAKURA".equals(c().cosmetics.self.hat),"Wreath and ribbon preferences round-trip with Unified profiles");
+            m.displayGuiScreen(null);m.gameSettings.thirdPersonView=1;m.thePlayer.rotationYaw=-40;m.thePlayer.rotationPitch=22;
+            robot.keyPress(java.awt.event.KeyEvent.VK_W);robot.keyPress(java.awt.event.KeyEvent.VK_D);next();return;
+        case 43:
+            require(CosmeticManager.activeRibbonCount()>0&&CosmeticManager.drawnRibbonSegments()>0,"Real X11 player movement produces a rendered continuous ribbon");
+            require(CosmeticManager.drawnRibbonSegments()<=192,"Ribbon geometry respects the shared performance segment limit");
+            require(CosmeticManager.lastCapeBend()>.2f,"Actual player movement drives the cape's damped spring response");
+            capture("66-ribbon-trail-and-cape-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_D);
+            m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw+=60;m.thePlayer.rotationPitch=-12;next();return;
+        case 44:
+            require(CosmeticManager.drawnRibbonSegments()>0,"Ribbon remains rendered while turning in front third-person view");
+            capture("67-ribbon-curved-path");robot.keyRelease(java.awt.event.KeyEvent.VK_W);next();return;
+        case 45:
+            require(CosmeticManager.activeRibbonCount()==0,"Stationary trail fully expires after its configured lifetime");
+            capture("68-cape-relaxed-after-motion");c().cosmetics.self.hat="JAPANESE";c().cosmetics.self.color=0x262D3E;
+            c().cosmetics.self.secondaryColor=0xD6B56C;c().cosmetics.self.capePattern="ALIEN";m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=-8;next();return;
+        case 46:
+            capture("69-woven-kasa-world");c().cosmetics.self.hat="SAKURA";c().cosmetics.self.color=0xEFADCC;c().cosmetics.self.secondaryColor=0x775AB1;
+            c().cosmetics.self.animations=false;CosmeticStudioScreen wreath=new CosmeticStudioScreen(null);m.displayGuiScreen(wreath);wreath.setPreviewZoom(1.05f);next();return;
+        case 47:
+            capture("70-sakura-cosmetic-studio");require(CosmeticManager.activeRibbonCount()==0,"Reduced cosmetic animation leaves no active ribbon simulation");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");
