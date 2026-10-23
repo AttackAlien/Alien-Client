@@ -41,8 +41,8 @@ public final class CosmeticManager {
         tick++;
         if ((tick & 3) != 0 || !config().enabled) return;
         int emitted = 0;
-        int budget = Math.min(32, Math.min(Math.max(0, AlienClient.get().config().performance.maxCosmetics),
-                AlienClient.get().config().performance.maxParticles));
+        int budget = Math.min(32, Math.min(Math.max(0, AlienClient.get().performance().cosmeticBudget()),
+                AlienClient.get().performance().particleBudget()));
         for (EntityPlayer player : mc.theWorld.playerEntities) {
             if (emitted >= budget) break;
             CosmeticConfig.Accessory accessory = forPlayer(player);
@@ -71,7 +71,7 @@ public final class CosmeticManager {
 
     private boolean inRange(EntityPlayer player) {
         Minecraft mc = Minecraft.getMinecraft();
-        float distance = Math.min(config().maxDistance, AlienClient.get().config().performance.effectDistance);
+        float distance = Math.min(config().maxDistance, AlienClient.get().performance().effectDistance());
         return mc.thePlayer != null && player.getDistanceSqToEntity(mc.thePlayer) <= distance * distance;
     }
 
@@ -90,7 +90,7 @@ public final class CosmeticManager {
             if (!config().enabled || mc.thePlayer == null || player.isSpectator()
                     || player.isInvisibleToPlayer(mc.thePlayer) || (!preview && !inRange(player))) return;
             CosmeticConfig.Accessory a = forPlayer(player);
-            if (a == null || !a.enabled || (!preview && rendered >= AlienClient.get().config().performance.maxCosmetics)) return;
+            if (a == null || !a.enabled || (!preview && rendered >= AlienClient.get().performance().cosmeticBudget())) return;
             if (!preview) rendered++;
             boolean animated = a.animations && AlienClient.get().config().animations;
             float phase = animated ? player.ticksExisted + partialTicks : 0;
@@ -111,7 +111,11 @@ public final class CosmeticManager {
                 try {
                     renderer.getMainModel().bipedBody.postRender(.0625f);
                     transform(a);
-                    if ("CAPE".equals(a.back)) drawCape(a, phase, movement, animated);
+                    if ("CAPE".equals(a.back)) {
+                        float limit = AlienClient.get().performance().effectDistance();
+                        boolean distant = !preview && player.getDistanceSqToEntity(mc.thePlayer) > (limit * .55f) * (limit * .55f);
+                        drawCape(a, phase, movement, animated, distant);
+                    }
                     else if ("WINGS".equals(a.back)) {
                         float flap = animated ? 11f + (float)Math.sin(phase*.11f)*13f + movement*4 : 12;
                         GlStateManager.pushMatrix();
@@ -157,9 +161,9 @@ public final class CosmeticManager {
             } finally { GlStateManager.popMatrix(); }
         }
 
-        private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated) {
+        private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated, boolean distant) {
             CapeCloth cloth = "Low".equals(a.detailLevel) ? lowCape : "High".equals(a.detailLevel) ? highCape : balancedCape;
-            if ("Competitive".equals(AlienClient.get().config().performance.preset)) cloth=lowCape;
+            if ("Competitive".equals(AlienClient.get().config().performance.preset) || distant || AlienClient.get().performance().qualityScale() < .65f) cloth=lowCape;
             cloth.update(phase,movement,animated ? a.capeFlutter : 0);
             GlStateManager.pushMatrix();
             try {
