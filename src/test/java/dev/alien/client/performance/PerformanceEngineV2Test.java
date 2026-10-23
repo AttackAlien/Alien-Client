@@ -16,12 +16,33 @@ public class PerformanceEngineV2Test {
         assertEquals(130,metrics.snapshot()[239],0);
         assertEquals(124,metrics.p95(),.1);
         assertEquals(129,metrics.p99(),.1);
-        assertTrue(metrics.spikes()>0);
+        assertEquals(181,metrics.spikes());
         assertEquals(metrics.p95(),metrics.p95(),0);
         metrics.clear();
         assertEquals(0,metrics.count());
         assertEquals(0,metrics.spikes());
     }
+    @Test public void spikesOnlyCountRecentFramesEvenAfterRingWraps() {
+        FrameMetrics metrics = new FrameMetrics();
+        for (int i = 0; i < 240; i++) metrics.add(90, 50);
+        assertEquals(240, metrics.spikes());
+        for (int i = 0; i < 120; i++) metrics.add(16, 50);
+        assertEquals(120, metrics.spikes());
+        for (int i = 0; i < 120; i++) metrics.add(16, 50);
+        assertEquals(0, metrics.spikes());
+        assertEquals(240, metrics.count());
+        metrics.add(90, 50);
+        assertEquals(1, metrics.spikes());
+        metrics.add(90, 100);
+        assertEquals(0, metrics.spikes());
+        metrics.add(90, 80);
+        assertEquals(3, metrics.spikes());
+        metrics.clear();
+        assertEquals(0, metrics.spikes());
+        metrics.add(60, 50);
+        assertEquals(1, metrics.spikes());
+    }
+
     @Test public void rejectsFramesFromPausedOrStalledWindows() {
         FrameMetrics metrics=new FrameMetrics();
         for(double t:new double[]{Double.NaN,Double.POSITIVE_INFINITY,-1,0,501})
