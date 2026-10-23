@@ -43,7 +43,9 @@ public final class CombatStudioScreen extends GuiScreen {
             slider(42,186,"Target select range",2F,6F,.1F,c.targetRange,value->c.targetRange=value);
             slider(43,223,"Click assist CPS",1F,12F,1F,c.clicksPerSecond,value->c.clicksPerSecond=value);
         }
-        buttonList.add(new Ui.Button(0,left+panelWidth/2-62,height-28,124,21,"Done"));
+        if(mc.theWorld!=null&&!mc.isSingleplayer()) buttonList.add(new Ui.Button(50,left,height-28,panelWidth/2-5,21,
+                AlienClient.get().combatSession().isApproved(mc.theWorld,config())?"Revoke access":"Allow on server"));
+        buttonList.add(new Ui.Button(0,left+panelWidth/2+5,height-28,panelWidth/2-5,21,"Done"));
     }
 
     private void toggle(int id,int y,String name,boolean enabled) {
