@@ -1,8 +1,10 @@
 # Capturas atuais — Unified 0.4.0-alpha.3
 
-**89 PNGs originais**, capturados em **23/10/2026**, entre 14:18 e 14:21 UTC, executando Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8 / Linux, Mesa e Xvfb. Fonte validada: `18c84442ffab1cdbd84d70bec3d7b9e50c2c56ea`. Sem imagens por IA, montagens ou retoques.
+**89 PNGs originais**, capturados em **23/10/2026**, entre 14:38 e 14:41 UTC, executando Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8 / Linux, Mesa e Xvfb. Código: `18c84442ffab1cdbd84d70bec3d7b9e50c2c56ea`; revisão gravada: `f25304750ac8d73d4c01d5ccf1d213c6083f0b59`. Sem imagens por IA, montagens ou retoques.
 
 As fotos anteriores foram substituídas nesta galeria. Quatro sessões novas da mesma revisão: **161 verificações gerais, 73 HUD/Full/partículas, 37 céu e 24 combate**, todas aprovadas. Os números incluem verificações de captura do framebuffer. Não são um benchmark de FPS.
+
+**[Vídeo completo — 3min02s e GIF — 1min03s](video-atual/README.md)**
 
 [Todos os PNGs](atual/unified/) · [Testes e comandos](../docs/HUD-ULTIMATE-VALIDATION.md) · [PR #15](https://github.com/AttackAlien/Alien-Client/pull/15) · [JAR de teste](../downloads/v0.4.0-alpha.3/)
 

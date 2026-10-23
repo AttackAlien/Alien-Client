@@ -1,0 +1,209 @@
+{
+  "game": "Minecraft Java 1.8.9 / Forge 11.15.1.2318",
+  "version": "0.4.0-alpha.3",
+  "recorded_revision": "f25304750ac8d73d4c01d5ccf1d213c6083f0b59",
+  "last_code_revision": "18c84442ffab1cdbd84d70bec3d7b9e50c2c56ea",
+  "capture": "FFmpeg x11grab; Xvfb 1280x720; 20 fps; no audio",
+  "editing": "Full MP4 concatenates four actual screen recordings without speed change, overlays or synthesized frames. Loading and actual resolution changes remain. GIF selects normal-speed excerpts, scaled to 480 pixels and 5 fps with reduced colors.",
+  "chapters": [
+    {
+      "phase": "general",
+      "title": "Menus, cosmeticos, temas, mundo e perfis",
+      "start_seconds": 0,
+      "duration_seconds": 71.2,
+      "recorded_utc": "2026-10-23T14:37:59Z",
+      "result": "PASS 161 checks"
+    },
+    {
+      "phase": "sky",
+      "title": "Sky Studio, cubemap e galeria tecnica",
+      "start_seconds": 71.2,
+      "duration_seconds": 34.1,
+      "recorded_utc": "2026-10-23T14:39:20Z",
+      "result": "PASS 37 checks"
+    },
+    {
+      "phase": "combat",
+      "title": "Combat Studio: mira, clique e perfis",
+      "start_seconds": 105.3,
+      "duration_seconds": 21.6,
+      "recorded_utc": "2026-10-23T14:40:04Z",
+      "result": "PASS 24 checks"
+    },
+    {
+      "phase": "ultimate",
+      "title": "HUD Ultimate, Full tools e particulas aprimoradas",
+      "start_seconds": 126.9,
+      "duration_seconds": 54.65,
+      "recorded_utc": "2026-10-23T14:40:35Z",
+      "result": "PASS 73 checks"
+    }
+  ],
+  "gif_selection": [
+    {
+      "phase": "general",
+      "marker": "01-title",
+      "start_seconds": 7.6,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "09c-alien-menu-inside-world",
+      "start_seconds": 25.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "14-smooth-kasa-and-cloth-front",
+      "start_seconds": 28.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "15-cloth-cape-emblem-back",
+      "start_seconds": 29.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "17-sculpted-wings-back-view",
+      "start_seconds": 33.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "32-performance-engine-dashboard",
+      "start_seconds": 36.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "21-theme-editor-colors",
+      "start_seconds": 55.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "29-config-profiles",
+      "start_seconds": 62.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "general",
+      "marker": "18-crystal-cyan-sky-particles-hud",
+      "start_seconds": 48.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "sky",
+      "marker": "sky-gallery-with-cubemap-preview",
+      "start_seconds": 25.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "combat",
+      "marker": "combat-target-tracking",
+      "start_seconds": 16.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "40-hud-ultimate-pvp-live",
+      "start_seconds": 12.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "43-hud-ultimate-editor",
+      "start_seconds": 16.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "44-hud-presets-themes",
+      "start_seconds": 18.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "47-crosshair-options",
+      "start_seconds": 21.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "48-auto-food-result",
+      "start_seconds": 24.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "51-auto-bridge-server-block",
+      "start_seconds": 31.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "56-full-preset-enabled",
+      "start_seconds": 39.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "59-particles-cinematic-live",
+      "start_seconds": 44.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "60-particles-sakura-live",
+      "start_seconds": 48.8,
+      "duration_seconds": 3
+    },
+    {
+      "phase": "ultimate",
+      "marker": "62-particle-studio-controls",
+      "start_seconds": 50.8,
+      "duration_seconds": 3
+    }
+  ],
+  "mp4": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "r_frame_rate": "20/1",
+        "nb_frames": "3630"
+      },
+      {
+        "codec_name": "bin_data",
+        "r_frame_rate": "0/0",
+        "nb_frames": "4"
+      }
+    ],
+    "format": {
+      "duration": "181.550000",
+      "size": "12851087"
+    }
+  },
+  "gif": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "gif",
+        "width": 480,
+        "height": 270,
+        "r_frame_rate": "5/1",
+        "nb_frames": "315"
+      }
+    ],
+    "format": {
+      "duration": "63.000000",
+      "size": "3520580"
+    }
+  }
+}

@@ -22,6 +22,10 @@ São **465 execuções JUnit** (155 por composição, não 465 testes distintos)
 
 O CI da revisão de código também aprovou os seis checks: Forge Legit/Full, Sky Legit/Full, Unified Java 8 e integridade ZIP/JAR no Windows. [Execução Unified](https://github.com/AttackAlien/Alien-Client/actions/runs/39968363502), [Forge](https://github.com/AttackAlien/Alien-Client/actions/runs/39968363596), [Sky](https://github.com/AttackAlien/Alien-Client/actions/runs/39968363687). A publicação posterior de documentação/fotos pode gerar nova execução, cujo estado atual aparece no PR.
 
+## Gravação posterior, sem alteração do código
+
+Entre 14:37 e 14:41 UTC, as quatro sessões foram executadas novamente para gravar o [MP4 de 3min02s e o GIF de 1min03s](../captures/video-atual/README.md). Todas repetiram os mesmos resultados: 161, 37, 24 e 73 checks. As 89 fotos da galeria foram novamente substituídas pelos framebuffers dessas sessões. Não houve recompilação/alteração do código de produção ou do JAR; os testes JUnit e hashes acima continuam vinculados ao mesmo artefato. A revisão gravada é `f25304750ac8d73d4c01d5ccf1d213c6083f0b59`, cujo CI também aprovou os seis checks ([Unified e Windows integridade](https://github.com/AttackAlien/Alien-Client/actions/runs/39969649427)).
+
 ## O que foi exercitado no jogo
 
 - **HUD:** os 12 widgets originais continuam registrados, somados aos três novos; mira ciano conferida no centro do framebuffer; Target HUD acompanha entidade real client-side, anima HP de 20 para 8 e limpa o alvo removido. Armadura vem do inventário sincronizado. CPS/teclas recebem eventos X11 automatizados entregues ao LWJGL.

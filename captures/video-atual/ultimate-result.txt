@@ -1,0 +1,77 @@
+PASS 73 checks
+Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
+Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
+Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
+PASS All 12 existing widgets and three new widgets are registered
+PASS Unified registers nine visuals and eight real gameplay switches
+PASS New gameplay functions are off on fresh profiles
+PASS Target HUD selects the real ray-traced practice entity
+PASS Real server inventory armor synchronizes to client
+PASS CPS counts actual automated X11 mouse events delivered to LWJGL
+PASS Real framebuffer capture 40-hud-ultimate-pvp-live
+PASS Custom cyan crosshair replaces vanilla white at the actual framebuffer center
+PASS Health bar visibly interpolates after entity damage
+PASS Real framebuffer capture 41-target-health-animation
+PASS Animated target health converges to the entity's real 8/20 health
+PASS Real framebuffer capture 42-target-damaged
+PASS Removed entities clear the target; no invented target remains
+PASS Actual HUD canvas drag changes the selected widget position
+PASS Actual resize handle scales the existing target widget
+PASS HUD Center alignment operates after dragging and resizing
+PASS Real framebuffer capture 43-hud-ultimate-editor
+PASS Selected widget opens the real HUD settings screen
+PASS Widget opacity slider changes the selected widget only
+PASS HUD presets are accessible from the preserved editor
+PASS Real framebuffer capture 44-hud-presets-themes
+PASS Survival preset enables live health, speed and potion indicators
+PASS Real framebuffer capture 45-hud-survival-live
+PASS Cinematic disables gameplay overlays without deleting their settings
+PASS Real framebuffer capture 46-hud-cinematic-live
+PASS Real framebuffer capture 47-crosshair-options
+PASS Crosshair shape control selects an implemented shape
+PASS Auto Food selects actual hotbar food in a hungry server world
+PASS Auto Food restores the original selected slot after eating
+PASS Auto Food actually increases server-side hunger through vanilla item use
+PASS Real framebuffer capture 48-auto-food-result
+PASS Auto Potion selects an actual healing potion from the hotbar
+PASS Auto Potion produces real server-side healing
+PASS Real framebuffer capture 49-auto-potion-result
+PASS Anti Aim spin changes the actual camera orientation
+PASS Aimbot actually aligns the camera with the visible practice player
+PASS Real framebuffer capture 50-aimbot-target-hud
+PASS Auto Bridge calls the vanilla placement controller
+PASS Auto Bridge places the block in the actual integrated server world
+PASS Real framebuffer capture 51-auto-bridge-server-block
+PASS Auto Sprint enables the actual sprint state while forward input is held
+PASS Real framebuffer capture 52-full-modules-unified
+PASS All six new modules have actual clickable controls
+PASS Full module GUI edits the registered Auto Food state
+PASS Unified profile reload succeeds with all new sections
+PASS HUD preferences and Full tool settings round-trip together without data loss
+PASS Real framebuffer capture 53-hud-ultimate-scaled
+PASS HUD/avatars/items/crosshair and Full screens preserve clean OpenGL state
+PASS Automation leaves no stuck use key after master OFF
+PASS Auto Potion splash mode heals through a real thrown potion on the integrated server
+PASS Splash potion owns its camera while Aimbot is enabled and restores the pitch
+PASS Real framebuffer capture 54-auto-splash-potion-result
+PASS Opening a GUI interrupts automation and releases its owned use key
+PASS Opening a GUI during food use restores the user's hotbar slot
+PASS Real framebuffer capture 55-full-input-cleanup
+PASS OFF disables all Full tool execution after in-world tests
+PASS Full preset is functionally distinct and enables the implemented Full tools
+PASS Real framebuffer capture 56-full-preset-enabled
+PASS Real framebuffer capture 57-hud-light-theme-live
+PASS Real framebuffer capture 58-full-combat-catalog
+PASS Light HUD theme and full module catalog render without OpenGL errors
+PASS Cinematic particles spawn through the actual bounded world emitter
+PASS Cinematic feathered orb particles reach the world renderer
+PASS Real framebuffer capture 59-particles-cinematic-live
+PASS Sakura petals render within their real 72-particle budget
+PASS Real framebuffer capture 60-particles-sakura-live
+PASS PvP preset keeps actual movement particles within 24 and disables glow and ambient spawning
+PASS Real framebuffer capture 61-particles-pvp-live
+PASS Particle Studio controls edit the active renderer configuration
+PASS Particle shape, opacity, glow, flow and lifetime persist in Unified profiles
+PASS Real framebuffer capture 62-particle-studio-controls
+PASS Effects OFF clears particle simulation and rendering
+PASS All particle meshes, glow passes and controls preserve clean OpenGL state

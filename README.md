@@ -64,6 +64,8 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
+[Assistir ao vídeo real completo (3min02s) ou ao GIF de prévia (1min03s)](captures/video-atual/README.md).
+
 <table>
   <tr>
     <td width="50%" align="center">
