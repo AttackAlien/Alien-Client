@@ -73,7 +73,32 @@ public final class ModuleManager {
                         current(config).combat.preset = "CUSTOM";
                     }));
         }
+        if(allowFull && "unified".equals(BuildEdition.ID)) {
+            String[] ids={"aimbot","auto_food","auto_potion","anti_aim","bridge","auto_sprint"};
+            String[] names={"Aimbot","Auto Food","Auto Potion","Anti Aim / spin","Auto Bridge","Auto Sprint"};
+            String[] descriptions={"Instant visible-player aim through the normal camera; uses configured FOV/range.",
+                "Eat food from the hotbar below the configured hunger threshold; restores your slot.",
+                "Use a hotbar healing or regeneration potion below the health threshold.",
+                "Rotate the actual camera while idle; no fake angles or desync.",
+                "Place hotbar blocks below your feet using adjacent support and vanilla reach.",
+                "Sprint while moving forwards when vanilla hunger and collision rules allow."};
+            for(int i=0;i<ids.length;i++){final int n=i;
+                manager.register(new ModuleDescriptor(ids[i],names[i],ModuleCategory.COMBAT,descriptions[i],GameplayImpact.GAMEPLAY_CHANGING,AccessLevel.FULL,
+                    ()->tool(current(config),n),value->{setTool(current(config),n,value);current(config).combat.preset="CUSTOM";}));
+            }
+        }
         return manager;
+    }
+    private static boolean tool(ClientConfig c,int n){
+        dev.alien.client.combat.FullToolsConfig f=c.combat.tools;
+        return n==0?f.aimbot:n==1?f.autoFood:n==2?f.autoPotion:n==3?f.antiAim:n==4?f.bridge:f.autoSprint;
+    }
+    private static void setTool(ClientConfig c,int n,boolean value){
+        dev.alien.client.combat.FullToolsConfig f=c.combat.tools;
+        if(n==0){f.aimbot=value;if(value)f.antiAim=false;}
+        if(n==1)f.autoFood=value;if(n==2)f.autoPotion=value;
+        if(n==3){f.antiAim=value;if(value){c.combat.aimAssist=false;f.aimbot=false;}}
+        if(n==4)f.bridge=value;if(n==5)f.autoSprint=value;
     }
 
     private static ClientConfig current(Supplier<ClientConfig> config) {

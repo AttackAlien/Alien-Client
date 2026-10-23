@@ -26,8 +26,9 @@ public final class AtmospherePresets {
         effects.distance = 24;
         effects.size = "Sakura".equals(preset) ? 3.7F : 3.1F;
         effects.shape = "Crystal".equals(preset) ? "Diamond" : "Sakura".equals(preset) ? "Petal" : "Spark";
-        effects.color = "Crystal".equals(preset) ? 0x7DF5AC : "Sakura".equals(preset) ? 0xF4B0D1 : 0xB690FF;
-        effects.secondaryColor = "Crystal".equals(preset) ? 0xF4E687 : "Sakura".equals(preset) ? 0xFFF0F8 : 0x85E8F3;
+        effects.color = "Crystal".equals(preset) ? 0x72E5F2 : "Sakura".equals(preset) ? 0xF4B0D1 : 0xB690FF;
+        effects.secondaryColor = "Crystal".equals(preset) ? 0xD8FAFF : "Sakura".equals(preset) ? 0xFFF0F8 : 0x85E8F3;
+        effects.opacity=.82f;effects.glow="Sakura".equals(preset)?.22f:.4f;effects.flow="Sakura".equals(preset)?1.1f:.65f;effects.lifetime=1;
         effects.colorFilter = false;
         effects.cameraSway = false;
         world.normalize(); effects.normalize();

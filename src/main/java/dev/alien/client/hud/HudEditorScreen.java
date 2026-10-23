@@ -42,7 +42,7 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
     private void button(int id,int x,int y,int w,String label){buttonList.add(new Ui.Button(id,x,y,w,20,label));}
     private void rebuildButtons() {
         buttonList.clear();
-        button(11,width-64,12,52,"Done");button(14,width-164,12,94,"Compact preset");
+        button(11,width-64,12,52,"Done");button(14,width-164,12,94,"HUD presets");
         button(40,12,53,(rail-18)/2,"Widgets");button(41,16+(rail-18)/2,53,(rail-18)/2,"Style");
         if(tab==0){
             for(int i=0;i<rows && scroll+i<ids.size();i++){
@@ -65,7 +65,8 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
         else button(3,12,height-55,rail-12,"Snap / "+(cfg().snapToGrid?"On":"Off"));
         if(width>=520){button(7,x+64,y,34,"Top");button(9,x+102,y,44,"Bottom");}
         button(51,rail+20,53,54,"Export");button(52,rail+78,53,54,"Import");
-        if(width>400)button(46,rail+136,53,64,"Grid / "+(cfg().showGrid?"On":"Off"));
+        button(53,rail+136,53,Math.min(64,width-rail-150),"Options");
+        if(width>410)button(46,rail+204,53,64,"Grid / "+(cfg().showGrid?"On":"Off"));
     }
 
     @Override public void drawContents(int mouseX, int mouseY, float partialTicks) {
@@ -92,7 +93,7 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
         Ui.card(6,44,rail+6,height-91);
         Ui.rounded(6,6,width-12,34,8,AlienClient.get().config().ui.surface);
         Ui.icon("hud",16,17,13,Ui.accent());
-        fontRendererObj.drawString("HUD Studio",35,16,AlienClient.get().config().ui.text);
+        fontRendererObj.drawString("HUD Studio Ultimate",35,16,AlienClient.get().config().ui.text);
         fontRendererObj.drawString("LIVE LAYOUT",rail+20,85,AlienClient.get().config().ui.muted);
         String label=HudConfig.label(selected)+" / "+String.format(java.util.Locale.ROOT,"%.1fx",cfg().widgets.get(selected).scale);
         fontRendererObj.drawString(label,rail+20,height-82,AlienClient.get().config().ui.text);
@@ -101,6 +102,8 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
         dev.alien.client.gui.ui.Notifications.render(width,height);
         if(height>280)fontRendererObj.drawString(fontRendererObj.trimStringToWidth(status,width-rail-28),rail+20,100,AlienClient.get().config().ui.muted);
     }
+
+    public void selectWidget(String id){if(cfg().widgets.containsKey(id)&&HudManager.known(id)){selected=id;int n=ids.indexOf(id);if(n<scroll)scroll=n;else if(n>=scroll+rows)scroll=n-rows+1;scroll=Math.max(0,scroll);rebuildButtons();}}
 
     private static void outline(int x, int y, int right, int bottom, int color) {
         drawRect(x, y, right, y + 1, color); drawRect(x, bottom - 1, right, bottom, color);
@@ -125,7 +128,8 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
             case 11: mc.displayGuiScreen(parent); return;
             case 12: cfg().enabled = !cfg().enabled; break;
             case 13: cfg().background = !cfg().background; break;
-            case 14: cfg().applyReferencePreset(); selected = "brand"; break;
+            case 14: mc.displayGuiScreen(new HudPresetsScreen(this));return;
+            case 53: mc.displayGuiScreen(new HudWidgetSettingsScreen(this,selected));return;
             case 40: tab=0;break;
             case 41: tab=1;break;
             case 42: cfg().modernFont=!cfg().modernFont;break;
@@ -188,6 +192,7 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
                 nx = Math.round(nx / (float) cfg().gridSize) * cfg().gridSize;
                 ny = Math.round(ny / (float) cfg().gridSize) * cfg().gridSize;
             }
+            if("crosshair".equals(dragging))cfg().crosshair.centered=false;
             w.x = Math.max(0, Math.min(1, nx / (float) width));
             w.y = Math.max(0, Math.min(1, ny / (float) height));
         }

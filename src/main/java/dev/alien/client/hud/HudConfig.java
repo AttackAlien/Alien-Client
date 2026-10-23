@@ -16,6 +16,12 @@ public final class HudConfig {
     public boolean gradient = true;
     public boolean borders = true;
     public boolean shadows = true;
+    public String preset="Custom",theme="Inherit";
+    public CrosshairConfig crosshair=new CrosshairConfig();
+    public float targetHold=3,targetSmoothing=10,targetRange=32;
+    public boolean targetAvatar=true,mouseKeys=true,sprintKey=true;
+    public boolean cpsLeft=true,cpsRight=true,armorPercent=true;
+    public boolean indicatorHealth=true,indicatorSpeed=true,indicatorEffects=true,indicatorFacing=true;
     public String customText = "Alien Client";
     public Map<String, Widget> widgets = new LinkedHashMap<String, Widget>();
 
@@ -37,6 +43,16 @@ public final class HudConfig {
         add("armor", true, .80f, .26f);
         add("performance", false, .35f, .04f);
         add("text", false, .45f, .15f);
+        add("target", false, .62f, .58f);
+        add("crosshair", false, .5f, .5f);
+        add("indicators", false, .02f, .70f);
+        if(crosshair==null)crosshair=new CrosshairConfig();crosshair.normalize();
+        targetHold=HudMath.clamp(targetHold,.5f,8,3);
+        targetSmoothing=HudMath.clamp(targetSmoothing,.1f,30,10);
+        targetRange=HudMath.clamp(targetRange,3,64,32);
+        if(!cpsLeft&&!cpsRight)cpsLeft=true;
+        if(!"Inherit".equals(theme)&&!"Midnight".equals(theme)&&!"Cyan".equals(theme)&&!"Light".equals(theme))theme="Inherit";
+        if(!"Custom".equals(preset)&&!"PvP".equals(preset)&&!"Survival".equals(preset)&&!"Cinematic".equals(preset))preset="Custom";
         gridSize = Math.max(1, Math.min(32, gridSize));
         opacity = Float.isFinite(opacity) ? Math.max(.15f, Math.min(1, opacity)) : .88f;
         if (customText == null) customText = "Alien Client";
@@ -52,7 +68,27 @@ public final class HudConfig {
         place("modules", .02f, .14f);
         place("coordinates", .02f, .80f);
         enabled = true;
+        preset = "Custom";
         background = false;
+    }
+
+    /** HUD-only presets: never change combat, performance or world settings. */
+    public void applyPreset(String name) {
+        if(!"PvP".equals(name)&&!"Survival".equals(name)&&!"Cinematic".equals(name))throw new IllegalArgumentException("Unknown HUD preset");
+        ensureDefaults();
+        for(Widget widget:widgets.values())if(widget!=null)widget.enabled=false;
+        enabled=true;background=true;opacity=.88f;modernFont=true;
+        place("brand",.02f,.03f);
+        if("PvP".equals(name)) {
+            place("target",.61f,.57f);place("keys",.02f,.30f);place("cps",.02f,.15f);
+            place("armor",.82f,.19f);place("ping",.82f,.03f);place("crosshair",.5f,.5f);
+            widgets.get("keys").scale=.85f;widgets.get("cps").scale=.85f;widgets.get("armor").scale=.85f;
+            crosshair.shape="Plus";crosshair.centered=true;
+        } else if("Survival".equals(name)) {
+            place("coordinates",.02f,.88f);place("armor",.80f,.25f);
+            place("indicators",.02f,.58f);place("clock",.80f,.03f);place("target",.60f,.62f);
+        } else {place("coordinates",.02f,.88f);background=false;widgets.get("brand").opacity=.65f;}
+        preset=name;
     }
 
     private void place(String id, float x, float y) {
@@ -65,6 +101,9 @@ public final class HudConfig {
     }
 
     public static String label(String id) {
+        if ("target".equals(id)) return "Target HUD";
+        if ("crosshair".equals(id)) return "Custom Crosshair";
+        if ("indicators".equals(id)) return "Indicators";
         if ("brand".equals(id)) return "Alien / live FPS";
         if ("modules".equals(id)) return "Active visuals";
         if ("fps".equals(id)) return "FPS";
@@ -84,11 +123,15 @@ public final class HudConfig {
         public float x;
         public float y;
         public float scale = 1f;
+        public float opacity=1f;
+        public boolean customColor;
+        public int color=0xffa98bff;
         public Widget() { }
         public Widget(boolean enabled, float x, float y, float scale) {
             this.enabled = enabled; this.x = x; this.y = y; this.scale = scale;
         }
         public void sanitize() {
+            opacity=HudMath.clamp(opacity,.15f,1,1);
             x = finite(x) ? Math.max(0, Math.min(1, x)) : .02f;
             y = finite(y) ? Math.max(0, Math.min(1, y)) : .04f;
             scale = finite(scale) ? Math.max(.5f, Math.min(3f, scale)) : 1f;

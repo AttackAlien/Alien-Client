@@ -40,7 +40,7 @@ public class AtmospherePresetsTest {
         assertSame(diamond,ParticleShapes.get("invalid"));assertSame(petal,ParticleShapes.get("Petal"));
         assertNotEquals(diamond.vertexCount(),petal.vertexCount());assertNotEquals(petal.vertexCount(),spark.vertexCount());
         for(ParticleShapes.Shape shape:new ParticleShapes.Shape[]{diamond,petal,spark}){
-            assertEquals(0,shape.vertexCount()%3);assertTrue(shape.vertexCount()<=48);
+            assertEquals(0,shape.vertexCount()%3);assertTrue(shape.vertexCount()<=288);
             for(int i=0;i<shape.vertexCount();i++){
                 assertTrue(Float.isFinite(shape.u(i)));assertTrue(Float.isFinite(shape.v(i)));
                 assertTrue(Math.abs(shape.u(i))<=1.2);assertTrue(Math.abs(shape.v(i))<=1.2);

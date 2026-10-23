@@ -42,8 +42,10 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
         buttonList.add(new Ui.Button(6,x+w/2+3,y,w/2-3,20,"Apply RGB hex")); y+=22;
         buttonList.add(new Ui.Button(7,x,y,w/2-3,20,"Reset effects"));
         buttonList.add(new Ui.Button(0,x+w/2+3,y,w/2-3,20,"Done"));
-        buttonList.add(new Ui.Button(8,x,y+22,w/2-3,20,"Camera / color"));
-        buttonList.add(new Ui.Button(9,x+w/2+3,y+22,w/2-3,20,"Presets / shapes"));
+        int third=(w-12)/3;
+        buttonList.add(new Ui.Button(8,x,y+22,third,20,"Camera"));
+        buttonList.add(new Ui.Button(9,x+third+6,y+22,third,20,"Presets"));
+        buttonList.add(new Ui.Button(10,x+(third+6)*2,y+22,third,20,"Particles"));
     }
 
     private static String on(boolean v){return v?"ON":"OFF";}
@@ -60,6 +62,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
             case 6:applyColor();break;
             case 7:AlienClient.get().config().effects=new EffectsConfig();break;
             case 8:applyColor();mc.displayGuiScreen(new VisualStyleScreen(this));return;
+            case 10:applyColor();mc.displayGuiScreen(new ParticleStudioScreen(this));return;
             case 9:applyColor();mc.displayGuiScreen(new AtmospherePresetScreen(this));return;
             default:return;
         }

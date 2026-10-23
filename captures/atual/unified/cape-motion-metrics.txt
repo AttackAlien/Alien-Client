@@ -1,1 +1,1 @@
-12 original framebuffer frames, minimum interval 100 ms; maximum changed body-region pixels=149
+12 original framebuffer frames, minimum interval 100 ms; maximum changed body-region pixels=471

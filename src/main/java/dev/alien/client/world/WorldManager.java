@@ -35,6 +35,9 @@ public final class WorldManager {
         @Override public void render(float partialTicks, WorldClient world, Minecraft minecraft) { }
     };
     public static ResourceLocation importedPreview;
+    private static int liveParticles,drawnParticles;
+    public static int liveParticleCount(){return liveParticles;}
+    public static int drawnParticleCount(){return drawnParticles;}
     private final List<Particle> particles = new ArrayList<Particle>();
     private final Random random = new Random(0xA11E);
     private final double[][] starGeometry = createStars();
@@ -100,7 +103,7 @@ public final class WorldManager {
     }
 
     @SubscribeEvent public void unload(WorldEvent.Unload event) {
-        if (mc.theWorld == event.world) { restore(); provider = null; particles.clear(); }
+        if (mc.theWorld == event.world) { restore(); provider = null; particles.clear();liveParticles=drawnParticles=0; }
     }
 
     private void restore() {
@@ -174,12 +177,17 @@ public final class WorldManager {
 
     private void tickParticles() {
         EffectsConfig settings = effects();
-        if (mc.thePlayer == null || !settings.enabled) { particles.clear(); return; }
+        if (mc.thePlayer == null || !settings.enabled) { particles.clear(); liveParticles=drawnParticles=0;return; }
         Iterator<Particle> iterator = particles.iterator();
         while (iterator.hasNext()) {
             Particle particle = iterator.next();
             if (--particle.life <= 0) iterator.remove();
-            else { particle.x += particle.vx; particle.y += particle.vy; particle.z += particle.vz; particle.vy -= 0.001D; }
+            else {
+                particle.px=particle.x;particle.py=particle.y;particle.pz=particle.z;
+                double flutter=Math.sin(ticks*.085+particle.rotation)*.0012*settings.flow;
+                particle.x+=particle.vx+flutter;particle.y+=particle.vy;particle.z+=particle.vz+flutter*.6;
+                particle.vx*=.985;particle.vz*=.985;particle.vy-= "Petal".equals(settings.shape)?.00015:.00025;
+            }
         }
         int budget = Math.min(settings.effectiveBudget(), Math.max(0, AlienClient.get().performance().particleBudget()));
         while (particles.size() > budget) particles.remove(0);
@@ -195,8 +203,10 @@ public final class WorldManager {
         if ((settings.movement || settings.trails) && movement > 0.025D && particles.size() < budget) {
             int count = "Low".equals(settings.quality) ? 1 : 2;
             for (int i = 0; i < count && particles.size() < budget; i++) {
-                add(mc.thePlayer.posX + (random.nextDouble() - .5D) * .4D, mc.thePlayer.posY + .15D,
-                        mc.thePlayer.posZ + (random.nextDouble() - .5D) * .4D,
+                double along=random.nextDouble();
+                add(ParticleAppearance.interpolate(mc.thePlayer.prevPosX,mc.thePlayer.posX,(float)along)+(random.nextDouble()-.5)*.25,
+                        mc.thePlayer.posY+.15D,
+                        ParticleAppearance.interpolate(mc.thePlayer.prevPosZ,mc.thePlayer.posZ,(float)along)+(random.nextDouble()-.5)*.25,
                         (random.nextDouble() - .5D) * .015D, .015D, (random.nextDouble() - .5D) * .015D,
                         settings.trails ? 28 : 12);
             }
@@ -212,11 +222,11 @@ public final class WorldManager {
                         petal?.005D:-.002D,petal?-.012D:.007D,petal?.003D:.001D,52+random.nextInt(24));
             }
         }
-        wasGrounded = ground;
+        wasGrounded = ground;liveParticles=particles.size();
     }
 
     private void add(double x, double y, double z, double vx, double vy, double vz, int life) {
-        particles.add(new Particle(x, y, z, vx, vy, vz, life,random.nextDouble()*Math.PI*2));
+        particles.add(new Particle(x, y, z, vx, vy, vz, Math.max(8,Math.round(life*effects().lifetime)),random.nextDouble()*Math.PI*2));
     }
 
     /**
@@ -242,43 +252,46 @@ public final class WorldManager {
     }
 
     @SubscribeEvent public void renderParticles(RenderWorldLastEvent event) {
-        if (particles.isEmpty() || !effects().enabled || mc.getRenderViewEntity() == null) return;
-        Entity camera = mc.getRenderViewEntity();
-        double cx = camera.lastTickPosX + (camera.posX - camera.lastTickPosX) * event.partialTicks;
-        double cy = camera.lastTickPosY + (camera.posY - camera.lastTickPosY) * event.partialTicks;
-        double cz = camera.lastTickPosZ + (camera.posZ - camera.lastTickPosZ) * event.partialTicks;
-        double distance = Math.min(effects().distance, AlienClient.get().performance().effectDistance());
-        double maxDistance = distance * distance;
-        net.minecraft.util.Vec3 look = camera.getLook(event.partialTicks);
-        GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_CURRENT_BIT | GL11.GL_POINT_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_LIGHTING_BIT);
+        drawnParticles=0;
+        if(particles.isEmpty()||!effects().enabled||mc.getRenderViewEntity()==null)return;
+        Entity camera=mc.getRenderViewEntity();
+        double cx=ParticleAppearance.interpolate(camera.lastTickPosX,camera.posX,event.partialTicks);
+        double cy=ParticleAppearance.interpolate(camera.lastTickPosY,camera.posY,event.partialTicks);
+        double cz=ParticleAppearance.interpolate(camera.lastTickPosZ,camera.posZ,event.partialTicks);
+        double distance=Math.min(effects().distance,AlienClient.get().performance().effectDistance()),max=distance*distance;
+        net.minecraft.util.Vec3 look=camera.getLook(event.partialTicks);
+        GL11.glPushAttrib(GL11.GL_ENABLE_BIT|GL11.GL_COLOR_BUFFER_BIT|GL11.GL_CURRENT_BIT|GL11.GL_DEPTH_BUFFER_BIT|GL11.GL_LIGHTING_BIT);
         GL11.glPushMatrix();
-        try {
-            GL11.glTranslated(-cx, -cy, -cz);
-            GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND); GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glEnable(GL11.GL_DEPTH_TEST); GL11.glDepthMask(false);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glShadeModel(GL11.GL_SMOOTH);
+        try{
+            GL11.glTranslated(-cx,-cy,-cz);GL11.glDisable(GL11.GL_TEXTURE_2D);GL11.glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glEnable(GL11.GL_BLEND);GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glDepthMask(false);GL11.glDisable(GL11.GL_CULL_FACE);GL11.glShadeModel(GL11.GL_SMOOTH);
             double yaw=Math.toRadians(mc.getRenderManager().playerViewY),pitch=Math.toRadians(mc.getRenderManager().playerViewX);
             double rx=Math.cos(yaw),rz=Math.sin(yaw),ux=-Math.sin(yaw)*Math.sin(pitch),uy=Math.cos(pitch),uz=Math.cos(yaw)*Math.sin(pitch);
-            EffectsConfig settings=effects();
-            ParticleShapes.Shape shape=ParticleShapes.get(settings.shape);
-            GL11.glBegin(GL11.GL_TRIANGLES);
-            for (Particle particle : particles) {
-                double dx = particle.x - cx, dy = particle.y - cy, dz = particle.z - cz;
-                if (dx * dx + dy * dy + dz * dz > maxDistance || dx * look.xCoord + dy * look.yCoord + dz * look.zCoord < -2D) continue;
-                int color=(particle.initialLife&1)==0?settings.color:settings.secondaryColor;
-                float fade=Math.min(1F,Math.min((particle.initialLife-particle.life)/6F,particle.life/12F));
-                double size=.028D*settings.size,rotation=particle.rotation+(ticks+event.partialTicks)*.025D;
-                double cs=Math.cos(rotation),sn=Math.sin(rotation);
-                for(int i=0;i<shape.vertexCount();i++) {
-                    double u=shape.u(i),v=shape.v(i),px=(u*cs-v*sn)*size,py=(u*sn+v*cs)*size;
-                    rgb(i%3==0?mix(color,0xFFFFFF,.38F):color,fade*(i%3==0?.9F:.72F));
-                    GL11.glVertex3d(particle.x+rx*px+ux*py,particle.y+uy*py,particle.z+rz*px+uz*py);
+            EffectsConfig c=effects();boolean glow=c.glow>0&&!"Low".equals(c.quality);
+            for(int pass=glow?0:1;pass<2;pass++){
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA,pass==0?GL11.GL_ONE:GL11.GL_ONE_MINUS_SRC_ALPHA);
+                ParticleShapes.Shape mesh=pass==0?ParticleShapes.glow():ParticleShapes.get(c.shape);
+                GL11.glBegin(GL11.GL_TRIANGLES);
+                for(Particle p:particles){
+                    double x=ParticleAppearance.interpolate(p.px,p.x,event.partialTicks),y=ParticleAppearance.interpolate(p.py,p.y,event.partialTicks),z=ParticleAppearance.interpolate(p.pz,p.z,event.partialTicks);
+                    double dx=x-cx,dy=y-cy,dz=z-cz;
+                    if(dx*dx+dy*dy+dz*dz>max||dx*look.xCoord+dy*look.yCoord+dz*look.zCoord<-2)continue;
+                    if(pass==1)drawnParticles++;
+                    float phase=(float)(p.rotation+(ticks+event.partialTicks)*.045),fade=ParticleAppearance.fade(p.initialLife,p.life,event.partialTicks)*c.opacity;
+                    float tint=(float)(.25+.5*(Math.sin(p.rotation)*.5+.5));int base=mix(c.color,c.secondaryColor,tint);
+                    double scale=.028*c.size*(.94+.06*Math.sin(phase)),rotation=p.rotation+(ticks+event.partialTicks)*.018;
+                    if(pass==0){scale*=2.6;fade*=.13*c.glow;}
+                    double cs=Math.cos(rotation),sn=Math.sin(rotation),flutter="Petal".equals(c.shape)?.7+.3*Math.sin(phase*c.flow):1;
+                    for(int i=0;i<mesh.vertexCount();i++){
+                        double u=mesh.u(i)*flutter,v=mesh.v(i),px=(u*cs-v*sn)*scale,py=(u*sn+v*cs)*scale;
+                        rgb(pass==0?base:mix(base,0xFFFFFF,mesh.shade(i)*.6f),fade*mesh.alpha(i));
+                        GL11.glVertex3d(x+rx*px+ux*py,y+uy*py,z+rz*px+uz*py);
+                    }
                 }
+                GL11.glEnd();
             }
-            GL11.glEnd();
-        } finally { GL11.glPopMatrix(); GL11.glPopAttrib(); }
+        }finally{GL11.glPopMatrix();GL11.glPopAttrib();}
     }
 
     private static void rgb(int color, float alpha) {
@@ -455,12 +468,12 @@ public final class WorldManager {
     }
 
     private static final class Particle {
-        double x, y, z, vx, vy, vz;
+        double x, y, z, px,py,pz,vx, vy, vz;
         int life;
         final int initialLife;
         final double rotation;
         Particle(double x, double y, double z, double vx, double vy, double vz, int life,double rotation) {
-            this.x=x; this.y=y; this.z=z; this.vx=vx; this.vy=vy; this.vz=vz; this.life=life; initialLife=life;this.rotation=rotation;
+            this.x=px=x; this.y=py=y; this.z=pz=z; this.vx=vx; this.vy=vy; this.vz=vz; this.life=life; initialLife=life;this.rotation=rotation;
         }
     }
 }

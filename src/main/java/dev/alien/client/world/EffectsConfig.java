@@ -11,6 +11,7 @@ public final class EffectsConfig {
     public String quality = "Balanced";
     public int color = 0xAF83FF;
     public int secondaryColor = 0xE8C7FF;
+    public float opacity=.8f,glow=.4f,flow=.65f,lifetime=1f;
     public float size = 3F;
     public float distance = 24F;
     public int budget = 96;
@@ -21,7 +22,8 @@ public final class EffectsConfig {
 
     public void normalize() {
         if (!("Low".equals(quality) || "Balanced".equals(quality) || "High".equals(quality))) quality = "Balanced";
-        if (!("Diamond".equals(shape) || "Petal".equals(shape) || "Spark".equals(shape))) shape = "Diamond";
+        if (!("Diamond".equals(shape) || "Petal".equals(shape) || "Spark".equals(shape) || "Orb".equals(shape))) shape = "Diamond";
+        opacity=bounded(opacity,.1f,1,.8f);glow=bounded(glow,0,1,.4f);flow=bounded(flow,0,2,.65f);lifetime=bounded(lifetime,.5f,2,1);
         color &= 0xFFFFFF; secondaryColor &= 0xFFFFFF;
         size = Float.isNaN(size) ? 3F : Math.max(1F, Math.min(8F, size));
         distance = Float.isNaN(distance) ? 24F : Math.max(4F, Math.min(64F, distance));
@@ -29,6 +31,8 @@ public final class EffectsConfig {
         filterStrength = Float.isNaN(filterStrength) ? 0.08F : Math.max(0F, Math.min(0.25F, filterStrength));
         swayStrength = Float.isNaN(swayStrength) ? 0.4F : Math.max(0F, Math.min(1.5F, swayStrength));
     }
+
+    private static float bounded(float v,float min,float max,float fallback){return Float.isFinite(v)?Math.max(min,Math.min(max,v)):fallback;}
 
     public int effectiveBudget() {
         int maximum = "Low".equals(quality) ? 32 : "High".equals(quality) ? 256 : 96;
