@@ -4,8 +4,8 @@
 set -Eeuo pipefail
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_dir"
-edition="${ALIEN_EDITION:?ALIEN_EDITION must be legit or full}"
-case "$edition" in legit|full) ;; *) echo "Unexpected edition: $edition" >&2; exit 1 ;; esac
+edition="${ALIEN_EDITION:?ALIEN_EDITION must be legit, full or unified}"
+case "$edition" in legit|full|unified) ;; *) echo "Unexpected edition: $edition" >&2; exit 1 ;; esac
 smoke_dir="$repo_dir/build/$edition/smoke"
 mkdir -p "$smoke_dir"
 display="${ALIEN_SMOKE_DISPLAY:-:99}"

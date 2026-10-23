@@ -2,60 +2,112 @@ package dev.alien.client.gui;
 
 import dev.alien.client.AlienClient;
 import dev.alien.client.edition.BuildEdition;
+import java.io.IOException;
+import java.util.Locale;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.fml.client.GuiModList;
 
-import java.io.IOException;
-
-/** Optional title replacement using original procedural artwork only. */
+/** Original vector identity and custom controls; no vanilla menu textures. */
 public final class AlienMainMenu extends GuiMainMenu {
-    @Override public void initGui() {
-        buttonList.clear();
-        int x = width / 2 - 105, y = height / 2 - 8;
-        buttonList.add(new Ui.Button(1, x, y, 210, 24, "Singleplayer"));
-        buttonList.add(new Ui.Button(2, x, y + 30, 210, 24, "Multiplayer"));
-        buttonList.add(new Ui.Button(3, x, y + 60, 210, 24, "Alien Client / Studios"));
-        buttonList.add(new Ui.Button(4, x, y + 90, 101, 22, "Options"));
-        buttonList.add(new Ui.Button(5, x + 109, y + 90, 101, 22, "Quit"));
-        buttonList.add(new Ui.Button(6, width - 66, 10, 56, 20, "Mods"));
-    }
+    private int left,top,panelWidth,panelHeight,actionX,actionWidth,heroWidth;
+    private int nativeWidth,nativeHeight;
+    private float appliedScale=1;
+    private long opened=System.nanoTime();
 
-    @Override public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawGradientRect(0, 0, width, height, 0xff181324, 0xff080c16);
-        long now = AlienClient.get().config().animations ? System.currentTimeMillis() : 0;
-        for (int i = 0; i < 74; i++) {
-            int x = Math.floorMod(i * 137 + 43, Math.max(1, width));
-            int y = Math.floorMod(i * 73 + 11, Math.max(1, height));
-            float brightness = .18f + .22f * (float) (Math.sin(now / 1800d + i) * .5 + .5);
-            drawRect(x, y, x + (i % 7 == 0 ? 2 : 1), y + 1, Ui.alpha(Ui.accent(), brightness));
+    @Override public void setWorldAndResolution(net.minecraft.client.Minecraft mc,int w,int h){
+        nativeWidth=w;nativeHeight=h;appliedScale=Math.min(Ui.theme().menuScale,Math.min(w/320f,h/240f));
+        super.setWorldAndResolution(mc,Math.round(w/appliedScale),Math.round(h/appliedScale));
+    }
+    @Override public void drawScreen(int x,int y,float partial){
+        float desired=Math.min(Ui.theme().menuScale,Math.min(nativeWidth/320f,nativeHeight/240f));
+        if(desired!=appliedScale&&!org.lwjgl.input.Mouse.isButtonDown(0))setWorldAndResolution(mc,nativeWidth,nativeHeight);
+        org.lwjgl.opengl.GL11.glPushMatrix();try{org.lwjgl.opengl.GL11.glScalef(appliedScale,appliedScale,1);drawContents(Math.round(x/appliedScale),Math.round(y/appliedScale),partial);}finally{org.lwjgl.opengl.GL11.glPopMatrix();}
+    }
+    @Override public void initGui(){
+        fontRendererObj=Ui.font();buttonList.clear();
+        panelWidth=Math.min(width-24,710);
+        panelHeight=Math.min(height-24,360);left=(width-panelWidth)/2;top=(height-panelHeight)/2;
+        heroWidth=Math.round(panelWidth*.49f);actionX=left+heroWidth+8;actionWidth=panelWidth-heroWidth-24;
+        int buttonHeight=Math.max(21,Math.min(31,(panelHeight-84)/4));
+        int y=top+48;
+        buttonList.add(new MenuAction(1,actionX,y,actionWidth,buttonHeight,"Singleplayer","world"));
+        buttonList.add(new MenuAction(2,actionX,y+buttonHeight+7,actionWidth,buttonHeight,"Multiplayer","grid"));
+        buttonList.add(new MenuAction(3,actionX,y+(buttonHeight+7)*2,actionWidth,buttonHeight,"Alien Studios","spark"));
+        int footerY=y+(buttonHeight+7)*3;
+        buttonList.add(new Ui.Button(4,actionX,footerY,(actionWidth-6)/2,21,"Options"));
+        buttonList.add(new Ui.Button(5,actionX+(actionWidth+6)/2,footerY,(actionWidth-6)/2,21,"Quit"));
+        buttonList.add(new Ui.Button(6,width-60,7,50,18,"Mods"));
+        buttonList.add(new Ui.Button(7,10,7,75,18,"Customize"));
+    }
+    public void drawContents(int mouseX,int mouseY,float partialTicks){
+        int surface=AlienClient.get().config().ui.surface,raised=AlienClient.get().config().ui.surfaceRaised;
+        int text=AlienClient.get().config().ui.text,muted=AlienClient.get().config().ui.muted;
+        drawGradientRect(0,0,width,height,Ui.mix(surface,0xff02040a,.28f),surface);
+        double phase=AlienClient.get().config().animations&&!AlienClient.get().config().ui.reducedMotion?System.currentTimeMillis()/5500d:0;
+        float glowX=(float)(width*.26+Math.sin(phase)*width*.025),glowY=(float)(height*.48+Math.cos(phase)*height*.025);
+        for(int i=8;i>=1;i--){
+            float size=34+i*14;
+            Ui.rounded(glowX-size,glowY-size,size*2,size*2,size,Ui.alpha(Ui.accent(),.012f));
         }
-        int center = width / 2, titleY = Math.max(22, height / 2 - 72);
-        drawRect(center - 19, titleY - 14, center + 19, titleY - 12, Ui.accent());
-        net.minecraft.client.renderer.GlStateManager.pushMatrix();
-        net.minecraft.client.renderer.GlStateManager.translate(center, titleY, 0);
-        net.minecraft.client.renderer.GlStateManager.scale(3f, 3f, 1f);
-        drawCenteredString(fontRendererObj, "ALIEN", 0, 0, Ui.TEXT);
-        net.minecraft.client.renderer.GlStateManager.popMatrix();
-        drawCenteredString(fontRendererObj, "C L I E N T   /   " + BuildEdition.ID.toUpperCase(java.util.Locale.ROOT), center, titleY + 32, Ui.MUTED);
-        for (GuiButton button : buttonList) button.drawButton(mc, mouseX, mouseY);
-        fontRendererObj.drawString("Minecraft 1.8.9 / Forge", 9, height - 14, Ui.MUTED);
-        String credit = BuildEdition.NAME + " | " + BuildEdition.STATUS;
-        fontRendererObj.drawString(credit, width - fontRendererObj.getStringWidth(credit) - 9, height - 14, Ui.MUTED);
+        for(int i=0;i<27;i++){
+            int x=Math.floorMod(i*137+43,Math.max(1,width)),y=Math.floorMod(i*73+11,Math.max(1,height));
+            Ui.rounded(x,y,1.2f,1.2f,.6f,Ui.alpha(AlienClient.get().config().ui.secondary,.16f));
+        }
+        Ui.shadow(left,top,panelWidth,panelHeight,14,AlienClient.get().config().ui.shadow);
+        Ui.rounded(left,top,panelWidth,panelHeight,14,Ui.alpha(surface,AlienClient.get().config().ui.opacity));
+        Ui.rounded(actionX-9,top+11,actionWidth+18,panelHeight-22,10,raised);
+        int heroCenter=left+heroWidth/2;
+        Ui.rounded(heroCenter-26,top+30,52,52,16,Ui.mix(surface,Ui.accent(),.1f));
+        Ui.icon("alien",heroCenter-17,top+39,34,Ui.accent());
+        GlStateManager.pushMatrix();
+        try{
+            GlStateManager.translate(heroCenter,top+94,0);GlStateManager.scale(2.5f,2.5f,1);
+            drawCenteredString(fontRendererObj,"ALIEN",0,0,text);
+        }finally{GlStateManager.popMatrix();}
+        String edition=BuildEdition.ID.toUpperCase(Locale.ROOT)+" EDITION";
+        drawCenteredString(fontRendererObj,edition,heroCenter,top+124,muted);
+        if(panelHeight>230){
+            drawCenteredString(fontRendererObj,"Your world. Reimagined.",heroCenter,top+155,text);
+            drawCenteredString(fontRendererObj,"Make every detail yours.",heroCenter,top+172,muted);
+        }else if(panelWidth>360)drawCenteredString(fontRendererObj,"Your world. Reimagined.",heroCenter,top+151,muted);
+        String badge="unified".equals(BuildEdition.ID)?"Unified / experimental":BuildEdition.ALLOW_FULL?"Architecture preview":"Visuals & performance";
+        int badgeW=Math.min(heroWidth-20,fontRendererObj.getStringWidth(badge)+18);
+        Ui.rounded(heroCenter-badgeW/2,top+panelHeight-33,badgeW,18,9,Ui.mix(surface,Ui.accent(),.12f));
+        drawCenteredString(fontRendererObj,badge,heroCenter,top+panelHeight-28,Ui.accent());
+        fontRendererObj.drawString("LET'S PLAY",actionX+1,top+25,muted);
+        for(GuiButton button:buttonList)button.drawButton(mc,mouseX,mouseY);
+        fontRendererObj.drawString("Minecraft Java 1.8.9 / Forge",12,height-15,muted);
+        String version="ALIEN "+AlienClient.VERSION;
+        fontRendererObj.drawString(version,width-fontRendererObj.getStringWidth(version)-12,height-15,muted);
+        float intro=Math.min(1,(System.nanoTime()-opened)/220000000f);
+        if(AlienClient.get().config().animations&&!AlienClient.get().config().ui.reducedMotion&&intro<1)Ui.rounded(left,top,panelWidth,panelHeight,14,Ui.alpha(surface,(1-intro)*.65f));
     }
-
-    @Override protected void actionPerformed(GuiButton button) throws IOException {
-        if (button.id == 1) mc.displayGuiScreen(new GuiSelectWorld(this));
-        if (button.id == 2) mc.displayGuiScreen(new GuiMultiplayer(this));
-        if (button.id == 3) mc.displayGuiScreen(AlienMenuScreen.create(this));
-        if (button.id == 4) mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
-        if (button.id == 5) mc.shutdown();
-        if (button.id == 6) mc.displayGuiScreen(new GuiModList(this));
+    @Override protected void actionPerformed(GuiButton button)throws IOException{
+        if(button.id==1)mc.displayGuiScreen(new GuiSelectWorld(this));
+        if(button.id==2)mc.displayGuiScreen(new GuiMultiplayer(this));
+        if(button.id==3)mc.displayGuiScreen(AlienMenuScreen.create(this));
+        if(button.id==4)mc.displayGuiScreen(new GuiOptions(this,mc.gameSettings));
+        if(button.id==5)mc.shutdown();
+        if(button.id==6)mc.displayGuiScreen(new GuiModList(this));
+        if(button.id==7)mc.displayGuiScreen(new ThemeEditorScreen(this));
     }
-
-    @Override public void updateScreen() { }
-    @Override protected void keyTyped(char typedChar, int keyCode) { }
+    @Override public void updateScreen(){ }
+    @Override protected void keyTyped(char character,int key){ }
+    private final class MenuAction extends Ui.Button{
+        private final String icon;
+        MenuAction(int id,int x,int y,int w,int h,String label,String icon){super(id,x,y,w,h,label);this.icon=icon;}
+        @Override public void drawButton(net.minecraft.client.Minecraft minecraft,int mx,int my){
+            hovered=mx>=xPosition&&my>=yPosition&&mx<xPosition+width&&my<yPosition+height;
+            int base=AlienClient.get().config().ui.surface;
+            Ui.rounded(xPosition,yPosition,width,height,7,Ui.mix(base,Ui.accent(),hovered?.18f:.07f));
+            Ui.icon(icon,xPosition+10,yPosition+(height-12)/2f,12,Ui.accent());
+            fontRendererObj.drawString(displayString,xPosition+31,yPosition+(height-10)/2,AlienClient.get().config().ui.text);
+            fontRendererObj.drawString(">",xPosition+width-15,yPosition+(height-10)/2,AlienClient.get().config().ui.muted);
+        }
+    }
 }

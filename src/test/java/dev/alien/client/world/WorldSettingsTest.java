@@ -23,6 +23,32 @@ public class WorldSettingsTest {
         assertEquals(1F,c.skyboxBrightness,0F);
     }
 
+    @Test public void unifiedSkyProfileKeepsCubemapOptionsAlongsideRedesignSettings() {
+        String json="{\"skyboxFile\":\"nebula.cube.png\",\"skyboxYaw\":147,\"skyboxDrift\":0.65,"
+                +"\"skyboxBrightness\":0.45,\"twinklingStars\":true,\"brightness\":1.2,"
+                +"\"sunSize\":1.5,\"moonSize\":0.8,\"cloudMode\":\"Hidden\","
+                +"\"favoriteSkyboxes\":[\"nebula.cube.png\"]}";
+        com.google.gson.Gson gson=new com.google.gson.Gson();
+        WorldConfig c=gson.fromJson(json,WorldConfig.class);c.normalize();
+        WorldConfig reloaded=gson.fromJson(gson.toJson(c),WorldConfig.class);reloaded.normalize();
+        assertEquals("nebula.cube.png",reloaded.skyboxFile);
+        assertEquals(147F,reloaded.skyboxYaw,0);assertEquals(.65F,reloaded.skyboxDrift,.0001F);
+        assertEquals(.45F,reloaded.skyboxBrightness,.0001F);assertTrue(reloaded.twinklingStars);
+        assertEquals(1.2F,reloaded.brightness,.0001F);assertEquals(1.5F,reloaded.sunSize,0);
+        assertEquals(.8F,reloaded.moonSize,.0001F);assertEquals("Hidden",reloaded.cloudMode);
+        assertTrue(reloaded.favoriteSkyboxes.contains("nebula.cube.png"));
+        assertEquals(0x607890,reloaded.skyColor(0x506478));
+    }
+
+    @Test public void oldCubemapProfilesReceiveNeutralRedesignAndGalleryDefaults() {
+        WorldConfig c=new com.google.gson.Gson().fromJson(
+                "{\"skyboxFile\":\"old.cube.png\",\"skyboxYaw\":90}",WorldConfig.class);
+        c.normalize();
+        assertEquals(1F,c.brightness,0);assertEquals(1F,c.sunSize,0);assertEquals(1F,c.moonSize,0);
+        assertEquals("Vanilla",c.cloudMode);assertTrue(c.favoriteSkyboxes.isEmpty());
+        assertEquals(90F,c.skyboxYaw,0);assertEquals(0x506478,c.skyColor(0x506478));
+    }
+
     @Test public void themePresetsHaveDifferentPalettesAndKeepEffectsOptional() {
         WorldConfig c=new WorldConfig();int first=c.skyTop;c.applyTheme("Aurora");
         assertNotEquals(first,c.skyTop);assertEquals("Aurora",c.theme);assertFalse(c.enabled);

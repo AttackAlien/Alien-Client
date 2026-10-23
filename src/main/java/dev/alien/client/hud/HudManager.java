@@ -1,6 +1,8 @@
 package dev.alien.client.hud;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.gui.Ui;
+import net.minecraft.client.gui.FontRenderer;
 import dev.alien.client.performance.PerformanceEngine;
 import java.text.SimpleDateFormat;
 import java.util.ArrayDeque;
@@ -71,11 +73,11 @@ public final class HudManager {
     public static int[] bounds(String id, HudConfig.Widget widget, int screenWidth, int screenHeight) {
         Minecraft mc = Minecraft.getMinecraft();
         int w = 96, h = 20;
-        if ("brand".equals(id)) { w = Math.max(124, mc.fontRendererObj.getStringWidth("ALIEN  |  " + Minecraft.getDebugFPS() + " FPS") + 14); h = 22; }
+        if ("brand".equals(id)) { w = Math.max(124, font().getStringWidth("ALIEN  |  " + Minecraft.getDebugFPS() + " FPS") + 14); h = 22; }
         else if ("modules".equals(id)) {
             List<String> labels = moduleLabels();
             w = 84;
-            for (String label : labels) w = Math.max(w, mc.fontRendererObj.getStringWidth(label) + 12);
+            for (String label : labels) w = Math.max(w, font().getStringWidth(label) + 12);
             h = Math.max(12, labels.size() * 12);
         }
         else if ("keys".equals(id)) { w = 76; h = 76; }
@@ -83,7 +85,7 @@ public final class HudManager {
         else if ("armor".equals(id)) { w = 92; h = 82; }
         else if ("performance".equals(id)) { w = 158; h = 54; }
         else if ("coordinates".equals(id)) { w = 158; h = 20; }
-        else if ("text".equals(id)) w = Math.max(20, mc.fontRendererObj.getStringWidth(config().customText) + 12);
+        else if ("text".equals(id)) w = Math.max(20, font().getStringWidth(config().customText) + 12);
         int width = Math.round(w * widget.scale), height = Math.round(h * widget.scale);
         int x = Math.max(0, Math.min(Math.round(widget.x * screenWidth), Math.max(0, screenWidth - width)));
         int y = Math.max(0, Math.min(Math.round(widget.y * screenHeight), Math.max(0, screenHeight - height)));
@@ -99,8 +101,7 @@ public final class HudManager {
         GlStateManager.enableBlend();
         boolean custom = "brand".equals(id) || "modules".equals(id);
         if (!custom) {
-            if (config().background) Gui.drawRect(0, 0, b[4], b[5], 0xb00b0c12);
-            Gui.drawRect(0, 0, 2, b[5], 0xff000000 | AlienClient.get().config().accentColor);
+            backdrop(b[4],b[5]);
         }
         if ("brand".equals(id)) brand(b[4]);
         else if ("modules".equals(id)) modules(b[4], preview);
@@ -166,10 +167,10 @@ public final class HudManager {
 
     private static void brand(int width) {
         int accent = 0xff000000 | AlienClient.get().config().accentColor;
-        if (config().background) Gui.drawRect(0, 0, width, 22, 0xb00b0c12);
+        backdrop(width,22);
         Gui.drawRect(0, 2, 2, 18, accent);
         text("\u00a7lALIEN", 7, 6, 0xfffaf8ff);
-        int divider = Minecraft.getMinecraft().fontRendererObj.getStringWidth("\u00a7lALIEN") + 13;
+        int divider = font().getStringWidth("\u00a7lALIEN") + 13;
         Gui.drawRect(divider, 5, divider + 1, 15, 0x887f788d);
         text(Minecraft.getDebugFPS() + " FPS", divider + 7, 6, 0xffe8e5f0);
         Gui.drawRect(7, 19, 28, 20, accent);
@@ -179,7 +180,7 @@ public final class HudManager {
         List<String> labels = HudModules.active(AlienClient.get().config());
         Collections.sort(labels, new Comparator<String>() {
             @Override public int compare(String a, String b) {
-                return Integer.compare(Minecraft.getMinecraft().fontRendererObj.getStringWidth(b), Minecraft.getMinecraft().fontRendererObj.getStringWidth(a));
+                return Integer.compare(font().getStringWidth(b), font().getStringWidth(a));
             }
         });
         return labels;
@@ -190,14 +191,23 @@ public final class HudManager {
         if (labels.isEmpty() && preview) { text("No active visuals", 6, 2, 0xff9991a8); return; }
         int y = 0, accent = 0xff000000 | AlienClient.get().config().accentColor;
         for (String label : labels) {
-            int rowWidth = Minecraft.getMinecraft().fontRendererObj.getStringWidth(label) + 12;
-            if (config().background) Gui.drawRect(0, y, rowWidth, y + 12, 0x93090a10);
+            int rowWidth = font().getStringWidth(label) + 12;
+            if (config().background) Ui.rounded(0,y,rowWidth,12,3,Ui.alpha(AlienClient.get().config().ui.surface,config().opacity));
             Gui.drawRect(0, y + 2, 1, y + 10, accent);
             text(label, 6, y + 2, 0xffefedf7);
             y += 12;
         }
     }
 
+    private static FontRenderer font() { return config().modernFont ? Ui.font() : Minecraft.getMinecraft().fontRendererObj; }
+    private static void backdrop(int w,int h) {
+        if (!config().background) return;
+        int base=Ui.alpha(AlienClient.get().config().ui.surface,config().opacity);
+        if(config().shadows) Ui.shadow(0,0,w,h,5,.25f);
+        if(config().gradient) Ui.gradient(0,0,w,h,5,base,Ui.alpha(AlienClient.get().config().ui.surfaceRaised,config().opacity));
+        else Ui.rounded(0,0,w,h,5,base);
+        if(config().borders) Ui.rounded(0,4,2,h-8,1,Ui.accent());
+    }
     private static int count(Deque<Long> clicks) {
         long cutoff = System.nanoTime() - 1000000000L;
         while (!clicks.isEmpty() && clicks.peekFirst() < cutoff) clicks.removeFirst();
@@ -209,13 +219,13 @@ public final class HudManager {
         return info == null ? "--" : Integer.toString(info.getResponseTime());
     }
     private static void text(String text, int x, int y, int color) {
-        Minecraft.getMinecraft().fontRendererObj.drawStringWithShadow(text, x, y, color);
+        font().drawStringWithShadow(text, x, y, color);
     }
     private static void key(KeyBinding binding, String label, int x, int y, int w, int h) {
         int code = binding.getKeyCode();
         boolean pressed = code < 0 ? Mouse.isButtonDown(code + 100) : code > 0 && code < Keyboard.KEYBOARD_SIZE && Keyboard.isKeyDown(code);
-        Gui.drawRect(x, y, x + w, y + h, pressed ? (0xff000000 | AlienClient.get().config().accentColor) : 0x9943495f);
-        int tw = Minecraft.getMinecraft().fontRendererObj.getStringWidth(label);
+        Ui.rounded(x,y,w,h,4,pressed ? Ui.accent() : Ui.alpha(AlienClient.get().config().ui.surfaceRaised,config().opacity));
+        int tw = font().getStringWidth(label);
         text(label, x + (w - tw) / 2, y + (h - 8) / 2, 0xffeeeeff);
     }
 }

@@ -1,5 +1,8 @@
 package dev.alien.client.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /** Render-only settings. No field is applied to the world's game rules or packets. */
 public final class WorldConfig {
     public boolean enabled = false;
@@ -13,11 +16,18 @@ public final class WorldConfig {
     public int visualHour = 18;
     public boolean sunMoon = true;
     public int stars = 320;
+    public float brightness = 1f;
+    public float sunSize = 1f;
+    public float moonSize = 1f;
+    /** Vanilla preserves the user's cloud renderer; Hidden installs a local empty renderer. */
+    public String cloudMode = "Vanilla";
     /** Server, Clear, Rain, Snow or Storm. Only the precipitation renderer changes. */
     public String weather = "Server";
     public float weatherIntensity = 0.5F;
     /** A PNG basename under config/alien-client/skyboxes; blank uses procedural sky. */
     public String skyboxFile = "";
+    /** Favorite local PNG basenames, bounded to 16 entries across saved profiles. */
+    public List<String> favoriteSkyboxes = new ArrayList<String>();
     /** Local image-only orientation (no camera or server changes). */
     public float skyboxYaw = 0F;
     /** Optional rotation, degrees per second; disabled by default. */
@@ -33,11 +43,22 @@ public final class WorldConfig {
         if (weather == null || !("Server".equals(weather) || "Clear".equals(weather)
                 || "Rain".equals(weather) || "Snow".equals(weather) || "Storm".equals(weather))) weather = "Server";
         if (skyboxFile == null || skyboxFile.length() > 160) skyboxFile = "";
+        if (favoriteSkyboxes == null) favoriteSkyboxes = new ArrayList<String>();
+        List<String> safeFavorites = new ArrayList<String>();
+        for (String favorite : favoriteSkyboxes) {
+            if (safeFavorites.size() >= 16) break;
+            if (SkyboxGallery.validFavorite(favorite) && !safeFavorites.contains(favorite)) safeFavorites.add(favorite);
+        }
+        favoriteSkyboxes = safeFavorites;
         visualHour = Math.max(0, Math.min(23, visualHour));
         skyboxYaw = bounded(skyboxYaw, 0F, 360F, 0F);
         skyboxDrift = bounded(skyboxDrift, 0F, 2F, 0F);
         skyboxBrightness = bounded(skyboxBrightness, .2F, 1F, 1F);
         stars = Math.max(0, Math.min(1000, stars));
+        brightness = dev.alien.client.config.ClientConfig.clamp(brightness,.25f,1.5f);
+        sunSize = dev.alien.client.config.ClientConfig.clamp(sunSize,.2f,2f);
+        moonSize = dev.alien.client.config.ClientConfig.clamp(moonSize,.2f,2f);
+        if (!"Vanilla".equals(cloudMode) && !"Hidden".equals(cloudMode)) cloudMode = "Vanilla";
         fogDensity = Float.isNaN(fogDensity) ? 0.003F : Math.max(0.0001F, Math.min(0.04F, fogDensity));
         weatherIntensity = Float.isNaN(weatherIntensity) ? 0.5F : Math.max(0F, Math.min(1F, weatherIntensity));
         skyTop &= 0xFFFFFF; skyBottom &= 0xFFFFFF; fogColor &= 0xFFFFFF;
@@ -46,6 +67,13 @@ public final class WorldConfig {
     private static float bounded(float value, float min, float max, float fallback) {
         return Float.isNaN(value) || Float.isInfinite(value) ? fallback
                 : Math.max(min, Math.min(max, value));
+    }
+
+    public int skyColor(int color) {
+        int r=Math.min(255,Math.max(0,Math.round(((color>>16)&255)*brightness)));
+        int g=Math.min(255,Math.max(0,Math.round(((color>>8)&255)*brightness)));
+        int b=Math.min(255,Math.max(0,Math.round((color&255)*brightness)));
+        return (r<<16)|(g<<8)|b;
     }
 
     public void applyTheme(String next) {

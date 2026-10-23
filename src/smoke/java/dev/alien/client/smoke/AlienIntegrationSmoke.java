@@ -77,6 +77,10 @@ public final class AlienIntegrationSmoke {
     private boolean keysPrepared;
     private boolean skyBeforeKeys;
     private Integer savedSkyKey;
+    private int responsiveStep;
+    private long blurFramesBefore;
+    private boolean responsiveDone;
+    private int pickerColor;
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) throws Exception {
@@ -142,7 +146,7 @@ public final class AlienIntegrationSmoke {
                 require(BuildEdition.CONFIG_DIRECTORY.equals(AlienClient.get().store().directory().getName())
                                 && "config".equals(AlienClient.get().store().directory().getParentFile().getName()),
                         "The actual edition uses its isolated configuration namespace");
-                require(BuildEdition.ALLOW_FULL == "full".equals(BuildEdition.ID),
+                require(BuildEdition.ALLOW_FULL == ("full".equals(BuildEdition.ID) || "unified".equals(BuildEdition.ID)),
                         "The compiled edition policy agrees with its identity");
                 java.util.Enumeration<java.net.URL> markers = BuildEdition.class.getClassLoader()
                         .getResources("META-INF/alienclient/edition.json");
@@ -156,13 +160,20 @@ public final class AlienIntegrationSmoke {
                     }
                 }
                 require(markerCount == 1, "Exactly one edition resource is on the running game classpath");
-                require(AlienClient.get().modules().modules().size() == 9,
-                        "The runtime registry contains nine implemented visual switches");
-                boolean sharedVisuals = true;
-                for (ModuleDescriptor descriptor : AlienClient.get().modules().modules())
-                    sharedVisuals &= descriptor.accessLevel() == AccessLevel.SHARED
-                            && descriptor.gameplayImpact() == GameplayImpact.LOCAL_VISUAL;
-                require(sharedVisuals, "This architecture preview registers no advanced or nonvisual modules");
+                boolean unified = "unified".equals(BuildEdition.ID);
+                require(AlienClient.get().modules().modules().size() == (unified ? 11 : 9),
+                        "The runtime preserves all nine visual switches and Unified's two combat switches");
+                int visuals = 0, combat = 0;
+                for (ModuleDescriptor descriptor : AlienClient.get().modules().modules()) {
+                    if (descriptor.accessLevel() == AccessLevel.SHARED
+                            && descriptor.gameplayImpact() == GameplayImpact.LOCAL_VISUAL) visuals++;
+                    else if (descriptor.accessLevel() == AccessLevel.FULL
+                            && descriptor.gameplayImpact() == GameplayImpact.GAMEPLAY_CHANGING) combat++;
+                }
+                require(visuals == 9 && combat == (unified ? 2 : 0),
+                        "Edition access and actual gameplay impact survive the redesign integration");
+                require(!config().combat.enabled && !config().combat.aimAssist && !config().combat.clickAssist,
+                        "Existing combat features remain disabled on a new profile");
                 File loadedFrom = new File(AlienClient.class.getProtectionDomain().getCodeSource().getLocation().toURI());
                 File expectedClasses = new File(output.getParentFile(), "classes/main").getCanonicalFile();
                 require(loadedFrom.getCanonicalFile().toPath().startsWith(expectedClasses.toPath()),
@@ -349,6 +360,17 @@ public final class AlienIntegrationSmoke {
                     require(Math.abs(studio.previewZoom() - 1.1f) < .01f,
                             "Cosmetic preview supports bounded user-selected zoom");
                     capture("14-smooth-kasa-and-cloth-front");
+                    BufferedImage character=ImageIO.read(new File(output,"screenshots/14-smooth-kasa-and-cloth-front.png"));
+                    int[] canvas=studio.previewCanvasBounds();double unit=Math.min(100,(canvas[3]-11)/2.4)*studio.previewZoom();
+                    double baseline=canvas[1]+canvas[3]-4,center=canvas[0]+canvas[2]/2.;
+                    double px=character.getWidth()/(double)studio.width,py=character.getHeight()/(double)studio.height;
+                    int warm=0;
+                    for(int yy=(int)((baseline-unit*1.79)*py);yy<(baseline-unit*1.56)*py;yy++)
+                        for(int xx=(int)((center-unit*.13)*px);xx<(center+unit*.13)*px;xx++){
+                            int rgb=character.getRGB(xx,yy),r=rgb>>16&255,g=rgb>>8&255,b=rgb&255;
+                            if(r>g*1.12 && r>b*1.2 && r>35)warm++;
+                        }
+                    require(warm>10,"The live cosmetic preview renders the player's skin as well as the accessory meshes");
                     setPreviewPose(180, 1.1f);
                     liveScreenStage = 5; since = System.nanoTime(); return;
                 }
@@ -391,9 +413,43 @@ public final class AlienIntegrationSmoke {
                     mc.displayGuiScreen(new CosmeticStudioScreen(null)); setPreviewPose(150, 1.05f);
                     liveScreenStage = 8; since = System.nanoTime(); return;
                 }
-                capture("17-sculpted-wings-back-view");
-                require(GL11.glGetError() == GL11.GL_NO_ERROR,
-                        "Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state");
+                if (liveScreenStage == 8) {
+                    capture("17-sculpted-wings-back-view");
+                    require(GL11.glGetError() == GL11.GL_NO_ERROR,
+                            "Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state");
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null));
+                    click(7); // The new sixth tab: Looks
+                    liveScreenStage = 9; since = System.nanoTime(); return;
+                }
+                if (liveScreenStage == 9) {
+                    require(mc.currentScreen instanceof CosmeticStudioScreen,
+                            "Cosmetic Looks gallery opens during actual Forge rendering");
+                    assertButtonsInsideScreen();
+                    capture("30-cosmetic-looks-gallery");
+                    click(112); // Sakura builtin look
+                    require("KITSUNE".equals(config().cosmetics.self.face)
+                                    && config().cosmetics.self.trail,
+                            "Sakura preset updates real cosmetic meshes and particle options");
+                    int savedColor = config().cosmetics.self.color;
+                    click(120); // Save slot 1
+                    require(config().cosmetics.savedLooks.containsKey("1"),
+                            "Cosmetic look slot persists in active profile config");
+                    config().cosmetics.self.color = 0x112233;
+                    click(121); // Load slot 1
+                    require(savedColor == config().cosmetics.self.color,
+                            "Loading saved look restores independent cosmetic snapshot");
+                    click(113); // Phantom builtin look
+                    require("FUTURE".equals(config().cosmetics.self.face),
+                            "Phantom look selects the original futuristic visor");
+                    AlienClient.get().save();
+                    AlienClient.get().store().load();
+                    require(config().cosmetics.savedLooks.containsKey("1"),
+                            "Saved look remains available after actual disk config reload");
+                    mc.displayGuiScreen(new CosmeticStudioScreen(null));
+                    click(7);
+                    liveScreenStage = 10; since = System.nanoTime(); return;
+                }
+                capture("31-cosmetic-phantom-look");
                 mc.displayGuiScreen(new HudEditorScreen(null));
                 next(); return;
             }
@@ -476,13 +532,12 @@ public final class AlienIntegrationSmoke {
                         "Atmosphere presets leave actual server rain and thunder unchanged");
                 require(GL11.glGetError() == GL11.GL_NO_ERROR,
                         "Ambient particles and restored sky preserve a clean OpenGL state");
-                AlienClient.get().store().deleteProfile("smoke_integration");
-                // Request the actual vanilla menu action at the next tick.
-                // Keep the channel open until that synchronous action runs.
-                disconnectRequested = true;
+
+                // Finish responsive UI checks, then unload through Minecraft on the client tick.
                 next(); return;
             }
             case 14:
+                if (!responsiveDone) { responsiveScreens(); return; }
                 if (mc.theWorld != null) return;
                 require(true, "Normal connection teardown unloads the disposable world");
                 mc.displayGuiScreen(new GuiMainMenu());
@@ -502,6 +557,110 @@ public final class AlienIntegrationSmoke {
                 return;
             default: throw new AssertionError("Unknown stage " + stage);
         }
+    }
+
+    private void responsiveScreens() throws Exception {
+        if(responsiveStep==0){
+            config().ui.blur=.6f;config().ui.font="Modern";config().rainbowAccent=false;
+            blurFramesBefore=dev.alien.client.gui.ui.BackdropBlur.renderedFrames();
+            mc.displayGuiScreen(new dev.alien.client.gui.ThemeEditorScreen(null));
+        } else if(responsiveStep==1){
+            require(dev.alien.client.gui.Ui.font() instanceof dev.alien.client.gui.ui.SmoothFont,"Alien screens use the actual bundled antialiased font renderer");
+            require(dev.alien.client.gui.ui.BackdropBlur.renderedFrames()>blurFramesBefore,"Optional Gaussian blur executes real framebuffer shader passes");
+            assertButtonsInsideScreen();capture("21-theme-editor-colors");
+            BufferedImage colors=ImageIO.read(new File(output,"screenshots/21-theme-editor-colors.png"));
+            Field pickerX=mc.currentScreen.getClass().getDeclaredField("pickerX"),pickerY=mc.currentScreen.getClass().getDeclaredField("pickerY");
+            pickerX.setAccessible(true);pickerY.setAccessible(true);
+            int sample=colors.getRGB((pickerX.getInt(mc.currentScreen)+3)*colors.getWidth()/mc.currentScreen.width,(pickerY.getInt(mc.currentScreen)+3)*colors.getHeight()/mc.currentScreen.height);
+            require((sample>>16&255)+(sample>>8&255)+(sample&255)>540,"The HSV color canvas is actually visible in the framebuffer");
+            click(102);require("Cyber Cyan".equals(config().ui.preset),"Theme palette button updates the actual persistent design tokens");
+            click(21);
+        } else if(responsiveStep==2){
+            assertButtonsInsideScreen();capture("22-theme-style-motion-blur");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Custom font, rounded components and blur preserve a clean OpenGL state");
+            config().ui.blur=0;config().ui.applyPreset("Alien Purple");
+            resizeWindow(960,600);mc.gameSettings.guiScale=2;
+            mc.displayGuiScreen(new dev.alien.client.gui.PanelMenuScreen(null));
+        } else if(responsiveStep==3){
+            assertButtonsInsideScreen();capture("23-clickgui-16x10");
+            mc.displayGuiScreen(new HudEditorScreen(null));
+            config().hud.widgets.get("fps").x=.5f;config().hud.widgets.get("fps").y=.45f;config().hud.widgets.get("fps").enabled=true;
+        } else if(responsiveStep==4){
+            assertButtonsInsideScreen();capture("24-hud-editor-16x10");
+            resizeWindow(800,600);config().ui.menuScale=.85f;
+            mc.displayGuiScreen(new dev.alien.client.gui.ThemeEditorScreen(null));
+        } else if(responsiveStep==5){
+            assertButtonsInsideScreen();capture("25-theme-editor-4x3-scaled");
+            mc.displayGuiScreen(new CosmeticStudioScreen(null));setPreviewPose(35,1.1f);
+        } else if(responsiveStep==6){
+            assertButtonsInsideScreen();capture("26-cosmetic-studio-4x3-scaled");
+            resizeWindow(854,480);config().ui.menuScale=1;
+            dev.alien.client.gui.PanelMenuScreen panel=new dev.alien.client.gui.PanelMenuScreen(null);
+            mc.displayGuiScreen(panel);panel.searchFor("sky");panel.selectModule("sky");
+        } else if(responsiveStep==7){
+            capture("27-module-settings-keybind");
+            int mw=Math.min(360,mc.currentScreen.width-32),x=Math.max(12,(mc.currentScreen.width-mw)/2),y=(mc.currentScreen.height-Math.min(194,mc.currentScreen.height-28))/2;
+            Method mouse=mc.currentScreen.getClass().getDeclaredMethod("mouseClicked",int.class,int.class,int.class);mouse.setAccessible(true);mouse.invoke(mc.currentScreen,x+30,y+130,0);
+            Method key=mc.currentScreen.getClass().getDeclaredMethod("keyTyped",char.class,int.class);key.setAccessible(true);key.invoke(mc.currentScreen,'g',34);
+            require(Integer.valueOf(34).equals(config().moduleKeys.get("sky")),"The actual ClickGUI key editor assigns a module shortcut");
+            config().moduleKeys.remove("sky");pickerColor=config().ui.primary;
+            mc.displayGuiScreen(new dev.alien.client.gui.ui.ColorPickerScreen(null,"Live RGBA / HSV",pickerColor,true,v->config().ui.primary=v));
+        } else if(responsiveStep==8){
+            assertButtonsInsideScreen();capture("28-color-picker-hsv-rgba");
+            mc.displayGuiScreen(new AlienMenuScreen(null).openPage(7));
+        } else if(responsiveStep==9){
+            capture("29-config-profiles");config().ui.primary=pickerColor;config().ui.blur=0;
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Responsive editors and custom controls preserve OpenGL state across window sizes");
+            if("unified".equals(BuildEdition.ID)) {
+                dev.alien.client.gui.PanelMenuScreen panel=new dev.alien.client.gui.PanelMenuScreen(null);
+                mc.displayGuiScreen(panel);panel.searchFor("aim");panel.selectModule("aim_assist");
+            } else mc.displayGuiScreen(new dev.alien.client.world.SkyboxOptionsScreen(null));
+        } else if(responsiveStep==10 && "unified".equals(BuildEdition.ID)){
+            require(!config().combat.enabled,"Opening redesigned combat module details preserves the master OFF state");
+            capture("32-unified-combat-module-details");
+            int mw=Math.min(360,mc.currentScreen.width-32),mh=Math.min(194,mc.currentScreen.height-28);
+            int x=Math.max(12,(mc.currentScreen.width-mw)/2),y=(mc.currentScreen.height-mh)/2;
+            Method mouse=mc.currentScreen.getClass().getDeclaredMethod("mouseClicked",int.class,int.class,int.class);
+            mouse.setAccessible(true);mouse.invoke(mc.currentScreen,x+30,y+mh-24,0);
+            require(mc.currentScreen instanceof dev.alien.client.gui.CombatStudioScreen,"Redesigned module details open the preserved Unified Combat Studio");
+        } else if(responsiveStep==11 && "unified".equals(BuildEdition.ID)){
+            assertButtonsInsideScreen();capture("33-unified-combat-studio");
+            click(31);
+            require(config().combat.aimAssist&&!config().combat.enabled,"A combat child switch changes its setting without silently enabling the master");
+            click(31);
+            resizeWindow(800,600);config().ui.menuScale=.85f;
+            mc.displayGuiScreen(new dev.alien.client.world.SkyboxOptionsScreen(null));
+        } else if(responsiveStep==20){
+            assertButtonsInsideScreen();capture("35-precise-numeric-input");
+            Field input=mc.currentScreen.getClass().getDeclaredField("input");input.setAccessible(true);
+            String value=((net.minecraft.client.gui.GuiTextField)input.get(mc.currentScreen)).getText();
+            require(Float.parseFloat(value)==.0001f,"Numeric input preserves the precision of the minimum fog density");
+            click(1);
+            require(config().world.fogDensity==.0001f && mc.currentScreen instanceof dev.alien.client.world.SkyboxOptionsScreen,
+                    "Applying an unchanged precise numeric value succeeds and restores its parent screen");
+        } else if(responsiveStep==21){
+            assertButtonsInsideScreen();capture("36-sky-options-minimal-white");
+            mc.displayGuiScreen(new dev.alien.client.world.SkyboxGalleryScreen(null));
+        } else if(responsiveStep==22){
+            assertButtonsInsideScreen();capture("37-sky-gallery-minimal-white");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Minimal White studio screens and numeric editing preserve OpenGL state");
+            config().ui.applyPreset("Alien Purple");
+            AlienClient.get().store().deleteProfile("smoke_integration");
+            responsiveDone=true;disconnectRequested=true;
+        } else {
+            assertButtonsInsideScreen();capture("34-skybox-options-scaled");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Preserved Sky Options render with modern components and no OpenGL errors");
+            config().ui.menuScale=1;resizeWindow(854,480);config().ui.applyPreset("Minimal White");
+            config().world.fogDensity=.0001f;
+            mc.displayGuiScreen(new dev.alien.client.gui.ui.ValueInputScreen(
+                    new dev.alien.client.world.SkyboxOptionsScreen(null),"Fog density",.0001f,.04f,.0001f,v->config().world.fogDensity=v));
+            responsiveStep=19;
+        }
+        responsiveStep++;since=System.nanoTime();
+    }
+    private void resizeWindow(int w,int h) throws Exception {
+        org.lwjgl.opengl.Display.setDisplayMode(new org.lwjgl.opengl.DisplayMode(w,h));
+        Method resize=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);resize.setAccessible(true);resize.invoke(mc,w,h);
     }
 
     private ClientConfig config() { return AlienClient.get().config(); }

@@ -1,6 +1,7 @@
 package dev.alien.client.world;
 
 import dev.alien.client.AlienClient;
+import dev.alien.client.gui.Ui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -9,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 import java.io.IOException;
 import java.util.Locale;
 
-public final class EffectsScreen extends GuiScreen {
+public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
     private final GuiScreen parent;
     private GuiTextField color;
     private String message="Effects are local, optional and limited by the performance profile";
@@ -18,14 +19,15 @@ public final class EffectsScreen extends GuiScreen {
     private EffectsConfig settings() { return AlienClient.get().config().effects; }
 
     @Override public void initGui() {
+        fontRendererObj=Ui.font();
         Keyboard.enableRepeatEvents(true); buttonList.clear();
         int w=Math.min(300,width-30), x=(width-w)/2, y=34;
         final EffectsConfig c=settings();
-        buttonList.add(new GuiButton(1,x,y,w,20,"Visual effects: "+on(c.enabled))); y+=22;
-        buttonList.add(new GuiButton(2,x,y,w/2-3,20,"Movement: "+on(c.movement)));
-        buttonList.add(new GuiButton(3,x+w/2+3,y,w/2-3,20,"Landing: "+on(c.landing))); y+=22;
-        buttonList.add(new GuiButton(4,x,y,w/2-3,20,"Trails: "+on(c.trails)));
-        buttonList.add(new GuiButton(5,x+w/2+3,y,w/2-3,20,"Quality: "+c.quality)); y+=22;
+        buttonList.add(new Ui.Button(1,x,y,w,20,"Visual effects: "+on(c.enabled))); y+=22;
+        buttonList.add(new Ui.Button(2,x,y,w/2-3,20,"Movement: "+on(c.movement)));
+        buttonList.add(new Ui.Button(3,x+w/2+3,y,w/2-3,20,"Landing: "+on(c.landing))); y+=22;
+        buttonList.add(new Ui.Button(4,x,y,w/2-3,20,"Trails: "+on(c.trails)));
+        buttonList.add(new Ui.Button(5,x+w/2+3,y,w/2-3,20,"Quality: "+c.quality)); y+=22;
         buttonList.add(new StudioSlider(20,x,y,w,"Effect distance",4,64,c.distance,new StudioSlider.Change(){
             @Override public void set(float value){c.distance=value;}
         })); y+=22;
@@ -35,13 +37,13 @@ public final class EffectsScreen extends GuiScreen {
         buttonList.add(new StudioSlider(22,x,y,w,"Particle size",1,8,c.size,new StudioSlider.Change(){
             @Override public void set(float value){c.size=value;}
         })); y+=22;
-        color=new GuiTextField(30,fontRendererObj,x,y,w/2-3,20); color.setMaxStringLength(6);
+        color=new dev.alien.client.gui.ui.ModernTextField(30,fontRendererObj,x,y,w/2-3,20); color.setMaxStringLength(6);
         color.setText(String.format(Locale.ROOT,"%06X",c.color&0xFFFFFF));
-        buttonList.add(new GuiButton(6,x+w/2+3,y,w/2-3,20,"Apply RGB hex")); y+=22;
-        buttonList.add(new GuiButton(7,x,y,w/2-3,20,"Reset effects"));
-        buttonList.add(new GuiButton(0,x+w/2+3,y,w/2-3,20,"Done"));
-        buttonList.add(new GuiButton(8,x,y+22,w/2-3,20,"Camera / color"));
-        buttonList.add(new GuiButton(9,x+w/2+3,y+22,w/2-3,20,"Presets / shapes"));
+        buttonList.add(new Ui.Button(6,x+w/2+3,y,w/2-3,20,"Apply RGB hex")); y+=22;
+        buttonList.add(new Ui.Button(7,x,y,w/2-3,20,"Reset effects"));
+        buttonList.add(new Ui.Button(0,x+w/2+3,y,w/2-3,20,"Done"));
+        buttonList.add(new Ui.Button(8,x,y+22,w/2-3,20,"Camera / color"));
+        buttonList.add(new Ui.Button(9,x+w/2+3,y+22,w/2-3,20,"Presets / shapes"));
     }
 
     private static String on(boolean v){return v?"ON":"OFF";}
@@ -70,9 +72,9 @@ public final class EffectsScreen extends GuiScreen {
         }else message="Use exactly six hexadecimal digits";
     }
 
-    @Override public void drawScreen(int mx,int my,float partialTicks){
-        drawDefaultBackground();drawCenteredString(fontRendererObj,"ALIEN / VISUAL EFFECTS",width/2,12,AlienClient.get().config().accentColor);
-        color.drawTextBox();super.drawScreen(mx,my,partialTicks);
+    @Override public void drawContents(int mx,int my,float partialTicks){
+        Ui.background(width,height);Ui.card(Math.max(8,width/2-174),6,Math.min(348,width-16),height-12);drawCenteredString(fontRendererObj,"ALIEN / VISUAL EFFECTS",width/2,12,Ui.accent());
+        color.drawTextBox();super.drawContents(mx,my,partialTicks);
         if(height>270)drawCenteredString(fontRendererObj,message,width/2,height-24,0xB7ADC9);
     }
     @Override protected void mouseClicked(int x,int y,int button)throws IOException{color.mouseClicked(x,y,button);super.mouseClicked(x,y,button);}
