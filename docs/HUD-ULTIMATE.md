@@ -38,6 +38,20 @@ Automação libera o uso de item ao abrir GUI, desligar master, trocar perfil/mu
 
 O catálogo público [Wurst7 / hacks](https://github.com/Wurst-Imperium/Wurst7/tree/master/src/main/java/net/wurstclient/hacks) lista AutoEat, AutoPotion, AutoSprint, BowAimbot e ScaffoldWalk. Os nomes e categorias serviram como comparação de funcionalidades comuns; Wurst7 usa outra versão/plataforma e licença GPL-3.0. Não foi copiado código, modelo ou textura dele. Os três endpoints do Wurst Wiki consultados responderam HTTP 403, portanto não são citados como documentação lida com sucesso. As implementações desta branch foram escritas para os controles reais do Forge 1.8.9 existente.
 
+## Partículas aprimoradas
+
+O emissor existente de movimento, pouso, trilhas e ambiente foi preservado. O desenho agora usa geometria em cache com bordas transparentes, centro iluminado, mistura entre duas cores e brilho opcional. Diamond, Petal e Spark foram refinados; Orb acrescenta uma forma circular suave. Posição e desaparecimento são interpolados entre ticks; pétalas têm oscilação e queda suaves. Não há texturas ou modelos de outros clients.
+
+Em **Effects Studio → Particles**, o Particle Studio permite escolher forma, duas cores, opacidade, brilho, movimento, duração, tamanho e quantidade. Esses valores são salvos pelos perfis Unified. Os presets alteram apenas efeitos locais:
+
+| Preset | Resultado | Limite |
+| --- | --- | --- |
+| PvP clean | Faíscas pequenas ciano, movimento/pouso, sem emissão ambiente ou brilho. | 24 partículas, qualidade Low. |
+| Cinematic glow | Orbes violeta/ciano, brilho suave e trilhas. | 96 partículas, qualidade Balanced. |
+| Sakura petals | Pétalas rosa/creme com oscilação. | 72 partículas, qualidade Balanced. |
+
+O Performance Engine pode reduzir esses limites. O renderizador mantém teste de profundidade, descarta partículas distantes/atrás da câmera e agrupa o desenho em uma passagem principal e, quando habilitado, uma de brilho. Low ignora a passagem de brilho. Efeitos OFF esvazia a simulação. Não foi feito benchmark comparativo de FPS; os testes verificam limites, persistência e estado OpenGL.
+
 ## Validação
 
 Resultados, capturas reais, comandos e limitações: [HUD-ULTIMATE-VALIDATION.md](HUD-ULTIMATE-VALIDATION.md). A galeria atual é substituída por capturas da revisão validada, mantendo o histórico apenas nas revisões do Git.

@@ -6,6 +6,8 @@ import dev.alien.client.combat.*;
 import dev.alien.client.hud.*;
 import dev.alien.client.gui.*;
 import dev.alien.client.config.ClientConfig;
+import dev.alien.client.world.*;
+import dev.alien.client.world.WorldManager;
 import java.io.*;
 import java.lang.reflect.*;
 import java.nio.file.Files;
@@ -46,7 +48,7 @@ public final class AlienUltimateSmoke {
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
             if(elapsed(start)>230000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==4?110:stage==5?1600:stage==15||stage==17?2500:700;
+            long wait=stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -228,7 +230,36 @@ public final class AlienUltimateSmoke {
             c().interfacePrefs.selectedCategory="Combat";m.displayGuiScreen(new PanelMenuScreen(null));next();return;
         case 33:
             capture("58-full-combat-catalog");require(GL11.glGetError()==GL11.GL_NO_ERROR,"Light HUD theme and full module catalog render without OpenGL errors");
-            c().combat.applyPreset("OFF");
+            c().combat.applyPreset("OFF");c().hud.applyPreset("Cinematic");c().hud.theme="Midnight";
+            m.gameSettings.guiScale=2;m.gameSettings.thirdPersonView=1;
+            server(()->serverPlayer().clearActivePotions());
+            AtmospherePresets.apply(c().world,c().effects,"Nebula");ParticlePresets.apply(c().effects,"Cinematic");
+            m.thePlayer.rotationYaw=0;m.thePlayer.rotationPitch=-12;m.displayGuiScreen(null);next();return;
+        case 34:
+            require(WorldManager.liveParticleCount()>0&&WorldManager.liveParticleCount()<=96,"Cinematic particles spawn through the actual bounded world emitter");
+            require(WorldManager.drawnParticleCount()>0,"Cinematic feathered orb particles reach the world renderer");
+            capture("59-particles-cinematic-live");AtmospherePresets.apply(c().world,c().effects,"Sakura");ParticlePresets.apply(c().effects,"Sakura");next();return;
+        case 35:
+            require(WorldManager.liveParticleCount()<=72&&WorldManager.drawnParticleCount()>0,"Sakura petals render within their real 72-particle budget");
+            capture("60-particles-sakura-live");ParticlePresets.apply(c().effects,"PvP");
+            robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 36:
+            robot.keyRelease(java.awt.event.KeyEvent.VK_W);
+            require(WorldManager.liveParticleCount()>0&&WorldManager.liveParticleCount()<=24&&c().effects.glow==0&&!c().effects.ambient,
+                    "PvP preset keeps actual movement particles within 24 and disables glow and ambient spawning");
+            capture("61-particles-pvp-live");m.displayGuiScreen(new ParticleStudioScreen(null));next();return;
+        case 37:
+            click(2);click(11);require("Petal".equals(c().effects.shape)&&c().effects.glow>.5f,"Particle Studio controls edit the active renderer configuration");
+            c().effects.opacity=.7f;c().effects.flow=1.2f;c().effects.lifetime=1.3f;AlienClient.get().save();
+            AlienClient.get().store().saveProfile("particle_studio_smoke");c().effects.opacity=.1f;
+            require(AlienClient.get().store().loadProfile("particle_studio_smoke")&&c().effects.opacity==.7f&&c().effects.flow==1.2f&&c().effects.lifetime==1.3f,
+                    "Particle shape, opacity, glow, flow and lifetime persist in Unified profiles");
+            m.displayGuiScreen(new ParticleStudioScreen(null));next();return;
+        case 38:
+            capture("62-particle-studio-controls");c().effects.enabled=false;m.displayGuiScreen(null);next();return;
+        case 39:
+            require(WorldManager.liveParticleCount()==0&&WorldManager.drawnParticleCount()==0,"Effects OFF clears particle simulation and rendering");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"All particle meshes, glow passes and controls preserve clean OpenGL state");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");

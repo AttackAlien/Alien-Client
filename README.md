@@ -43,6 +43,8 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
+Nesta branch, a **0.4.0-alpha.3** acrescenta HUD Studio Ultimate, os módulos Full e Particle Studio com partículas refinadas. A integração está no [PR #15](https://github.com/AttackAlien/Alien-Client/pull/15), sem merge desta revisão. Veja os [recursos e limites reais](docs/HUD-ULTIMATE.md), os [testes](docs/HUD-ULTIMATE-VALIDATION.md) e as [capturas atualizadas](captures/README.md).
+
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
 > [!NOTE]
@@ -52,9 +54,10 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 | | |
 |:--|:--|
-| **🎛️ ClickGUI & Theme Studio** <br> Pesquisa de módulos, favoritos, atalhos, temas, cores HSV/RGBA/HEX, escala e blur opcional. | **🧩 HUD Studio** <br> Widgets de FPS, teclas, inventário e outras informações, com arraste, tamanho e alinhamento personalizáveis. |
+| **🎛️ ClickGUI & Theme Studio** <br> Pesquisa de módulos, favoritos, atalhos, temas, cores HSV/RGBA/HEX, escala e blur opcional. | **🧩 HUD Studio Ultimate** <br> Target HUD animado, crosshair, teclas, CPS, armadura e indicadores reais; arraste, escala, opacidade, temas e presets. |
 | **🦊 Cosmetic Studio** <br> Capas animadas, acessórios 3D, asas, emblemas e looks salvos. | **🌌 World & Sky Studio** <br> Céu procedural, panoramas/cubemaps, galeria PNG, favoritos, neblina e clima visual local. |
-| **⚔️ Combat Studio** <br> Presets OFF, LEGIT, FULL e CUSTOM para ajustar assistência de mira e de clique de maneira independente. | **📊 Performance Engine V2** <br> Histórico de frames, média, P95/P99, contador de picos e ajuste adaptativo opcional para os efeitos do Alien. |
+| **⚔️ Combat Studio** <br> Mira/clique, Aimbot, Auto Food, Auto Potion, Auto Sprint, Auto Bridge e spin de câmera, com controles individuais no Unified. | **📊 Performance Engine V2** <br> Histórico de frames, média, P95/P99, contador de picos e ajuste adaptativo opcional para os efeitos do Alien. |
+| **✨ Particle Studio** <br> Diamond, pétalas, faíscas e orbes, com bordas suaves, brilho, duas cores, movimento e duração configuráveis. | **🎨 Presets de partículas** <br> PvP clean, Cinematic glow e Sakura petals, com orçamento limitado e persistência nos perfis. |
 
 > [!IMPORTANT]
 > **Combat não é ativado automaticamente em multiplayer por um perfil salvo.** É necessária autorização explícita para cada sessão/conexão. Respeite as regras de cada servidor. O Alien **não** oferece silent aim, fake anti-aim ou bypass de anticheat.
