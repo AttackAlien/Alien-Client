@@ -49,7 +49,7 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
         Ui.text("Target: " + config().targetFps + " FPS   |   Quality: "
                         + Math.round(engine().qualityScale()*100) + "%  |  Alien-only budgets",
                 left+12,top+66,Ui.theme().muted);
-        int x=left+12, y=top+103;
+        int x=left+12, y=top+88;
         Ui.text(String.format(Locale.ROOT,"Frame %.1fms     P95 %.1fms     P99 %.1fms",
                 engine().frameTimeMs(),engine().percentile95Ms(),engine().percentile99Ms()),x,y,Ui.theme().text);
         Ui.text("Frames " + engine().frameCount() + "   |   Spikes " + engine().spikeCount()
@@ -58,29 +58,43 @@ public final class PerformanceDashboardScreen extends PremiumScreen {
                 + engine().cosmeticBudget() + " cosmetics, " + Math.round(engine().effectDistance()) + " blocks",
                 x,y+29,Ui.theme().muted);
 
-        int graphX=x, graphY=y+53;
-        int graphW=panelWidth-24, graphH=Math.max(32, panelHeight-290);
-        Ui.rounded(graphX,graphY,graphW,graphH,5,Ui.theme().surfaceRaised);
-        double[] samples=engine().frameHistory();
-        double maxMs=Math.max(33.3,config().spikeThresholdMs*1.2);
-        for (int col=0;col<graphW && samples.length>0;col++) {
-            int start=(int)(col*(long)samples.length/graphW);
-            int end=(int)((col+1L)*samples.length/graphW);
-            if(end<=start)end=start+1;
-            double slowest=0;
-            for(int i=start;i<end && i<samples.length;i++)slowest=Math.max(slowest,samples[i]);
-            if(slowest<=0)continue;
-            int heightBar=Math.min(graphH-4,Math.max(1,(int)Math.round(slowest/maxMs*(graphH-5))));
-            int color=slowest>=config().spikeThresholdMs?0xfff16e84:Ui.accent();
-            drawRect(graphX+col,graphY+graphH-2-heightBar,graphX+col+1,graphY+graphH-2,color);
+        // Explicitly separate chart, legend, A/B results and footer on compact 4:3 screens.
+        int graphX=x, graphY=top+151;
+        int graphW=panelWidth-24, graphH=Math.max(25,panelHeight-316);
+        if (panelHeight >= 335) {
+            Ui.rounded(graphX,graphY,graphW,graphH,5,Ui.theme().surfaceRaised);
+            double[] samples=engine().frameHistory();
+            double maxMs=Math.max(33.3,Math.max(config().spikeThresholdMs*1.5,
+                    engine().percentile99Ms()*1.5));
+            int bars=Math.min(graphW,150);
+            for (int col=0;col<bars && samples.length>0;col++) {
+                int start=(int)(col*(long)samples.length/bars);
+                int end=(int)((col+1L)*samples.length/bars);
+                if(end<=start)end=start+1;
+                double slowest=0;
+                for(int i=start;i<end && i<samples.length;i++)slowest=Math.max(slowest,samples[i]);
+                if(slowest<=0)continue;
+                int bh=Math.min(graphH-4,Math.max(1,(int)Math.round(slowest/maxMs*(graphH-5))));
+                int color=slowest>=config().spikeThresholdMs?0xfff16e84:Ui.accent();
+                int bx=graphX+(int)(col*(long)graphW/bars);
+                int bw=Math.max(1,(int)((col+1L)*graphW/bars)-(int)(col*(long)graphW/bars));
+                drawRect(bx,graphY+graphH-2-bh,bx+bw,graphY+graphH-2,color);
+            }
+            Ui.text("Last gameplay frames  |  Red: slow frame (>"
+                    + Math.round(config().spikeThresholdMs) + " ms)",
+                    x,graphY+graphH+6,Ui.theme().muted);
         }
-        Ui.text("Each column: slowest sampled frame | Red: spike above "
-                + Math.round(config().spikeThresholdMs) + " ms",x,graphY+graphH+6,Ui.theme().muted);
-        int benchY=top+panelHeight-119;
-        Ui.text("15-second manual gameplay samples; no automatic effect toggling.",x,benchY,Ui.theme().muted);
-        Ui.text(resultLine(0,"BASE"),x,benchY+15,Ui.theme().text);
-        Ui.text(resultLine(1,"EFFECTS"),x,benchY+29,Ui.theme().text);
-        Ui.text(fontRendererObj.trimStringToWidth(notice,panelWidth-24),x,top+panelHeight-39,Ui.theme().muted);
+        int benchY=top+panelHeight-122;
+        if (panelHeight >= 335) {
+            Ui.text("Manual 15s comparison: BASE / EFFECTS (no automatic switches)",x,benchY,Ui.theme().muted);
+            Ui.text(fontRendererObj.trimStringToWidth(resultLine(0,"BASE"),panelWidth-24),
+                    x,benchY+14,Ui.theme().text);
+            Ui.text(fontRendererObj.trimStringToWidth(resultLine(1,"EFFECTS"),panelWidth-24),
+                    x,benchY+28,Ui.theme().text);
+        } else {
+            Ui.text("Compact layout: A/B details available with a larger window",x,benchY,Ui.theme().muted);
+        }
+        Ui.text(fontRendererObj.trimStringToWidth(notice,panelWidth-24),x,top+panelHeight-38,Ui.theme().muted);
         for(GuiButton button:buttonList)button.drawButton(mc,mx,my);
     }
 
