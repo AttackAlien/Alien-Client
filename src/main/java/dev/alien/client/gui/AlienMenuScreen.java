@@ -149,9 +149,10 @@ public class AlienMenuScreen extends dev.alien.client.gui.PremiumScreen {
         slider(251, y + 104, "Cosmetic render budget", 0, 128, 1, c.performance.maxCosmetics, v -> c.performance.maxCosmetics = Math.round(v));
         slider(252, y + 144, "Effect distance (blocks)", 8, 96, 1, c.performance.effectDistance, v -> c.performance.effectDistance = v);
         add(203, contentX, y + 187, contentW, "Performance diagnostics: " + on(c.performance.diagnostics));
-        label("Budgets limit Alien visuals; vanilla settings remain yours.", y + 225, config().ui.muted);
-        label("Use the HUD editor to show FPS, frame time and memory.", y + 241, config().ui.muted);
-        contentHeight = 270;
+        add(204, contentX, y + 223, contentW, "Open live Performance Dashboard / benchmark");
+        label("Adaptive mode is optional and never rewrites your saved budgets.", y + 257, config().ui.muted);
+        label("Samples must run in-world (not in the menu).", y + 272, config().ui.muted);
+        contentHeight = 300;
     }
 
     private void profiles(int y) {
@@ -242,6 +243,7 @@ public class AlienMenuScreen extends dev.alien.client.gui.PremiumScreen {
         } else if (id >= 120 && id <= 123) themeAction(id);
         else if (id >= 200 && id <= 202) PerformanceEngine.applyPreset(c, new String[] {"Competitive", "Balanced", "Cinematic"}[id - 200]);
         else if (id == 203) c.performance.diagnostics = !c.performance.diagnostics;
+        else if (id == 204) { mc.displayGuiScreen(new dev.alien.client.performance.PerformanceDashboardScreen(this)); return; }
         else if (id == 303) c.perServerProfiles = !c.perServerProfiles;
         else if (id >= 300 && id <= 307) profileAction(id);
         else if (id >= 500) {

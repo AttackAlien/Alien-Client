@@ -8,6 +8,7 @@ import dev.alien.client.module.GameplayImpact;
 import dev.alien.client.module.ModuleDescriptor;
 import dev.alien.client.cosmetic.CosmeticConfig;
 import dev.alien.client.cosmetic.CosmeticStudioScreen;
+import dev.alien.client.performance.PerformanceDashboardScreen;
 import dev.alien.client.gui.AlienMainMenu;
 import dev.alien.client.gui.AlienMenuScreen;
 import dev.alien.client.hud.HudConfig;
@@ -178,8 +179,8 @@ public final class AlienIntegrationSmoke {
                 File expectedClasses = new File(output.getParentFile(), "classes/main").getCanonicalFile();
                 require(loadedFrom.getCanonicalFile().toPath().startsWith(expectedClasses.toPath()),
                         "Smoke loads current main classes directly, excluding the packaged jar (actual " + loadedFrom + ")");
-                require(HudManager.bounds("performance", config().hud.widgets.get("performance"), 427, 240)[3] == 54,
-                        "Runtime HUD uses the latest three-line diagnostic widget");
+                require(HudManager.bounds("performance", config().hud.widgets.get("performance"), 427, 240)[3] == 70,
+                        "Runtime HUD uses the Performance 2.0 four-line diagnostic widget");
                 require(mc.currentScreen instanceof AlienMainMenu, "Optional main menu replaces vanilla title screen");
                 mc.gameSettings.pauseOnLostFocus = false;
                 mc.gameSettings.limitFramerate = 30;
@@ -449,7 +450,38 @@ public final class AlienIntegrationSmoke {
                     click(7);
                     liveScreenStage = 10; since = System.nanoTime(); return;
                 }
-                capture("31-cosmetic-phantom-look");
+                if (liveScreenStage == 10) {
+                    capture("31-cosmetic-phantom-look");
+                    mc.displayGuiScreen(new PerformanceDashboardScreen(null));
+                    liveScreenStage = 11; since = System.nanoTime(); return;
+                }
+                require(mc.currentScreen instanceof PerformanceDashboardScreen,
+                        "Performance Engine 2.0 dashboard opens in actual Minecraft");
+                if (liveScreenStage == 11) {
+                    assertButtonsInsideScreen();
+                    capture("32-performance-engine-dashboard");
+                    boolean compactToggle = false;
+                    for (GuiButton control : buttons()) if (control.id == 9) compactToggle = true;
+                    if (compactToggle) {
+                        click(9); // Switch drawing state now; screenshot must wait for the next actual frame.
+                        liveScreenStage = 12; since = System.nanoTime(); return;
+                    }
+                    liveScreenStage = 13;
+                }
+                if (liveScreenStage == 12) {
+                    capture("33-performance-engine-compact-graph");
+                    require(mc.currentScreen instanceof PerformanceDashboardScreen,
+                            "Compact Graph/Stats view renders on a separate Minecraft frame");
+                    click(9);
+                    liveScreenStage = 13; since = System.nanoTime(); return;
+                }
+                click(1);
+                require(config().performance.adaptiveEnabled,
+                        "Adaptive Alien-only visual budgets can be explicitly enabled");
+                click(8);
+                require(!config().performance.adaptiveEnabled
+                        && config().performance.maxParticles > 0,
+                        "Disabling adaptive quality preserves saved performance budgets");
                 mc.displayGuiScreen(new HudEditorScreen(null));
                 next(); return;
             }

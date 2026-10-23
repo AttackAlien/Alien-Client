@@ -83,7 +83,7 @@ public final class HudManager {
         else if ("keys".equals(id)) { w = 76; h = 76; }
         else if ("inventory".equals(id)) { w = 168; h = 60; }
         else if ("armor".equals(id)) { w = 92; h = 82; }
-        else if ("performance".equals(id)) { w = 158; h = 54; }
+        else if ("performance".equals(id)) { w = 180; h = 70; }
         else if ("coordinates".equals(id)) { w = 158; h = 20; }
         else if ("text".equals(id)) w = Math.max(20, font().getStringWidth(config().customText) + 12);
         int width = Math.round(w * widget.scale), height = Math.round(h * widget.scale);
@@ -123,8 +123,12 @@ public final class HudManager {
             PerformanceEngine metrics = AlienClient.get().performance();
             if (AlienClient.get().config().performance.diagnostics) {
                 text(String.format("Frame %.1f ms", metrics.frameTimeMs()), 7, 6, 0xffeeeeff);
-                text(String.format("p95 %.1f ms", metrics.percentile95Ms()), 7, 22, 0xffb6bdd1);
-                text("Heap " + metrics.usedMemoryMb() + " MB", 7, 38, 0xffb6bdd1);
+                text(String.format("P95 %.1f / P99 %.1f ms", metrics.percentile95Ms(),
+                        metrics.percentile99Ms()), 7, 22, 0xffb6bdd1);
+                text("Heap " + metrics.usedMemoryMb() + " MB  /  Spikes " + metrics.spikeCount(),
+                        7, 38, 0xffb6bdd1);
+                text("Alien quality " + Math.round(metrics.qualityScale() * 100) + "%",
+                        7, 54, 0xffb6bdd1);
             } else {
                 text("Diagnostics disabled", 7, 6, 0xff8790a5);
                 text("Enable in Performance", 7, 22, 0xff8790a5);
