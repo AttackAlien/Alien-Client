@@ -43,7 +43,6 @@ internal sealed class LauncherWindow : Form
     private readonly Button play = new();
     private readonly ComboBox gameChoice = new();
     private readonly Button refreshVersions = new();
-    private readonly Label versionHint = new();
     private bool busy;
 
     private sealed record GameChoice(string Label, string Version, bool Alien)
@@ -84,8 +83,7 @@ internal sealed class LauncherWindow : Form
         {
             string id = version.Name;
             if (!Regex.IsMatch(id, @"^\d+\.\d+(\.\d+)?$")) continue;
-            if (!string.Equals(version.GetVersionType().ToString(), "release",
-                StringComparison.OrdinalIgnoreCase)) continue;
+            // Only official numeric release IDs; snapshots and prereleases are excluded.
             AddGameChoice(new GameChoice("Minecraft " + id + " (Vanilla)", id, false));
             discovered++;
         }
