@@ -1,5 +1,5 @@
 PASS 161 checks
-Alien Client 0.4.0-alpha.2; actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable world AlienSmoke-1792761954377
+Alien Client 0.4.0-alpha.3; actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable world AlienSmoke-1792765108754
 This functional smoke run is not a performance benchmark.
 PASS Forge discovers the real Alien Client mod
 PASS The selected edition provider matches the actual Gradle runtime
@@ -8,7 +8,7 @@ PASS The actual edition uses its isolated configuration namespace
 PASS The compiled edition policy agrees with its identity
 PASS The loaded resource marker belongs to the current edition
 PASS Exactly one edition resource is on the running game classpath
-PASS The runtime preserves all nine visual switches and Unified's two combat switches
+PASS The runtime preserves all nine visual switches and Unified's eight gameplay switches
 PASS Edition access and actual gameplay impact survive the redesign integration
 PASS Existing combat features remain disabled on a new profile
 PASS Smoke loads current main classes directly, excluding the packaged jar (actual /workspace/Alien-Client/build/unified/classes/main/dev/alien/client/AlienClient.class)

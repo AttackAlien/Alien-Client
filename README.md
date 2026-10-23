@@ -67,6 +67,18 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 <table>
   <tr>
     <td width="50%" align="center">
+      <a href="captures/atual/unified/40-hud-ultimate-pvp-live.png"><img alt="HUD Ultimate funcionando no mundo" src="captures/atual/unified/40-hud-ultimate-pvp-live.png"></a><br>
+      <b>HUD Studio Ultimate</b><br>
+      <sub>Avatar, HP animado, mira, teclas, CPS e armadura reais</sub>
+    </td>
+    <td width="50%" align="center">
+      <a href="captures/atual/unified/59-particles-cinematic-live.png"><img alt="Partículas Cinematic no Minecraft" src="captures/atual/unified/59-particles-cinematic-live.png"></a><br>
+      <b>Partículas aprimoradas</b><br>
+      <sub>Contornos suaves, duas cores e brilho configurável</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
       <img alt="ClickGUI — visão dos módulos" src="captures/atual/unified/23-clickgui-16x10.png"><br>
       <b>ClickGUI</b><br>
       <sub>Personalização e controles</sub>
