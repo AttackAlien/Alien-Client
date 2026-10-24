@@ -1,41 +1,43 @@
 {
-  "captured_utc": "2026-10-24T16:59:24.517956+00:00",
-  "code_revision": "3a8ee39413c8309168a13ee3a6295e0b4b68e3b6",
-  "version": "0.5.0-alpha.1",
+  "published_utc": "2026-10-24T21:42:21.713568+00:00",
+  "code_revision": "8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57",
+  "validation_revision": "a83bbe9494ce256ab1957807dd706aa192cb1bc8",
+  "version": "0.6.0-alpha.1",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xvfb / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "ultimate": "PASS 92 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "scene": "PASS 70 checks"
+    "scene": "PASS 70 checks",
+    "studio": "PASS 125 checks"
   },
   "junit": {
     "unified": {
-      "tests": 165,
+      "tests": 175,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "legit": {
-      "tests": 165,
+      "tests": 175,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "full": {
-      "tests": 165,
+      "tests": 175,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "28617f6d0bd352eec48c007031155abe0382d930cec5c9d278f894f39d2bfa38",
-    "junit_sha256": "08e0a1e189eb5cf191cd9063cd87547af9a61d03f8de8e5edcf88f1457866b32",
-    "runtime_sha256": "286a9112666763d806605430995bcd50b6e35736fbd7b0a1290948febfba6620",
-    "source_sha256": "956269574d6007baf381c607df3313a7a0005dcd4966ac1a11d7b867bfd5bd3a",
-    "started_ns": 1792860916470916324
+    "jar_sha256": "e4570c83a3429e4ff562fb2129e2a35c9f1bff66d2e70f95e28e563f30e9d830",
+    "junit_sha256": "34939aef511c912ccb083e899713c1d24a42fbf6040d34ac8fea01976ce85bd0",
+    "runtime_sha256": "a18f865b7f4a4b36cc4253069a2b89436cf5dceaa1f6fea5963174aea4778c24",
+    "source_sha256": "cdf642e563b859586c51deda2e1ecf7ab2f554e2d02b4083cf51925e3d65e0ad",
+    "started_ns": 1792877900071406045
   },
   "screenshots": {
     "01-title.png": "general",
@@ -154,13 +156,54 @@
     "87-scene-fx-off-restored.png": "scene",
     "88-chroma-moving-path.png": "scene",
     "89-scene-after-disconnect.png": "scene",
-    "90-cosmic-sky-animation.png": "scene"
+    "90-cosmic-sky-animation.png": "scene",
+    "100-profile-in-use.png": "studio",
+    "101-live-name-tags.png": "studio",
+    "102-target-esp-ring.png": "studio",
+    "103-depth-fx-baseline.png": "studio",
+    "104-mist-world.png": "studio",
+    "105-bokeh-depth-focus.png": "studio",
+    "106-radiance-world-hand.png": "studio",
+    "107-hand-motion-zoom.png": "studio",
+    "108-afterglow-real-death.png": "studio",
+    "109-living-sky-galaxy.png": "studio",
+    "110-living-sky-aether.png": "studio",
+    "111-living-sky-nocturne.png": "studio",
+    "112-living-sky-amethyst.png": "studio",
+    "113-living-sky-opaline.png": "studio",
+    "114-living-sky-rain.png": "studio",
+    "115-living-sky-snow.png": "studio",
+    "116-living-sky-fire.png": "studio",
+    "117-sky-alien-palette.png": "studio",
+    "118-sky-rose-palette.png": "studio",
+    "119-living-sky-controls.png": "studio",
+    "120-player-depth-settings.png": "studio",
+    "121-studio-fx-off-restored.png": "studio",
+    "122-studio-after-disconnect.png": "studio",
+    "123-orbit-navigation.png": "studio",
+    "124-gallery-from-orbit.png": "studio",
+    "125-gallery-scene-effects.png": "studio",
+    "126-occluded-target-hidden.png": "studio",
+    "91-interactive-main-menu.png": "studio",
+    "92-menu-scene-controls.png": "studio",
+    "93-alpine-menu-night.png": "studio",
+    "94-multiplayer-menu-blur.png": "studio",
+    "95-module-gallery-render.png": "studio",
+    "96-module-gallery-player.png": "studio",
+    "97-module-gallery-hud.png": "studio",
+    "98-profile-library.png": "studio",
+    "99-profile-load-preview.png": "studio"
   },
   "notes": [
     "PNG files are original Minecraft framebuffer captures without retouching or generated imagery.",
     "Practice target is client-only; hunger, potion healing and bridge blocks are verified on the integrated server.",
     "Cape GIF is assembled only from the twelve original cape-motion framebuffer PNGs.",
     "Sky cubemap test uses a labeled procedural test atlas rendered by Minecraft, not a finished imported asset.",
-    "No physical GPU, Windows gameplay or external multiplayer test."
-  ]
+    "No physical GPU, Windows gameplay or external multiplayer test.",
+    "General and Scene inherited test fixtures log 81/75 nonfatal queued chunk packet exceptions after automated world unload; assertions pass, but logs are not error-free. See known-log-errors.txt."
+  ],
+  "recorded_utc_window": {
+    "start": "2026-10-24T21:36:27+00:00",
+    "end": "2026-10-24T21:41:56.150000+00:00"
+  }
 }

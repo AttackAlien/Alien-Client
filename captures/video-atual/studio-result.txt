@@ -1,0 +1,127 @@
+PASS 125 checks
+Actual Forge 1.8.9 / interactive menu and studio features / Linux software OpenGL
+PASS Automatic GUI scale 427x240: controls fit without overlap / AlienMainMenu
+PASS Automatic GUI scale 427x240: controls fit without overlap / MenuSceneScreen
+PASS Automatic GUI scale 427x240: controls fit without overlap / SceneSkyScreen
+PASS Automatic GUI scale 427x240: controls fit without overlap / StudioSettingsScreen
+PASS Automatic GUI scale 427x240: controls fit without overlap / StudioOrbitScreen
+PASS Automatic GUI scale 427x240: controls fit without overlap / ProfileLibraryScreen
+PASS Automatic GUI scale 427x240: controls fit without overlap / ModuleGalleryScreen
+PASS Main menu actually renders cached 3D geometry without starting a world
+PASS Menu scene creates no playable world/server
+PASS Real framebuffer 91-interactive-main-menu
+PASS Clean OpenGL after 91-interactive-main-menu
+PASS Main menu opens actual scene controls
+PASS Scene/time/weather/camera controls change persisted renderer values
+PASS Actual X11 mouse drag orbits the menu camera
+PASS Real framebuffer 92-menu-scene-controls
+PASS Clean OpenGL after 92-menu-scene-controls
+PASS Real framebuffer 93-alpine-menu-night
+PASS Clean OpenGL after 93-alpine-menu-night
+PASS Vanilla multiplayer screen blurs the actual animated menu framebuffer
+PASS Real framebuffer 94-multiplayer-menu-blur
+PASS Clean OpenGL after 94-multiplayer-menu-blur
+PASS Actual visible multiplayer pixels show scene colors instead of vanilla dirt
+PASS Native multiplayer font textures render glyphs rather than solid boxes
+PASS Transparent server list preserves the native stored entry (offline local fixture)
+PASS Selecting the real native server row enables its original Join action
+PASS Refresh preserves the custom backdrop and native server list
+PASS Real framebuffer 95-module-gallery-render
+PASS Clean OpenGL after 95-module-gallery-render
+PASS Actual X11 mouse wheel scrolls the module gallery
+PASS Real framebuffer 125-gallery-scene-effects
+PASS Clean OpenGL after 125-gallery-scene-effects
+PASS Real framebuffer 96-module-gallery-player
+PASS Clean OpenGL after 96-module-gallery-player
+PASS Real framebuffer 97-module-gallery-hud
+PASS Clean OpenGL after 97-module-gallery-hud
+PASS Gallery is a real optional Unified menu layout
+PASS Library creates three real local presets
+PASS Real framebuffer 98-profile-library
+PASS Clean OpenGL after 98-profile-library
+PASS Real framebuffer 99-profile-load-preview
+PASS Clean OpenGL after 99-profile-load-preview
+PASS Profile card computes actual enable/disable differences
+PASS Duplicate button writes actual separate profile
+PASS Rename button preserves complete profile
+PASS Export button writes real JSON file
+PASS Share/copy contains actual full JSON
+PASS Photo button saves current actual framebuffer
+PASS Load button activates original Unified profile
+PASS Real framebuffer 100-profile-in-use
+PASS Clean OpenGL after 100-profile-in-use
+PASS Import button validates and stores actual clipboard JSON
+PASS Name Tags render actual visible player name and health
+PASS Real framebuffer 101-live-name-tags
+PASS Clean OpenGL after 101-live-name-tags
+PASS Target ESP draws around the actual visible tracked entity
+PASS Real framebuffer 102-target-esp-ring
+PASS Clean OpenGL after 102-target-esp-ring
+PASS Real server blocks actually occlude the tracked player
+PASS Tags and Target ESP stop drawing through an actual terrain occluder
+PASS Real framebuffer 126-occluded-target-hidden
+PASS Clean OpenGL after 126-occluded-target-hidden
+PASS Real framebuffer 103-depth-fx-baseline
+PASS Clean OpenGL after 103-depth-fx-baseline
+PASS Real framebuffer 104-mist-world
+PASS Clean OpenGL after 104-mist-world
+PASS Mist changes actual world pixels using depth, without covering the HUD
+PASS Real framebuffer 105-bokeh-depth-focus
+PASS Clean OpenGL after 105-bokeh-depth-focus
+PASS Bokeh performs actual depth-aware blur on scene pixels
+PASS Real framebuffer 106-radiance-world-hand
+PASS Clean OpenGL after 106-radiance-world-hand
+PASS Radiance changes actual edges after the hand render and before HUD
+PASS Hand Movement actually renders the first-person item with scoped transforms
+PASS Actual X11 C key changes FOV through Forge zoom hook
+PASS Real framebuffer 107-hand-motion-zoom
+PASS Clean OpenGL after 107-hand-motion-zoom
+PASS Integrated server spawns the actual Afterglow subject
+PASS Afterglow subject reaches the actual client world
+PASS Actual integrated-server entity death leaves bounded fading Afterglow
+PASS Real framebuffer 108-afterglow-real-death
+PASS Clean OpenGL after 108-afterglow-real-death
+PASS Real framebuffer 109-living-sky-galaxy
+PASS Clean OpenGL after 109-living-sky-galaxy
+PASS Real framebuffer 110-living-sky-aether
+PASS Clean OpenGL after 110-living-sky-aether
+PASS Real framebuffer 111-living-sky-nocturne
+PASS Clean OpenGL after 111-living-sky-nocturne
+PASS Real framebuffer 112-living-sky-amethyst
+PASS Clean OpenGL after 112-living-sky-amethyst
+PASS Real framebuffer 113-living-sky-opaline
+PASS Clean OpenGL after 113-living-sky-opaline
+PASS Real framebuffer 114-living-sky-rain
+PASS Clean OpenGL after 114-living-sky-rain
+PASS Real framebuffer 115-living-sky-snow
+PASS Clean OpenGL after 115-living-sky-snow
+PASS Real framebuffer 116-living-sky-fire
+PASS Clean OpenGL after 116-living-sky-fire
+PASS All eight named video sky styles have distinct actual framebuffer samples
+PASS Real framebuffer 117-sky-alien-palette
+PASS Clean OpenGL after 117-sky-alien-palette
+PASS Real framebuffer 118-sky-rose-palette
+PASS Clean OpenGL after 118-sky-rose-palette
+PASS Palette control visibly changes actual sky colors
+PASS Real framebuffer 119-living-sky-controls
+PASS Clean OpenGL after 119-living-sky-controls
+PASS Sky style button edits the actual shader preset
+PASS Palette button selects persisted shader palette
+PASS Reset restores sky animation values
+PASS Sky OFF button restores original sky
+PASS Real framebuffer 120-player-depth-settings
+PASS Clean OpenGL after 120-player-depth-settings
+PASS Player settings controls edit actual optional visual features
+PASS New visual master OFF stops shader work
+PASS OFF clears Afterglow history
+PASS New visual effects never change actual server time
+PASS Real framebuffer 121-studio-fx-off-restored
+PASS Clean OpenGL after 121-studio-fx-off-restored
+PASS Disconnect clears transient effects
+PASS Real framebuffer 122-studio-after-disconnect
+PASS Clean OpenGL after 122-studio-after-disconnect
+PASS Real framebuffer 123-orbit-navigation
+PASS Clean OpenGL after 123-orbit-navigation
+PASS Orbit navigation opens the real Render module category
+PASS Real framebuffer 124-gallery-from-orbit
+PASS Clean OpenGL after 124-gallery-from-orbit

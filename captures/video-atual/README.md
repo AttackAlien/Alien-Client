@@ -1,38 +1,39 @@
-# Vídeo atual — Alien Scene Studio 0.5.0-alpha.1
+# Vídeo atual — Alien Interactive Studio 0.6.0-alpha.1
 
-Gravação real de **Minecraft Forge 1.8.9**, em 24/10/2026, 16:53–16:57 UTC, fonte `3a8ee39413c8309168a13ee3a6295e0b4b68e3b6`. Cinco sessões automatizadas de teste em mundos descartáveis, sem áudio ou aceleração.
+Gravação real de **Minecraft Forge 1.8.9**, em **24/10/2026, 21:36–21:41 UTC**, fonte `8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57`. Seis sessões de testes, com menu e mundos descartáveis, sem áudio/aceleração.
 
-- **[Baixar MP4 — 3min48s, 720p/20 fps, aproximadamente 18 MB](https://raw.githubusercontent.com/AttackAlien/Alien-Client/refs/heads/feature/visual-scenes-20261024/captures/video-atual/Alien-Unified-tour-completo.mp4)**. Abra o arquivo no reprodutor do celular/computador se o navegador baixar em vez de reproduzir.
-- **[Abrir GIF — 2min15s, aproximadamente 8,8 MB](https://raw.githubusercontent.com/AttackAlien/Alien-Client/refs/heads/feature/visual-scenes-20261024/captures/video-atual/Alien-Unified-previa.gif)**.
-- [117 fotos atuais](../README.md) · [JAR/ZIP de teste](../../downloads/v0.5.0-alpha.1/) · [PR #17](https://github.com/AttackAlien/Alien-Client/pull/17).
+- **[Baixar MP4 — 4min47s, 720p/20 fps, 20.9 MB](https://raw.githubusercontent.com/AttackAlien/Alien-Client/refs/heads/feature/interactive-studio-20261024/captures/video-atual/Alien-Unified-tour-completo.mp4)**. Se o navegador baixar, abra o arquivo no reprodutor do celular/computador.
+- **[Abrir GIF — 2min59s, 9.6 MB](https://raw.githubusercontent.com/AttackAlien/Alien-Client/refs/heads/feature/interactive-studio-20261024/captures/video-atual/Alien-Unified-previa.gif)**.
+- [153 fotos atuais](../README.md) · [JAR/ZIP](../../downloads/v0.6.0-alpha.1/) · [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18).
 
-O vídeo cobre o client preservado e os nove recursos identificados no TikTok: Shockwave, capa animada, Trail, Cute World, Cyberspace, esqueleto X-Ray, Glass, Chroma e oito céus animados. As implementações têm arte e shaders originais Alien. Não é o vídeo Purxiy reeditado.
+Inclui menu interativo e controles, galeria/Orbit/perfis, efeitos novos, céus nomeados e os recursos preservados: HUD/Full, partículas, capas/trilhas/headwear, importação de céu, Scene Studio. É o Alien executado no Forge, com implementações e arte próprias; o vídeo de referência não foi reutilizado nesta mídia.
 
 ## Capítulos
 
 | Início | Sessão |
 | --- | --- |
 | 00:00 | Menus, cosmeticos, temas, mundo e perfis |
-| 01:08 | Sky Studio, cubemap e galeria tecnica |
-| 01:42 | Combat Studio: mira, clique e perfis |
-| 02:03 | HUD Ultimate, Full tools e particulas aprimoradas |
-| 03:07 | Scene Studio: nove efeitos visuais inspirados no video |
+| 01:10 | Sky Studio, cubemap e galeria tecnica |
+| 01:44 | Combat Studio: mira, clique e perfis |
+| 02:04 | HUD Ultimate, Full tools e particulas aprimoradas |
+| 03:08 | Scene Studio: nove efeitos visuais inspirados no video |
+| 03:49 | Interactive Studio: menu 3D, perfis, efeitos e oito novos estilos de ceu |
 
-Os capítulos incluem os carregamentos reais e mudanças de resolução dos testes. A navegação é automatizada e rápida; pause para ler as telas. Os atlas de cubemap são imagens técnicas de teste, identificadas no relatório; não são pacotes artísticos de céu.
+Carregamentos e mudanças reais de resolução foram mantidos. Navegação automatizada; pause para ler telas. Atlas com rótulos no Sky smoke são fixtures técnicas de importação, não pacotes artísticos.
 
 ## GIF de prévia
 
-45 trechos reais do mesmo vídeo em velocidade normal, com cortes secos, 480 px e 5 fps/cores reduzidas, sem interpolação de frames.
+69 trechos reais em velocidade normal, cortes secos, 480 px/5 fps/cores reduzidas, sem interpolação de frames.
 
 ![Prévia real](Alien-Unified-previa.gif)
 
 ## Proveniência
 
-[Metadados/seleção dos trechos](proveniencia.json) · [SHA-256](SHA256SUMS.txt) · [Validação e comandos](../../docs/VISUAL-SCENES-VALIDATION.md).
+[Metadados e seleção dos trechos](proveniencia.json) · [SHA-256](SHA256SUMS.txt) · [Resultados/comandos](../../docs/INTERACTIVE-STUDIO-VALIDATION.md).
 
-Cinco sessões aprovadas: [geral 161](general-result.txt), [céu 37](sky-result.txt), [combate 24](combat-result.txt), [HUD/Full/cosméticos 92](ultimate-result.txt), [Scene Studio 70](scene-result.txt). JUnit: 165 por composição; pacote validado e vinculado ao mesmo código. Os PNGs, GIF e MP4 anteriores foram substituídos nestes diretórios atuais, mantendo o histórico no Git.
+**509 checks gráficos**, **175 JUnit por composição**, **11 testes de empacotamento**. Relatórios: [geral](general-result.txt), [céu](sky-result.txt), [combate](combat-result.txt), [HUD/Full](ultimate-result.txt), [Scene](scene-result.txt), [Interactive](studio-result.txt). Mídias anteriores foram substituídas nestas pastas atuais, mantendo histórico no Git.
 
-Captura FFmpeg `x11grab`, Xvfb 1280×720, Mesa por software e Java 8. O MP4 concatena streams H.264 das cinco gravações, sem recodificação. O GIF usa somente frames reais selecionados. A taxa de captura de 20 fps não é um benchmark de FPS do jogo.
+FFmpeg `x11grab`, Xvfb 1280×720, Mesa por software, Java 8u472. MP4 concatena H.264 das seis sessões sem recodificação ou mudança de velocidade. GIF usa somente frames reais. 20 fps é a taxa de captura, não benchmark do jogo.
 
 ```bash
 ffmpeg -f x11grab -draw_mouse 0 -framerate 20 -video_size 1280x720 \
@@ -40,4 +41,4 @@ ffmpeg -f x11grab -draw_mouse 0 -framerate 20 -video_size 1280x720 \
   -pix_fmt yuv420p -movflags +faststart sessao.mp4
 ```
 
-As tarefas gravadas foram `runSmokeClient`, `runSkySmokeClient`, `runCombatSmokeClient`, `runUltimateSmokeClient` e `runSceneSmokeClient`, com `-Pedition=unified`. O init script temporário apenas acrescentou os argumentos iniciais `--width 1280 --height 720`.
+Tarefas: `runSmokeClient`, `runSkySmokeClient`, `runCombatSmokeClient`, `runUltimateSmokeClient`, `runSceneSmokeClient`, `runStudioSmokeClient`, com `-Pedition=unified`. O init script temporário só fornece `--width 1280 --height 720`.

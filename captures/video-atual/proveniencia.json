@@ -1,322 +1,475 @@
 {
   "game": "Minecraft Java 1.8.9 / Forge 11.15.1.2318",
-  "version": "0.5.0-alpha.1",
-  "recorded_revision": "3a8ee39413c8309168a13ee3a6295e0b4b68e3b6",
-  "last_code_revision": "3a8ee39413c8309168a13ee3a6295e0b4b68e3b6",
+  "version": "0.6.0-alpha.1",
+  "recorded_revision": "8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57",
+  "last_code_revision": "8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57",
+  "ci_revision": "a83bbe9494ce256ab1957807dd706aa192cb1bc8",
   "capture": "FFmpeg x11grab; Xvfb 1280x720; 20 fps; no audio",
-  "editing": "Full MP4 concatenates five actual screen recordings without speed change, overlays or synthesized frames. Loading and actual resolution changes remain. GIF selects normal-speed excerpts, scaled to 480 pixels and 5 fps with reduced colors.",
+  "editing": "Full MP4 concatenates six actual screen recordings without speed change, overlays or synthesized frames. Loading and actual resolution changes remain. GIF selects normal-speed excerpts, scaled to 480 pixels and 5 fps with reduced colors.",
   "chapters": [
     {
       "phase": "general",
       "title": "Menus, cosmeticos, temas, mundo e perfis",
       "start_seconds": 0,
-      "duration_seconds": 68.15,
-      "recorded_utc": "2026-10-24T16:53:25Z",
+      "duration_seconds": 70.15,
+      "recorded_utc": "2026-10-24T21:36:27Z",
       "result": "PASS 161 checks"
     },
     {
       "phase": "sky",
       "title": "Sky Studio, cubemap e galeria tecnica",
-      "start_seconds": 68.15,
-      "duration_seconds": 33.65,
-      "recorded_utc": "2026-10-24T16:54:42Z",
+      "start_seconds": 70.15,
+      "duration_seconds": 34.1,
+      "recorded_utc": "2026-10-24T21:37:45Z",
       "result": "PASS 37 checks"
     },
     {
       "phase": "combat",
       "title": "Combat Studio: mira, clique e perfis",
-      "start_seconds": 101.8,
-      "duration_seconds": 21.15,
-      "recorded_utc": "2026-10-24T16:55:24Z",
+      "start_seconds": 104.25,
+      "duration_seconds": 20.6,
+      "recorded_utc": "2026-10-24T21:38:28Z",
       "result": "PASS 24 checks"
     },
     {
       "phase": "ultimate",
       "title": "HUD Ultimate, Full tools e particulas aprimoradas",
-      "start_seconds": 122.95,
-      "duration_seconds": 63.65,
-      "recorded_utc": "2026-10-24T16:55:54Z",
+      "start_seconds": 124.85,
+      "duration_seconds": 63.2,
+      "recorded_utc": "2026-10-24T21:38:58Z",
       "result": "PASS 92 checks"
     },
     {
       "phase": "scene",
       "title": "Scene Studio: nove efeitos visuais inspirados no video",
-      "start_seconds": 186.6,
-      "duration_seconds": 41.15,
-      "recorded_utc": "2026-10-24T16:57:08Z",
+      "start_seconds": 188.05,
+      "duration_seconds": 41.65,
+      "recorded_utc": "2026-10-24T21:40:09Z",
       "result": "PASS 70 checks"
+    },
+    {
+      "phase": "studio",
+      "title": "Interactive Studio: menu 3D, perfis, efeitos e oito novos estilos de ceu",
+      "start_seconds": 229.7,
+      "duration_seconds": 57.15,
+      "recorded_utc": "2026-10-24T21:40:59Z",
+      "result": "PASS 125 checks"
     }
   ],
   "gif_selection": [
     {
       "phase": "general",
       "marker": "01-title",
-      "start_seconds": 13.8,
-      "duration_seconds": 3
+      "start_seconds": 15.4,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "09c-alien-menu-inside-world",
-      "start_seconds": 22.8,
-      "duration_seconds": 3
+      "start_seconds": 23.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "14-smooth-kasa-and-cloth-front",
-      "start_seconds": 25.8,
-      "duration_seconds": 3
+      "start_seconds": 26.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "15-cloth-cape-emblem-back",
-      "start_seconds": 26.8,
-      "duration_seconds": 3
+      "start_seconds": 27.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "17-sculpted-wings-back-view",
-      "start_seconds": 30.8,
-      "duration_seconds": 3
+      "start_seconds": 32.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "32-performance-engine-dashboard",
-      "start_seconds": 33.8,
-      "duration_seconds": 3
+      "start_seconds": 34.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "21-theme-editor-colors",
-      "start_seconds": 52.8,
-      "duration_seconds": 3
+      "start_seconds": 54.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "29-config-profiles",
-      "start_seconds": 59.8,
-      "duration_seconds": 3
+      "start_seconds": 60.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "general",
       "marker": "18-crystal-cyan-sky-particles-hud",
-      "start_seconds": 45.8,
-      "duration_seconds": 3
+      "start_seconds": 46.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "sky",
       "marker": "sky-gallery-with-cubemap-preview",
       "start_seconds": 25.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "combat",
       "marker": "combat-target-tracking",
-      "start_seconds": 16.8,
-      "duration_seconds": 3
+      "start_seconds": 15.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "40-hud-ultimate-pvp-live",
-      "start_seconds": 12.8,
-      "duration_seconds": 3
+      "start_seconds": 11.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "43-hud-ultimate-editor",
-      "start_seconds": 16.8,
-      "duration_seconds": 3
+      "start_seconds": 15.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "44-hud-presets-themes",
-      "start_seconds": 18.8,
-      "duration_seconds": 3
+      "start_seconds": 17.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "47-crosshair-options",
-      "start_seconds": 20.8,
-      "duration_seconds": 3
+      "start_seconds": 19.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "48-auto-food-result",
-      "start_seconds": 24.8,
-      "duration_seconds": 3
+      "start_seconds": 23.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "51-auto-bridge-server-block",
       "start_seconds": 30.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "56-full-preset-enabled",
       "start_seconds": 38.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "59-particles-cinematic-live",
-      "start_seconds": 44.8,
-      "duration_seconds": 3
+      "start_seconds": 43.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "60-particles-sakura-live",
       "start_seconds": 47.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "62-particle-studio-controls",
-      "start_seconds": 50.8,
-      "duration_seconds": 3
+      "start_seconds": 49.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "63-sakura-wreath-world",
       "start_seconds": 51.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "64-cc0-fabric-cape-studio",
       "start_seconds": 52.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "65-cosmetic-ribbon-controls",
-      "start_seconds": 53.8,
-      "duration_seconds": 3
+      "start_seconds": 52.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "66-ribbon-trail-and-cape-moving",
-      "start_seconds": 55.8,
-      "duration_seconds": 3
+      "start_seconds": 54.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "67-ribbon-curved-path",
-      "start_seconds": 56.8,
-      "duration_seconds": 3
+      "start_seconds": 55.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "68-cape-relaxed-after-motion",
       "start_seconds": 58.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "69-woven-kasa-world",
       "start_seconds": 59.8,
-      "duration_seconds": 3
+      "duration_seconds": 2.5
     },
     {
       "phase": "ultimate",
       "marker": "70-sakura-cosmetic-studio",
-      "start_seconds": 60.8,
-      "duration_seconds": 2.8500000000000014
+      "start_seconds": 59.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "72-shockwave-landing",
-      "start_seconds": 17.8,
-      "duration_seconds": 3
+      "start_seconds": 19.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "73-cute-world",
-      "start_seconds": 18.8,
-      "duration_seconds": 3
+      "start_seconds": 19.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "74-cyberspace-world",
-      "start_seconds": 19.8,
-      "duration_seconds": 3
+      "start_seconds": 20.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "75-xray-skeleton",
-      "start_seconds": 20.8,
-      "duration_seconds": 3
+      "start_seconds": 21.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "76-glass-player-items",
-      "start_seconds": 21.8,
-      "duration_seconds": 3
+      "start_seconds": 22.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "77-chroma-world",
-      "start_seconds": 22.8,
-      "duration_seconds": 3
+      "start_seconds": 23.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "78-scene-studio-controls",
-      "start_seconds": 23.8,
-      "duration_seconds": 3
+      "start_seconds": 24.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "79-blackhole-sky",
-      "start_seconds": 24.8,
-      "duration_seconds": 3
+      "start_seconds": 25.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "80-cosmic-sky",
-      "start_seconds": 25.8,
-      "duration_seconds": 3
+      "start_seconds": 26.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "81-aurora-living-sky",
-      "start_seconds": 27.8,
-      "duration_seconds": 3
+      "start_seconds": 29.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "82-snow-clouds-sky",
-      "start_seconds": 28.8,
-      "duration_seconds": 3
+      "start_seconds": 30.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "83-fire-sky",
-      "start_seconds": 29.8,
-      "duration_seconds": 3
+      "start_seconds": 31.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "84-sunset-sky",
-      "start_seconds": 31.8,
-      "duration_seconds": 3
+      "start_seconds": 32.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "85-ocean-sky",
-      "start_seconds": 32.8,
-      "duration_seconds": 3
+      "start_seconds": 33.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "86-storm-sky",
-      "start_seconds": 33.8,
-      "duration_seconds": 3
+      "start_seconds": 34.8,
+      "duration_seconds": 2.5
     },
     {
       "phase": "scene",
       "marker": "88-chroma-moving-path",
-      "start_seconds": 35.8,
-      "duration_seconds": 3
+      "start_seconds": 37.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "91-interactive-main-menu",
+      "start_seconds": 6.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "92-menu-scene-controls",
+      "start_seconds": 9.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "94-multiplayer-menu-blur",
+      "start_seconds": 11.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "125-gallery-scene-effects",
+      "start_seconds": 14.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "96-module-gallery-player",
+      "start_seconds": 15.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "97-module-gallery-hud",
+      "start_seconds": 16.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "99-profile-load-preview",
+      "start_seconds": 19.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "100-profile-in-use",
+      "start_seconds": 20.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "102-target-esp-ring",
+      "start_seconds": 28.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "104-mist-world",
+      "start_seconds": 32.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "105-bokeh-depth-focus",
+      "start_seconds": 33.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "106-radiance-world-hand",
+      "start_seconds": 34.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "107-hand-motion-zoom",
+      "start_seconds": 34.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "108-afterglow-real-death",
+      "start_seconds": 36.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "109-living-sky-galaxy",
+      "start_seconds": 37.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "110-living-sky-aether",
+      "start_seconds": 38.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "111-living-sky-nocturne",
+      "start_seconds": 40.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "112-living-sky-amethyst",
+      "start_seconds": 41.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "113-living-sky-opaline",
+      "start_seconds": 42.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "114-living-sky-rain",
+      "start_seconds": 43.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "115-living-sky-snow",
+      "start_seconds": 44.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "116-living-sky-fire",
+      "start_seconds": 45.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "119-living-sky-controls",
+      "start_seconds": 48.8,
+      "duration_seconds": 2.5
+    },
+    {
+      "phase": "studio",
+      "marker": "123-orbit-navigation",
+      "start_seconds": 53.8,
+      "duration_seconds": 2.5
     }
   ],
   "mp4": {
@@ -328,17 +481,17 @@
         "width": 1280,
         "height": 720,
         "r_frame_rate": "20/1",
-        "nb_frames": "4555"
+        "nb_frames": "5736"
       },
       {
         "codec_name": "bin_data",
         "r_frame_rate": "0/0",
-        "nb_frames": "5"
+        "nb_frames": "6"
       }
     ],
     "format": {
-      "duration": "227.750000",
-      "size": "17849244"
+      "duration": "286.850000",
+      "size": "20861008"
     }
   },
   "gif": {
@@ -350,12 +503,12 @@
         "width": 480,
         "height": 270,
         "r_frame_rate": "5/1",
-        "nb_frames": "674"
+        "nb_frames": "897"
       }
     ],
     "format": {
-      "duration": "134.800000",
-      "size": "8798332"
+      "duration": "179.400000",
+      "size": "9614231"
     }
   }
 }
