@@ -47,10 +47,20 @@ public final class Ui extends Gui {
     public static void centered(String value,float x,float y,int color) { text(value,x-font().getStringWidth(value)/2f,y,color); }
     public static void notify(String message) { dev.alien.client.gui.ui.Notifications.push(message); }
     public static void notifications(int width,int height) { dev.alien.client.gui.ui.Notifications.render(width,height); }
+    /** Reconcile raw immediate-mode drawing with Minecraft's state cache before its FBO blit. */
+    public static void finishFrame(){
+        org.lwjgl.opengl.GL13.glActiveTexture(org.lwjgl.opengl.GL13.GL_TEXTURE0);
+        net.minecraft.client.renderer.GlStateManager.setActiveTexture(net.minecraft.client.renderer.OpenGlHelper.defaultTexUnit);
+        net.minecraft.client.renderer.GlStateManager.disableTexture2D();net.minecraft.client.renderer.GlStateManager.enableTexture2D();
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D,0);net.minecraft.client.renderer.GlStateManager.bindTexture(0);
+        net.minecraft.client.renderer.GlStateManager.resetColor();net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
+    }
     public static void background(int width,int height) {
         Minecraft mc=Minecraft.getMinecraft();
+        boolean menu=mc.theWorld==null&&dev.alien.client.studio.MenuScene.render(width,height);
+        if(menu&&theme().blur>0)dev.alien.client.gui.ui.BackdropBlur.renderMenu(theme().blur);
         if(mc.theWorld!=null && theme().blur>0) dev.alien.client.gui.ui.BackdropBlur.render(theme().blur);
-        float opacity=mc.theWorld==null?1f:.32f+.32f*theme().opacity;
+        float opacity=mc.theWorld==null?(menu?.52f:1f):.32f+.32f*theme().opacity;
         gradient(0,0,width,height,0,alpha(theme().surface,opacity),alpha(mix(theme().surface,theme().primary,.09f),Math.min(1,opacity+.1f)));
     }
     public static void panel(int x,int y,int w,int h,int color) { rounded(x,y,w,h,Math.min(theme().radius,Math.min(w,h)/2f),color); }

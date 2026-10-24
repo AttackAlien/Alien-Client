@@ -1,24 +1,61 @@
-# Capturas atuais — Alien Scene Studio 0.5.0-alpha.1
+# Capturas atuais — Alien Interactive Studio 0.6.0-alpha.2
 
-**117 PNGs originais**, executando **Minecraft Forge 1.8.9**, em **24/10/2026**, 16:53–16:57 UTC. Fonte `3a8ee39413c8309168a13ee3a6295e0b4b68e3b6`; Linux/Xvfb/Mesa, Java 8. São capturas reais do framebuffer, sem montagens ou IA.
+**154 PNGs originais**, executando **Minecraft Forge 1.8.9**, em **24/10/2026, 21:59–22:05 UTC**. Fonte `32829c561b8dc53719a71b7a6621c58cb5a2e8f5`; Java 8u472, Linux/Xvfb/Mesa. 153 capturas reais do framebuffer e uma captura direta da janela X11, sem retoque, montagem ou geração por IA.
 
-Foram identificados e implementados os **nove recursos do vídeo indicado**, em variantes originais Alien. A versão do jogo foi mantida; 0.5.0-alpha.1 é a versão do client. [Recursos e limites](../docs/VISUAL-SCENES.md) · [Resultados/comandos](../docs/VISUAL-SCENES-VALIDATION.md) · [PR #17](https://github.com/AttackAlien/Alien-Client/pull/17).
+O segundo vídeo trouxe menu 3D, controles de cena, Orbit, galeria, perfis, oito estilos de céu nomeados e novos efeitos. Foram integrados às funções anteriores, mantendo Minecraft 1.8.9. [Recursos e limites](../docs/INTERACTIVE-STUDIO.md) · [Resultados e comandos](../docs/INTERACTIVE-STUDIO-VALIDATION.md) · [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge.
 
-As mídias anteriores foram substituídas. Cinco sessões desta revisão passaram **384 verificações gráficas**: 161 gerais, 37 céu, 24 combate, 92 HUD/Full/cosméticos e 70 Scene Studio. Os números incluem verificações de captura, não são um benchmark.
+**Todas as mídias da pasta atual foram substituídas por esta revisão.** Seis sessões passaram **526 verificações gráficas**: geral 161, céu 37, combate 24, HUD/Full/cosméticos 92, Scene Studio 70, Interactive Studio 142. Incluem checks de captura e estados; não são 526 golden images ou benchmark. JUnit: **175 por composição**, zero falhas.
 
-**[Vídeo completo — 3min48s / GIF — 2min15s](video-atual/README.md)** · [JAR/ZIP de teste](../downloads/v0.5.0-alpha.1/) · [Todos os PNGs](atual/unified/)
+**[Vídeo completo — 4min48s / GIF — 2min59s](video-atual/README.md)** · [JAR/ZIP atual](../downloads/v0.6.0-alpha.2/) · [Todos os PNGs](atual/unified/)
 
-| Recurso | Captura real |
+| Recurso novo | Captura real |
 | --- | --- |
-| Shockwave ao pousar | [Onda no terreno](atual/unified/72-shockwave-landing.png) |
-| Capa animada | [Capa em movimento](atual/unified/66-ribbon-trail-and-cape-moving.png) · [Tecido e emblema](atual/unified/64-cc0-fabric-cape-studio.png) |
-| Trail | [Fita luminosa](atual/unified/66-ribbon-trail-and-cape-moving.png) |
-| Cute World | [Olhos, bochechas e sorriso](atual/unified/73-cute-world.png) |
-| Cyberspace | [Grade de mundo e céu](atual/unified/74-cyberspace-world.png) |
-| X-Ray de ossos | [Esqueleto com poses reais](atual/unified/75-xray-skeleton.png) |
-| Glass | [Jogador, espada e item solto](atual/unified/76-glass-player-items.png) |
-| Chroma | [Mundo com cores locais](atual/unified/77-chroma-world.png) · [Caminho em movimento](atual/unified/88-chroma-moving-path.png) |
-| Oito céus animados | [BlackHole](atual/unified/79-blackhole-sky.png) · [Cosmic](atual/unified/80-cosmic-sky.png) · [Aurora](atual/unified/81-aurora-living-sky.png) · [SnowClouds](atual/unified/82-snow-clouds-sky.png) · [Fire](atual/unified/83-fire-sky.png) · [Sunset](atual/unified/84-sunset-sky.png) · [Ocean](atual/unified/85-ocean-sky.png) · [Storm](atual/unified/86-storm-sky.png) |
+| Janela real X11 | [Abrir PNG original](atual/unified/127-main-menu-actual-x11-window.png) |
+| Menu 3D interativo | [Abrir PNG original](atual/unified/91-interactive-main-menu.png) |
+| Cenário / hora / clima / câmera | [Abrir PNG original](atual/unified/92-menu-scene-controls.png) |
+| Alpine à noite | [Abrir PNG original](atual/unified/93-alpine-menu-night.png) |
+| Multiplayer com blur real | [Abrir PNG original](atual/unified/94-multiplayer-menu-blur.png) |
+| Galeria de módulos e novos efeitos | [Abrir PNG original](atual/unified/125-gallery-scene-effects.png) |
+| Módulos do jogador | [Abrir PNG original](atual/unified/96-module-gallery-player.png) |
+| Widgets existentes na galeria | [Abrir PNG original](atual/unified/97-module-gallery-hud.png) |
+| Biblioteca de perfis | [Abrir PNG original](atual/unified/98-profile-library.png) |
+| Prévia das mudanças ao carregar | [Abrir PNG original](atual/unified/99-profile-load-preview.png) |
+| Perfil carregado / foto real | [Abrir PNG original](atual/unified/100-profile-in-use.png) |
+| Name Tags reais | [Abrir PNG original](atual/unified/101-live-name-tags.png) |
+| Target ESP | [Abrir PNG original](atual/unified/102-target-esp-ring.png) |
+| Parede bloqueia tags/Target ESP | [Abrir PNG original](atual/unified/126-occluded-target-hidden.png) |
+| Mist | [Abrir PNG original](atual/unified/104-mist-world.png) |
+| Bokeh | [Abrir PNG original](atual/unified/105-bokeh-depth-focus.png) |
+| Radiance | [Abrir PNG original](atual/unified/106-radiance-world-hand.png) |
+| Hand Movement / Zoom | [Abrir PNG original](atual/unified/107-hand-motion-zoom.png) |
+| Afterglow em morte real | [Abrir PNG original](atual/unified/108-afterglow-real-death.png) |
+| Galeria dos oito estilos de céu | [Abrir PNG original](atual/unified/119-living-sky-controls.png) |
+| Configurações do jogador / profundidade | [Abrir PNG original](atual/unified/120-player-depth-settings.png) |
+| Orbit | [Abrir PNG original](atual/unified/123-orbit-navigation.png) |
+
+## Menu interativo
+
+![Janela real do Minecraft — captura X11](atual/unified/127-main-menu-actual-x11-window.png)
+
+## Novos módulos
+
+![Módulos reais](atual/unified/125-gallery-scene-effects.png)
+
+## Perfis e comparação antes de carregar
+
+![Perfil real](atual/unified/99-profile-load-preview.png)
+
+## Céus do vídeo e controles reais
+
+![Céus reais](atual/unified/119-living-sky-controls.png)
+
+[Galaxy](atual/unified/109-living-sky-galaxy.png) · [Aether](atual/unified/110-living-sky-aether.png) · [Nocturne](atual/unified/111-living-sky-nocturne.png) · [Amethyst](atual/unified/112-living-sky-amethyst.png) · [Opaline](atual/unified/113-living-sky-opaline.png) · [Rain](atual/unified/114-living-sky-rain.png) · [Snow](atual/unified/115-living-sky-snow.png) · [Fire](atual/unified/116-living-sky-fire.png).
+
+## Afterglow
+
+![Morte real no servidor integrado](atual/unified/108-afterglow-real-death.png)
+
+## Recursos anteriores preservados — capturas também atualizadas
 
 ## Scene Studio
 

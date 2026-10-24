@@ -28,8 +28,9 @@ public final class SceneManager {
     }
     @SubscribeEvent public void frame(TickEvent.RenderTickEvent e){if(e.phase==TickEvent.Phase.START){rendered=0;ScenePlayerLayer.beginFrame();}}
     @SubscribeEvent(priority=EventPriority.LOWEST) public void world(RenderWorldLastEvent e){SceneConfig c=c();if(!c.enabled||Minecraft.getMinecraft().theWorld==null)return;
-        if(c.skyIndex()>0||c.modeIndex()==1||c.modeIndex()==4||(c.shockwave&&waves.size()>0))SceneShaders.render(c,waves,path,clock+e.partialTicks*.05,e.partialTicks);
+        if(c.skyIndex()>0||c.modeIndex()==1||c.modeIndex()==4||c.mist||c.bokeh||(c.shockwave&&waves.size()>0))SceneShaders.render(c,waves,path,clock+e.partialTicks*.05,e.partialTicks);
     }
+    @SubscribeEvent(priority=EventPriority.HIGHEST) public void afterHand(RenderGameOverlayEvent.Pre e){if(e.type==RenderGameOverlayEvent.ElementType.ALL&&c().enabled&&c().radiance&&Minecraft.getMinecraft().theWorld!=null)SceneShaders.render(c(),waves,path,clock+e.partialTicks*.05,e.partialTicks,true);}
     @SubscribeEvent(priority=EventPriority.LOW) public void player(RenderPlayerEvent.Pre e){
         if(replacing||!c().enabled||!(e.entityPlayer instanceof AbstractClientPlayer)||!("Glass".equals(c().mode)||"Skeleton".equals(c().mode)))return;
         Minecraft m=Minecraft.getMinecraft();if(e.entityPlayer.isSpectator()||e.entityPlayer.isInvisibleToPlayer(m.thePlayer)||e.entityPlayer.getDistanceSqToEntity(m.thePlayer)>c().distance*c().distance||rendered++>=Math.min(16,AlienClient.get().performance().cosmeticBudget()))return;

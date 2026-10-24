@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.5.0-alpha.1'
+version = '0.6.0-alpha.2'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -272,3 +272,27 @@ task verifyEditionArtifact(type: Exec, dependsOn: 'reobfJar') {
 }
 
 check.dependsOn verifyEditionArtifact
+
+sourceSets {
+    studioSmoke {
+        java.setSrcDirs(['src/studioSmoke/java'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+task runStudioSmokeClient(type: JavaExec, dependsOn: ['classes','studioSmokeClasses','makeStart']) { group = 'verification' }
+afterEvaluate {
+    runStudioSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter { it.canonicalFile != jar.archivePath.canonicalFile } + sourceSets.studioSmoke.output
+        workingDir = file("${buildDir}/studio-smoke-runtime")
+        def gameArgs = new ArrayList(runClient.args)
+        def idx = gameArgs.indexOf('--gameDir')
+        if (idx >= 0 && idx + 1 < gameArgs.size()) gameArgs[idx+1] = workingDir.absolutePath
+        args = gameArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.studio.smoke','true'
+        systemProperty 'alien.studio.smoke.output',file("${buildDir}/studio-smoke").absolutePath
+        doFirst { workingDir.mkdirs() }
+    }
+}

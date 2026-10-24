@@ -42,6 +42,7 @@ public class AlienMenuScreen extends dev.alien.client.gui.PremiumScreen {
 
     /** Keep the classic studio available while allowing the in-world panel layout. */
     public static AlienMenuScreen create(GuiScreen parent) {
+        if("Gallery".equals(AlienClient.get().config().menuLayout))return new dev.alien.client.studio.ModuleGalleryScreen(parent);
         return "Panels".equals(AlienClient.get().config().menuLayout)
                 ? new PanelMenuScreen(parent) : new AlienMenuScreen(parent);
     }

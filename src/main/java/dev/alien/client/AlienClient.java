@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
         clientSideOnly = true, acceptedMinecraftVersions = "[1.8.9]", acceptableRemoteVersions = "*")
 public final class AlienClient {
     public static final String MOD_ID = "alienclient";
-    public static final String VERSION = "0.5.0-alpha.1";
+    public static final String VERSION = "0.6.0-alpha.2";
     public static final Logger LOG = LogManager.getLogger("AlienClient");
     @Mod.Instance(MOD_ID) private static AlienClient instance;
     private final CombatSessionGuard combatSession = new CombatSessionGuard();
@@ -79,7 +79,7 @@ public final class AlienClient {
         if ("unified".equals(BuildEdition.ID)) {register(new CombatManager());register(new dev.alien.client.combat.FullToolsManager());}
         CosmeticManager cosmetics = new CosmeticManager();
         cosmetics.install(); register(cosmetics);
-        dev.alien.client.scene.SceneManager scenes=new dev.alien.client.scene.SceneManager();scenes.install(cosmetics);register(scenes);
+        dev.alien.client.scene.SceneManager scenes=new dev.alien.client.scene.SceneManager();scenes.install(cosmetics);register(scenes);register(new dev.alien.client.studio.StudioVisuals());
         LOG.info("{} {} initialized: {} registered modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);
     }
 

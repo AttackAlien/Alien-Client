@@ -11,12 +11,12 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
   <img alt="Minecraft 1.8.9" src="https://img.shields.io/badge/Minecraft-1.8.9-8264ED?style=for-the-badge&labelColor=111827">
   <img alt="Forge 11.15.1.2318" src="https://img.shields.io/badge/Forge-11.15.1.2318-443A74?style=for-the-badge&labelColor=111827">
   <img alt="Java 8" src="https://img.shields.io/badge/Java-8-6366F1?style=for-the-badge&labelColor=111827">
-  <img alt="Alpha 0.4" src="https://img.shields.io/badge/Unified-0.4_ALPHA-A78BFA?style=for-the-badge&labelColor=111827">
+  <img alt="Alpha 0.6" src="https://img.shields.io/badge/Unified-0.6_ALPHA-A78BFA?style=for-the-badge&labelColor=111827">
 </p>
 
 <p>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=main"></a>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=main"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=feature%2Finteractive-studio-20261024"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=feature%2Finteractive-studio-20261024"></a>
 </p>
 
 <a href="#-comece-a-jogar"><strong>COMECE A JOGAR</strong></a>
@@ -29,8 +29,8 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 <br><br>
 
-<a href="captures/atual/unified/09c-alien-menu-inside-world.png">
-  <img alt="Alien Client — ClickGUI aberto dentro do Minecraft" width="900" src="captures/atual/unified/09c-alien-menu-inside-world.png">
+<a href="captures/atual/unified/91-interactive-main-menu.png">
+  <img alt="Alien Client — menu 3D interativo no Forge" width="900" src="captures/atual/unified/91-interactive-main-menu.png">
 </a>
 
 <sub>Imagem real capturada no Minecraft 1.8.9 com Forge e Java 8. Mais capturas na <a href="captures/README.md">galeria de validação</a>.</sub>
@@ -43,7 +43,7 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
-Nesta branch, a **0.5.0-alpha.1** acrescenta os nove efeitos visuais identificados no vídeo: Shockwave, capa animada, Trail, Cute World, Cyberspace, esqueleto X-Ray, Glass, Chroma e oito céus animados. **Minecraft continua 1.8.9**; HUD/Full e cosméticos dos PRs #15/#16 foram preservados. [PR #17](https://github.com/AttackAlien/Alien-Client/pull/17), sem merge. [Recursos/limites](docs/VISUAL-SCENES.md) · [Validação](docs/VISUAL-SCENES-VALIDATION.md) · [Build de teste](downloads/v0.5.0-alpha.1/).
+Nesta branch, a **0.6.0-alpha.2** acrescenta menu 3D interativo, Orbit/galeria de módulos, biblioteca local de perfis, oito estilos de céu nomeados e Mist, Afterglow, Radiance, Target ESP, Bokeh, Hand Movement, Name Tags e Zoom. Preserva HUD/Full, cosméticos, trilhas e Scene Studio dos PRs #15/#16/#17. **Minecraft continua 1.8.9**. [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge. [Recursos/limites](docs/INTERACTIVE-STUDIO.md) · [Validação](docs/INTERACTIVE-STUDIO-VALIDATION.md) · [Build de teste](downloads/v0.6.0-alpha.2/).
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -64,9 +64,13 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
-[Assistir ao vídeo real completo (3min48s) ou ao GIF de prévia (2min15s)](captures/video-atual/README.md).
+[Assistir ao vídeo real completo (4min48s) ou ao GIF de prévia (2min59s)](captures/video-atual/README.md).
 
 <table>
+  <tr>
+    <td width="50%" align="center"><a href="captures/atual/unified/125-gallery-scene-effects.png"><img alt="Galeria de módulos reais" src="captures/atual/unified/125-gallery-scene-effects.png"></a><br><b>Galeria de módulos</b></td>
+    <td width="50%" align="center"><a href="captures/atual/unified/119-living-sky-controls.png"><img alt="Céus e controles reais" src="captures/atual/unified/119-living-sky-controls.png"></a><br><b>Estilos de céu e prévias reais</b></td>
+  </tr>
   <tr>
     <td width="50%" align="center"><a href="captures/atual/unified/74-cyberspace-world.png"><img alt="Cyberspace em Minecraft Forge 1.8.9" src="captures/atual/unified/74-cyberspace-world.png"></a><br><b>Cyberspace</b><br><sub>Grade real em terreno, personagens e céu</sub></td>
     <td width="50%" align="center"><a href="captures/atual/unified/79-blackhole-sky.png"><img alt="Céu BlackHole animado no Forge" src="captures/atual/unified/79-blackhole-sky.png"></a><br><b>Oito céus animados</b><br><sub>Presets procedurais originais Alien</sub></td>
@@ -151,8 +155,8 @@ O launcher é experimental e o fluxo completo de login e inicialização ainda r
 ### Opção B — Minecraft Forge + Alien Client
 
 1. Instale o **Minecraft Java 1.8.9**, o **Forge 11.15.1.2318** e use **Java 8**.
-2. Abra [**Alien Client Unified CI**](https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml?query=branch%3Amain) e escolha uma execução **verde da `main`**.
-3. Baixe o artefato `alien-unified-<run_id>` e extraia `distribution/AlienClient-Unified-1.8.9.jar`.
+2. Baixe o [**candidato testado 0.6.0-alpha.2**](downloads/v0.6.0-alpha.2/README.md) desta branch / PR #18.
+3. Extraia `AlienClient-Unified-1.8.9.jar` do ZIP de instalação, ou baixe o JAR diretamente na mesma página.
 4. Copie o JAR para a pasta `mods` da instalação Forge 1.8.9. **Remova outros JARs do Alien Client** desse perfil.
 5. Entre em um mundo e aperte **Right Shift** para abrir a interface.
 
@@ -176,6 +180,7 @@ O projeto usa **Java 8**, **Minecraft Forge 1.8.9** e **ForgeGradle**. Para comp
 ```bash
 git clone https://github.com/AttackAlien/Alien-Client.git
 cd Alien-Client
+git switch feature/interactive-studio-20261024
 bash scripts/bootstrap.sh
 ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
 ```
@@ -189,7 +194,7 @@ Saída esperada: `build/unified/libs/AlienClient-Unified-1.8.9.jar`. A integraç
 | Qualidade e compatibilidade | [CI](docs/CI.md) · [Testes e benchmarks](docs/BENCHMARKS.md) · [Desenvolvimento](docs/DEVELOPMENT.md) |
 | Créditos e componentes externos | [Licenças de terceiros](docs/THIRD_PARTY.md) · [Revisão open source](docs/OPEN_SOURCE_REVIEW.md) |
 
-As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, prefira o **Unified da `main`**.
+As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, use o [**Unified 0.6.0-alpha.2 validado nesta branch**](downloads/v0.6.0-alpha.2/README.md).
 
 ---
 

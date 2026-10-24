@@ -1,0 +1,10 @@
+Source: 32829c561b8dc53719a71b7a6621c58cb5a2e8f5
+Actual nonfatal queued chunk packet exceptions after automated world unload:
+general: 72
+sky: 0
+combat: 0
+ultimate: 0
+scene: 77
+studio: 0
+Stack: NetHandlerPlayClient.handleChunkData:748 -> S21PacketChunkData.processPacket -> PacketThreadUtil$1.run.
+Inherited General/Scene fixtures unload worlds while native chunk tasks are queued; subsequent menu/OFF checks pass. This is a remaining fixture-teardown limitation; logs are not error-free. Studio sends disconnect before unloading.

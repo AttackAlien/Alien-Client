@@ -1,5 +1,5 @@
-# Validação do HUD Ultimate
+# Validação — HUD Ultimate / PR #15
 
-A validação atual está em [VISUAL-SCENES-VALIDATION.md](VISUAL-SCENES-VALIDATION.md), com as regressões de HUD/Full preservadas e a nova versão visual.
+A validação atual da **0.6.0-alpha.2**, incluindo todas as regressões, está em [INTERACTIVE-STUDIO-VALIDATION.md](INTERACTIVE-STUDIO-VALIDATION.md).
 
-[Relatório histórico 0.4.0-alpha.3 / PR #15](https://github.com/AttackAlien/Alien-Client/blob/e86870479bfe0af25e5ca32eb62a1848865af699/docs/HUD-ULTIMATE-VALIDATION.md).
+[Relatório histórico e mídia daquela revisão](https://github.com/AttackAlien/Alien-Client/blob/e86870479bfe0af25e5ca32eb62a1848865af699/docs/HUD-ULTIMATE-VALIDATION.md). As pastas de mídia atual contêm apenas capturas novas.

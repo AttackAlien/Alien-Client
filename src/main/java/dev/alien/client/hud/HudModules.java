@@ -30,6 +30,8 @@ public final class HudModules {
             if (config.effects.colorFilter) labels.add("Color grading");
             if (config.effects.cameraSway) labels.add("Camera sway");
         }
+        if(config.scenes.enabled){if(config.scenes.skyIndex()>0)labels.add("Living sky / "+config.scenes.sky);if(!"Natural".equals(config.scenes.mode))labels.add("Scene / "+config.scenes.mode);if(config.scenes.shockwave)labels.add("Shockwave");if(config.scenes.cute)labels.add("Cute World");if(config.scenes.mist)labels.add("Mist");if(config.scenes.afterglow)labels.add("Afterglow");if(config.scenes.radiance)labels.add("Radiance");if(config.scenes.targetEsp)labels.add("Target ESP");if(config.scenes.bokeh)labels.add("Bokeh");}
+        if(config.studio.handMovement)labels.add("Hand Movement");if(config.studio.nameTags)labels.add("Name Tags");if(config.studio.zoom)labels.add("Zoom / hold C");
         if (config.performance.diagnostics) labels.add("Performance metrics");
         if(config.combat.enabled){
             if(config.combat.aimAssist)labels.add("Aim assist");if(config.combat.clickAssist)labels.add("Click assist");

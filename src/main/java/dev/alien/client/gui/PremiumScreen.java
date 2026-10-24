@@ -24,7 +24,7 @@ public class PremiumScreen extends GuiScreen {
         try {
             GL11.glScalef(appliedScale,appliedScale,1);
             drawContents(Math.round(mouseX/appliedScale),Math.round(mouseY/appliedScale),partialTicks);
-        } finally {GL11.glPopMatrix();}
+        } finally {GL11.glPopMatrix();Ui.finishFrame();}
     }
     public void drawContents(int x,int y,float partialTicks) {super.drawScreen(x,y,partialTicks);}
     /** Includes both vanilla GUI scale and this screen's custom scale. */
