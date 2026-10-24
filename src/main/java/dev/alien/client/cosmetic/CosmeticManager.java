@@ -32,6 +32,8 @@ public final class CosmeticManager {
     public static int drawnRibbonSegments(){return RibbonTrails.drawnSegments();}
     @SubscribeEvent public void renderRibbons(RenderWorldLastEvent event){ribbons.render(event);}
 
+    public void attach(RenderPlayer renderer){renderer.addLayer(new AccessoryLayer(renderer));}
+
     public void install() {
         if (installed) return;
         Minecraft mc = Minecraft.getMinecraft();
@@ -199,7 +201,8 @@ public final class CosmeticManager {
                 GL11.glTexParameteri(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_MAG_FILTER,GL11.GL_LINEAR);
                 GL11.glBegin(GL11.GL_TRIANGLES);
                 for(int i=0;i<cloth.vertexCount();i++) {
-                    float shade=Math.min(1,cloth.shade(i)+.13f);
+                    float shine=a.capeShimmer&&animated?(float)Math.pow(Math.max(0,Math.sin(cloth.u(i)*5+cloth.v(i)*7-phase*.08)),12)*.23f:0;
+                    float shade=Math.min(1.18f,cloth.shade(i)+.13f+shine);
                     GL11.glColor4f(shade,shade,shade,1);
                     GL11.glNormal3f(cloth.nx(i),cloth.ny(i),cloth.nz(i));
                     GL11.glTexCoord2f(cloth.u(i),cloth.v(i));

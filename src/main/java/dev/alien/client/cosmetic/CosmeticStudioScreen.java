@@ -120,7 +120,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             buttonList.add(new StudioSlider(81, controlX, controlTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
             buttonList.add(new StudioSlider(82, controlX, controlTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
             buttonList.add(new StudioSlider(83, controlX, controlTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
-            row(84, 4, "Mesh / " + a.detailLevel); row(86, 5, "Emblem / " + title(a.capePattern));
+            row(84, 4, "Mesh / " + a.detailLevel); pairAt(86,"Emblem / "+title(a.capePattern),88,"Shine: "+on(a.capeShimmer),controlTop+rowStep*5,buttonHeight);
             pairAt(85,"Reset motion",87,"Trail settings",controlTop+rowStep*6,buttonHeight);
         } else {
             pairAt(110, "Ronin", 111, "Celestial", controlTop, buttonHeight);
@@ -188,6 +188,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             case 84: a.detailLevel = cycle(a.detailLevel, "Low", "Balanced", "High"); break;
             case 85: a.capeFlutter = a.capeLength = a.hatSize = 1; a.animations = true; a.detailLevel = "Balanced"; break;
             case 86: a.capePattern = cycle(a.capePattern, "ALIEN", "MOON", "STARS", "PLAIN"); break;
+            case 88: a.capeShimmer=!a.capeShimmer;break;
             case 87: mc.displayGuiScreen(new CosmeticTrailScreen(this,a)); return;
             case 90: shownYaw = viewYaw = -24; shownPitch = viewPitch = -7; shownZoom = zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
             case 91: turntable = !turntable; break;

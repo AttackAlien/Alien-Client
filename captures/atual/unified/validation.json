@@ -1,40 +1,41 @@
 {
-  "captured_utc": "2026-10-23T15:22:15.688607+00:00",
-  "code_revision": "67b4830e00b9620e15b8177a5421cda00491be63",
-  "version": "0.4.0-alpha.4",
+  "captured_utc": "2026-10-24T16:59:24.517956+00:00",
+  "code_revision": "3a8ee39413c8309168a13ee3a6295e0b4b68e3b6",
+  "version": "0.5.0-alpha.1",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xvfb / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "ultimate": "PASS 92 checks",
     "sky": "PASS 37 checks",
-    "combat": "PASS 24 checks"
+    "combat": "PASS 24 checks",
+    "scene": "PASS 70 checks"
   },
   "junit": {
     "unified": {
-      "tests": 160,
+      "tests": 165,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "legit": {
-      "tests": 160,
+      "tests": 165,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     },
     "full": {
-      "tests": 160,
+      "tests": 165,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "4efb1df3fc55886ee6f44b47747d0e93de130f2e1dd17459747a89128c34b2f5",
-    "junit_sha256": "7fe5a36bdb4ade415d1a33800825084b88a74272818b06da102cacfb7dc7ca6b",
-    "runtime_sha256": "ba43fd41e05ab1e1745c367c5dfec5d45782a1e2ecbb37c45e872f0e7ad9dabf",
-    "source_sha256": "2bed0948bdf88ef5178d28a96327a6d03705d71fb4ec654cf8f22af36f7b0e04",
-    "started_ns": 1792768778091386540
+    "jar_sha256": "28617f6d0bd352eec48c007031155abe0382d930cec5c9d278f894f39d2bfa38",
+    "junit_sha256": "08e0a1e189eb5cf191cd9063cd87547af9a61d03f8de8e5edcf88f1457866b32",
+    "runtime_sha256": "286a9112666763d806605430995bcd50b6e35736fbd7b0a1290948febfba6620",
+    "source_sha256": "956269574d6007baf381c607df3313a7a0005dcd4966ac1a11d7b867bfd5bd3a",
+    "started_ns": 1792860916470916324
   },
   "screenshots": {
     "01-title.png": "general",
@@ -133,7 +134,27 @@
     "sky/sky-vanilla-restored.png": "sky",
     "combat/combat-studio-off.png": "combat",
     "combat/combat-studio-tuning.png": "combat",
-    "combat/combat-target-tracking.png": "combat"
+    "combat/combat-target-tracking.png": "combat",
+    "71-scenes-baseline.png": "scene",
+    "72-shockwave-landing.png": "scene",
+    "73-cute-world.png": "scene",
+    "74-cyberspace-world.png": "scene",
+    "75-xray-skeleton.png": "scene",
+    "76-glass-player-items.png": "scene",
+    "77-chroma-world.png": "scene",
+    "78-scene-studio-controls.png": "scene",
+    "79-blackhole-sky.png": "scene",
+    "80-cosmic-sky.png": "scene",
+    "81-aurora-living-sky.png": "scene",
+    "82-snow-clouds-sky.png": "scene",
+    "83-fire-sky.png": "scene",
+    "84-sunset-sky.png": "scene",
+    "85-ocean-sky.png": "scene",
+    "86-storm-sky.png": "scene",
+    "87-scene-fx-off-restored.png": "scene",
+    "88-chroma-moving-path.png": "scene",
+    "89-scene-after-disconnect.png": "scene",
+    "90-cosmic-sky-animation.png": "scene"
   },
   "notes": [
     "PNG files are original Minecraft framebuffer captures without retouching or generated imagery.",
