@@ -1,6 +1,10 @@
-Actual recorded source: 8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57
-General: 81 nonfatal NullPointerException causes after dimensions unload, 2026-10-24 21:37:34 UTC.
-Scene: 75 nonfatal NullPointerException causes after dimensions unload, 2026-10-24 21:40:48 UTC.
-Both: NetHandlerPlayClient.handleChunkData:748 -> S21PacketChunkData.processPacket -> PacketThreadUtil$1.run.
-The inherited fixture unloads its world while chunk tasks are queued. Subsequent menu/OFF assertions finish PASS. This is a remaining test-teardown limitation, not a claim of error-free game logs.
-Studio: no such exception; fixture sends disconnect before unloading.
+Source: 32829c561b8dc53719a71b7a6621c58cb5a2e8f5
+Actual nonfatal queued chunk packet exceptions after automated world unload:
+general: 72
+sky: 0
+combat: 0
+ultimate: 0
+scene: 77
+studio: 0
+Stack: NetHandlerPlayClient.handleChunkData:748 -> S21PacketChunkData.processPacket -> PacketThreadUtil$1.run.
+Inherited General/Scene fixtures unload worlds while native chunk tasks are queued; subsequent menu/OFF checks pass. This is a remaining fixture-teardown limitation; logs are not error-free. Studio sends disconnect before unloading.

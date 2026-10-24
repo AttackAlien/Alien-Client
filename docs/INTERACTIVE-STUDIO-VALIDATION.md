@@ -1,6 +1,6 @@
-# Validação — Interactive Studio 0.6.0-alpha.1
+# Validação — Interactive Studio 0.6.0-alpha.2
 
-Fonte `8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57`, branch `feature/interactive-studio-20261024`, PR #18 empilhado sobre #17, preservando #15/#16/#17. **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**. Nenhum merge na main.
+Fonte `32829c561b8dc53719a71b7a6621c58cb5a2e8f5`, branch `feature/interactive-studio-20261024`, PR #18 empilhado sobre #17, preservando #15/#16/#17. **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**. Nenhum merge na main.
 
 | Validação final local | Resultado |
 | --- | --- |
@@ -12,15 +12,17 @@ Fonte `8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57`, branch `feature/interactive-st
 | Forge real — combate anterior | **PASS 24 checks** |
 | Forge real — HUD/Full/cosméticos | **PASS 92 checks** |
 | Forge real — Scene Studio | **PASS 70 checks** |
-| Forge real — Interactive Studio | **PASS 125 checks** |
+| Forge real — Interactive Studio | **PASS 142 checks** |
 | Empacotamento / rejeição de evidência inválida | **11 testes Python aprovados** |
 | JAR/ZIP experimental | **PASS** |
 
-São **525 execuções JUnit** (175 por composição) e **509 verificações gráficas** em seis sessões Unified. Checks incluem capturas, controles, pixels, persistência e entidades; não são 509 comparações golden image nem benchmark. Evidência final: **24/10/2026, 21:36–21:41 UTC**.
+São **525 execuções JUnit** (175 por composição) e **526 verificações gráficas** em seis sessões Unified. Checks incluem capturas, controles, pixels, persistência e entidades; não são 526 comparações golden image nem benchmark. Evidência final: **24/10/2026, 21:59–22:05 UTC**.
 
-[153 fotos originais](../captures/README.md) · [MP4 4min47s / GIF 2min59s](../captures/video-atual/README.md) · [Resultados/proveniência](../captures/atual/unified/validation.json) · [JAR/ZIP testado](../downloads/v0.6.0-alpha.1/).
+[154 fotos originais](../captures/README.md) · [MP4 4min48s / GIF 2min59s](../captures/video-atual/README.md) · [Resultados/proveniência](../captures/atual/unified/validation.json) · [JAR/ZIP testado](../downloads/v0.6.0-alpha.2/).
 
 ## Verificações novas
+
+- Apresentação real da janela verificada por captura AWT Robot/X11, comparada ao framebuffer em todas as telas do Studio. Diferenças entre frames consecutivos são toleradas; tela branca não passa. Foto 127 é a captura direta da janela.
 
 - Sete telas novas verificadas dentro do Forge em **427×240**, com controles dentro dos limites e sem sobreposição.
 - Menu renderiza geometria 3D/atlas vanilla sem abrir um mundo jogável. Controles reais selecionam cenário, hora, clima e câmera. Arrastar por **AWT Robot/X11** muda o ângulo real; scroll X11 navega os cards da galeria.
@@ -31,7 +33,6 @@ São **525 execuções JUnit** (175 por composição) e **509 verificações gr�
 - Name Tags mostram nome/vida reais; Target ESP usa a entidade viva real observada pelo Target HUD. **Uma parede colocada pelo servidor integrado bloqueia a linha de visão e ambos param de desenhar**, com captura e contadores verificados.
 - Hand Movement executa o render real do item com transformações; **tecla C enviada via X11** atinge o hook real de FOV. Não é só uma animação de botão.
 - Afterglow acompanha uma vaca realmente criada e morta no servidor integrado; a entidade chega ao client antes da morte. Verifica **uma única fonte**, emissão real/fade, deduplicação e limpeza em OFF/desconexão.
-- Nas comparações dos estilos/paletas, a fixture fixa `skySpeed=0` para isolar pixels; o reset para 1 é verificado. A animação entre framebuffers é coberta pela suíte Scene anterior, não por uma comparação animada de cada um dos oito estilos novos.
 - Oito estilos nomeados têm amostras de framebuffer distintas; paleta Rose muda pixels reais. Seleção, reset e OFF usam os handlers reais do editor de céu. Prévia usa o mesmo shader procedural dos céus.
 - `GL_NO_ERROR` após as capturas; OFF interrompe trabalho dos shaders e limpa o histórico; horário do servidor permanece 6000, preparado pela fixture antes de ligar os efeitos.
 
@@ -41,20 +42,20 @@ Regressões anteriores de HUD, Full, capa/trilha/headwear, importação/cubemap,
 
 A primeira fixture assumia que `Minecraft.getIntegratedServer()` seria nulo no menu; o próprio Minecraft 1.8.9 pré-cria esse objeto no construtor. A verificação foi corrigida para ausência de mundo e de sessão singleplayer ativa, sem iniciar servidor para o cenário. Outra execução detectou colisão com perfis criados pela execução anterior; a fixture agora limpa apenas seus nomes conhecidos dentro do runtime descartável antes de começar. As falhas não foram publicadas como PASS.
 
-A inspeção também encontrou o fundo de terra do GuiSlot cobrindo o blur e um estado de textura quebrando fontes nativas. O render da lista passou a ser transparente/recortado, com reconciliação de estado OpenGL; verificações de pixels visíveis e de glifos foram acrescentadas, mantendo entradas/seleção/Refresh nativos. A revisão de escala automática encontrou sobreposição em controles novos de cenário/céu e navegação; a correção ganhou sete verificações de layout e foi regravada antes da publicação. A inspeção visual motivou textura/vegetação/água no cenário e prévias reais dos shaders. O hook inicial de mão foi corrigido para renderizar dentro das matrizes de primeira pessoa, pois transformações aplicadas antes eram apagadas pelo render nativo. Tags usam fonte vanilla com teste de profundidade e preservam tags nativas acima do orçamento. A validação final usa somente a revisão citada.
+A inspeção também encontrou o fundo de terra do GuiSlot cobrindo o blur e um estado de textura quebrando fontes nativas. O render da lista passou a ser transparente/recortado, com reconciliação de estado OpenGL; verificações de pixels visíveis e de glifos foram acrescentadas, mantendo entradas/seleção/Refresh nativos. A revisão de escala automática encontrou sobreposição em controles novos de cenário/céu e navegação; a correção ganhou sete verificações de layout e foi regravada antes da publicação. A inspeção visual motivou textura/vegetação/água no cenário e prévias reais dos shaders. O hook inicial de mão foi corrigido para renderizar dentro das matrizes de primeira pessoa, pois transformações aplicadas antes eram apagadas pelo render nativo. Tags usam fonte vanilla com teste de profundidade e preservam tags nativas acima do orçamento. A inspeção do vídeo também detectou um erro de estado de textura: alguns menus tinham PNG correto no framebuffer, mas janela branca. A alpha.2 reconcilia o cache OpenGL antes da apresentação; agora há comparação com a janela X11 em todas as telas capturadas pelo Studio e um PNG direto dessa janela. A validação final usa somente a revisão citada.
 
 Uma execução inicial do CI falhou antes de iniciar o Minecraft no passo Ultimate: `kill -0` recebia EPERM ao consultar o Xorg iniciado por sudo e encerrava a espera, apesar de o servidor gráfico estar ativo. A readiness agora usa `ps`, aguarda `xdpyinfo` e usa displays distintos por sessão. A falha está em [40134858611](https://github.com/AttackAlien/Alien-Client/actions/runs/40134858611); o client não foi alterado para contorná-la.
 
 ## Integridade
 
 ```text
-JAR SHA-256: e4570c83a3429e4ff562fb2129e2a35c9f1bff66d2e70f95e28e563f30e9d830
-Fontes/build SHA-256: cdf642e563b859586c51deda2e1ecf7ab2f554e2d02b4083cf51925e3d65e0ad
-Classes/recursos SHA-256: a18f865b7f4a4b36cc4253069a2b89436cf5dceaa1f6fea5963174aea4778c24
-JUnit SHA-256: 34939aef511c912ccb083e899713c1d24a42fbf6040d34ac8fea01976ce85bd0
+JAR SHA-256: 3f5a60e0e3d765ef2fd34b04c0b602a6c06f8fd7c422caa133746dd8b5e70550
+Fontes/build SHA-256: c04537c831e6f8444e901a9f66acf0713e20ca44f3da4f96e3349e391eb52b83
+Classes/recursos SHA-256: 5e054cf8531d6af528e268a704e3dc3f66d2cc38f67e2744d7378b05633e6b2e
+JUnit SHA-256: 64ec94fa3d1227cc3c7824910f5144d09acfe87df0542e8635c686e729b04cd5
 ```
 
-Janela de validação aberta após os builds e antes do Combat smoke; Ultimate, Scene e Interactive executados depois com os mesmos inputs. O pacote contém o JAR verificado, shaders e créditos anteriores, sem classes dos mods de teste. A revisão de CI `a83bbe9494ce256ab1957807dd706aa192cb1bc8` altera somente seis scripts de Xorg, sem mudar fontes/shaders/classes/JUnit do client `8bde0c5`. A janela e os hashes confirmam os mesmos inputs. O commit de mídia posterior só publica documentos, capturas e o binário validado.
+Janela de validação aberta após os builds e antes do Combat smoke; Ultimate, Scene e Interactive executados depois com os mesmos inputs. O pacote contém o JAR verificado, shaders e créditos anteriores, sem classes dos mods de teste. O snapshot final `32829c561b8dc53719a71b7a6621c58cb5a2e8f5` inclui a correção de apresentação da janela e os scripts Xorg já corrigidos. A janela e os hashes confirmam os mesmos inputs. O commit de mídia posterior só publica documentos, capturas e o binário validado.
 
 ## Comandos executados
 
@@ -75,12 +76,12 @@ python3 scripts/package-unified.py --begin-validation
 ./gradlew --no-daemon -I /tmp/alien-video-size-06.gradle -Pedition=unified runSceneSmokeClient
 ./gradlew --no-daemon -I /tmp/alien-video-size-06.gradle -Pedition=unified runStudioSmokeClient
 python3 -m unittest discover -s scripts/tests -p test_package_unified.py -v
-GITHUB_SHA=a83bbe9494ce256ab1957807dd706aa192cb1bc8 python3 scripts/package-unified.py
+GITHUB_SHA=32829c561b8dc53719a71b7a6621c58cb5a2e8f5 python3 scripts/package-unified.py
 ```
 
 O init script temporário apenas acrescenta largura/altura de lançamento. Para desenvolvimento interativo: `./gradlew --no-daemon -Pedition=unified runClient` com o mesmo Java/display. No CI, `scripts/ci-studio-smoke-xorg.sh` executa a nova suíte em Xorg/Mesa.
 
-[CI Unified / integridade Windows](https://github.com/AttackAlien/Alien-Client/actions/runs/40135317929) · [CI Forge Legit/Full](https://github.com/AttackAlien/Alien-Client/actions/runs/40135319617). Execuções da revisão de CI `a83bbe9494ce256ab1957807dd706aa192cb1bc8`, que contém exatamente o código de client `8bde0c5`. Estado e logs públicos nas execuções.
+[CI Unified / integridade Windows](https://github.com/AttackAlien/Alien-Client/actions/runs/40136496598) · [CI Forge Legit/Full](https://github.com/AttackAlien/Alien-Client/actions/runs/40136498074). Execuções do snapshot final `32829c561b8dc53719a71b7a6621c58cb5a2e8f5`. **Ambas concluídas com sucesso**: Unified Java 8, integridade ZIP/JAR Windows, Forge Legit e Forge Full. Estado e logs públicos nas execuções.
 
 ## Limites e itens ausentes
 
@@ -90,6 +91,6 @@ Cenário do menu é um diorama, não um save jogável. Radiance é composição 
 
 Não testados: GPU física, Windows gameplay, multiplayer externo, OptiFine, Iris/Sodium ou outros mods de render de mão/câmera. Windows CI verifica ZIP/JAR, não execução do jogo. Audio/OpenAL/Twitch e consultas de skin/autenticação podem emitir avisos no ambiente sem áudio/conta; os testes usam servidor integrado e a gravação é sem áudio. Nenhum login ou servidor externo é necessário para estes testes.
 
-## Erros de log observados nas fixtures herdadas
+## Limitação observada nos logs das fixtures
 
-Além dos avisos de áudio/skin, as sessões General e Scene registraram respectivamente **81 e 75 exceções não fatais** em `NetHandlerPlayClient.handleChunkData`, ao processar `S21PacketChunkData` já enfileirados **depois** do descarregamento das dimensões na saída automatizada. As verificações posteriores de menu/OFF/limpeza passaram; isso não significa logs sem erros. Esse comportamento de teardown das fixtures anteriores permanece como limitação observada. O novo Studio fecha a conexão antes de descarregar o mundo e não registrou esse erro. [Resumo extraído dos logs reais](../captures/atual/unified/known-log-errors.txt).
+Na saída automatizada, General e Scene registraram respectivamente **72 e 77 exceções não fatais** de `NetHandlerPlayClient.handleChunkData`, ao processar `S21PacketChunkData` já enfileirados depois de descarregar as dimensões. As verificações de menu/OFF/limpeza passaram; isso não equivale a logs sem erros. O Studio fecha a conexão antes de descarregar e não registrou esse erro. [Contagem extraída dos logs reais](../captures/atual/unified/known-log-errors.txt).

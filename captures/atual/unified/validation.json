@@ -1,8 +1,8 @@
 {
-  "published_utc": "2026-10-24T21:42:21.713568+00:00",
-  "code_revision": "8bde0c5d3a97ebc30b3ff0c5eeaee34535cfab57",
-  "validation_revision": "a83bbe9494ce256ab1957807dd706aa192cb1bc8",
-  "version": "0.6.0-alpha.1",
+  "published_utc": "2026-10-24T22:06:34.278550+00:00",
+  "code_revision": "32829c561b8dc53719a71b7a6621c58cb5a2e8f5",
+  "validation_revision": "32829c561b8dc53719a71b7a6621c58cb5a2e8f5",
+  "version": "0.6.0-alpha.2",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xvfb / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
@@ -10,7 +10,7 @@
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
     "scene": "PASS 70 checks",
-    "studio": "PASS 125 checks"
+    "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
@@ -33,11 +33,11 @@
     }
   },
   "inputs": {
-    "jar_sha256": "e4570c83a3429e4ff562fb2129e2a35c9f1bff66d2e70f95e28e563f30e9d830",
-    "junit_sha256": "34939aef511c912ccb083e899713c1d24a42fbf6040d34ac8fea01976ce85bd0",
-    "runtime_sha256": "a18f865b7f4a4b36cc4253069a2b89436cf5dceaa1f6fea5963174aea4778c24",
-    "source_sha256": "cdf642e563b859586c51deda2e1ecf7ab2f554e2d02b4083cf51925e3d65e0ad",
-    "started_ns": 1792877900071406045
+    "jar_sha256": "3f5a60e0e3d765ef2fd34b04c0b602a6c06f8fd7c422caa133746dd8b5e70550",
+    "junit_sha256": "64ec94fa3d1227cc3c7824910f5144d09acfe87df0542e8635c686e729b04cd5",
+    "runtime_sha256": "5e054cf8531d6af528e268a704e3dc3f66d2cc38f67e2744d7378b05633e6b2e",
+    "source_sha256": "c04537c831e6f8444e901a9f66acf0713e20ca44f3da4f96e3349e391eb52b83",
+    "started_ns": 1792879303587204330
   },
   "screenshots": {
     "01-title.png": "general",
@@ -184,6 +184,7 @@
     "124-gallery-from-orbit.png": "studio",
     "125-gallery-scene-effects.png": "studio",
     "126-occluded-target-hidden.png": "studio",
+    "127-main-menu-actual-x11-window.png": "studio",
     "91-interactive-main-menu.png": "studio",
     "92-menu-scene-controls.png": "studio",
     "93-alpine-menu-night.png": "studio",
@@ -195,15 +196,22 @@
     "99-profile-load-preview.png": "studio"
   },
   "notes": [
-    "PNG files are original Minecraft framebuffer captures without retouching or generated imagery.",
+    "153 PNG files are original Minecraft framebuffer captures; 127-main-menu-actual-x11-window.png is a direct X11 window capture. No retouching or generated imagery.",
     "Practice target is client-only; hunger, potion healing and bridge blocks are verified on the integrated server.",
     "Cape GIF is assembled only from the twelve original cape-motion framebuffer PNGs.",
     "Sky cubemap test uses a labeled procedural test atlas rendered by Minecraft, not a finished imported asset.",
-    "No physical GPU, Windows gameplay or external multiplayer test.",
-    "General and Scene inherited test fixtures log 81/75 nonfatal queued chunk packet exceptions after automated world unload; assertions pass, but logs are not error-free. See known-log-errors.txt."
+    "No physical GPU, Windows gameplay or external multiplayer test."
   ],
   "recorded_utc_window": {
-    "start": "2026-10-24T21:36:27+00:00",
-    "end": "2026-10-24T21:41:56.150000+00:00"
+    "start": "2026-10-24T21:59:50+00:00",
+    "end": "2026-10-24T22:05:20.150000+00:00"
+  },
+  "known_test_teardown_chunk_exceptions": {
+    "general": 72,
+    "sky": 0,
+    "combat": 0,
+    "ultimate": 0,
+    "scene": 77,
+    "studio": 0
   }
 }

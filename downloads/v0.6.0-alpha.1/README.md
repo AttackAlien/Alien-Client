@@ -1,4 +1,4 @@
-> **Candidato substituído.** Foi identificado um problema de apresentação da janela em menus. A correção e as novas capturas estão sendo validadas para a **0.6.0-alpha.2** no PR #18. Use o candidato indicado na conclusão do PR.
+> **Candidato substituído.** Foi identificado um problema de apresentação da janela em menus. Use a [**0.6.0-alpha.2 validada**](../v0.6.0-alpha.2/README.md), com correção da apresentação da janela e capturas regravadas.
 
 # Alien Interactive Studio 0.6.0-alpha.1 — candidato do PR #18
 
