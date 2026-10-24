@@ -43,7 +43,7 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
-Nesta branch, a **0.4.0-alpha.4** preserva HUD Ultimate/Full do PR #15 e acrescenta trilhas Ribbon, inércia e tecido CC0 na capa e headwear refinado. A atualização está no [PR #16](https://github.com/AttackAlien/Alien-Client/pull/16), sem merge na main. Veja as [fontes e implementação](docs/VISUAL-POLISH-REFERENCES.md), os [testes](docs/VISUAL-POLISH-VALIDATION.md) e as [capturas atuais](captures/README.md).
+Nesta branch, a **0.5.0-alpha.1** acrescenta os nove efeitos visuais identificados no vídeo: Shockwave, capa animada, Trail, Cute World, Cyberspace, esqueleto X-Ray, Glass, Chroma e oito céus animados. **Minecraft continua 1.8.9**; HUD/Full e cosméticos dos PRs #15/#16 foram preservados. [PR #17](https://github.com/AttackAlien/Alien-Client/pull/17), sem merge. [Recursos/limites](docs/VISUAL-SCENES.md) · [Validação](docs/VISUAL-SCENES-VALIDATION.md) · [Build de teste](downloads/v0.5.0-alpha.1/).
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -64,9 +64,13 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
-[Assistir ao vídeo real completo (3min09s) ou ao GIF de prévia (1min26s)](captures/video-atual/README.md).
+[Assistir ao vídeo real completo (3min48s) ou ao GIF de prévia (2min15s)](captures/video-atual/README.md).
 
 <table>
+  <tr>
+    <td width="50%" align="center"><a href="captures/atual/unified/74-cyberspace-world.png"><img alt="Cyberspace em Minecraft Forge 1.8.9" src="captures/atual/unified/74-cyberspace-world.png"></a><br><b>Cyberspace</b><br><sub>Grade real em terreno, personagens e céu</sub></td>
+    <td width="50%" align="center"><a href="captures/atual/unified/79-blackhole-sky.png"><img alt="Céu BlackHole animado no Forge" src="captures/atual/unified/79-blackhole-sky.png"></a><br><b>Oito céus animados</b><br><sub>Presets procedurais originais Alien</sub></td>
+  </tr>
   <tr>
     <td width="50%" align="center">
       <a href="captures/atual/unified/66-ribbon-trail-and-cape-moving.png"><img alt="Trilha Ribbon e capa em movimento no Minecraft" src="captures/atual/unified/66-ribbon-trail-and-cape-moving.png"></a><br>

@@ -1,12 +1,44 @@
-# Capturas atuais — Unified 0.4.0-alpha.4
+# Capturas atuais — Alien Scene Studio 0.5.0-alpha.1
 
-**97 PNGs originais**, capturados em **23/10/2026**, entre 15:17 e 15:21 UTC, executando Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8 / Linux, Mesa e Xvfb. Código: `67b4830e00b9620e15b8177a5421cda00491be63`; revisão gravada: `67b4830e00b9620e15b8177a5421cda00491be63`. Sem imagens por IA, montagens ou retoques.
+**117 PNGs originais**, executando **Minecraft Forge 1.8.9**, em **24/10/2026**, 16:53–16:57 UTC. Fonte `3a8ee39413c8309168a13ee3a6295e0b4b68e3b6`; Linux/Xvfb/Mesa, Java 8. São capturas reais do framebuffer, sem montagens ou IA.
 
-As fotos anteriores foram substituídas nesta galeria. Quatro sessões novas da mesma revisão: **161 verificações gerais, 92 HUD/Full/partículas/cosméticos, 37 céu e 24 combate**, todas aprovadas. Os números incluem verificações de captura do framebuffer. Não são um benchmark de FPS.
+Foram identificados e implementados os **nove recursos do vídeo indicado**, em variantes originais Alien. A versão do jogo foi mantida; 0.5.0-alpha.1 é a versão do client. [Recursos e limites](../docs/VISUAL-SCENES.md) · [Resultados/comandos](../docs/VISUAL-SCENES-VALIDATION.md) · [PR #17](https://github.com/AttackAlien/Alien-Client/pull/17).
 
-**[Vídeo completo — 3min09s e GIF — 1min26s](video-atual/README.md)**
+As mídias anteriores foram substituídas. Cinco sessões desta revisão passaram **384 verificações gráficas**: 161 gerais, 37 céu, 24 combate, 92 HUD/Full/cosméticos e 70 Scene Studio. Os números incluem verificações de captura, não são um benchmark.
 
-[Todos os PNGs](atual/unified/) · [Testes e comandos](../docs/VISUAL-POLISH-VALIDATION.md) · [PR #16](https://github.com/AttackAlien/Alien-Client/pull/16) · [JAR de teste](../downloads/v0.4.0-alpha.4/)
+**[Vídeo completo — 3min48s / GIF — 2min15s](video-atual/README.md)** · [JAR/ZIP de teste](../downloads/v0.5.0-alpha.1/) · [Todos os PNGs](atual/unified/)
+
+| Recurso | Captura real |
+| --- | --- |
+| Shockwave ao pousar | [Onda no terreno](atual/unified/72-shockwave-landing.png) |
+| Capa animada | [Capa em movimento](atual/unified/66-ribbon-trail-and-cape-moving.png) · [Tecido e emblema](atual/unified/64-cc0-fabric-cape-studio.png) |
+| Trail | [Fita luminosa](atual/unified/66-ribbon-trail-and-cape-moving.png) |
+| Cute World | [Olhos, bochechas e sorriso](atual/unified/73-cute-world.png) |
+| Cyberspace | [Grade de mundo e céu](atual/unified/74-cyberspace-world.png) |
+| X-Ray de ossos | [Esqueleto com poses reais](atual/unified/75-xray-skeleton.png) |
+| Glass | [Jogador, espada e item solto](atual/unified/76-glass-player-items.png) |
+| Chroma | [Mundo com cores locais](atual/unified/77-chroma-world.png) · [Caminho em movimento](atual/unified/88-chroma-moving-path.png) |
+| Oito céus animados | [BlackHole](atual/unified/79-blackhole-sky.png) · [Cosmic](atual/unified/80-cosmic-sky.png) · [Aurora](atual/unified/81-aurora-living-sky.png) · [SnowClouds](atual/unified/82-snow-clouds-sky.png) · [Fire](atual/unified/83-fire-sky.png) · [Sunset](atual/unified/84-sunset-sky.png) · [Ocean](atual/unified/85-ocean-sky.png) · [Storm](atual/unified/86-storm-sky.png) |
+
+## Scene Studio
+
+[Controles reais](atual/unified/78-scene-studio-controls.png) · [Animação do céu em outro frame](atual/unified/90-cosmic-sky-animation.png) · [OFF restaurado](atual/unified/87-scene-fx-off-restored.png).
+
+![Scene Studio](atual/unified/78-scene-studio-controls.png)
+
+## Cyberspace
+
+![Cyberspace real](atual/unified/74-cyberspace-world.png)
+
+## Shockwave e Glass
+
+![Shockwave real](atual/unified/72-shockwave-landing.png)
+
+![Glass real](atual/unified/76-glass-player-items.png)
+
+## Céu BlackHole
+
+![BlackHole real](atual/unified/79-blackhole-sky.png)
 
 ## Trilha Ribbon e capa em movimento
 
@@ -105,4 +137,6 @@ As fotos `sky/sky-cube-*` registram o jogo renderizando um atlas técnico de tes
 | Skybox Gallery | [Galeria](atual/unified/37-sky-gallery-minimal-white.png) |
 | Combate anterior | [Regressão de mira/clique](atual/unified/combat/) |
 
-[Resultado geral](atual/unified/result.txt) · [HUD/Full/partículas](atual/unified/result-ultimate.txt) · [Céu](atual/unified/result-sky.txt) · [Combate](atual/unified/result-combat.txt) · [Proveniência](atual/unified/validation.json) · [SHA-256](atual/unified/SHA256SUMS.txt)
+[Resultado geral](atual/unified/result.txt) · [HUD/Full/cosméticos](atual/unified/result-ultimate.txt) · [Céu](atual/unified/result-sky.txt) · [Combate](atual/unified/result-combat.txt) · [Proveniência](atual/unified/validation.json) · [SHA-256](atual/unified/SHA256SUMS.txt)
+
+[Scene Studio — 70 checks](atual/unified/result-scene.txt)

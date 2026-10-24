@@ -1,3 +1,9 @@
+# Candidato atual — 0.5.0-alpha.1
+
+[Baixar Unified com Scene Studio](v0.5.0-alpha.1/README.md). Minecraft Java continua 1.8.9; candidato do PR #17, sem merge/release estável.
+
+## Versões anteriores
+
 # Downloads
 
 **[Versão atual 0.4.0-alpha.1 — Legit e Full](v0.4.0-alpha.1/README.md)** · **[Imagens novas do redesign](../captures/README.md)**
