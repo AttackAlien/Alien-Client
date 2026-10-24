@@ -49,7 +49,7 @@ jobs:
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar
           sha256sum build/unified/libs/AlienClient-Unified-1.8.9.jar | tee build/unified/SHA256SUMS.txt
       - name: Validate graphical runner syntax
-        run: bash -n scripts/ci-smoke-xorg.sh scripts/ci-sky-smoke-xorg.sh scripts/ci-combat-smoke-xorg.sh
+        run: bash -n scripts/ci-smoke-xorg.sh scripts/ci-sky-smoke-xorg.sh scripts/ci-combat-smoke-xorg.sh scripts/ci-ultimate-smoke-xorg.sh scripts/ci-scene-smoke-xorg.sh
       - name: Validate redesigned studios in actual Unified Minecraft
         run: bash ./scripts/ci-smoke-xorg.sh
       - name: Validate cubemap and gallery in actual Unified Minecraft
@@ -60,6 +60,8 @@ jobs:
         run: bash ./scripts/ci-combat-smoke-xorg.sh
       - name: Validate HUD Ultimate and Full tools in real Forge
         run: bash ./scripts/ci-ultimate-smoke-xorg.sh
+      - name: Validate all nine visual scenes in actual Forge 1.8.9
+        run: bash ./scripts/ci-scene-smoke-xorg.sh
       - name: Summarize in-game checks
         if: success()
         run: |
@@ -87,6 +89,7 @@ jobs:
             build/unified/sky-smoke/
             build/unified/combat-smoke/
             build/unified/ultimate-smoke/
+            build/unified/scene-smoke/
             build/unified/validation-inputs.json
             build/unified/distribution/
 

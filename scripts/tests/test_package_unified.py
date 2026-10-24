@@ -40,7 +40,7 @@ class UnifiedPackagerRegressionTest(unittest.TestCase):
         shutil.copyfile(packager.CONTEXT, self.context)
         for directory in ("classes/main", "resources/main"):
             shutil.copytree(packager.BUILT / directory, built / directory)
-        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke"):
+        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke"):
             if (packager.ROOT / directory).is_dir():
                 shutil.copytree(packager.ROOT / directory, root / directory)
         for name in ("build.gradle", "scripts/verify-edition-artifact.py"):

@@ -78,6 +78,7 @@ public final class CosmeticConfig {
         public float capeLength = 1;
         public float capeFlutter = 1;
         public boolean animations = true;
+        public boolean capeShimmer = false;
         public String detailLevel = "Balanced";
         public String capePattern = "ALIEN";
         public int color = 0xB79AFF;
@@ -116,7 +117,7 @@ public final class CosmeticConfig {
             a.rotationX = rotationX; a.rotationY = rotationY; a.rotationZ = rotationZ;
             a.scale = scale; a.color = color; a.secondaryColor = secondaryColor;
             a.hatSize = hatSize; a.capeLength = capeLength; a.capeFlutter = capeFlutter;
-            a.animations = animations; a.detailLevel = detailLevel;
+            a.animations = animations; a.capeShimmer = capeShimmer; a.detailLevel = detailLevel;
             a.capePattern = capePattern;
             a.modelFile = modelFile; a.textureFile = textureFile;
             return a;

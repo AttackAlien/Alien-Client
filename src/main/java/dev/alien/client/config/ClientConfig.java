@@ -35,6 +35,7 @@ public final class ClientConfig {
     public EffectsConfig effects = new EffectsConfig();
     public PerformanceConfig performance = new PerformanceConfig();
     public CombatConfig combat = new CombatConfig();
+    public dev.alien.client.scene.SceneConfig scenes = new dev.alien.client.scene.SceneConfig();
 
     public void normalize() {
         if (version != 1) throw new IllegalArgumentException("Unsupported config version: " + version);
@@ -70,6 +71,8 @@ public final class ClientConfig {
         effects.normalize();
         performance.normalize();
         combat.normalize();
+        if(scenes==null)scenes=new dev.alien.client.scene.SceneConfig();
+        scenes.normalize();
     }
 
     public static float clamp(float value, float min, float max) {

@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.4.0-alpha.4'
+version = '0.5.0-alpha.1'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -184,6 +184,30 @@ afterEvaluate {
         systemProperty 'alien.ultimate.smoke', 'true'
         systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/ultimate-smoke").absolutePath
         systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+sourceSets {
+    sceneSmoke {
+        java.setSrcDirs(['src/sceneSmoke/java'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+task runSceneSmokeClient(type: JavaExec, dependsOn: ['classes','sceneSmokeClasses','makeStart']) { group = 'verification' }
+afterEvaluate {
+    runSceneSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter { it.canonicalFile != jar.archivePath.canonicalFile } + sourceSets.sceneSmoke.output
+        workingDir = file("${buildDir}/scene-smoke-runtime")
+        def gameArgs = new ArrayList(runClient.args)
+        def idx = gameArgs.indexOf('--gameDir')
+        if (idx >= 0 && idx + 1 < gameArgs.size()) gameArgs[idx+1] = workingDir.absolutePath
+        args = gameArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.scene.smoke','true'
+        systemProperty 'alien.scene.smoke.output',file("${buildDir}/scene-smoke").absolutePath
         doFirst { workingDir.mkdirs() }
     }
 }

@@ -21,6 +21,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
     @Override public void initGui() {
         fontRendererObj=Ui.font();
         Keyboard.enableRepeatEvents(true); buttonList.clear();
+        buttonList.add(new Ui.Button(11,width-108,7,98,21,"Scene Studio"));
         int w=Math.min(300,width-30), x=(width-w)/2, y=34;
         final EffectsConfig c=settings();
         buttonList.add(new Ui.Button(1,x,y,w,20,"Visual effects: "+on(c.enabled))); y+=22;
@@ -62,6 +63,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
             case 6:applyColor();break;
             case 7:AlienClient.get().config().effects=new EffectsConfig();break;
             case 8:applyColor();mc.displayGuiScreen(new VisualStyleScreen(this));return;
+            case 11:applyColor();mc.displayGuiScreen(new dev.alien.client.scene.SceneStudioScreen(this));return;
             case 10:applyColor();mc.displayGuiScreen(new ParticleStudioScreen(this));return;
             case 9:applyColor();mc.displayGuiScreen(new AtmospherePresetScreen(this));return;
             default:return;
@@ -76,7 +78,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
     }
 
     @Override public void drawContents(int mx,int my,float partialTicks){
-        Ui.background(width,height);Ui.card(Math.max(8,width/2-174),6,Math.min(348,width-16),height-12);drawCenteredString(fontRendererObj,"ALIEN / VISUAL EFFECTS",width/2,12,Ui.accent());
+        Ui.background(width,height);Ui.card(Math.max(8,width/2-174),6,Math.min(348,width-16),height-12);Ui.text("ALIEN / EFFECTS",14,13,Ui.accent());
         color.drawTextBox();super.drawContents(mx,my,partialTicks);
         if(height>270)drawCenteredString(fontRendererObj,message,width/2,height-24,0xB7ADC9);
     }
