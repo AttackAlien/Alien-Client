@@ -1,3 +1,5 @@
+> **Candidato substituído.** Foi identificado um problema de apresentação da janela em menus. A correção e as novas capturas estão sendo validadas para a **0.6.0-alpha.2** no PR #18. Use o candidato indicado na conclusão do PR.
+
 # Alien Interactive Studio 0.6.0-alpha.1 — candidato do PR #18
 
 **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**. A versão do jogo foi mantida.

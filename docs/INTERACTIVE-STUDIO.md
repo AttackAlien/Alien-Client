@@ -2,7 +2,7 @@
 
 O vídeo público [Dev log #1, @pickzugng / Purxiy](https://www.tiktok.com/@pickzugng/video/7696192905899216160), enviado em https://vt.tiktok.com/ZSg9fdwP1/, foi baixado temporariamente e analisado quadro a quadro em 24/10/2026. Duração real: **29,2 segundos**. O original não é distribuído no repositório.
 
-Esta revisão **0.6.0-alpha.1** acrescenta versões originais Alien dos controles e efeitos identificáveis. Continua em **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**; não exige migração. Branch `feature/interactive-studio-20261024`, empilhada sobre o PR #17 e preservando os PRs #15/#16/#17. Nenhum merge na main.
+Esta revisão **0.6.0-alpha.2** acrescenta versões originais Alien dos controles e efeitos identificáveis. Continua em **Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8**; não exige migração. Branch `feature/interactive-studio-20261024`, empilhada sobre o PR #17 e preservando os PRs #15/#16/#17. Nenhum merge na main.
 
 ## Correspondência com o vídeo
 
@@ -45,3 +45,7 @@ A geometria estática do cenário tem cache em display list e invalidação no r
 Não foram importados código, logo, áudio, vídeo, modelos ou texturas Purxiy. O atlas do menu vem da instalação do próprio Minecraft; nenhum asset Mojang foi extraído para redistribuição. O tecido CC0 e seu crédito anterior continuam no pacote. As implementações novas não dependem de serviços online.
 
 Veja [resultados e comandos](INTERACTIVE-STUDIO-VALIDATION.md), [capturas atuais](../captures/README.md) e [vídeo atual](../captures/video-atual/README.md) após a validação.
+
+## Apresentação da janela
+
+A alpha.2 reconcilia o estado de textura do Minecraft depois dos desenhos imediatos das telas, antes da apresentação do framebuffer. A inspeção do vídeo revelou telas brancas que os PNGs do framebuffer não detectavam na alpha.1. O smoke agora compara as telas com capturas reais da janela X11 e salva uma captura direta da janela, além dos PNGs do jogo. A alpha.1 é um candidato anterior, substituído pela alpha.2.

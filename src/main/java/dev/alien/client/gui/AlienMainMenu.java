@@ -27,7 +27,7 @@ public final class AlienMainMenu extends GuiMainMenu {
     @Override public void drawScreen(int x,int y,float partial){
         float desired=Math.min(Ui.theme().menuScale,Math.min(nativeWidth/320f,nativeHeight/240f));
         if(desired!=appliedScale&&!org.lwjgl.input.Mouse.isButtonDown(0))setWorldAndResolution(mc,nativeWidth,nativeHeight);
-        org.lwjgl.opengl.GL11.glPushMatrix();try{org.lwjgl.opengl.GL11.glScalef(appliedScale,appliedScale,1);drawContents(Math.round(x/appliedScale),Math.round(y/appliedScale),partial);}finally{org.lwjgl.opengl.GL11.glPopMatrix();}
+        org.lwjgl.opengl.GL11.glPushMatrix();try{org.lwjgl.opengl.GL11.glScalef(appliedScale,appliedScale,1);drawContents(Math.round(x/appliedScale),Math.round(y/appliedScale),partial);}finally{org.lwjgl.opengl.GL11.glPopMatrix();Ui.finishFrame();}
     }
     @Override public void initGui(){
         fontRendererObj=Ui.font();buttonList.clear();sceneMode=AlienClient.get().config().studio.menuScene;
@@ -93,7 +93,7 @@ public final class AlienMainMenu extends GuiMainMenu {
         float intro=Math.min(1,(System.nanoTime()-opened)/220000000f);
         if(AlienClient.get().config().animations&&!AlienClient.get().config().ui.reducedMotion&&intro<1)Ui.rounded(left,top,panelWidth,panelHeight,14,Ui.alpha(surface,(1-intro)*.65f));
     }
-    private void drawInteractive(int x,int y,float partial){dev.alien.client.studio.MenuScene.render(width,height);Ui.gradient(0,0,width,height,0,0x10210e35,0x6631204c);int center=width/2,logoY=Math.max(33,height/2-110);Ui.shadow(center-22,logoY,44,44,15,.4f);Ui.rounded(center-22,logoY,44,44,15,Ui.alpha(Ui.theme().surface,.82f));Ui.icon("alien",center-16,logoY+6,32,Ui.accent());GlStateManager.pushMatrix();try{GlStateManager.translate(center,logoY+52,0);GlStateManager.scale(2.1f,2.1f,1);drawCenteredString(fontRendererObj,"ALIEN",0,0,Ui.theme().text);}finally{GlStateManager.popMatrix();}drawCenteredString(fontRendererObj,"YOUR WORLD. REIMAGINED.",center,logoY+78,Ui.theme().text);for(GuiButton b:buttonList)b.drawButton(mc,x,y);Ui.text("Minecraft 1.8.9 / "+AlienClient.VERSION,12,height-15,0xffeee8ff);}
+    private void drawInteractive(int x,int y,float partial){dev.alien.client.studio.MenuScene.render(width,height);Ui.gradient(0,0,width,height,0,0x10210e35,0x6631204c);int center=width/2,logoY=Math.max(33,height/2-110);Ui.shadow(center-22,logoY,44,44,15,.4f);Ui.rounded(center-22,logoY,44,44,15,Ui.alpha(Ui.theme().surface,.82f));Ui.icon("alien",center-16,logoY+6,32,Ui.accent());GlStateManager.pushMatrix();try{GlStateManager.translate(center,logoY+52,0);GlStateManager.scale(2.1f,2.1f,1);drawCenteredString(fontRendererObj,"ALIEN",0,0,Ui.theme().text);}finally{GlStateManager.popMatrix();}drawCenteredString(fontRendererObj,"YOUR WORLD. REIMAGINED.",center,logoY+(height<300?73:78),Ui.theme().text);for(GuiButton b:buttonList)b.drawButton(mc,x,y);Ui.text("Minecraft 1.8.9 / "+AlienClient.VERSION,12,height-15,0xffeee8ff);}
     @Override protected void actionPerformed(GuiButton button)throws IOException{
         if(button.id==1)mc.displayGuiScreen(new GuiSelectWorld(this));
         if(button.id==2)mc.displayGuiScreen(new dev.alien.client.studio.StudioMultiplayerScreen(this));

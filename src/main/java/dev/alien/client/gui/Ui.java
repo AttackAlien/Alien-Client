@@ -47,6 +47,14 @@ public final class Ui extends Gui {
     public static void centered(String value,float x,float y,int color) { text(value,x-font().getStringWidth(value)/2f,y,color); }
     public static void notify(String message) { dev.alien.client.gui.ui.Notifications.push(message); }
     public static void notifications(int width,int height) { dev.alien.client.gui.ui.Notifications.render(width,height); }
+    /** Reconcile raw immediate-mode drawing with Minecraft's state cache before its FBO blit. */
+    public static void finishFrame(){
+        org.lwjgl.opengl.GL13.glActiveTexture(org.lwjgl.opengl.GL13.GL_TEXTURE0);
+        net.minecraft.client.renderer.GlStateManager.setActiveTexture(net.minecraft.client.renderer.OpenGlHelper.defaultTexUnit);
+        net.minecraft.client.renderer.GlStateManager.disableTexture2D();net.minecraft.client.renderer.GlStateManager.enableTexture2D();
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D,0);net.minecraft.client.renderer.GlStateManager.bindTexture(0);
+        net.minecraft.client.renderer.GlStateManager.resetColor();net.minecraft.client.renderer.GlStateManager.color(1,1,1,1);
+    }
     public static void background(int width,int height) {
         Minecraft mc=Minecraft.getMinecraft();
         boolean menu=mc.theWorld==null&&dev.alien.client.studio.MenuScene.render(width,height);
