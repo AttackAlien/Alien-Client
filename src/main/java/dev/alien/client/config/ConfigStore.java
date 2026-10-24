@@ -78,6 +78,16 @@ public final class ConfigStore {
         return true;
     }
 
+    public synchronized ClientConfig previewProfile(String name) throws IOException {requireName(name);return read(safeFile(new File(directory,"profiles"),name+".json"));}
+    public synchronized void duplicateProfile(String from,String to) throws IOException {requireName(from);requireName(to);File target=safeFile(new File(directory,"profiles"),to+".json");if(target.exists())throw new IOException("Profile already exists");write(target,gson.toJson(previewProfile(from)));}
+    public synchronized void renameProfile(String from,String to) throws IOException {
+        duplicateProfile(from,to);Map<String,String> before=new LinkedHashMap<>(serverProfiles);String active=activeServerProfile;
+        try{for(Map.Entry<String,String> e:serverProfiles.entrySet())if(from.equals(e.getValue()))e.setValue(to);if(from.equals(activeServerProfile))activeServerProfile=to;saveBindings();Files.delete(safeFile(new File(directory,"profiles"),from+".json").toPath());}
+        catch(IOException e){serverProfiles=before;activeServerProfile=active;saveBindings();Files.deleteIfExists(safeFile(new File(directory,"profiles"),to+".json").toPath());throw e;}
+    }
+    public synchronized String profileJson(String name) throws IOException {return gson.toJson(previewProfile(name));}
+    public synchronized void importProfileJson(String name,String text) throws IOException {requireName(name);File target=safeFile(new File(directory,"profiles"),name+".json");if(target.exists())throw new IOException("Profile already exists");validateText(text);ClientConfig checked=decode(text);write(target,gson.toJson(checked));}
+
     public synchronized void deleteProfile(String name) throws IOException {
         requireName(name);
         if (name.equals(activeServerProfile)) leaveServerProfile();
@@ -144,8 +154,11 @@ public final class ConfigStore {
     private static final class ServerBindings { Map<String, String> profiles = new LinkedHashMap<>(); }
 
     private ClientConfig read(File file) throws IOException {
+        return decode(readBounded(file));
+    }
+    private ClientConfig decode(String text) throws IOException {
         try {
-            com.google.gson.JsonElement document = new com.google.gson.JsonParser().parse(readBounded(file));
+            com.google.gson.JsonElement document = new com.google.gson.JsonParser().parse(text);
             ClientConfig config = gson.fromJson(document, ClientConfig.class);
             if (config == null) throw new IOException("Empty profile");
             config.normalize();
@@ -170,7 +183,11 @@ public final class ConfigStore {
                 if (out.size() + count > MAX_BYTES) throw new IOException("JSON limit is 256 KiB");
                 out.write(buffer, 0, count);
             }
-            String text = new String(out.toByteArray(), StandardCharsets.UTF_8);
+            String text = new String(out.toByteArray(), StandardCharsets.UTF_8);validateText(text);return text;
+        }
+    }
+    private static void validateText(String text)throws IOException {
+            if(text==null||text.getBytes(StandardCharsets.UTF_8).length>MAX_BYTES)throw new IOException("JSON limit is 256 KiB");
             int depth = 0; boolean quoted = false, escaped = false;
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
@@ -179,8 +196,6 @@ public final class ConfigStore {
                 else if (c == '{' || c == '[') { if (++depth > 32) throw new IOException("JSON nesting exceeds 32"); }
                 else if (c == '}' || c == ']') depth--;
             }
-            return text;
-        }
     }
 
     private static File safeFile(File folder, String filename) throws IOException {

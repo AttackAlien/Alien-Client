@@ -1,0 +1,9 @@
+package dev.alien.client.studio;
+import dev.alien.client.AlienClient;import dev.alien.client.gui.*;import dev.alien.client.scene.SceneConfig;import net.minecraft.client.gui.*;
+public final class StudioSettingsScreen extends PremiumScreen {
+ private final GuiScreen parent;public StudioSettingsScreen(GuiScreen p){parent=p;}private StudioConfig c(){return AlienClient.get().config().studio;}private SceneConfig s(){return AlienClient.get().config().scenes;}
+ @Override public void initGui(){fontRendererObj=Ui.font();buttonList.clear();int w=Math.min(460,width-28),x=(width-w)/2,half=(w-8)/2,step=Math.min(35,(height-67)/6);buttonList.add(new Ui.Slider(1,x,40,w,25,"Mist density",.05f,1,.05f,s().mistDensity,v->s().mistDensity=v));buttonList.add(new Ui.Slider(2,x,40+step,w,25,"Bokeh strength",0,1,.05f,s().bokehStrength,v->s().bokehStrength=v));buttonList.add(new Ui.Slider(3,x,40+step*2,w,25,"Zoom factor / hold C",1.5f,8,.1f,c().zoomFactor,v->c().zoomFactor=v));buttonList.add(new Ui.Slider(4,x,40+step*3,w,25,"Hand motion",0,1,.05f,c().handStrength,v->c().handStrength=v));buttonList.add(new Ui.Button(5,x,40+step*4,half,23,"Zoom / "+(c().zoom?"ON":"OFF")));buttonList.add(new Ui.Button(6,x+half+8,40+step*4,half,23,"Hand motion / "+(c().handMovement?"ON":"OFF")));buttonList.add(new Ui.Button(7,x,40+step*5,half,23,"Names / "+(c().nameTags?"ON":"OFF")));buttonList.add(new Ui.Button(0,x+half+8,40+step*5,half,23,"Done"));}
+ @Override protected void actionPerformed(GuiButton b){if(b.id==0){AlienClient.get().save();mc.displayGuiScreen(parent);return;}if(b.id==5)c().zoom=!c().zoom;if(b.id==6)c().handMovement=!c().handMovement;if(b.id==7)c().nameTags=!c().nameTags;AlienClient.get().save();initGui();}
+ @Override public void drawContents(int x,int y,float p){Ui.background(width,height);Ui.text("ALIEN / PLAYER & DEPTH FX",14,16,Ui.theme().text);super.drawContents(x,y,p);}
+ @Override public void onGuiClosed(){AlienClient.get().save();}
+}

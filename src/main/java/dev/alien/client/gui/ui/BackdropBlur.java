@@ -20,9 +20,11 @@ public final class BackdropBlur {
                 && net.minecraft.client.renderer.OpenGlHelper.isFramebufferEnabled();
     }
     public static long renderedFrames() { return frames; }
-    public static boolean render(float amount) {
+    public static boolean render(float amount) {return render(amount,false);}
+    public static boolean renderMenu(float amount){return render(amount,true);}
+    private static boolean render(float amount,boolean menu) {
         Minecraft mc=Minecraft.getMinecraft();
-        if (amount<=.005f || mc.theWorld==null || !supported()) return false;
+        if (amount<=.005f || (!menu && mc.theWorld==null) || !supported()) return false;
         int oldProgram=GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM);
         int oldActive=GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE);
         int previousTexture=GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);

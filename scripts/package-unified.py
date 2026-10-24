@@ -50,7 +50,7 @@ def validation_inputs():
     resources = [p for p in (BUILT / "resources/main").rglob("*") if p.is_file()]
     require(bool(classes) and bool(resources), "Compiled Unified runtime inputs are missing")
     source_paths = [ROOT / "build.gradle", ROOT / "scripts/verify-edition-artifact.py"]
-    for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke"):
+    for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke", "src/studioSmoke"):
         source_paths.extend(p for p in (ROOT / directory).rglob("*") if p.is_file())
     require(all(p.is_file() for p in source_paths), "Build provenance inputs are missing")
     return {

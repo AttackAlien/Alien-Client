@@ -49,8 +49,10 @@ public final class Ui extends Gui {
     public static void notifications(int width,int height) { dev.alien.client.gui.ui.Notifications.render(width,height); }
     public static void background(int width,int height) {
         Minecraft mc=Minecraft.getMinecraft();
+        boolean menu=mc.theWorld==null&&dev.alien.client.studio.MenuScene.render(width,height);
+        if(menu&&theme().blur>0)dev.alien.client.gui.ui.BackdropBlur.renderMenu(theme().blur);
         if(mc.theWorld!=null && theme().blur>0) dev.alien.client.gui.ui.BackdropBlur.render(theme().blur);
-        float opacity=mc.theWorld==null?1f:.32f+.32f*theme().opacity;
+        float opacity=mc.theWorld==null?(menu?.52f:1f):.32f+.32f*theme().opacity;
         gradient(0,0,width,height,0,alpha(theme().surface,opacity),alpha(mix(theme().surface,theme().primary,.09f),Math.min(1,opacity+.1f)));
     }
     public static void panel(int x,int y,int w,int h,int color) { rounded(x,y,w,h,Math.min(theme().radius,Math.min(w,h)/2f),color); }

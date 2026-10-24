@@ -14,7 +14,7 @@ public final class SceneStudioScreen extends PremiumScreen {
         buttonList.add(new Ui.Button(20,x+half+8,46+4*step,half,step-4,"Scene FX / "+mark(c.enabled)));
         buttonList.add(new Ui.Slider(30,x,height-62,half,23,"Strength",.1f,1,.05f,c.strength,v->c.strength=v));
         buttonList.add(new Ui.Slider(31,x+half+8,height-62,half,23,"Shockwave radius",1,12,.25f,c.radius,v->c.radius=v));
-        buttonList.add(new Ui.Button(21,x,height-28,half,21,"Choose accent"));buttonList.add(new Ui.Button(0,x+half+8,height-28,half,21,"Done"));
+        buttonList.add(new Ui.Button(22,width-113,6,99,21,"Sky styles"));buttonList.add(new Ui.Button(21,x,height-28,half,21,"Choose accent"));buttonList.add(new Ui.Button(0,x+half+8,height-28,half,21,"Done"));
     }
     @Override protected void actionPerformed(GuiButton b)throws IOException{SceneConfig c=c();CosmeticConfig.Accessory a=outfit();
         if(b.id==0){AlienClient.get().save();mc.displayGuiScreen(parent);return;}
@@ -26,6 +26,7 @@ public final class SceneStudioScreen extends PremiumScreen {
         if(b.id==9){c.sky=SceneConfig.SKIES[(c.skyIndex()+1)%SceneConfig.SKIES.length];c.enabled=true;}
         if(b.id==20)c.enabled=!c.enabled;
         if(b.id==21){mc.displayGuiScreen(new ColorPickerScreen(this,"Scene accent",0xff000000|c.color,false,v->c.color=v&0xffffff));return;}
+        if(b.id==22){mc.displayGuiScreen(new SceneSkyScreen(this));return;}
         AlienClient.get().save();initGui();
     }
     @Override public void drawContents(int x,int y,float partial){Ui.background(width,height);Ui.text("ALIEN / SCENE STUDIO",14,14,Ui.theme().text);Ui.text(Ui.font().trimStringToWidth(SceneShaders.status(),width-28),14,29,Ui.theme().muted);super.drawContents(x,y,partial);}

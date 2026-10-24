@@ -14,6 +14,7 @@ import dev.alien.client.gui.InterfacePreferences;
 
 /** Versioned, client-only preferences. No server state belongs here. */
 public final class ClientConfig {
+    public dev.alien.client.studio.StudioConfig studio = new dev.alien.client.studio.StudioConfig();
     public int version = 1;
     public boolean menuReplacement = true;
     public boolean animations = true;
@@ -52,7 +53,7 @@ public final class ClientConfig {
         moduleKeys = validKeys;
         accentColor |= 0xff000000;
         if (theme == null || theme.length() > 64) theme = "Nebula";
-        if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout)) menuLayout = "Panels";
+        if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout) && !"Gallery".equals(menuLayout)) menuLayout = "Panels";
         if (panels == null) panels = new PanelLayoutConfig();
         panels.normalize();
         if (ui == null) ui = new ThemeConfig();
@@ -73,6 +74,7 @@ public final class ClientConfig {
         combat.normalize();
         if(scenes==null)scenes=new dev.alien.client.scene.SceneConfig();
         scenes.normalize();
+        if(studio==null)studio=new dev.alien.client.studio.StudioConfig();studio.normalize();
     }
 
     public static float clamp(float value, float min, float max) {
