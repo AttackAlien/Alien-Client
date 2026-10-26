@@ -1,0 +1,8 @@
+{
+  "officialLoggingConfigurationSha1": "50c9cc4af6d853d9fc137c84bcd153e2bd3a9a82",
+  "placeholderRegexDenyFilterPresent": true,
+  "launchArgumentPresent": true,
+  "processStarted": false,
+  "securityExploitAttempted": false,
+  "note": "Sanity check of the observed logging path, not a general Log4j vulnerability certification."
+}

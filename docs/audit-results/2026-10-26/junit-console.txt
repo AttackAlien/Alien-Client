@@ -1,0 +1,384 @@
+To honour the JVM settings for this build a new JVM will be forked. Please consider using the daemon: https://docs.gradle.org/2.14.1/userguide/gradle_daemon.html.
+WARNING: You are using an unsupported version of ForgeGradle.
+Please consider upgrading to ForgeGradle 5 and helping in the efforts to get old versions working on the modern toolchain.
+See https://gist.github.com/TheCurle/fe7ad3ede188cbdd15c235cc75d52d4a for more info on contributing.
+#################################################
+         ForgeGradle 2.1.3-g6a7c715
+  https://github.com/MinecraftForge/ForgeGradle
+#################################################
+               Powered by MCP unknown
+             http://modcoderpack.com
+         by: Searge, ProfMobius, Fesh0r,
+         R4wk, ZeuX, IngisKahn, bspkrs
+#################################################
+:deobfCompileDummyTask
+:deobfProvidedDummyTask
+:sourceApiJava UP-TO-DATE
+:compileApiJava UP-TO-DATE
+:processApiResources UP-TO-DATE
+:apiClasses UP-TO-DATE
+:sourceMainJava UP-TO-DATE
+:compileJavaNote: /workspace/Alien-Client/build/unified/sources/main/java/dev/alien/client/AlienClient.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+:processResources UP-TO-DATE
+:classes
+:sourceTestJava UP-TO-DATE
+:compileTestJava
+:processTestResources UP-TO-DATE
+:testClasses
+:test
+
+dev.alien.client.combat.CombatConfigTest > isDisabledByDefaultAndOldProfilesAreSafe PASSED
+
+dev.alien.client.combat.CombatConfigTest > legitFullAndCustomAreOneConfigNotSeparateClients PASSED
+
+dev.alien.client.combat.CombatConfigTest > unifiedRegistryAddsRealCombatSwitchesWithoutAffectingVisualOnlyRegistry PASSED
+
+dev.alien.client.combat.CombatConfigTest > everyNumericParameterClampsNonFiniteAndExcessiveInputs PASSED
+
+dev.alien.client.combat.CombatConfigTest > savedSettingsRestoreAcrossJson PASSED
+
+dev.alien.client.combat.CombatMathTest > calculatesVanillaCardinalDirections PASSED
+
+dev.alien.client.combat.CombatMathTest > wrapsYawAcross360WithoutLargeSnap PASSED
+
+dev.alien.client.combat.CombatMathTest > smoothInterpolationAndCpsLimits PASSED
+
+dev.alien.client.combat.CombatSessionGuardTest > persistedServerProfileIsNeverConsent PASSED
+
+dev.alien.client.combat.CombatSessionGuardTest > revokeAndLocalWorldRules PASSED
+
+dev.alien.client.combat.CombatSessionGuardTest > savedFullPresetNeedsExplicitMultiplayerConsent PASSED
+
+dev.alien.client.combat.CombatSessionGuardTest > disconnectReconnectAndProfileSwapRevoke PASSED
+
+dev.alien.client.combat.FullToolsTest > offAndLegitClearFullModulesButFullIsDistinct PASSED
+
+dev.alien.client.combat.FullToolsTest > defaultsAndOldProfilesDoNotActivateNewTools PASSED
+
+dev.alien.client.combat.FullToolsTest > normalizationBoundsThresholdsAndResolvesConflictingRotation PASSED
+
+dev.alien.client.combat.FullToolsTest > registryTogglesRealStateWithoutEnablingMasterAndRemainsEditionBounded PASSED
+
+dev.alien.client.config.ClientConfigTest > invalidNumericSettingsCannotBreakRenderState PASSED
+
+dev.alien.client.config.ClientConfigTest > moduleKeysRemainBoundedAndOldProfilesHaveNoAutomaticShortcuts PASSED
+
+dev.alien.client.config.ClientConfigTest > unsupportedVersionsAreNotSilentlyDowngraded PASSED
+
+dev.alien.client.config.ClientConfigTest > missingSectionsRestored PASSED
+
+dev.alien.client.config.ConfigStoreTest > importedProfilesAreBoundedAndNeverOverwrite PASSED
+
+dev.alien.client.config.ConfigStoreTest > perServerSaveDoesNotOverwriteGlobalDefaults PASSED
+
+dev.alien.client.config.ConfigStoreTest > validatesBeforeReplacingActiveConfig PASSED
+
+dev.alien.client.config.ConfigStoreTest > serverProfilesCannotOverrideGlobalActivationPreference PASSED
+
+dev.alien.client.config.ConfigStoreTest > roundTripAllSectionsAndColors PASSED
+
+dev.alien.client.config.ConfigStoreTest > resetWritesUsableDefaults PASSED
+
+dev.alien.client.config.ConfigStoreTest > deletingBoundProfileRemovesBinding PASSED
+
+dev.alien.client.config.ConfigStoreTest > rejectsSymlinkedImports PASSED
+
+dev.alien.client.config.ConfigStoreTest > corruptConfigPreservedBeforeDefaults PASSED
+
+dev.alien.client.config.ConfigStoreTest > rejectsTraversalNames PASSED
+
+dev.alien.client.config.ConfigStoreTest > rejectsOversizedAndDeepJson PASSED
+
+dev.alien.client.config.ConfigStoreTest > profileLifecycle PASSED
+
+dev.alien.client.config.UnifiedRedesignProfileTest > explicitDesignTokensWinOverLegacyAliases PASSED
+
+dev.alien.client.config.UnifiedRedesignProfileTest > profileRoundTripRetainsBothStudiosCombatAndRedesignPreferences PASSED
+
+dev.alien.client.config.UnifiedRedesignProfileTest > legacyUnifiedProfileMigratesAppearanceWithoutResettingFeatures PASSED
+
+dev.alien.client.cosmetic.CapeTexturesTest > EmblemAndPaletteAffectTheActualTexture PASSED
+
+dev.alien.client.cosmetic.CapeTexturesTest > originalFabricIsOpaqueBoundedAndDeterministic PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > oldProfilesReceiveNewClothDefaults PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > importedProfilesCannotInjectPathsOrUnboundedTransforms PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > malformedOrDangerousBoxModelsAreRejected PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > copyingPresetDoesNotMutateSelf PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > importerAllowsOnlyBoundedBasenamesWithExpectedExtension PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > clothAndHatSettingsAreBoundedAndCopied PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > validBoxModelPreservesDimensions PASSED
+
+dev.alien.client.cosmetic.CosmeticConfigTest > uuidOverridesAreBoundedAndInvalidEntriesRemoved PASSED
+
+dev.alien.client.cosmetic.CosmeticLooksTest > eachPresetHasDistinctVisibleAppearanceAndPreservesFit PASSED
+
+dev.alien.client.cosmetic.CosmeticLooksTest > loadingIntoPlayerOverrideDoesNotShareOwnerOrSavedSlot PASSED
+
+dev.alien.client.cosmetic.CosmeticLooksTest > olderCosmeticProfilesGetEmptyLookLibrary PASSED
+
+dev.alien.client.cosmetic.CosmeticLooksTest > discardsUnexpectedSlotsAndClampsMalformedImports PASSED
+
+dev.alien.client.cosmetic.CosmeticLooksTest > savedLooksAreIndependentCopiesAndSurviveJson PASSED
+
+dev.alien.client.cosmetic.CosmeticPolishTest > ribbonPreferencesSurviveCopiesSavedLooksAndLegacyJson PASSED
+
+dev.alien.client.cosmetic.CosmeticPolishTest > springIsStableAcrossRenderRatesAndDoesNotSharePlayers PASSED
+
+dev.alien.client.cosmetic.CosmeticPolishTest > ribbonRecordsRealHistoryAndDropsTeleportsAndExpiredPoints PASSED
+
+dev.alien.client.cosmetic.CosmeticPolishTest > springRespondsToMovementRelaxesAndRemainsFinite PASSED
+
+dev.alien.client.cosmetic.CosmeticPolishTest > bundledCc0MaterialPreservesVerifiedSourceAndCredit PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > malformedAnimationInputsCannotProduceInvalidGeometry PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > samuraiHasSculptedHornsAndSeparateCurvedNeckGuard PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > capeHasRoundedTaperedHemInsteadOfARectangle PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > builtinsAreCachedAndUnknownSelectionsAreEmpty PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > everyBuiltinIsACompleteFiniteNonDegenerateTriangleStream PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > wingsHaveMirroredTaperedSilhouettes PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > clothShouldersRemainPinnedWhileItsHemMoves PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > vertexLightingNormalsFollowTriangleWinding PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > foxMaskAndGlassesHaveOpenEyeRegions PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > capeRejectsInvalidResolutionAndHasBoundedQualityLevels PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > fabricTextureCoordinatesStayAttachedDuringAnimation PASSED
+
+dev.alien.client.cosmetic.mesh.CosmeticMeshTest > japaneseHatHasACircularBrimAndRaisedConicalCenter PASSED
+
+dev.alien.client.gui.PanelLayoutConfigTest > normalizationRepairsNullMapAndNonFiniteCoordinates PASSED
+
+dev.alien.client.gui.PanelLayoutConfigTest > normalizationRepairsMissingColumnsAndClampsDraggedPositions PASSED
+
+dev.alien.client.gui.PanelLayoutConfigTest > savedPositionsSurviveSerializationAndResetRestoresAutomaticLayout PASSED
+
+dev.alien.client.gui.PanelStudioAnimationTest > newTargetStartsAtInterpolatedValue PASSED
+
+dev.alien.client.gui.PanelStudioAnimationTest > zeroDurationSnapsToTarget PASSED
+
+dev.alien.client.gui.PanelStudioAnimationTest > forwardAndReverseUseElapsedTime PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > rejectsTraversalAndDoesNotWriteOutsideLibrary PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > savesAndLoadsVisualSettingsWithoutChangingGameplayModules PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > importsAndClampsUntrustedThemeFields PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > invalidOrUnsupportedThemeDoesNotMutateConfiguration PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > rejectsSymbolicLinkDirectoryAndFile PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > rejectsOversizeAndDeeplyNestedJson PASSED
+
+dev.alien.client.gui.ThemeLibraryTest > exportsCanBeReadByAnotherThemeLibrary PASSED
+
+dev.alien.client.gui.theme.AdvancedThemeLibraryTest > legacyThemeAdaptsTokensWithoutDiscardingAdvancedPreferences PASSED
+
+dev.alien.client.gui.theme.AdvancedThemeLibraryTest > advancedTokensRoundTripWithoutReplacingHudOrBindings PASSED
+
+dev.alien.client.gui.theme.ColorValueTest > invalidHexCannotBecomeAnUnexpectedColor PASSED
+
+dev.alien.client.gui.theme.ColorValueTest > channelEditingClampsAndRetainsTransparency PASSED
+
+dev.alien.client.gui.theme.ColorValueTest > hexAndHsvPreserveRgbaAcrossEdgeColors PASSED
+
+dev.alien.client.gui.theme.ThemeConfigTest > namedPalettesRemainReadableAndIndependentOfGeometryPreferences PASSED
+
+dev.alien.client.gui.theme.ThemeConfigTest > importedInvalidTokensAreRepairedWithoutEnablingMotion PASSED
+
+dev.alien.client.gui.theme.ThemeConfigTest > unknownPresetIsRejected PASSED
+
+dev.alien.client.hud.HudConfigTest > finiteTransformsAreClampedToSafeEditorRanges PASSED
+
+dev.alien.client.hud.HudConfigTest > normalizationIsIdempotentAndKeepsWidgetIdentity PASSED
+
+dev.alien.client.hud.HudConfigTest > partialMapAndNullKnownWidgetsAreRepairedWithoutDiscardingEdits PASSED
+
+dev.alien.client.hud.HudConfigTest > missingMapInImportedProfileRestoresUsableDefaults PASSED
+
+dev.alien.client.hud.HudConfigTest > legacyLayoutsKeepExistingOverlaysAndOptIntoNewWidgets PASSED
+
+dev.alien.client.hud.HudConfigTest > serializationRoundTripPreservesLayoutAndPreferences PASSED
+
+dev.alien.client.hud.HudConfigTest > importedTextAndGridValuesHaveBoundedDefaults PASSED
+
+dev.alien.client.hud.HudConfigTest > unknownFutureWidgetEntriesDoNotBreakKnownDefaults PASSED
+
+dev.alien.client.hud.HudConfigTest > compactPresetRemovesRedundantStatsAndRestoresUsableBounds PASSED
+
+dev.alien.client.hud.HudConfigTest > nonFiniteTransformsCannotPoisonRenderCoordinates PASSED
+
+dev.alien.client.hud.HudConfigTest > defaultLayoutContainsEveryInformationalWidget PASSED
+
+dev.alien.client.hud.HudLayoutsTest > maliciousNestingIsRejectedBeforeDeserialization PASSED
+
+dev.alien.client.hud.HudLayoutsTest > hudOnlyExchangePreservesStyleAndTransforms PASSED
+
+dev.alien.client.hud.HudModulesTest > masterSwitchesSuppressConfiguredButInactiveVisuals PASSED
+
+dev.alien.client.hud.HudModulesTest > disabledSelfCosmeticsDoNotAppearAsActive PASSED
+
+dev.alien.client.hud.HudModulesTest > overlayListsOnlyActualEnabledVisualFeatures PASSED
+
+dev.alien.client.hud.HudUltimateTest > invalidImportedValuesCannotPoisonGeometry PASSED
+
+dev.alien.client.hud.HudUltimateTest > profileRoundTripPreservesFullAndHudPreferencesIndependently PASSED
+
+dev.alien.client.hud.HudUltimateTest > presetsAreHudOnlyAndKeepFutureWidgets PASSED
+
+dev.alien.client.hud.HudUltimateTest > smoothingIsFrameRateIndependentAndBounded PASSED
+
+dev.alien.client.hud.HudUltimateTest > legacyLayoutsKeepPositionsAndNewWidgetsAreOptIn PASSED
+
+dev.alien.client.module.ModuleManagerTest > descriptorRejectsUnstableIdentifiers PASSED
+
+dev.alien.client.module.ModuleManagerTest > fullRegistryCanRepresentAdditionalImpactWithoutImplementingNewFeatures PASSED
+
+dev.alien.client.module.ModuleManagerTest > queriesAreImmutableOrderedSnapshotsAndSearchIsCaseInsensitive PASSED
+
+dev.alien.client.module.ModuleManagerTest > profileReplacementIsSeenByEveryGetterAndSetter PASSED
+
+dev.alien.client.module.ModuleManagerTest > weatherUsesExistingRendererChoicesWithoutOtherConfigurationChanges PASSED
+
+dev.alien.client.module.ModuleManagerTest > legitFailsClosedForNonVisualImpactEvenWhenMarkedShared PASSED
+
+dev.alien.client.module.ModuleManagerTest > keyDispatchIgnoresUnboundInvalidUnknownAndNullEntries PASSED
+
+dev.alien.client.module.ModuleManagerTest > duplicateRegistrationCannotReplaceTheOriginalOrRunActions PASSED
+
+dev.alien.client.module.ModuleManagerTest > sharedKeyTogglesExactlyOnceEachInRegistrationOrder PASSED
+
+dev.alien.client.module.ModuleManagerTest > builtInsDescribeOnlyExistingLocalSwitchesInStableOrder PASSED
+
+dev.alien.client.module.ModuleManagerTest > fullEditionMayRegisterExplicitlyFullDescriptors PASSED
+
+dev.alien.client.module.ModuleManagerTest > legitRejectsFullBeforeReadingOrChangingModuleState PASSED
+
+dev.alien.client.module.ModuleManagerTest > boundaryKeysAreValidAndDisabledSwitchesCanBeEnabled PASSED
+
+dev.alien.client.module.ModuleManagerTest > childSwitchesDoNotEnableTheirMasterOrAnyOtherFeature PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > historyUsesBoundedRingAndCachesCorrectPercentiles PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > rejectsFramesFromPausedOrStalledWindows PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > oldProfilesKeepAutoadaptationOffAndClampNewControls PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > twoManualBenchmarksHaveBoundedRealFrameResults PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > adaptiveChangesOnlyEffectiveBudgetsAndUsesHysteresis PASSED
+
+dev.alien.client.performance.PerformanceEngineV2Test > spikesOnlyCountRecentFramesEvenAfterRingWraps PASSED
+
+dev.alien.client.scene.SceneConfigTest > realSavedProfileRestoresSceneAndCosmeticPreferencesTogether PASSED
+
+dev.alien.client.scene.SceneConfigTest > historiesExpireStayBoundedAndIgnoreInvalidCoordinates PASSED
+
+dev.alien.client.scene.SceneConfigTest > invalidInputsCannotReachShadersAsNonFiniteUniforms PASSED
+
+dev.alien.client.scene.SceneConfigTest > legacyProfilesKeepAllNewEffectsOff PASSED
+
+dev.alien.client.scene.SceneConfigTest > cuteFaceHasActualTransparentArtAndBlinkFrames PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > profileDiffReflectsActualSwitches PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > duplicateRenameAndClipboardJsonRoundTripAllStudios PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > galleryMaterialSelectorsRestoreNaturalOnOff PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > galleryOnlyEditsActualPreferencesAndPreservesIndependentMasters PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > importsRejectOverwriteTraversalDeepJsonAndUnsupportedVersion PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > profilePreviewDoesNotReplaceLiveState PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > nonfiniteUniformsAndCameraInputsAreNormalized PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > renamePreservesServerAssociationAndActiveSaving PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > legacyProfilesRetainWidgetsCosmeticsAndOptionalFxOff PASSED
+
+dev.alien.client.studio.StudioIntegrationTest > videoAndPreviousSkiesRemainSelectable PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > malformedShapesAndOldProfilesNormalizeWithoutUnboundedGeometry PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > sakuraAndNebulaAreDifferentWholePalettes PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > freshInstallHasNoParticleEmissionUntilOptIn PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > shapeTriangleStreamsAreCachedFiniteAndVisuallyDifferent PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > crystalPresetHasCoherentBrightPaletteAndBoundedDiamondEffects PASSED
+
+dev.alien.client.world.AtmospherePresetsTest > unknownPresetCannotPartiallyChangeAnActiveConfiguration PASSED
+
+dev.alien.client.world.ParticlePolishTest > cachedMeshesHaveTransparentEdgesAndOpaqueCores PASSED
+
+dev.alien.client.world.ParticlePolishTest > fadeIsSmoothFiniteAndZeroAtBirthAndDeath PASSED
+
+dev.alien.client.world.ParticlePolishTest > presetsGiveARealLowCostOptionAndRoundTripPolishedControls PASSED
+
+dev.alien.client.world.ParticlePolishTest > oldProfilesAndMalformedFieldsRemainBounded PASSED
+
+dev.alien.client.world.SkyboxAtlasTest > eachFaceHasIndependentInsetUvBounds PASSED
+
+dev.alien.client.world.SkyboxAtlasTest > recognizesExplicitSuffixOnly PASSED
+
+dev.alien.client.world.SkyboxAtlasTest > cubeCornersRemainAtOriginalSkyRadius PASSED
+
+dev.alien.client.world.SkyboxAtlasTest > acceptsSquareCellsAndRejectsMalformedLayouts PASSED
+
+dev.alien.client.world.SkyboxGalleryTest > keepsFavoriteSettingsAcrossJsonAndOldProfiles PASSED
+
+dev.alien.client.world.SkyboxGalleryTest > rejectsUnsafeNamesAndKeepsFavoriteListBounded PASSED
+
+dev.alien.client.world.SkyboxGalleryTest > indexesAtMost64FilesAndRejectsLink PASSED
+
+dev.alien.client.world.SkyboxGalleryTest > indexesRealLocalPngsAndCubemapsInStableOrder PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > rejectsCorruptInput PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > acceptsBoundedPngAndEmptyImport PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > rejectsOversizedDimensionsBeforeDecodingPixels PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > rejectsSymbolicLinksEscapingImportDirectory PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > acceptsSixFaceCubeAtlasAndRejectsInvalidGeometry PASSED
+
+dev.alien.client.world.SkyboxLoaderTest > rejectsTraversalUrlsAndNestedPaths PASSED
+
+dev.alien.client.world.WorldSettingsTest > malformedEffectsCannotAllocateUnboundedParticlesOrExcessiveTint PASSED
+
+dev.alien.client.world.WorldSettingsTest > oldCubemapProfilesReceiveNeutralRedesignAndGalleryDefaults PASSED
+
+dev.alien.client.world.WorldSettingsTest > unifiedSkyProfileKeepsCubemapOptionsAlongsideRedesignSettings PASSED
+
+dev.alien.client.world.WorldSettingsTest > malformedWorldSettingsBecomeBoundedAndValid PASSED
+
+dev.alien.client.world.WorldSettingsTest > qualityAndBudgetBothLimitEffects PASSED
+
+dev.alien.client.world.WorldSettingsTest > optionalSkyboxSettingsNormalizeButPreserveOldFields PASSED
+
+dev.alien.client.world.WorldSettingsTest > themePresetsHaveDifferentPalettesAndKeepEffectsOptional PASSED
+
+BUILD SUCCESSFUL
+
+Total time: 8.276 secs

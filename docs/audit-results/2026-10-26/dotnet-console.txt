@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  AlienLauncher.Core -> /workspace/Alien-Client/launcher/AlienLauncher.Core/bin/Debug/net8.0/AlienLauncher.Core.dll
+  AlienLauncher.Tests -> /workspace/Alien-Client/launcher/AlienLauncher.Tests/bin/Debug/net8.0/AlienLauncher.Tests.dll
+Test run for /workspace/Alien-Client/launcher/AlienLauncher.Tests/bin/Debug/net8.0/AlienLauncher.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.11.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+Results File: /tmp/alien-audit-results/launcher.trx
+
+Passed!  - Failed:     0, Passed:    22, Skipped:     0, Total:    22, Duration: 241 ms - AlienLauncher.Tests.dll (net8.0)
