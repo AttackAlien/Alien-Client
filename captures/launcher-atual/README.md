@@ -1,8 +1,8 @@
-# Alien Launcher 0.3 — capturas reais atuais
+# Alien Launcher 0.3.0-alpha.2 — novo emblema
 
-**26/10/2026 às 11:36 (Bahia)**. Quatro capturas novas da janela realmente executada no Windows Server 2022, por `Graphics.CopyFromScreen`. Sem mockups, montagem ou geração por IA. As capturas anteriores do launcher foram removidas desta pasta; somente a rodada final está publicada aqui.
+**26/10/2026 às 11:50 (Bahia)**. Quatro capturas novas da janela realmente executada no Windows Server 2022, por `Graphics.CopyFromScreen`. Sem mockups, montagem ou geração por IA. O novo emblema aparece no painel e na lateral; o restante da interface foi preservado. As capturas anteriores do launcher foram removidas desta pasta; somente a rodada atual está publicada aqui.
 
-[Baixar launcher 0.3](../../downloads/launcher/v0.3.0-alpha.1/README.md) · [Validação e limites](../../docs/LAUNCHER-REDESIGN-0.3.md) · [CI aprovado 40340826688](https://github.com/AttackAlien/Alien-Client/actions/runs/40340826688) · [Metadados e hashes](manifest.json).
+[Baixar launcher 0.3](../../downloads/launcher/v0.3.0-alpha.2/README.md) · [Validação e limites](../../docs/LAUNCHER-REDESIGN-0.3.md) · [CI aprovado 40343053042](https://github.com/AttackAlien/Alien-Client/actions/runs/40343053042) · [Metadados e hashes](manifest.json).
 
 ## Tela inicial
 

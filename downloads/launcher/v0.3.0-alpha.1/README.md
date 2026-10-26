@@ -1,6 +1,8 @@
-# Alien Launcher 0.3 — interface nova / Windows x64
+# Alien Launcher 0.3.0-alpha.1 — versão anterior
 
-**[Baixar ZIP — 66.78 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/launcher-unified-alpha2-20261026/downloads/launcher/v0.3.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.1.zip)** · [Fotos reais atuais](../../../captures/launcher-atual/README.md) · [Testes e limites](../../../docs/LAUNCHER-REDESIGN-0.3.md) · [SHA-256](SHA256SUMS.txt).
+> Use a [0.3.0-alpha.2 com o novo emblema](../v0.3.0-alpha.2/README.md). O layout foi preservado.
+
+**[Baixar ZIP — 66.78 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/launcher-unified-alpha2-20261026/downloads/launcher/v0.3.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.1.zip)** · [Fotos reais atuais](https://github.com/AttackAlien/Alien-Client/blob/0225a88d4fc1c49d85c84893a693cd1a6401ec73/captures/launcher-atual/README.md) · [Testes e limites](../../../docs/LAUNCHER-REDESIGN-0.3.md) · [SHA-256](SHA256SUMS.txt).
 
 Interface refeita: navegação lateral, cenário do client, controles escuros, configurações separadas, slider de RAM e botão de jogar em destaque. Mantém o **Unified 0.6.0-alpha.2 / Forge 1.8.9**, o isolamento dos perfis e os backups da instalação anterior.
 
