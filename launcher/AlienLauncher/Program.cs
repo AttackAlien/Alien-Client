@@ -126,10 +126,10 @@ internal sealed class LauncherWindow : Form
         brand.MouseDown += (_, e) => DragWindow(e); brandSub.MouseDown += (_, e) => DragWindow(e);
         Configure(home, "Jogar", "home", 16, 132, 148, 44); home.Name = "home"; home.AlignLeft = true; home.Click += (_, _) => ShowPage(false);
         Configure(settings, "Configurações", "settings", 16, 184, 148, 44); settings.Name = "settings"; settings.AlignLeft = true; settings.Quiet = true; settings.Click += (_, _) => ShowPage(true);
-        Configure(folderButton, "Arquivos do perfil", "folder", 16, 236, 148, 42); folderButton.AlignLeft = true; folderButton.Quiet = true;
+        Configure(folderButton, "Meus arquivos", "folder", 16, 236, 148, 42); folderButton.AlignLeft = true; folderButton.Quiet = true;
         folderButton.Click += (_, _) => { string directory = SelectedGame.Alien ? Path.Combine(InstanceFor(SelectedGame), "mods") : InstanceFor(SelectedGame); Directory.CreateDirectory(directory); Process.Start(new ProcessStartInfo(directory) { UseShellExecute = true }); };
         Configure(diagnostics, "Diagnóstico", "logs", 16, 284, 148, 42); diagnostics.Name = "diagnostics"; diagnostics.AlignLeft = true; diagnostics.Quiet = true; diagnostics.Click += (_, _) => ShowDiagnostics();
-        Configure(signIn, "Conectar Microsoft", "microsoft", 16, 518, 148, 42); signIn.Name = "signIn"; signIn.Font = new Font("Segoe UI", 8.5f); signIn.Click += async (_, _) => await RunTaskAsync(Authenticate);
+        Configure(signIn, "Conectar conta", "microsoft", 16, 518, 148, 42); signIn.Name = "signIn"; signIn.AccessibleName = "Entrar com Microsoft"; signIn.Font = new Font("Segoe UI", 8.5f); signIn.Click += async (_, _) => await RunTaskAsync(Authenticate);
         account.Name = "account"; account.SetBounds(24, 574, 140, 35); account.Font = new Font("Segoe UI", 8.5f); account.ForeColor = Studio.Muted; account.Text = "Ainda não conectado"; Controls.Add(account);
         var minimize = new StudioButton(); Configure(minimize, "", "minimize", 916, 4, 36, 28); minimize.Quiet = true; minimize.AccessibleName = "Minimizar"; minimize.Click += (_, _) => WindowState = FormWindowState.Minimized;
         var close = new StudioButton(); Configure(close, "", "close", 958, 4, 36, 28); close.Quiet = true; close.AccessibleName = "Fechar launcher"; close.Click += (_, _) => Close();
@@ -171,7 +171,7 @@ internal sealed class LauncherWindow : Form
         var label = new Label { Text = text, Name = name, Bounds = new Rectangle(x, y, width, height), Font = new Font("Segoe UI", size, bold ? FontStyle.Bold : FontStyle.Regular), ForeColor = color, BackColor = Studio.Sidebar }; Controls.Add(label); return label;
     }
     private void Configure(StudioButton button, string text, string glyph, int x, int y, int width, int height)
-    { button.Text = text; button.Glyph = glyph; button.SetBounds(x, y, width, height); button.AccessibleName = text; Controls.Add(button); }
+    { button.Text = text; button.Glyph = glyph; button.SurfaceColor = x < 180 ? Studio.Sidebar : y < 35 ? Studio.Background : Studio.Card; button.SetBounds(x, y, width, height); button.AccessibleName = text; Controls.Add(button); }
     private void ShowPage(bool showSettings)
     {
         settingsPage = showSettings; foreach (var control in homeControls) control.Visible = !showSettings; foreach (var control in settingsControls) control.Visible = showSettings;
@@ -282,7 +282,7 @@ internal sealed class LauncherWindow : Form
         var header = new Label { Text = "Diagnóstico da sessão", Location = new Point(24, 21), AutoSize = true, Font = new Font("Segoe UI", 18f, FontStyle.Bold), ForeColor = Studio.Text };
         var view = new RichTextBox { Bounds = new Rectangle(24, 78, 792, 306), ReadOnly = true, BackColor = Studio.Card, ForeColor = Studio.Muted, WordWrap = false, BorderStyle = BorderStyle.None, Font = new Font("Consolas", 10f), Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right };
         lock (logLock) view.Text = string.Join(Environment.NewLine, safeLog);
-        var copy = new StudioButton { Text = "Copiar diagnóstico", Primary = true, Bounds = new Rectangle(590, 406, 226, 40), Anchor = AnchorStyles.Bottom | AnchorStyles.Right }; copy.Click += (_, _) => Clipboard.SetText(view.Text);
+        var copy = new StudioButton { Text = "Copiar diagnóstico", Primary = true, SurfaceColor = Studio.Background, Bounds = new Rectangle(590, 406, 226, 40), Anchor = AnchorStyles.Bottom | AnchorStyles.Right }; copy.Click += (_, _) => Clipboard.SetText(view.Text);
         var hint = new Label { Text = "Credenciais são removidas do diagnóstico.", Bounds = new Rectangle(24, 418, 540, 24), ForeColor = Studio.Muted, Font = new Font("Segoe UI", 9f), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
         dialog.Controls.AddRange([header, view, copy, hint]); dialog.Show(this);
     }

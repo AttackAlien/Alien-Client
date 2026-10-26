@@ -65,7 +65,7 @@ internal static class Program
     private static void Check(bool value, string description) { if (!value) throw new InvalidOperationException(description); checks.Add(description); }
     private static void Capture(Form form, string name)
     {
-        SetForegroundWindow(form.Handle); using var image = new Bitmap(form.ClientSize.Width, form.ClientSize.Height);
+        SetForegroundWindow(form.Handle); form.Refresh(); form.Update(); using var image = new Bitmap(form.ClientSize.Width, form.ClientSize.Height);
         string method = "CopyFromScreen / actual Windows desktop";
         try { using var graphics = Graphics.FromImage(image); graphics.CopyFromScreen(form.PointToScreen(Point.Empty), Point.Empty, image.Size); }
         catch { method = "PrintWindow / native HWND rendering (desktop unavailable)"; RenderNative(form, image); }

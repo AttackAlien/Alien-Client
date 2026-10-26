@@ -52,6 +52,7 @@ internal class StudioButton : Button
     public bool Quiet { get; set; }
     public string Glyph { get; set; } = "";
     public bool AlignLeft { get; set; }
+    public Color SurfaceColor { get; set; } = Studio.Card;
     private bool hover, pressed;
     public StudioButton() { SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true); FlatStyle = FlatStyle.Flat; FlatAppearance.BorderSize = 0; BackColor = Color.Transparent; ForeColor = Studio.Text; Cursor = Cursors.Hand; Font = new Font("Segoe UI", 9.5f); }
     protected override void OnMouseEnter(EventArgs e) { hover = true; Invalidate(); base.OnMouseEnter(e); }
@@ -59,10 +60,11 @@ internal class StudioButton : Button
     protected override void OnMouseDown(MouseEventArgs e) { pressed = true; Invalidate(); base.OnMouseDown(e); }
     protected override void OnMouseUp(MouseEventArgs e) { pressed = false; Invalidate(); base.OnMouseUp(e); }
     protected override void OnEnabledChanged(EventArgs e) { Invalidate(); base.OnEnabledChanged(e); }
+    protected override void OnPaintBackground(PaintEventArgs e) => e.Graphics.Clear(SurfaceColor);
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics; g.SmoothingMode = SmoothingMode.AntiAlias; g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-        Color fill = !Enabled ? Color.FromArgb(35, 37, 49) : Primary ? (pressed ? Color.FromArgb(145, 112, 233) : hover ? Color.FromArgb(190, 167, 255) : Studio.Accent) : Selected ? Color.FromArgb(43, 35, 65) : hover ? Color.FromArgb(38, 41, 56) : Quiet ? BackColor : Studio.Card;
+        Color fill = !Enabled ? Color.FromArgb(35, 37, 49) : Primary ? (pressed ? Color.FromArgb(145, 112, 233) : hover ? Color.FromArgb(190, 167, 255) : Studio.Accent) : Selected ? Color.FromArgb(43, 35, 65) : hover ? Color.FromArgb(38, 41, 56) : Quiet ? SurfaceColor : Studio.Card;
         if (fill.A > 0) Studio.Fill(g, new RectangleF(0, 0, Width - 1, Height - 1), fill, 9);
         Color foreground = !Enabled ? Studio.Muted : Primary ? Color.FromArgb(24, 18, 40) : Selected ? Studio.Accent : ForeColor;
         int icon = Glyph.Length > 0 ? 22 : 0;
