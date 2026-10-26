@@ -24,6 +24,7 @@ internal static class Program
                 await Task.Delay(900); Check(window.Text.Contains(LauncherProfile.ClientVersion), "Actual window displays the current client version");
                 foreach (Control c in window.Controls) if (c.Visible) Check(c.Bounds.Left >= 0 && c.Bounds.Top >= 0 && c.Bounds.Right <= window.ClientSize.Width && c.Bounds.Bottom <= window.ClientSize.Height, "Control fits actual form / " + (c.Name.Length > 0 ? c.Name : c.GetType().Name));
                 Check(Control<Button>(window, "play").Enabled, "Play is a real enabled production control");
+                Check(!Control<Label>(window, "brand").Bounds.IntersectsWith(Control<Label>(window, "launcherTitle").Bounds), "Actual brand labels do not overlap");
                 Check(!Control<Button>(window, "cancel").Enabled, "Cancellation is disabled when no operation is running");
                 Check(Control<Label>(window, "account").Text.Contains("não conectado"), "UI does not fabricate an authenticated account");
                 Capture(window, "01-launcher-alien");
@@ -31,6 +32,7 @@ internal static class Program
                 for (int i = 0; i < choices.Items.Count; i++) if (choices.Items[i]!.ToString()!.Contains("1.21.1")) vanilla = i;
                 Check(vanilla >= 0, "Independent modern Vanilla profile exists"); choices.SelectedIndex = vanilla;
                 await Task.Delay(600); Check(Control<Button>(window, "play").Text == "JOGAR MINECRAFT", "Selecting Vanilla invokes actual selection handler");
+                Check(Control<Label>(window, "engine").Text.Contains("1.21.1") && !Control<Label>(window, "engine").Text.Contains("FORGE"), "Modern Vanilla does not claim to run Forge 1.8.9");
                 Control<NumericUpDown>(window, "memory").Value = 6144; Capture(window, "02-launcher-vanilla");
                 Control<Button>(window, "diagnostics").PerformClick(); await Task.Delay(500);
                 var dialog = window.OwnedForms.Single(); Check(dialog.Text.Contains("Diagnóstico"), "Diagnostics button opens actual log window");
@@ -59,9 +61,10 @@ internal static class Program
         string method = "CopyFromScreen / actual Windows desktop";
         try { using var graphics = Graphics.FromImage(image); graphics.CopyFromScreen(form.PointToScreen(Point.Empty), Point.Empty, image.Size); }
         catch { method = "PrintWindow / native HWND rendering (desktop unavailable)"; RenderNative(form, image); }
-        if (Variation(image) < 20) { method = "PrintWindow / native HWND rendering (desktop unavailable)"; RenderNative(form, image); }
-        Check(Variation(image) >= 20, "Actual native window capture has nonblank content / " + name);
+        if (!HasContent(image)) { method = "PrintWindow / native HWND rendering (desktop unavailable)"; RenderNative(form, image); }
+        // Preserve failed captures too, so a real rendering failure can be inspected.
         image.Save(Path.Combine(output, name + ".png"), ImageFormat.Png);
+        Check(HasContent(image), "Actual native window capture has nonblank content / " + name);
         captures.Add(new { file = name + ".png", method, utc = DateTimeOffset.UtcNow, width = image.Width, height = image.Height });
     }
     private static void RenderNative(Form form, Bitmap image)
@@ -70,8 +73,13 @@ internal static class Program
         try { if (!PrintWindow(form.Handle, dc, 3)) throw new InvalidOperationException("Native window screenshot unavailable"); }
         finally { graphics.ReleaseHdc(dc); }
     }
-    private static int Variation(Bitmap image)
+    private static bool HasContent(Bitmap image)
     {
-        var colors = new HashSet<int>(); for (int y = 10; y < image.Height; y += 17) for (int x = 10; x < image.Width; x += 17) colors.Add(image.GetPixel(x, y).ToArgb()); return colors.Count;
+        // Diagnostics has a small genuine palette; sparse sampling used to mistake
+        // its dark background and short log for a blank desktop. Inspect densely.
+        var counts = new Dictionary<int, int>(); int total = 0;
+        for (int y = 2; y < image.Height; y += 3) for (int x = 2; x < image.Width; x += 3)
+        { int color = image.GetPixel(x, y).ToArgb(); counts[color] = counts.GetValueOrDefault(color) + 1; total++; }
+        return counts.Count >= 3 && total - counts.Values.Max() >= Math.Max(50, total / 100);
     }
 }

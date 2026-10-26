@@ -43,6 +43,7 @@ internal sealed class LauncherWindow : Form
     private readonly Label status = new();
     private readonly Label heroTitle = new();
     private readonly Label heroDescription = new();
+    private readonly Label engineLine = new();
     
     private readonly ProgressBar progress = new();
     private readonly NumericUpDown memory = new();
@@ -119,10 +120,12 @@ internal sealed class LauncherWindow : Form
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
 
-        Controls.Add(Title("ALIEN", 44, 29, 30, FontStyle.Bold, Color.FromArgb(144, 113, 255)));
-        Controls.Add(Title("LAUNCHER", 162, 40, 14, FontStyle.Bold, Color.FromArgb(220, 220, 244)));
-        Controls.Add(Title("MINECRAFT 1.8.9  /  FORGE 11.15.1.2318", 46, 87, 11,
-            FontStyle.Regular, Color.FromArgb(143, 157, 185)));
+        var brand = Title("ALIEN", 44, 29, 30, FontStyle.Bold, Color.FromArgb(144, 113, 255)); brand.Name = "brand"; Controls.Add(brand);
+        var launcherTitle = Title("LAUNCHER", 206, 40, 14, FontStyle.Bold, Color.FromArgb(220, 220, 244)); launcherTitle.Name = "launcherTitle"; Controls.Add(launcherTitle);
+        engineLine.Text = "MINECRAFT 1.8.9  /  FORGE 11.15.1.2318";
+        engineLine.Location = new Point(46, 87); engineLine.AutoSize = true; engineLine.Name = "engine";
+        engineLine.Font = new Font("Segoe UI", 11f); engineLine.ForeColor = Color.FromArgb(143, 157, 185); engineLine.BackColor = Color.Transparent;
+        Controls.Add(engineLine);
         var title = Title("CLIENTE UNIFICADO 0.6", 46, 154, 23, FontStyle.Bold,
             Color.FromArgb(248, 249, 254));
         heroTitle.Text = title.Text;
@@ -158,6 +161,7 @@ internal sealed class LauncherWindow : Form
         gameChoice.SelectedIndexChanged += (_, _) =>
         {
             GameChoice target = SelectedGame;
+            engineLine.Text = target.Alien ? "MINECRAFT 1.8.9  /  FORGE 11.15.1.2318" : "MINECRAFT " + target.Version + "  /  VANILLA OFICIAL";
             play.Text = target.Alien ? "JOGAR ALIEN" : "JOGAR MINECRAFT";
             heroTitle.Text = target.Alien ? "CLIENTE UNIFICADO 0.6" : "MINECRAFT " + target.Version;
             heroDescription.Text = target.Alien

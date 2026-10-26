@@ -25,6 +25,12 @@
           "HtmlAgilityPack": "1.11.48"
         }
       },
+      "Microsoft.NET.ILLink.Tasks": {
+        "type": "Direct",
+        "requested": "[8.0.33, )",
+        "resolved": "8.0.33",
+        "contentHash": "dG9SM/0/zOTIE1UvSrveD1iDyEJjThqPqSnreExgqQWSoGWvze0esDi0faRk3C44IO1kqCeEX6AeCxWmBOppfw=="
+      },
       "CmlLib.Core.Commons": {
         "type": "Transitive",
         "resolved": "4.0.0",
@@ -58,6 +64,7 @@
         "resolved": "8.0.1",
         "contentHash": "4pjq2vIPNZkKA9asAXzf5IRBb7K+b0+UQZZbpv6g029sAPZgnKdg/NNOC/DbJL8SWqYcFMVjb/T/YEmb0PHUYg=="
       }
-    }
+    },
+    "net8.0/win-x64": {}
   }
 }

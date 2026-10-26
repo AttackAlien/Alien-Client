@@ -16,6 +16,7 @@ Launcher experimental para **Alien Client Unified 0.6.0-alpha.2 / Minecraft Java
 - Instâncias, contas e configurações ficam em `%LOCALAPPDATA%\AlienLauncher`. A `.minecraft` original não é usada para o cache de contas.
 - Alien usa `instances/unified-1.8.9`; Vanilla usa `instances/vanilla-<versão>`. Não há injeção do JAR Alien em versões modernas.
 - O pacote fixa o JAR do CI aprovado **40136496598**, fonte **32829c5**, client **0.6.0-alpha.2**, SHA-256 `17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc`. O manifesto local não pode escolher outro hash arbitrário.
+- A cópia exata desse JAR, seu checksum e o recibo original do CI ficam em `launcher/payload`, para reconstruir o launcher mesmo depois que o artifact temporário do GitHub expirar. `dotnet publish` copia o payload para o diretório final.
 - Atualizar preserva saves, configurações e outros mods. JARs antigos que declaram o modid `alienclient` são movidos para `alien-backups`, incluindo cópias em `mods/1.8.9`; a cópia nova é validada antes de substituir. Falhas restauram arquivos já movidos.
 - Java é instalado pela biblioteca e **sua versão real é consultada antes de executar**. Alien exige Java 8; versões Vanilla usam o requisito do metadado oficial. O seletor de Java 8 permite escolher outro executável compatível, sem afetar os perfis Java 17/21.
 - RAM e seleção de perfil/Java são salvas localmente. Tokens OAuth são administrados pelo cache local da biblioteca; não copie `accounts.json` para outras pessoas. Diagnósticos removem tokens conhecidos, bearer/JWT e URLs.
@@ -33,8 +34,8 @@ A instalação inicial requer internet e baixa assets oficiais; o pacote não in
 .NET SDK 8.0.427. `AlienLauncher.Core` contém instalação, integridade, perfis e Java; `AlienLauncher` contém WinForms/Microsoft OAuth. `AlienLauncher.Tests`, `.UiSmoke` e `.RuntimeProbe` são apenas verificações.
 
 ```powershell
-# Defina ALIEN_TEST_PAYLOAD para o diretório do JAR/checksum do CI fixado
-# e ALIEN_TEST_JAVA8 para o executável Java 8 real.
+$env:ALIEN_TEST_PAYLOAD = (Resolve-Path launcher/payload).Path
+$env:ALIEN_TEST_JAVA8 = 'C:\Java8\bin\java.exe' # seu executável Java 8 real
 dotnet test launcher/AlienLauncher.Tests/AlienLauncher.Tests.csproj
 dotnet publish launcher/AlienLauncher/AlienLauncher.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
 ```

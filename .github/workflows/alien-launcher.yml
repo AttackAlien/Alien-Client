@@ -40,15 +40,9 @@ jobs:
           assert r['repository']['full_name']==os.environ['GITHUB_REPOSITORY']
           assert r['path']=='.github/workflows/unified-client-ci.yml'
           PY
-      - uses: actions/download-artifact@v4
-        with:
-          name: alien-unified-40136496598
-          run-id: 40136496598
-          github-token: ${{ github.token }}
-          path: verified-unified
       - name: Test real payload, profile isolation, rollback, Java and log redaction
         env:
-          ALIEN_TEST_PAYLOAD: ${{ github.workspace }}/verified-unified/distribution
+          ALIEN_TEST_PAYLOAD: ${{ github.workspace }}/launcher/payload
           ALIEN_TEST_JAVA8: ${{ env.JAVA_HOME }}/bin/java
         run: dotnet test launcher/AlienLauncher.Tests/AlienLauncher.Tests.csproj -c Release --logger "trx;LogFileName=linux.trx" --results-directory launcher-test-results
       - uses: actions/upload-artifact@v4
@@ -69,25 +63,19 @@ jobs:
         with: {dotnet-version: '8.0.427'}
       - uses: actions/setup-java@v4
         with: {distribution: temurin, java-version: '8'}
-      - uses: actions/download-artifact@v4
-        with:
-          name: alien-unified-40136496598
-          run-id: 40136496598
-          github-token: ${{ github.token }}
-          path: verified-unified
       - name: Verify pinned client and provenance
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $source = 'verified-unified/distribution/AlienClient-Unified-1.8.9.jar'
+          $source = 'launcher/payload/AlienClient-Unified-1.8.9.jar'
           $sha = (Get-FileHash $source -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($sha -cne $env:CLIENT_JAR_SHA256) { throw 'Pinned client hash mismatch' }
-          $receipt = Get-Content verified-unified/distribution/RESULTADO-DOS-TESTES.txt -Raw
+          $receipt = Get-Content launcher/payload/RESULTADO-DOS-TESTES.txt -Raw
           if (-not $receipt.Contains($env:CLIENT_SHA)) { throw 'Pinned source provenance mismatch' }
       - name: Run launcher core tests on Windows
         shell: pwsh
         run: |
-          $env:ALIEN_TEST_PAYLOAD = (Resolve-Path verified-unified/distribution).Path
+          $env:ALIEN_TEST_PAYLOAD = (Resolve-Path launcher/payload).Path
           $env:ALIEN_TEST_JAVA8 = Join-Path $env:JAVA_HOME 'bin/java.exe'
           dotnet test launcher/AlienLauncher.Tests/AlienLauncher.Tests.csproj -c Release --logger 'trx;LogFileName=windows.trx' --results-directory launcher-test-results
           if ($LASTEXITCODE -ne 0) { throw 'Core tests failed' }
@@ -100,8 +88,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'UI runner publish failed' }
           foreach ($dir in @('launcher-dist/payload', 'ui-smoke/payload')) {
             New-Item -ItemType Directory -Force $dir | Out-Null
-            Copy-Item verified-unified/distribution/AlienClient-Unified-1.8.9.jar "$dir/AlienClient-Unified-1.8.9.jar"
-            Copy-Item verified-unified/distribution/SHA256SUMS.txt "$dir/SHA256SUMS.txt"
+            Copy-Item launcher/payload/AlienClient-Unified-1.8.9.jar "$dir/AlienClient-Unified-1.8.9.jar"
+            Copy-Item launcher/payload/SHA256SUMS.txt "$dir/SHA256SUMS.txt"
           }
       - name: Exercise actual WinForms window and capture native UI
         shell: pwsh
@@ -116,7 +104,7 @@ jobs:
         shell: pwsh
         run: |
           $root = Join-Path $env:RUNNER_TEMP 'AlienLauncher-InstallProbe'
-          $payload = (Resolve-Path verified-unified/distribution).Path
+          $payload = (Resolve-Path launcher/payload).Path
           $java = Join-Path $env:JAVA_HOME 'bin/java.exe'
           dotnet run --project launcher/AlienLauncher.RuntimeProbe/AlienLauncher.RuntimeProbe.csproj -c Release -- $root $payload $java 2>&1 | Tee-Object launcher-test-results/windows-install.txt
           if ($LASTEXITCODE -ne 0) { throw 'Actual Forge installation failed' }
