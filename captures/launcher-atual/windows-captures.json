@@ -1,0 +1,23 @@
+[
+  {
+    "file": "01-launcher-alien.png",
+    "method": "CopyFromScreen / actual Windows desktop",
+    "utc": "2026-10-26T12:44:10.3450887+00:00",
+    "width": 920,
+    "height": 660
+  },
+  {
+    "file": "02-launcher-vanilla.png",
+    "method": "CopyFromScreen / actual Windows desktop",
+    "utc": "2026-10-26T12:44:11.0095829+00:00",
+    "width": 920,
+    "height": 660
+  },
+  {
+    "file": "03-launcher-diagnostics.png",
+    "method": "CopyFromScreen / actual Windows desktop",
+    "utc": "2026-10-26T12:44:11.6450091+00:00",
+    "width": 804,
+    "height": 391
+  }
+]

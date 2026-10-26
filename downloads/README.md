@@ -2,6 +2,8 @@
 
 [Baixar Alien Client Unified com Interactive Studio](v0.6.0-alpha.2/README.md). **Minecraft Java 1.8.9 / Forge / Java 8**. Candidato do [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge ou release estável.
 
+[Alien Launcher 0.2.0-alpha.1 — Windows x64](launcher/v0.2.0-alpha.1/README.md): pacote portátil separado que instala o mesmo Unified 0.6.0-alpha.2, com Java/Forge verificados e perfis isolados. [Fotos reais do launcher](../captures/launcher-atual/README.md) · [Testes e limites](../docs/LAUNCHER-VALIDATION.md). Login Microsoft interativo e gameplay em PC Windows físico ainda não foram validados.
+
 [Capturas atuais](../captures/README.md) · [Vídeo/GIF](../captures/video-atual/README.md) · [Resultados](../docs/INTERACTIVE-STUDIO-VALIDATION.md).
 
 ## Versões históricas

@@ -1,0 +1,335 @@
+Verificando Minecraft 1.8.9 e o Java gerenciado...
+Arquivos: 0/1 — com.mojang:netty:1.8.8
+Arquivos: 1057/1057 — lib/amd64/libjfxwebkit.so
+Instalando/verificando Forge 11.15.1.2318 com Java 8...
+Arquivos: 0/2 — net.minecraft:launchwrapper:1.12
+Arquivos: 1074/1074 — minecraft/sounds/random/eat3.ogg
+Instalação verificada. Java 8.
+INSTALL_PASS {"VersionId":"1.8.9-forge1.8.9-11.15.1.2318-1.8.9","JavaMajor":8,"Directory":"/tmp/alien-launcher-runtime-instance/instances/unified-1.8.9"}
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615217" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Loading tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615280" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Using primary tweak class name net.minecraftforge.fml.common.launcher.FMLTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615281" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.common.launcher.FMLTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018615299" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Forge Mod Loader version 11.15.1.2318 for Minecraft 1.8.9 loading]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018615300" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Java is Java HotSpot(TM) 64-Bit Server VM, version 1.8.0_202, running on Linux:amd64:6.18.55, installed at /tmp/alien-launcher-runtime-instance/instances/unified-1.8.9/runtime/linux/jre-legacy]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615335" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Loading tweak class name net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615336" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Loading tweak class name net.minecraftforge.fml.common.launcher.FMLDeobfTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615336" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615337" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.common.launcher.FMLInjectionAndSortingTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018615337" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018616440" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Found valid fingerprint for Minecraft Forge. Certificate fingerprint e3c3d50c7c986df74c645c0ac54639741c90a557]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018616467" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Found valid fingerprint for Minecraft. Certificate fingerprint cd99959656f753dc28d863b46769f7f8fbaefcfc]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018616468" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.relauncher.CoreModManager$FMLPluginWrapper]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018616468" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.common.launcher.FMLDeobfTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018616701" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Loading tweak class name net.minecraftforge.fml.common.launcher.TerminalTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018616702" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Calling tweak class net.minecraftforge.fml.common.launcher.TerminalTweaker]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="LaunchWrapper" timestamp="1793018616709" level="INFO" thread="main">
+    <log4j:Message><![CDATA[Launching wrapped minecraft {net.minecraft.client.main.Main}]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.Minecraft" timestamp="1793018617077" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Setting user: AlienRuntimeProbe]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.Minecraft" timestamp="1793018618491" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[LWJGL Version: 2.9.4]]></log4j:Message>
+  </log4j:Event>
+Failed to create /home/agent/.cache/mesa_shader_cache for shader cache (Read-only file system)---disabling.
+Failed to create /home/agent/.cache/mesa_shader_cache_db for shader cache (Read-only file system)---disabling.
+  <log4j:Event logger="STDOUT" timestamp="1793018618786" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[[net.minecraftforge.fml.client.SplashProgress:start:246]: ---- Minecraft Crash Report ----
+// Who set us up the TNT?
+
+Time: 10/26/26 12:43 PM
+Description: Loading screen debug info
+
+This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Linux (amd64) version 6.18.55
+	Java Version: 1.8.0_202, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode), Oracle Corporation
+	Memory: 364492904 bytes (347 MB) / 570425344 bytes (544 MB) up to 2147483648 bytes (2048 MB)
+	JVM Flags: 7 total; -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -Xmx2048m
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML:
+	Loaded coremods (and transformers):
+	GL info: ' Vendor: 'Mesa' Version: '4.5 (Compatibility Profile) Mesa 25.0.7-2+deb13u1' Renderer: 'llvmpipe (LLVM 19.1.7, 256 bits)']]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018618856" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[MinecraftForge v11.15.1.2318 Initialized]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018618987" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Replaced 229 ore recipies]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619110" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Found 0 mods from the command line. Injecting into mod discoverer]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619111" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Searching /tmp/alien-launcher-runtime-instance/instances/unified-1.8.9/mods for mods]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619661" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Forge Mod Loader has identified 4 mods to load]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619768" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Attempting connection with missing mods [mcp, FML, Forge, alienclient] at CLIENT]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619769" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Attempting connection with missing mods [mcp, FML, Forge, alienclient] at SERVER]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.resources.SimpleReloadableResourceManager" timestamp="1793018619948" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Alien Client]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619975" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Processing ObjectHolder annotations]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619982" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Found 384 ObjectHolder annotations]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619984" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Identifying ItemStackHolder annotations]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018619985" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Found 0 ItemStackHolder annotations]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018620064" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Configured a dormant chunk cache size of 0]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="ForgeVersionCheck" timestamp="1793018620070" level="INFO" thread="Forge Version Check">
+    <log4j:Message><![CDATA[[Forge] Starting version check at [link omitido]
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018620090" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Applying holder lookups]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018620091" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Holder lookups applied]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018620092" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Injecting itemstacks]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018620092" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Itemstack injection complete]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="STDOUT" timestamp="1793018620113" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[[tv.twitch.StandardCoreAPI:<init>:16]: If on Windows, make sure to provide all of the necessary dll's as specified in the twitchsdk README. Also, make sure to set the PATH environment variable to point to the directory containing the dll's.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.Minecraft" timestamp="1793018620113" level="ERROR" thread="Client thread">
+    <log4j:Message><![CDATA[Couldn't initialize twitch stream]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620188" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Starting up SoundSystem...]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620408" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[Initializing LWJGL OpenAL]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620409" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[(The LWJGL binding of OpenAL.  For more information, see [link omitido]
+  </log4j:Event>
+Failed to create secure directory (/home/agent/.config/pulse): Read-only file system
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5728:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM default
+AL lib: (EE) alsa_open_playback: Could not open playback device 'default': No such file or directory
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="ERROR" thread="Thread-8">
+    <log4j:Message><![CDATA[Error in class 'LibraryLWJGLOpenAL']]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="ERROR" thread="Thread-8">
+    <log4j:Message><![CDATA[Unable to initialize OpenAL.  Probable cause: OpenAL not supported.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="WARN" thread="Thread-8">
+    <log4j:Message><![CDATA[ERROR MESSAGE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[Could not locate OpenAL library.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="WARN" thread="Thread-8">
+    <log4j:Message><![CDATA[STACK TRACE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:156)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:102)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:206)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[paulscode.sound.libraries.LibraryLWJGLOpenAL.init(LibraryLWJGLOpenAL.java:164)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[paulscode.sound.SoundSystem.CommandNewLibrary(SoundSystem.java:1576)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[paulscode.sound.SoundSystem.CommandQueue(SoundSystem.java:2572)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620439" level="INFO" thread="Thread-8">
+    <log4j:Message><![CDATA[paulscode.sound.CommandThread.run(CommandThread.java:121)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620796" level="WARN" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[ERROR MESSAGE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620796" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Could not locate OpenAL library.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018620796" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Starting up SoundSystem...]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018621006" level="INFO" thread="Thread-10">
+    <log4j:Message><![CDATA[Switching to No Sound]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018621006" level="INFO" thread="Thread-10">
+    <log4j:Message><![CDATA[(Silent Mode)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018621262" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Max texture size: 16384]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.renderer.texture.TextureMap" timestamp="1793018621266" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Created: 16x16 textures-atlas]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018621398" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Sound engine started]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="AlienClient" timestamp="1793018621942" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Alien Client 0.6.0-alpha.2 initialized: 17 registered modules; Unified / configurable combat]]></log4j:Message>
+  </log4j:Event>
+RUNTIME_ALIEN_LOADED 0.6.0-alpha.2
+  <log4j:Event logger="FML" timestamp="1793018621947" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Injecting itemstacks]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018621947" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Itemstack injection complete]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018622006" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Forge Mod Loader has successfully loaded 4 mods]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.resources.SimpleReloadableResourceManager" timestamp="1793018622007" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Alien Client]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622055" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[SoundSystem shutting down...]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622158" level="WARN" thread="Client thread">
+    <log4j:Message><![CDATA[Author: Paul Lamb, www.paulscode.com]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622159" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Starting up SoundSystem...]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622361" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[Initializing LWJGL OpenAL]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622361" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[(The LWJGL binding of OpenAL.  For more information, see [link omitido]
+  </log4j:Event>
+Failed to create secure directory (/home/agent/.config/pulse): Read-only file system
+ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+ALSA lib conf.c:5728:(snd_config_expand) Evaluate error: No such file or directory
+ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM default
+AL lib: (EE) alsa_open_playback: Could not open playback device 'default': No such file or directory
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="ERROR" thread="Thread-12">
+    <log4j:Message><![CDATA[Error in class 'LibraryLWJGLOpenAL']]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="ERROR" thread="Thread-12">
+    <log4j:Message><![CDATA[Unable to initialize OpenAL.  Probable cause: OpenAL not supported.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="WARN" thread="Thread-12">
+    <log4j:Message><![CDATA[ERROR MESSAGE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[Could not locate OpenAL library.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="WARN" thread="Thread-12">
+    <log4j:Message><![CDATA[STACK TRACE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:156)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:102)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[org.lwjgl.openal.AL.create(AL.java:206)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[paulscode.sound.libraries.LibraryLWJGLOpenAL.init(LibraryLWJGLOpenAL.java:164)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[paulscode.sound.SoundSystem.CommandNewLibrary(SoundSystem.java:1576)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[paulscode.sound.SoundSystem.CommandQueue(SoundSystem.java:2572)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622374" level="INFO" thread="Thread-12">
+    <log4j:Message><![CDATA[paulscode.sound.CommandThread.run(CommandThread.java:121)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622759" level="WARN" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[ERROR MESSAGE:]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622761" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Could not locate OpenAL library.]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018622761" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Starting up SoundSystem...]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="FML" timestamp="1793018622801" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Max texture size: 16384]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018623077" level="INFO" thread="Thread-14">
+    <log4j:Message><![CDATA[Switching to No Sound]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018623078" level="INFO" thread="Thread-14">
+    <log4j:Message><![CDATA[(Silent Mode)]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.renderer.texture.TextureMap" timestamp="1793018623205" level="INFO" thread="Client thread">
+    <log4j:Message><![CDATA[Created: 512x512 textures-atlas]]></log4j:Message>
+  </log4j:Event>
+  <log4j:Event logger="net.minecraft.client.audio.SoundManager" timestamp="1793018623363" level="INFO" thread="Sound Library Loader">
+    <log4j:Message><![CDATA[Sound engine started]]></log4j:Message>
+  </log4j:Event>
+Fontconfig error: No writable cache directories
+RUNTIME_ALIVE_PASS

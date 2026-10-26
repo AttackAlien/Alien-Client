@@ -1,0 +1,40 @@
+{
+  "launcherSource": "fc9edb86a8dc91d8e0ca36606ac302b32471d662",
+  "workflowRun": 40324521453,
+  "windows": [
+    {
+      "file": "01-launcher-alien.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T12:44:10.3450887+00:00",
+      "width": 920,
+      "height": 660
+    },
+    {
+      "file": "02-launcher-vanilla.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T12:44:11.0095829+00:00",
+      "width": 920,
+      "height": 660
+    },
+    {
+      "file": "03-launcher-diagnostics.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T12:44:11.6450091+00:00",
+      "width": 804,
+      "height": 391
+    }
+  ],
+  "linux": {
+    "file": "04-minecraft-forge-linux.png",
+    "method": "FFmpeg x11grab / actual Minecraft Forge 1.8.9 / Xvfb / Mesa software",
+    "utc": "2026-10-26T12:43:52.370865+00:00",
+    "fixture": "test-only anonymous development identity; not launcher Microsoft authentication"
+  },
+  "sha256": {
+    "05-inicio-forge-linux.mp4": "c50d5e36f0a62c1435647a0fdd4153115d72980a55a62e33c5c7502b2f2834f4",
+    "01-launcher-alien.png": "4b6bdcee784612c9f02a9939dd65e86031cb3bfbc8402c2f16957c87b9eeefee",
+    "02-launcher-vanilla.png": "1f82ad6c0e6032f415af69dcfccc2418ca224d5b63ee17034cc30cbaa23bd983",
+    "03-launcher-diagnostics.png": "5db30ddf10ff5ea6bcc3d0229f058eae0411e9ded823dc8c9a9c037ce43f3148",
+    "04-minecraft-forge-linux.png": "64ef56b19a4bae85c4821c41dc96fc07e8fb5ba4055fcb784a3ecebf28b16a85"
+  }
+}

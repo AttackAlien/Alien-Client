@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="7c7c1c20-6d30-4ce0-84f0-21271124115e" name="runneradmin@runnervma5ucf 2026-10-26 12:43:47" runUser="runnervma5ucf\runneradmin" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-26T12:43:47.1510847+00:00" queuing="2026-10-26T12:43:47.1510854+00:00" start="2026-10-26T12:43:46.4729692+00:00" finish="2026-10-26T12:43:48.8569911+00:00" />
+  <TestSettings name="default" id="84ade3ba-56d2-432e-9e51-ec5cb4db4e1e">
+    <Deployment runDeploymentRoot="runneradmin_runnervma5ucf_2026-10-26_12_43_47" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ee7f0ff3-f449-4b38-a27e-474640c1f2a3" testId="d611667c-db36-56eb-fb81-dd016b731c7d" testName="AlienLauncher.Tests.LauncherTests.SettingsRoundTripAndCorruptSettingsDoNotCrash" computerName="runnervma5ucf" duration="00:00:00.0194061" startTime="2026-10-26T12:43:48.8025794+00:00" endTime="2026-10-26T12:43:48.8025796+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee7f0ff3-f449-4b38-a27e-474640c1f2a3" />
+    <UnitTestResult executionId="62cd8b29-5793-4523-93a5-aa7e40b6e2d1" testId="d8bf9daf-2942-c4d6-0863-3f1f163e2550" testName="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;{\&quot;Token\&quot;:\&quot;hide-this\&quot;}&quot;)" computerName="runnervma5ucf" duration="00:00:00.0004004" startTime="2026-10-26T12:43:47.0811246+00:00" endTime="2026-10-26T12:43:47.0811248+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62cd8b29-5793-4523-93a5-aa7e40b6e2d1" />
+    <UnitTestResult executionId="34035449-5416-4605-a977-508ab9b870a8" testId="c48640ad-ec90-9641-2809-fbd35b3a170f" testName="AlienLauncher.Tests.LauncherTests.CancelledDeploymentLeavesInstalledModUntouched" computerName="runnervma5ucf" duration="00:00:00.0082693" startTime="2026-10-26T12:43:48.7384198+00:00" endTime="2026-10-26T12:43:48.7384203+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="34035449-5416-4605-a977-508ab9b870a8" />
+    <UnitTestResult executionId="7bb5d6ce-4f69-4b04-98ba-a01f520eb0e8" testId="020d3d3e-2b79-08f6-b3ce-77714a9ad22d" testName="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;latest&quot;)" computerName="runnervma5ucf" duration="00:00:00.0006257" startTime="2026-10-26T12:43:47.1184678+00:00" endTime="2026-10-26T12:43:47.1184678+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7bb5d6ce-4f69-4b04-98ba-a01f520eb0e8" />
+    <UnitTestResult executionId="0e7c93a1-5be8-47d1-b47c-b6f838f20251" testId="437667a8-d025-21ef-aad4-ac1a5e99eae8" testName="AlienLauncher.Tests.LauncherTests.RepeatedLaunchDoesNotRewriteCurrentJarOrAccumulateBackups" computerName="runnervma5ucf" duration="00:00:00.0161552" startTime="2026-10-26T12:43:48.7551439+00:00" endTime="2026-10-26T12:43:48.7551442+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e7c93a1-5be8-47d1-b47c-b6f838f20251" />
+    <UnitTestResult executionId="dd62634d-b6b4-48eb-991f-2f77464df324" testId="20c25f88-8496-86cc-41a2-170392e29af9" testName="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;java version \&quot;1.8.0_472\&quot;&quot;, expected: 8)" computerName="runnervma5ucf" duration="00:00:00.0007242" startTime="2026-10-26T12:43:47.0756035+00:00" endTime="2026-10-26T12:43:47.0756037+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd62634d-b6b4-48eb-991f-2f77464df324" />
+    <UnitTestResult executionId="083bcf1f-c75d-4cfb-b624-a59ab65b0f13" testId="18f55b4c-08af-345f-9d4b-97605560525a" testName="AlienLauncher.Tests.LauncherTests.TamperingWithBothLocalChecksumAndJarDoesNotReplaceTrustedClient" computerName="runnervma5ucf" duration="00:00:00.0098454" startTime="2026-10-26T12:43:47.0914460+00:00" endTime="2026-10-26T12:43:47.0914462+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="083bcf1f-c75d-4cfb-b624-a59ab65b0f13" />
+    <UnitTestResult executionId="ec91a466-0347-40ca-bffe-f0d35fbb07e5" testId="8f255233-714c-2402-bc6f-6a60289eb3d0" testName="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;26w1a&quot;)" computerName="runnervma5ucf" duration="00:00:00.0006432" startTime="2026-10-26T12:43:47.1185183+00:00" endTime="2026-10-26T12:43:47.1185184+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec91a466-0347-40ca-bffe-f0d35fbb07e5" />
+    <UnitTestResult executionId="f5d3bcb9-dfb3-4d7e-92e7-59143a86c689" testId="0d9c251a-01a4-1f7c-25bb-68d1fb12f684" testName="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;../1.8.9&quot;)" computerName="runnervma5ucf" duration="00:00:00.0011442" startTime="2026-10-26T12:43:47.0927638+00:00" endTime="2026-10-26T12:43:47.0927638+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f5d3bcb9-dfb3-4d7e-92e7-59143a86c689" />
+    <UnitTestResult executionId="ab4b631a-831c-44fd-a4a7-3f857d8c3bfc" testId="4f5bfce1-54ed-e9a4-b930-e943e6227881" testName="AlienLauncher.Tests.LauncherTests.RealPinnedUnifiedJarAndVersionAreVerified" computerName="runnervma5ucf" duration="00:00:00.0042456" startTime="2026-10-26T12:43:48.7830145+00:00" endTime="2026-10-26T12:43:48.7830147+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab4b631a-831c-44fd-a4a7-3f857d8c3bfc" />
+    <UnitTestResult executionId="8b716d39-118c-4d32-ae7a-635e6316d81a" testId="ac562e55-fbc4-1961-479b-d25941bc3bfa" testName="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;1.8.9;anything&quot;)" computerName="runnervma5ucf" duration="00:00:00.0008246" startTime="2026-10-26T12:43:47.1182570+00:00" endTime="2026-10-26T12:43:47.1182571+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b716d39-118c-4d32-ae7a-635e6316d81a" />
+    <UnitTestResult executionId="93e000e6-3e1e-46fe-a0e1-62bc90b13c04" testId="ed37a6ad-fed1-48a5-7923-76405f903a94" testName="AlienLauncher.Tests.LauncherTests.DiagnosticsRemoveTokensBearerJsonUrlsAndJwt" computerName="runnervma5ucf" duration="00:00:00.0008655" startTime="2026-10-26T12:43:48.7774770+00:00" endTime="2026-10-26T12:43:48.7774772+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="93e000e6-3e1e-46fe-a0e1-62bc90b13c04" />
+    <UnitTestResult executionId="18910e94-409f-4863-b3f6-5156c98fd33c" testId="9d6e3fcb-0e4b-2c6a-41cb-e2ef568cba07" testName="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;openjdk version \&quot;17.0.12\&quot;&quot;, expected: 17)" computerName="runnervma5ucf" duration="00:00:00.0003980" startTime="2026-10-26T12:43:47.0760602+00:00" endTime="2026-10-26T12:43:47.0760603+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18910e94-409f-4863-b3f6-5156c98fd33c" />
+    <UnitTestResult executionId="e55ee064-e12e-4827-a892-9b6d866e4c49" testId="7a11db55-7ead-f1ac-d87d-788c48b58683" testName="AlienLauncher.Tests.LauncherTests.ProfilesHaveIndependentSavesModsAndSettings" computerName="runnervma5ucf" duration="00:00:00.0028771" startTime="2026-10-26T12:43:48.7296285+00:00" endTime="2026-10-26T12:43:48.7296287+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e55ee064-e12e-4827-a892-9b6d866e4c49" />
+    <UnitTestResult executionId="25d156a2-d4fb-4ad5-9333-9d2fc95ce89b" testId="4210367f-1493-f6fa-f452-4a4186286410" testName="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;{\&quot;access_token\&quot;:\&quot;hide-this\&quot;}&quot;)" computerName="runnervma5ucf" duration="00:00:00.0035663" startTime="2026-10-26T12:43:47.0797757+00:00" endTime="2026-10-26T12:43:47.0797758+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25d156a2-d4fb-4ad5-9333-9d2fc95ce89b" />
+    <UnitTestResult executionId="3369d476-2886-4468-b699-425101256794" testId="9bae5768-57cb-cde8-c479-515d300c76ad" testName="AlienLauncher.Tests.LauncherTests.AlienCannotBeInjectedIntoModernMinecraft" computerName="runnervma5ucf" duration="00:00:00.0007032" startTime="2026-10-26T12:43:48.7782871+00:00" endTime="2026-10-26T12:43:48.7782873+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3369d476-2886-4468-b699-425101256794" />
+    <UnitTestResult executionId="2b10b3cd-9121-425c-aa3c-f5d183fd68fa" testId="6676225c-3aff-78c1-d472-c16d3a3e7d34" testName="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;1.8.9/../../&quot;)" computerName="runnervma5ucf" duration="00:00:00.0006489" startTime="2026-10-26T12:43:47.1184275+00:00" endTime="2026-10-26T12:43:47.1184276+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b10b3cd-9121-425c-aa3c-f5d183fd68fa" />
+    <UnitTestResult executionId="92866f64-5d67-41d7-8e9d-8f1c6a63fe33" testId="aeb7e9d1-af34-bb52-e572-982ae93ecf98" testName="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;openjdk version \&quot;21.0.9\&quot; 2026&quot;, expected: 21)" computerName="runnervma5ucf" duration="00:00:00.0046160" startTime="2026-10-26T12:43:47.0748265+00:00" endTime="2026-10-26T12:43:47.0748268+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92866f64-5d67-41d7-8e9d-8f1c6a63fe33" />
+    <UnitTestResult executionId="2f57fff4-d894-4650-8ead-46754de5ab36" testId="b3b535b2-bdf8-3984-ecf6-4c6aa87ea8f5" testName="AlienLauncher.Tests.LauncherTests.UpdateBacksUpOldAlienCopiesAndKeepsOtherModsAndUserFiles" computerName="runnervma5ucf" duration="00:00:00.0208347" startTime="2026-10-26T12:43:48.7764599+00:00" endTime="2026-10-26T12:43:48.7764602+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f57fff4-d894-4650-8ead-46754de5ab36" />
+    <UnitTestResult executionId="aeb78ddf-9d8e-4e35-a233-cc90b9cb0f4a" testId="54e781c1-2533-2b69-cea1-a40e181ae24e" testName="AlienLauncher.Tests.LauncherTests.FailedFinalPlacementRestoresPreviouslyBackedUpMods" computerName="runnervma5ucf" duration="00:00:00.0522225" startTime="2026-10-26T12:43:47.0696470+00:00" endTime="2026-10-26T12:43:47.0696692+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aeb78ddf-9d8e-4e35-a233-cc90b9cb0f4a" />
+    <UnitTestResult executionId="448a3bb2-a920-4d44-83f3-6b8ba7eb5fc6" testId="569b2257-de56-d91b-6c60-c54b9a0d9dca" testName="AlienLauncher.Tests.LauncherTests.RealJava8IsRequiredForLegacyRuntime" computerName="runnervma5ucf" duration="00:00:01.6303048" startTime="2026-10-26T12:43:48.7265395+00:00" endTime="2026-10-26T12:43:48.7265400+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="448a3bb2-a920-4d44-83f3-6b8ba7eb5fc6" />
+    <UnitTestResult executionId="5d8cbb1d-6dc3-4a49-a865-fbca5acabae0" testId="2d16a311-505b-e954-417d-8eb86a249457" testName="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;Authorization: Bearer hide-this&quot;)" computerName="runnervma5ucf" duration="00:00:00.0007963" startTime="2026-10-26T12:43:47.0806485+00:00" endTime="2026-10-26T12:43:47.0806486+00:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d8cbb1d-6dc3-4a49-a865-fbca5acabae0" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;../1.8.9&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="0d9c251a-01a4-1f7c-25bb-68d1fb12f684">
+      <Execution id="f5d3bcb9-dfb3-4d7e-92e7-59143a86c689" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="InvalidVersionNeverCreatesAProfile" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.CancelledDeploymentLeavesInstalledModUntouched" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="c48640ad-ec90-9641-2809-fbd35b3a170f">
+      <Execution id="34035449-5416-4605-a977-508ab9b870a8" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="CancelledDeploymentLeavesInstalledModUntouched" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;{\&quot;Token\&quot;:\&quot;hide-this\&quot;}&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="d8bf9daf-2942-c4d6-0863-3f1f163e2550">
+      <Execution id="62cd8b29-5793-4523-93a5-aa7e40b6e2d1" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="StructuredCredentialErrorsAreSanitized" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;1.8.9/../../&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="6676225c-3aff-78c1-d472-c16d3a3e7d34">
+      <Execution id="2b10b3cd-9121-425c-aa3c-f5d183fd68fa" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="InvalidVersionNeverCreatesAProfile" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.FailedFinalPlacementRestoresPreviouslyBackedUpMods" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="54e781c1-2533-2b69-cea1-a40e181ae24e">
+      <Execution id="aeb78ddf-9d8e-4e35-a233-cc90b9cb0f4a" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="FailedFinalPlacementRestoresPreviouslyBackedUpMods" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.RepeatedLaunchDoesNotRewriteCurrentJarOrAccumulateBackups" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="437667a8-d025-21ef-aad4-ac1a5e99eae8">
+      <Execution id="0e7c93a1-5be8-47d1-b47c-b6f838f20251" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="RepeatedLaunchDoesNotRewriteCurrentJarOrAccumulateBackups" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.RealJava8IsRequiredForLegacyRuntime" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="569b2257-de56-d91b-6c60-c54b9a0d9dca">
+      <Execution id="448a3bb2-a920-4d44-83f3-6b8ba7eb5fc6" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="RealJava8IsRequiredForLegacyRuntime" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.AlienCannotBeInjectedIntoModernMinecraft" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="9bae5768-57cb-cde8-c479-515d300c76ad">
+      <Execution id="3369d476-2886-4468-b699-425101256794" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="AlienCannotBeInjectedIntoModernMinecraft" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.TamperingWithBothLocalChecksumAndJarDoesNotReplaceTrustedClient" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="18f55b4c-08af-345f-9d4b-97605560525a">
+      <Execution id="083bcf1f-c75d-4cfb-b624-a59ab65b0f13" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="TamperingWithBothLocalChecksumAndJarDoesNotReplaceTrustedClient" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;26w1a&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="8f255233-714c-2402-bc6f-6a60289eb3d0">
+      <Execution id="ec91a466-0347-40ca-bffe-f0d35fbb07e5" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="InvalidVersionNeverCreatesAProfile" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;1.8.9;anything&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="ac562e55-fbc4-1961-479b-d25941bc3bfa">
+      <Execution id="8b716d39-118c-4d32-ae7a-635e6316d81a" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="InvalidVersionNeverCreatesAProfile" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;{\&quot;access_token\&quot;:\&quot;hide-this\&quot;}&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="4210367f-1493-f6fa-f452-4a4186286410">
+      <Execution id="25d156a2-d4fb-4ad5-9333-9d2fc95ce89b" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="StructuredCredentialErrorsAreSanitized" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;java version \&quot;1.8.0_472\&quot;&quot;, expected: 8)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="20c25f88-8496-86cc-41a2-170392e29af9">
+      <Execution id="dd62634d-b6b4-48eb-991f-2f77464df324" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="JavaVersionIsParsedFromActualVersionFormat" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.UpdateBacksUpOldAlienCopiesAndKeepsOtherModsAndUserFiles" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="b3b535b2-bdf8-3984-ecf6-4c6aa87ea8f5">
+      <Execution id="2f57fff4-d894-4650-8ead-46754de5ab36" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="UpdateBacksUpOldAlienCopiesAndKeepsOtherModsAndUserFiles" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.StructuredCredentialErrorsAreSanitized(message: &quot;Authorization: Bearer hide-this&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="2d16a311-505b-e954-417d-8eb86a249457">
+      <Execution id="5d8cbb1d-6dc3-4a49-a865-fbca5acabae0" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="StructuredCredentialErrorsAreSanitized" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.InvalidVersionNeverCreatesAProfile(id: &quot;latest&quot;)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="020d3d3e-2b79-08f6-b3ce-77714a9ad22d">
+      <Execution id="7bb5d6ce-4f69-4b04-98ba-a01f520eb0e8" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="InvalidVersionNeverCreatesAProfile" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.DiagnosticsRemoveTokensBearerJsonUrlsAndJwt" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="ed37a6ad-fed1-48a5-7923-76405f903a94">
+      <Execution id="93e000e6-3e1e-46fe-a0e1-62bc90b13c04" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="DiagnosticsRemoveTokensBearerJsonUrlsAndJwt" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;openjdk version \&quot;21.0.9\&quot; 2026&quot;, expected: 21)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="aeb7e9d1-af34-bb52-e572-982ae93ecf98">
+      <Execution id="92866f64-5d67-41d7-8e9d-8f1c6a63fe33" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="JavaVersionIsParsedFromActualVersionFormat" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.SettingsRoundTripAndCorruptSettingsDoNotCrash" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="d611667c-db36-56eb-fb81-dd016b731c7d">
+      <Execution id="ee7f0ff3-f449-4b38-a27e-474640c1f2a3" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="SettingsRoundTripAndCorruptSettingsDoNotCrash" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.RealPinnedUnifiedJarAndVersionAreVerified" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="4f5bfce1-54ed-e9a4-b930-e943e6227881">
+      <Execution id="ab4b631a-831c-44fd-a4a7-3f857d8c3bfc" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="RealPinnedUnifiedJarAndVersionAreVerified" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.ProfilesHaveIndependentSavesModsAndSettings" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="7a11db55-7ead-f1ac-d87d-788c48b58683">
+      <Execution id="e55ee064-e12e-4827-a892-9b6d866e4c49" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="ProfilesHaveIndependentSavesModsAndSettings" />
+    </UnitTest>
+    <UnitTest name="AlienLauncher.Tests.LauncherTests.JavaVersionIsParsedFromActualVersionFormat(text: &quot;openjdk version \&quot;17.0.12\&quot;&quot;, expected: 17)" storage="d:\a\alien-client\alien-client\launcher\alienlauncher.tests\bin\release\net8.0\alienlauncher.tests.dll" id="9d6e3fcb-0e4b-2c6a-41cb-e2ef568cba07">
+      <Execution id="18910e94-409f-4863-b3f6-5156c98fd33c" />
+      <TestMethod codeBase="D:\a\Alien-Client\Alien-Client\launcher\AlienLauncher.Tests\bin\Release\net8.0\AlienLauncher.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner2/netcoreapp" className="AlienLauncher.Tests.LauncherTests" name="JavaVersionIsParsedFromActualVersionFormat" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d611667c-db36-56eb-fb81-dd016b731c7d" executionId="ee7f0ff3-f449-4b38-a27e-474640c1f2a3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8bf9daf-2942-c4d6-0863-3f1f163e2550" executionId="62cd8b29-5793-4523-93a5-aa7e40b6e2d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c48640ad-ec90-9641-2809-fbd35b3a170f" executionId="34035449-5416-4605-a977-508ab9b870a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="020d3d3e-2b79-08f6-b3ce-77714a9ad22d" executionId="7bb5d6ce-4f69-4b04-98ba-a01f520eb0e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="437667a8-d025-21ef-aad4-ac1a5e99eae8" executionId="0e7c93a1-5be8-47d1-b47c-b6f838f20251" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20c25f88-8496-86cc-41a2-170392e29af9" executionId="dd62634d-b6b4-48eb-991f-2f77464df324" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18f55b4c-08af-345f-9d4b-97605560525a" executionId="083bcf1f-c75d-4cfb-b624-a59ab65b0f13" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8f255233-714c-2402-bc6f-6a60289eb3d0" executionId="ec91a466-0347-40ca-bffe-f0d35fbb07e5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0d9c251a-01a4-1f7c-25bb-68d1fb12f684" executionId="f5d3bcb9-dfb3-4d7e-92e7-59143a86c689" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f5bfce1-54ed-e9a4-b930-e943e6227881" executionId="ab4b631a-831c-44fd-a4a7-3f857d8c3bfc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ac562e55-fbc4-1961-479b-d25941bc3bfa" executionId="8b716d39-118c-4d32-ae7a-635e6316d81a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ed37a6ad-fed1-48a5-7923-76405f903a94" executionId="93e000e6-3e1e-46fe-a0e1-62bc90b13c04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d6e3fcb-0e4b-2c6a-41cb-e2ef568cba07" executionId="18910e94-409f-4863-b3f6-5156c98fd33c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7a11db55-7ead-f1ac-d87d-788c48b58683" executionId="e55ee064-e12e-4827-a892-9b6d866e4c49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4210367f-1493-f6fa-f452-4a4186286410" executionId="25d156a2-d4fb-4ad5-9333-9d2fc95ce89b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9bae5768-57cb-cde8-c479-515d300c76ad" executionId="3369d476-2886-4468-b699-425101256794" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6676225c-3aff-78c1-d472-c16d3a3e7d34" executionId="2b10b3cd-9121-425c-aa3c-f5d183fd68fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aeb7e9d1-af34-bb52-e572-982ae93ecf98" executionId="92866f64-5d67-41d7-8e9d-8f1c6a63fe33" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3b535b2-bdf8-3984-ecf6-4c6aa87ea8f5" executionId="2f57fff4-d894-4650-8ead-46754de5ab36" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54e781c1-2533-2b69-cea1-a40e181ae24e" executionId="aeb78ddf-9d8e-4e35-a233-cc90b9cb0f4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="569b2257-de56-d91b-6c60-c54b9a0d9dca" executionId="448a3bb2-a920-4d44-83f3-6b8ba7eb5fc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2d16a311-505b-e954-417d-8eb86a249457" executionId="5d8cbb1d-6dc3-4a49-a865-fbca5acabae0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="22" executed="22" passed="22" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.33)&#xD;
+[xUnit.net 00:00:00.05]   Discovering: AlienLauncher.Tests&#xD;
+[xUnit.net 00:00:00.09]   Discovered:  AlienLauncher.Tests&#xD;
+[xUnit.net 00:00:00.09]   Starting:    AlienLauncher.Tests&#xD;
+[xUnit.net 00:00:01.92]   Finished:    AlienLauncher.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
