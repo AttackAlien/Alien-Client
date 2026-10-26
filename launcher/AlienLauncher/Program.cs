@@ -184,10 +184,10 @@ internal sealed class LauncherWindow : Form
         base.OnPaintBackground(e); var g = e.Graphics; g.SmoothingMode = SmoothingMode.AntiAlias; g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
         using var side = new SolidBrush(Studio.Sidebar); g.FillRectangle(side, 0, 0, 180, Height);
         using var line = new Pen(Studio.Border); g.DrawLine(line, 180, 0, 180, Height);
-        Studio.Alien(g, new(25, 31, 31, 35), Studio.Accent);
+        Studio.Alien(g, new(25, 31, 31, 35));
         Studio.Write(g, "BIBLIOTECA", new(24, 103, 138, 18), 7.5f, Studio.Muted, true);
         Studio.Write(g, "ALIEN LAUNCHER", new(24, 625, 148, 18), 7.5f, Studio.Muted);
-        Studio.Write(g, "0.3.0-alpha.1", new(24, 646, 148, 18), 8, Studio.Muted);
+        Studio.Write(g, "0.3.0-alpha.2", new(24, 646, 148, 18), 8, Studio.Muted);
         Studio.Write(g, settingsPage ? "Biblioteca / Preferências" : "Biblioteca / Alien Client", new(208, 20, 500, 20), 8, Studio.Muted);
         Studio.Write(g, settingsPage ? "Tudo do seu jeito." : "Vamos jogar.", new(206, 46, 600, 44), 23, Studio.Text, true);
         Studio.Fill(g, new(814, 57, 158, 27), Color.FromArgb(34, 29, 50), 13);
@@ -202,7 +202,7 @@ internal sealed class LauncherWindow : Form
         Studio.Write(g, heroTitle.Text, new(232, 176, 530, 122), 32, Studio.Text, true);
         Studio.Write(g, heroDescription.Text, new(236, 324, 710, 30), 10, Color.FromArgb(202, 200, 220));
         Studio.Fill(g, new(799, 181, 124, 124), Color.FromArgb(145, 20, 18, 34), 35);
-        Studio.Outline(g, new(799, 181, 124, 124), Color.FromArgb(100, 157, 127, 230), 35); Studio.Alien(g, new(827, 207, 69, 77), Studio.Accent);
+        Studio.Outline(g, new(799, 181, 124, 124), Color.FromArgb(100, 157, 127, 230), 35); Studio.Alien(g, new(827, 207, 69, 77));
         Studio.Fill(g, new(208, 392, 468, 150), Studio.Card); Studio.Outline(g, new(208, 392, 468, 150), Studio.Border);
         Studio.Fill(g, new(692, 392, 280, 150), Studio.Card); Studio.Outline(g, new(692, 392, 280, 150), Studio.Border);
         Studio.Write(g, "PERFIL DE JOGO", new(232, 407, 370, 22), 8, Studio.Muted, true);

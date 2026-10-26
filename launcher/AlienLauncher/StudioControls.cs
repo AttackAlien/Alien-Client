@@ -1,10 +1,45 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace AlienLauncher;
 
 internal static class Studio
 {
+    private sealed record Emblem(Bitmap Image, Rectangle Content);
+    private static readonly Lazy<Emblem> AlienEmblem = new(() =>
+    {
+        using var stream = typeof(Studio).Assembly.GetManifestResourceStream("AlienLauncher.Assets.alien-mark.png")
+            ?? throw new InvalidDataException("Emblema do Alien ausente do pacote.");
+        using var original = Image.FromStream(stream);
+        var image = new Bitmap(original);
+        int left = image.Width, top = image.Height, right = -1, bottom = -1;
+        var columns = new int[image.Width];
+        var rows = new int[image.Height];
+        var data = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+        try
+        {
+            var row = new byte[image.Width * 4];
+            for (int y = 0; y < image.Height; y++)
+            {
+                Marshal.Copy(IntPtr.Add(data.Scan0, y * data.Stride), row, 0, row.Length);
+                for (int x = 0; x < image.Width; x++)
+                {
+                    if (row[x * 4 + 3] < 64) continue;
+                    columns[x]++; rows[y]++;
+                }
+            }
+        }
+        finally { image.UnlockBits(data); }
+        // Ignore isolated alpha specks when fitting the mark; retain the original asset.
+        for (int x = 0; x < columns.Length; x++)
+            if (columns[x] >= Math.Max(4, image.Height / 200)) { left = Math.Min(left, x); right = Math.Max(right, x); }
+        for (int y = 0; y < rows.Length; y++)
+            if (rows[y] >= Math.Max(4, image.Width / 200)) { top = Math.Min(top, y); bottom = Math.Max(bottom, y); }
+        if (right < left) { image.Dispose(); throw new InvalidDataException("O emblema está vazio."); }
+        return new(image, Rectangle.FromLTRB(left, top, right + 1, bottom + 1));
+    });
     public static readonly Color Background = Color.FromArgb(13, 15, 22), Sidebar = Color.FromArgb(17, 19, 28), Card = Color.FromArgb(23, 26, 37), Border = Color.FromArgb(40, 43, 59), Text = Color.FromArgb(242, 243, 250), Muted = Color.FromArgb(145, 150, 172), Accent = Color.FromArgb(174, 147, 255);
     public static GraphicsPath Round(RectangleF r, float radius = 14)
     {
@@ -18,14 +53,20 @@ internal static class Studio
         using var f = new Font("Segoe UI", size, bold ? FontStyle.Bold : FontStyle.Regular); using var b = new SolidBrush(color ?? Text);
         using var format = new StringFormat { Trimming = StringTrimming.EllipsisCharacter }; g.DrawString(text, f, b, bounds, format);
     }
-    public static void Alien(Graphics g, RectangleF r, Color color)
+    public static void Alien(Graphics g, RectangleF r)
     {
-        var state = g.Save(); g.TranslateTransform(r.X, r.Y); g.ScaleTransform(r.Width / 100, r.Height / 100);
-        using var path = new GraphicsPath(); path.AddBezier(50, 98, 40, 84, 9, 64, 8, 36); path.AddBezier(8, 36, 6, -9, 94, -9, 92, 36); path.AddBezier(92, 36, 91, 64, 60, 84, 50, 98);
-        using var fill = new SolidBrush(color); g.FillPath(fill, path);
-        using var eye = new SolidBrush(Color.FromArgb(18, 19, 30));
-        g.FillClosedCurve(eye, (Point[])[new(23, 35), new(45, 45), new(40, 58), new(23, 48)]);
-        g.FillClosedCurve(eye, (Point[])[new(77, 35), new(55, 45), new(60, 58), new(77, 48)]); g.Restore(state);
+        var emblem = AlienEmblem.Value;
+        float scale = Math.Min(r.Width / emblem.Content.Width, r.Height / emblem.Content.Height);
+        float width = emblem.Content.Width * scale, height = emblem.Content.Height * scale;
+        var target = new RectangleF(r.X + (r.Width - width) / 2, r.Y + (r.Height - height) / 2, width, height);
+        var state = g.Save();
+        try
+        {
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.DrawImage(emblem.Image, target, emblem.Content, GraphicsUnit.Pixel);
+        }
+        finally { g.Restore(state); }
     }
     public static void Icon(Graphics g, string icon, Rectangle r, Color color)
     {

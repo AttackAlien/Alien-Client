@@ -1,4 +1,4 @@
-# Alien Launcher 0.3.0-alpha.1 — Windows x64
+# Alien Launcher 0.3.0-alpha.2 — Windows x64
 
 Launcher experimental para **Alien Client Unified 0.6.0-alpha.2 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Incorpora o trabalho do PR #12, preservando o client atual do PR #18. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
 
@@ -6,7 +6,7 @@ Interface 0.3: navegação lateral, painel visual com cenário real do client, s
 
 ## Usar
 
-1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.1.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
+1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.2.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
 2. Abra `AlienLauncher.exe` em Windows 10/11 x64. O .NET está incluído no pacote.
 3. Escolha Alien ou um perfil Vanilla. **Instalar / Reparar** baixa/verifica arquivos oficiais; não requer mover JAR manualmente.
 4. Use **Entrar com Microsoft** e uma conta que possua Minecraft Java. A senha é inserida somente na janela Microsoft. O login requer Microsoft Edge WebView2 Runtime.
