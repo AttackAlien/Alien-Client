@@ -1,0 +1,1 @@
+057b457cfd7a74b68dd1a4184d623162acfda43ac223be0b13db76a336a6730c  AlienLauncher-Windows-x64-0.2.0-alpha.1.zip

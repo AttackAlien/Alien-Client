@@ -144,13 +144,13 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Comece a jogar
 
-### Opção A — Alien Launcher *(prévia em desenvolvimento)*
+### Opção A — Alien Launcher 0.3 *(alpha para Windows x64)*
 
-Estamos criando um launcher próprio para Windows, com interface dedicada, login Microsoft e instalação isolada. Ele inclui um seletor de versões: **Alien Client em Forge 1.8.9** ou **Minecraft Vanilla em outras versões**. Os módulos do Alien **ainda não foram portados** para 1.12.2, 1.16.5, 1.20.1 ou 1.21.x.
+A interface 0.3 traz navegação lateral, cenário do client, controles escuros e configurações separadas. O launcher incorpora o **Unified 0.6.0-alpha.2**, instala Forge/Java em uma pasta isolada e verifica a integridade do client antes de abri-lo. Inclui seleção de Java 8, RAM/perfis persistentes, cancelar, sair da conta e diagnóstico. O seletor oferece **Alien em Forge 1.8.9** ou **Minecraft Vanilla independente**; os módulos do Alien continuam exclusivos da versão 1.8.9.
 
-**[→ Acompanhar / testar a prévia do Alien Launcher (PR #12)](https://github.com/AttackAlien/Alien-Client/pull/12)**
+**[→ Baixar o pacote portátil de teste](downloads/launcher/v0.3.0-alpha.2/README.md)** · [Capturas reais atuais](captures/launcher-atual/README.md) · [Validação e limites](docs/LAUNCHER-REDESIGN-0.3.md) · [PR #19](https://github.com/AttackAlien/Alien-Client/pull/19)
 
-O launcher é experimental e o fluxo completo de login e inicialização ainda requer testes em PCs reais. Não confunda builds de teste com uma release estável.
+Extraia o ZIP inteiro e abra `AlienLauncher.exe`. O login exige uma conta Microsoft que possua Minecraft Java e o WebView2 Runtime. **Autenticação Microsoft interativa e gameplay num PC Windows físico ainda precisam de validação.** Este candidato incorpora o trabalho do PR #12; não é release estável e não foi mesclado na main.
 
 ### Opção B — Minecraft Forge + Alien Client
 

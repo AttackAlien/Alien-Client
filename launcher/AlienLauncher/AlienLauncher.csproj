@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>AlienLauncher</AssemblyName>
+    <RootNamespace>AlienLauncher</RootNamespace>
+    <Version>0.3.0-alpha.2</Version>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../AlienLauncher.Core/AlienLauncher.Core.csproj" />
+    <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.4.0" />
+    <Content Include="../payload/*" Link="payload/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <EmbeddedResource Include="Assets/scene.png" />
+    <EmbeddedResource Include="Assets/alien-mark.png" />
+  </ItemGroup>
+</Project>

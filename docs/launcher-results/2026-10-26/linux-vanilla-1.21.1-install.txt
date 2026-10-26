@@ -1,0 +1,6 @@
+Verificando Minecraft 1.21.1 e o Java gerenciado...
+Arquivos: 0/1 — com.github.oshi:oshi-core:6.4.10
+Arquivos: 2190/3834 — minecraft/sounds/records/11.ogg
+Arquivos: 4082/4082 — minecraft/sounds/music/game/sweden.ogg
+Instalação verificada. Java 21.
+INSTALL_PASS {"VersionId":"1.21.1","JavaMajor":21,"Directory":"/tmp/alien-launcher-vanilla-instance/instances/vanilla-1.21.1"}

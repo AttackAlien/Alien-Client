@@ -1,0 +1,46 @@
+{
+  "launcherVersion": "0.3.0-alpha.2",
+  "launcherSource": "69ac3f43f73e2511cfbf19dc04e9c05ac6f293ef",
+  "workflowRun": "40343053042",
+  "captures": [
+    {
+      "file": "01-launcher-alien.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T14:50:11.5361531+00:00",
+      "width": 1000,
+      "height": 680
+    },
+    {
+      "file": "02-launcher-vanilla.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T14:50:12.2677883+00:00",
+      "width": 1000,
+      "height": 680
+    },
+    {
+      "file": "03-launcher-settings.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T14:50:13.1780498+00:00",
+      "width": 1000,
+      "height": 680
+    },
+    {
+      "file": "04-launcher-diagnostics.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-26T14:50:14.0687097+00:00",
+      "width": 840,
+      "height": 470
+    }
+  ],
+  "sha256": {
+    "01-launcher-alien.png": "3d39597b0c7827758461d2553bd940ede23c83e551f65b79225652a41cc03477",
+    "02-launcher-vanilla.png": "07267cab74290d2f59463aa43fcb4ae24f34b7613fdf63a5b34797ba920fd2c4",
+    "04-launcher-diagnostics.png": "5fa711f85f93ded5118669e9ce309f5bbd5097e67259f6b2be818a98a15d96ba",
+    "03-launcher-settings.png": "8bd7121f7ffeb19a8a8a06557ab3c3741a571a55b081223dbd8e627615c7d75e"
+  },
+  "emblem": {
+    "file": "launcher/AlienLauncher/Assets/alien-mark.png",
+    "sha256": "8ea6da926d059e45d069d17045a4ec3a0d637f0777aa1805f81e37c263811c03",
+    "origin": "image generation at user request; brand art, not test evidence"
+  }
+}

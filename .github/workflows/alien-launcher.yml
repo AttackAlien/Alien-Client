@@ -1,0 +1,138 @@
+name: Alien Launcher | Windows EXE
+
+on:
+  pull_request:
+    paths: ["launcher/**", ".github/workflows/alien-launcher.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: alien-launcher-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CLIENT_RUN: "40136496598"
+  CLIENT_SHA: "32829c561b8dc53719a71b7a6621c58cb5a2e8f5"
+  CLIENT_JAR_SHA256: "17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc"
+
+jobs:
+  core-tests:
+    name: Linux | launcher core and Java 8
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.427'}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '8'}
+      - name: Verify immutable successful source run
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CLIENT_RUN" > source-run.json
+          python3 - <<'PY'
+          import json,os
+          r=json.load(open('source-run.json'))
+          assert r['head_sha']==os.environ['CLIENT_SHA'] and r['conclusion']=='success'
+          assert r['repository']['full_name']==os.environ['GITHUB_REPOSITORY']
+          assert r['path']=='.github/workflows/unified-client-ci.yml'
+          PY
+      - name: Test real payload, profile isolation, rollback, Java and log redaction
+        env:
+          ALIEN_TEST_PAYLOAD: ${{ github.workspace }}/launcher/payload
+          ALIEN_TEST_JAVA8: ${{ env.JAVA_HOME }}/bin/java
+        run: dotnet test launcher/AlienLauncher.Tests/AlienLauncher.Tests.csproj -c Release --logger "trx;LogFileName=linux.trx" --results-directory launcher-test-results
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: alien-launcher-core-${{ github.run_id }}
+          path: launcher-test-results/
+
+  windows-launcher:
+    name: Windows x64 | EXE, actual UI and isolated installation
+    needs: core-tests
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.427'}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '8'}
+      - name: Verify pinned client and provenance
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $source = 'launcher/payload/AlienClient-Unified-1.8.9.jar'
+          $sha = (Get-FileHash $source -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sha -cne $env:CLIENT_JAR_SHA256) { throw 'Pinned client hash mismatch' }
+          $receipt = Get-Content launcher/payload/RESULTADO-DOS-TESTES.txt -Raw
+          if (-not $receipt.Contains($env:CLIENT_SHA)) { throw 'Pinned source provenance mismatch' }
+      - name: Run launcher core tests on Windows
+        shell: pwsh
+        run: |
+          $env:ALIEN_TEST_PAYLOAD = (Resolve-Path launcher/payload).Path
+          $env:ALIEN_TEST_JAVA8 = Join-Path $env:JAVA_HOME 'bin/java.exe'
+          dotnet test launcher/AlienLauncher.Tests/AlienLauncher.Tests.csproj -c Release --logger 'trx;LogFileName=windows.trx' --results-directory launcher-test-results
+          if ($LASTEXITCODE -ne 0) { throw 'Core tests failed' }
+      - name: Publish standalone launcher and test-only UI runner
+        shell: pwsh
+        run: |
+          dotnet publish launcher/AlienLauncher/AlienLauncher.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false -o launcher-dist
+          if ($LASTEXITCODE -ne 0) { throw 'Launcher publish failed' }
+          dotnet publish launcher/AlienLauncher.UiSmoke/AlienLauncher.UiSmoke.csproj -c Release -r win-x64 --self-contained true -o ui-smoke
+          if ($LASTEXITCODE -ne 0) { throw 'UI runner publish failed' }
+          foreach ($dir in @('launcher-dist/payload', 'ui-smoke/payload')) {
+            New-Item -ItemType Directory -Force $dir | Out-Null
+            Copy-Item launcher/payload/AlienClient-Unified-1.8.9.jar "$dir/AlienClient-Unified-1.8.9.jar"
+            Copy-Item launcher/payload/SHA256SUMS.txt "$dir/SHA256SUMS.txt"
+          }
+      - name: Exercise actual WinForms window and capture native UI
+        shell: pwsh
+        run: |
+          $output = Join-Path $pwd 'launcher-test-results/ui'
+          $p = Start-Process -FilePath ./ui-smoke/AlienLauncher.UiSmoke.exe -ArgumentList @($output) -PassThru
+          if (-not $p.WaitForExit(90000)) { Stop-Process -Id $p.Id; throw 'UI test timed out' }
+          if ($p.ExitCode -ne 0) { Get-Content "$output/failure.txt"; throw 'UI test failed' }
+          Get-Content "$output/result.txt"
+          Get-Content "$output/captures.json"
+      - name: Install real isolated Forge and verify Java (no Microsoft login fixture)
+        shell: pwsh
+        run: |
+          $root = Join-Path $env:RUNNER_TEMP 'AlienLauncher-InstallProbe'
+          $payload = (Resolve-Path launcher/payload).Path
+          $java = Join-Path $env:JAVA_HOME 'bin/java.exe'
+          dotnet run --project launcher/AlienLauncher.RuntimeProbe/AlienLauncher.RuntimeProbe.csproj -c Release -- $root $payload $java 2>&1 | Tee-Object launcher-test-results/windows-install.txt
+          if ($LASTEXITCODE -ne 0) { throw 'Actual Forge installation failed' }
+      - name: Package verified launcher with only shipping files
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Copy-Item launcher/README.md launcher-dist/LEIA-ME-ALIEN-LAUNCHER.md
+          Copy-Item launcher/THIRD-PARTY-NOTICES.md launcher-dist/THIRD-PARTY-NOTICES.md
+          Copy-Item launcher/licenses launcher-dist/licenses -Recurse
+          Copy-Item launcher/client-source.json launcher-dist/payload/client-source.json
+          $exe = Get-Content launcher-dist/AlienLauncher.exe -AsByteStream -TotalCount 2
+          if ($exe[0] -ne 77 -or $exe[1] -ne 90) { throw 'EXE is not a Windows PE binary' }
+          $sourceHash = (Get-FileHash launcher-dist/payload/AlienClient-Unified-1.8.9.jar -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($sourceHash -ne $env:CLIENT_JAR_SHA256) { throw 'Payload changed during packaging' }
+          $zip = 'AlienLauncher-Windows-x64-0.3.0-alpha.2.zip'
+          Compress-Archive -Path 'launcher-dist/*' -DestinationPath $zip -Force
+          $digest = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$digest  $zip" | Out-File ALIEN-LAUNCHER-SHA256SUMS.txt -Encoding ascii
+          Copy-Item launcher/client-source.json launcher-test-results/client-source.json
+      - name: Upload launcher, real screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alien-launcher-win64-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            AlienLauncher-Windows-x64-0.3.0-alpha.2.zip
+            ALIEN-LAUNCHER-SHA256SUMS.txt
+            launcher-test-results/

@@ -11,3 +11,9 @@ out/
 
 __pycache__/
 *.pyc
+
+# .NET launcher outputs (source and package locks stay versioned)
+launcher/**/bin/
+launcher/**/obj/
+launcher-dist/
+launcher-test-results/
