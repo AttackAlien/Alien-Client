@@ -53,8 +53,9 @@ internal class StudioButton : Button
     public string Glyph { get; set; } = "";
     public bool AlignLeft { get; set; }
     public Color SurfaceColor { get; set; } = Studio.Card;
+    public Color? FillColor { get; set; }
     private bool hover, pressed;
-    public StudioButton() { SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true); FlatStyle = FlatStyle.Flat; FlatAppearance.BorderSize = 0; BackColor = Color.Transparent; ForeColor = Studio.Text; Cursor = Cursors.Hand; Font = new Font("Segoe UI", 9.5f); }
+    public StudioButton() { SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Opaque, true); FlatStyle = FlatStyle.Flat; FlatAppearance.BorderSize = 0; BackColor = Studio.Card; ForeColor = Studio.Text; Cursor = Cursors.Hand; Font = new Font("Segoe UI", 9.5f); }
     protected override void OnMouseEnter(EventArgs e) { hover = true; Invalidate(); base.OnMouseEnter(e); }
     protected override void OnMouseLeave(EventArgs e) { hover = pressed = false; Invalidate(); base.OnMouseLeave(e); }
     protected override void OnMouseDown(MouseEventArgs e) { pressed = true; Invalidate(); base.OnMouseDown(e); }
@@ -63,12 +64,12 @@ internal class StudioButton : Button
     protected override void OnPaintBackground(PaintEventArgs e) => e.Graphics.Clear(SurfaceColor);
     protected override void OnPaint(PaintEventArgs e)
     {
-        var g = e.Graphics; g.SmoothingMode = SmoothingMode.AntiAlias; g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-        Color fill = !Enabled ? Color.FromArgb(35, 37, 49) : Primary ? (pressed ? Color.FromArgb(145, 112, 233) : hover ? Color.FromArgb(190, 167, 255) : Studio.Accent) : Selected ? Color.FromArgb(43, 35, 65) : hover ? Color.FromArgb(38, 41, 56) : Quiet ? SurfaceColor : Studio.Card;
+        var g = e.Graphics; g.Clear(SurfaceColor); g.SmoothingMode = SmoothingMode.AntiAlias; g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+        Color fill = !Enabled ? Color.FromArgb(35, 37, 49) : Primary ? (pressed ? Color.FromArgb(145, 112, 233) : hover ? Color.FromArgb(190, 167, 255) : Studio.Accent) : Selected ? Color.FromArgb(43, 35, 65) : hover ? Color.FromArgb(38, 41, 56) : Quiet ? SurfaceColor : FillColor ?? Studio.Card;
         if (fill.A > 0) Studio.Fill(g, new RectangleF(0, 0, Width - 1, Height - 1), fill, 9);
         Color foreground = !Enabled ? Studio.Muted : Primary ? Color.FromArgb(24, 18, 40) : Selected ? Studio.Accent : ForeColor;
         int icon = Glyph.Length > 0 ? 22 : 0;
-        if (icon > 0) Studio.Icon(g, Glyph, new Rectangle(AlignLeft ? 14 : 18, (Height - 20) / 2, 20, 20), foreground);
+        if (icon > 0) Studio.Icon(g, Glyph, new Rectangle(Text.Length == 0 ? (Width - 20) / 2 : AlignLeft ? 14 : 18, (Height - 20) / 2, 20, 20), foreground);
         var rect = new Rectangle(AlignLeft ? (icon > 0 ? 45 : 14) : icon > 0 ? 38 : 8, 0, Width - (icon > 0 ? 48 : 16), Height);
         TextRenderer.DrawText(g, Text, Font, rect, foreground, TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix | (AlignLeft ? TextFormatFlags.Left : TextFormatFlags.HorizontalCenter));
         if (Focused && ShowFocusCues) Studio.Outline(g, new RectangleF(2, 2, Width - 5, Height - 5), foreground, 8);
@@ -82,7 +83,7 @@ internal sealed class ProfilePicker : StudioButton
     public int SelectedIndex { get => selected; set { if (value < 0 || value >= Items.Count) throw new ArgumentOutOfRangeException(nameof(value)); selected = value; Text = Items[value].ToString() ?? ""; SelectedIndexChanged?.Invoke(this, EventArgs.Empty); Invalidate(); } }
     public object? SelectedItem { get => selected >= 0 ? Items[selected] : null; set { int i = Items.IndexOf(value!); if (i >= 0) SelectedIndex = i; } }
     public event EventHandler? SelectedIndexChanged;
-    public ProfilePicker() { AlignLeft = true; BackColor = Color.FromArgb(32, 35, 49); AccessibleRole = AccessibleRole.ComboBox; }
+    public ProfilePicker() { AlignLeft = true; FillColor = Color.FromArgb(32, 35, 49); AccessibleRole = AccessibleRole.ComboBox; }
     protected override void OnClick(EventArgs e)
     {
         base.OnClick(e); var menu = new ContextMenuStrip { BackColor = Studio.Card, ForeColor = Studio.Text, ShowImageMargin = false, Renderer = new DarkMenuRenderer(), MaximumSize = new Size(460, 400) };
