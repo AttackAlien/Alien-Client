@@ -1,8 +1,10 @@
-# Alien Launcher 0.2.0-alpha.1 — validação de 26/10/2026
+# Alien Launcher 0.2.0-alpha.1 — validação histórica
+
+> Interface substituída pelo [redesign 0.3](LAUNCHER-REDESIGN-0.3.md). As capturas desta rodada anterior estão no [histórico do Git](https://github.com/AttackAlien/Alien-Client/tree/d5c9e3f197e570706bd786cb19d01b56e3b7fa6f/captures/launcher-atual), fora da galeria atual.
 
 O launcher do PR #12 foi integrado ao **Unified 0.6.0-alpha.2 do PR #18**, na branch `feature/launcher-unified-alpha2-20261026`, [PR #19](https://github.com/AttackAlien/Alien-Client/pull/19). **Sem merge na main.** O código Java do client e suas funcionalidades foram preservados.
 
-[Download Windows x64](../downloads/launcher/v0.2.0-alpha.1/README.md) · [Capturas reais atuais](../captures/launcher-atual/README.md) · [CI final aprovado](https://github.com/AttackAlien/Alien-Client/actions/runs/40324521453) · [Instruções e arquitetura](../launcher/README.md)
+[Download Windows x64](../downloads/launcher/v0.2.0-alpha.1/README.md) · [Capturas reais atuais](https://github.com/AttackAlien/Alien-Client/blob/d5c9e3f197e570706bd786cb19d01b56e3b7fa6f/captures/launcher-atual/README.md) · [CI final aprovado](https://github.com/AttackAlien/Alien-Client/actions/runs/40324521453) · [Instruções e arquitetura](../launcher/README.md)
 
 ## Estado analisado e mudanças
 
@@ -34,7 +36,7 @@ O código Java não mudou nesta tarefa. Os **175 JUnit** aprovados no CI de orig
 
 ## Capturas e vídeo
 
-[Galeria atual](../captures/launcher-atual/README.md): três PNGs da janela Windows, um PNG do Minecraft e vídeo real de inicialização de aproximadamente 30 segundos. Foram copiadas as capturas originais, sem montagem, ilustração ou geração por IA. As imagens Windows vieram de `Graphics.CopyFromScreen` às **09:44 de 26/10/2026 na Bahia / 12:44 UTC**; o fallback `PrintWindow` disponível no teste não foi necessário nessa rodada. [Metadados e hashes](../captures/launcher-atual/manifest.json).
+[Galeria atual](https://github.com/AttackAlien/Alien-Client/blob/d5c9e3f197e570706bd786cb19d01b56e3b7fa6f/captures/launcher-atual/README.md): três PNGs da janela Windows, um PNG do Minecraft e vídeo real de inicialização de aproximadamente 30 segundos. Foram copiadas as capturas originais, sem montagem, ilustração ou geração por IA. As imagens Windows vieram de `Graphics.CopyFromScreen` às **09:44 de 26/10/2026 na Bahia / 12:44 UTC**; o fallback `PrintWindow` disponível no teste não foi necessário nessa rodada. [Metadados e hashes](https://github.com/AttackAlien/Alien-Client/blob/d5c9e3f197e570706bd786cb19d01b56e3b7fa6f/captures/launcher-atual/manifest.json).
 
 A captura do Minecraft usa Linux/Xvfb e OpenGL por software. O probe de teste usa uma identidade anônima de desenvolvimento, como os harnesses de mods; **isso não representa autenticação Microsoft**. O probe e essa opção não são distribuídos no launcher de produção. O vídeo mostra carregamento/menu, sem comprovar gameplay, FPS de PC físico ou multiplayer.
 

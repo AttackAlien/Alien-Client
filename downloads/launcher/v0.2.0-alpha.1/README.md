@@ -1,6 +1,8 @@
-# Alien Launcher 0.2.0-alpha.1 — Windows x64
+# Alien Launcher 0.2.0-alpha.1 — versão anterior
 
-**[Baixar o ZIP portátil](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/launcher-unified-alpha2-20261026/downloads/launcher/v0.2.0-alpha.1/AlienLauncher-Windows-x64-0.2.0-alpha.1.zip)** · [SHA-256](SHA256SUMS.txt) · [Fotos reais atuais](../../../captures/launcher-atual/README.md) · [Resultados](../../../docs/LAUNCHER-VALIDATION.md)
+> Substituída pela [interface 0.3](../v0.3.0-alpha.1/README.md). Este pacote permanece como histórico.
+
+**[Baixar o ZIP portátil](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/launcher-unified-alpha2-20261026/downloads/launcher/v0.2.0-alpha.1/AlienLauncher-Windows-x64-0.2.0-alpha.1.zip)** · [SHA-256](SHA256SUMS.txt) · [Fotos reais atuais](https://github.com/AttackAlien/Alien-Client/blob/d5c9e3f197e570706bd786cb19d01b56e3b7fa6f/captures/launcher-atual/README.md) · [Resultados](../../../docs/LAUNCHER-VALIDATION.md)
 
 O ZIP tem aproximadamente **66,45 MiB** e inclui .NET, executável x64, licenças e o **Alien Unified 0.6.0-alpha.2 verificado**. Não é APK/Bedrock. Candidato do [PR #19](https://github.com/AttackAlien/Alien-Client/pull/19), sem merge na main ou release estável.
 

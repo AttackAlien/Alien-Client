@@ -2,22 +2,29 @@
   {
     "file": "01-launcher-alien.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-10-26T12:44:10.3450887+00:00",
-    "width": 920,
-    "height": 660
+    "utc": "2026-10-26T14:36:41.0074888+00:00",
+    "width": 1000,
+    "height": 680
   },
   {
     "file": "02-launcher-vanilla.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-10-26T12:44:11.0095829+00:00",
-    "width": 920,
-    "height": 660
+    "utc": "2026-10-26T14:36:42.2305268+00:00",
+    "width": 1000,
+    "height": 680
   },
   {
-    "file": "03-launcher-diagnostics.png",
+    "file": "03-launcher-settings.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-10-26T12:44:11.6450091+00:00",
-    "width": 804,
-    "height": 391
+    "utc": "2026-10-26T14:36:44.2174986+00:00",
+    "width": 1000,
+    "height": 680
+  },
+  {
+    "file": "04-launcher-diagnostics.png",
+    "method": "CopyFromScreen / actual Windows desktop",
+    "utc": "2026-10-26T14:36:45.1459503+00:00",
+    "width": 840,
+    "height": 470
   }
 ]

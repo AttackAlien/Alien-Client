@@ -1,27 +1,27 @@
-# Alien Launcher — capturas reais atuais
+# Alien Launcher 0.3 — capturas reais atuais
 
-Capturas de **26/10/2026**, launcher **0.2.0-alpha.1 / Unified 0.6.0-alpha.2**. Esta pasta contém somente a rodada atual. [Baixar o launcher](../../downloads/launcher/v0.2.0-alpha.1/README.md) · [Relatório e limites](../../docs/LAUNCHER-VALIDATION.md).
+**26/10/2026 às 11:36 (Bahia)**. Quatro capturas novas da janela realmente executada no Windows Server 2022, por `Graphics.CopyFromScreen`. Sem mockups, montagem ou geração por IA. As capturas anteriores do launcher foram removidas desta pasta; somente a rodada final está publicada aqui.
 
-As três primeiras imagens vieram do desktop real do runner **Windows Server 2022**, pela API `Graphics.CopyFromScreen`, às **09:44 no horário da Bahia / 12:44 UTC**. O [CI 40324521453](https://github.com/AttackAlien/Alien-Client/actions/runs/40324521453) abriu a janela de produção, trocou o perfil e abriu o diagnóstico; **38 verificações passaram**. Nenhum login foi fabricado: a conta aparece desconectada. [Metadados originais](windows-captures.json) · [Origem e hashes](manifest.json).
+[Baixar launcher 0.3](../../downloads/launcher/v0.3.0-alpha.1/README.md) · [Validação e limites](../../docs/LAUNCHER-REDESIGN-0.3.md) · [CI aprovado 40340826688](https://github.com/AttackAlien/Alien-Client/actions/runs/40340826688) · [Metadados e hashes](manifest.json).
 
-## Launcher — Alien / Forge 1.8.9
+## Tela inicial
 
-![Janela real do launcher no Windows](01-launcher-alien.png)
+![Launcher real — tela inicial nova](01-launcher-alien.png)
 
-## Launcher — Vanilla 1.21.1 independente
+## Perfil Vanilla independente
 
-![Seleção Vanilla real no Windows](02-launcher-vanilla.png)
+![Launcher real — perfil Vanilla](02-launcher-vanilla.png)
 
-## Diagnóstico real
+## Configurações e controle de RAM
 
-O relógio desta janela usa o fuso UTC do runner. O conteúdo é o log efetivamente registrado pelas ações acima.
+O teste abriu esta tela pelo botão real, ajustou a RAM pelo teclado e salvou 6 GB. O valor foi recuperado depois de fechar a janela.
 
-![Diagnóstico real do launcher](03-launcher-diagnostics.png)
+![Launcher real — configurações](03-launcher-settings.png)
 
-## Minecraft aberto pelo núcleo do launcher — Linux
+## Diagnóstico
 
-Captura direta do jogo **Forge 1.8.9**, com o JAR de distribuição fixado e Java automático. Execução em Linux/Xvfb/Mesa por um probe de teste separado: usa identidade anônima de desenvolvimento, **sem representar login Microsoft ou gameplay Windows**. O log confirmou `Alien Client 0.6.0-alpha.2 initialized` e o processo permaneceu ativo durante os 20 segundos seguintes, antes de ser encerrado pelo teste.
+Conteúdo real da sessão de teste, sem credenciais. O relógio dentro da janela usa UTC, o fuso do runner.
 
-![Minecraft Forge real com o Unified 0.6.0-alpha.2](04-minecraft-forge-linux.png)
+![Launcher real — diagnóstico](04-launcher-diagnostics.png)
 
-[Assistir / baixar o vídeo real de inicialização, aproximadamente 30 segundos](05-inicio-forge-linux.mp4). O vídeo inclui o carregamento e o menu, sem simulação ou geração por IA. O [vídeo maior do client](../video-atual/README.md) continua disponível, pois o código Java e seus visuais não foram alterados nesta tarefa.
+**22 testes Linux, 22 Windows e 36 verificações da interface passaram.** A conta está desconectada; não foi simulado um login Microsoft. O cenário no painel principal é um asset de uma captura anterior do client. Estas imagens comprovam a interface nova em execução, sem representar nova execução do Minecraft ou gameplay Windows.
