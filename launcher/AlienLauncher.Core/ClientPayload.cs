@@ -40,14 +40,20 @@ public sealed class ClientPayload(string directory)
     {
         await VerifyAsync(ct);
         string mods = Path.Combine(instance, "mods"); Directory.CreateDirectory(mods);
-        string destination = Path.Combine(mods, LauncherProfile.JarName), staging = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        string destination = Path.Combine(mods, LauncherProfile.JarName);
+        var candidates = Directory.EnumerateFiles(mods, "*.jar").Concat(Directory.Exists(Path.Combine(mods, "1.8.9")) ? Directory.EnumerateFiles(Path.Combine(mods, "1.8.9"), "*.jar") : []).ToArray();
+        if (File.Exists(destination) && !candidates.Any(p => p != destination && IsAlien(p)))
+        {
+            try { await VerifyFileAsync(destination, ct); return []; }
+            catch (InvalidDataException) { /* Replace an outdated or corrupt installed JAR. */ }
+        }
+        string staging = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
         var moved = new List<(string Source, string Backup)>();
         try
         {
             await using (var input = File.OpenRead(Path.Combine(DirectoryPath, LauncherProfile.JarName)))
             await using (var output = File.Create(staging)) await input.CopyToAsync(output, ct);
             await VerifyFileAsync(staging, ct); ct.ThrowIfCancellationRequested();
-            var candidates = Directory.EnumerateFiles(mods, "*.jar").Concat(Directory.Exists(Path.Combine(mods, "1.8.9")) ? Directory.EnumerateFiles(Path.Combine(mods, "1.8.9"), "*.jar") : []);
             foreach (var old in candidates.Where(p => p == destination || IsAlien(p)))
             {
                 string backup = Path.Combine(instance, "alien-backups", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss") + "-" + Guid.NewGuid().ToString("N"), Path.GetRelativePath(mods, old));

@@ -69,6 +69,16 @@ public sealed class LauncherTests : IDisposable
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => new ClientPayload(Payload).DeployAsync(instance, cancellation.Token));
         await ClientPayload.VerifyFileAsync(existing); Assert.Empty(Directory.EnumerateFiles(Path.GetDirectoryName(existing)!, "*.tmp"));
     }
+    [Fact] public async Task RepeatedLaunchDoesNotRewriteCurrentJarOrAccumulateBackups()
+    {
+        string instance = new LauncherProfile("1.8.9", true).DirectoryAt(root);
+        var payload = new ClientPayload(Payload); Assert.Empty(await payload.DeployAsync(instance));
+        string jar = Path.Combine(instance, "mods", LauncherProfile.JarName);
+        File.SetLastWriteTimeUtc(jar, new DateTime(2026, 1, 1, 12, 0, 0, DateTimeKind.Utc));
+        DateTime original = File.GetLastWriteTimeUtc(jar);
+        Assert.Empty(await payload.DeployAsync(instance));
+        Assert.Equal(original, File.GetLastWriteTimeUtc(jar)); Assert.False(Directory.Exists(Path.Combine(instance, "alien-backups")));
+    }
     [Theory]
     [InlineData("{\"access_token\":\"hide-this\"}")]
     [InlineData("{\"Token\":\"hide-this\"}")]
