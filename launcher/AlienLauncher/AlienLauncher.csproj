@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>AlienLauncher</AssemblyName>
+    <RootNamespace>AlienLauncher</RootNamespace>
+    <Version>0.2.0-alpha.1</Version>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../AlienLauncher.Core/AlienLauncher.Core.csproj" />
+    <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="3.4.0" />
+  </ItemGroup>
+</Project>
