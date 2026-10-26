@@ -1,0 +1,24 @@
+[
+  {
+    "test": "oversized_settings",
+    "exception": "System.IO.InvalidDataException",
+    "invalidDataIsIOException": false
+  },
+  {
+    "test": "java_exit_42",
+    "acceptedMajor": 8,
+    "actualExit": 42,
+    "fixture": "synthetic version-output wrapper; not a real JVM"
+  },
+  {
+    "test": "release_id_with_newline",
+    "accepted": true
+  },
+  {
+    "test": "logging_configuration_arguments",
+    "log4jArgument": true,
+    "officialConfig": true,
+    "processStarted": false,
+    "microsoftAuthenticationTested": false
+  }
+]
