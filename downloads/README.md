@@ -8,6 +8,6 @@
 
 ## Versões históricas
 
-[0.6.0-alpha.1](v0.6.0-alpha.1/) · [0.5.0-alpha.1](v0.5.0-alpha.1/) · [0.4.0-alpha.4](v0.4.0-alpha.4/) · [0.4.0-alpha.3](v0.4.0-alpha.3/) · [0.4.0-alpha.1](v0.4.0-alpha.1/) · [0.3.0-alpha.2](v0.3.0-alpha.2/).
+[0.6.0-alpha.1](v0.6.0-alpha.1/) · [0.5.0-alpha.1](v0.5.0-alpha.1/) · [0.4.0-alpha.4](v0.4.0-alpha.4/) · [0.4.0-alpha.3](v0.4.0-alpha.3/) · [0.4.0-alpha.1](v0.4.0-alpha.1/) · [0.3.0-alpha.1](v0.3.0-alpha.1/).
 
 Instale um único JAR Alien por pasta mods. As composições históricas Legit/Full não precisam ser instaladas junto do Unified. As fotos/vídeo da pasta atual são substituídos em cada revisão validada; o histórico continua no Git.
