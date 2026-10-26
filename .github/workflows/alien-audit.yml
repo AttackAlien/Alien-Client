@@ -1,0 +1,33 @@
+name: Alien audit | record Windows profile behavior
+on:
+  pull_request:
+    paths: ['tools/audit/**', '.github/workflows/alien-audit.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  record-evidence:
+    name: Evidence only | actual saved profile restoration
+    runs-on: windows-2022
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.427'}
+      - name: Compile isolated audit probe against unchanged launcher
+        run: dotnet publish tools/audit/WindowsProbe/WindowsProbe.csproj -c Release -r win-x64 --self-contained true -o audit-probe
+      - name: Record behavior (evidence, not product approval)
+        shell: pwsh
+        run: |
+          $output = Join-Path $pwd 'audit-evidence'
+          $p = Start-Process ./audit-probe/WindowsProbe.exe -ArgumentList @($output) -PassThru
+          if (-not $p.WaitForExit(60000)) { Stop-Process -Id $p.Id; throw 'Audit probe timed out' }
+          if ($p.ExitCode -ne 0) { Get-Content "$output/probe-error.txt"; throw 'Probe failed to collect evidence' }
+          Get-Content "$output/NOTICE.txt"
+          Get-Content "$output/windows-profile-evidence.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: alien-audit-windows-${{ github.run_id }}
+          path: audit-evidence/
