@@ -26,7 +26,7 @@ O recibo do JAR agora distingue o commit revisado do merge sintético usado pelo
 | Compilação da UI Windows e runner | Zero avisos e erros; compilação cruzada não equivale a execução gráfica |
 | Probes originais da auditoria | Perfil A preservado; arquivo grande recuperado; Java com saída 42 e versão com LF rejeitados |
 
-[Logs, TRX, XMLs e probes locais](audit-fix-results/2026-10-29/). A imagem sintética de 6000×6000 dos probes é entrada de teste, não captura de jogo. Tempos desse probe headless não são benchmark de FPS.
+[Logs (espaços finais normalizados), TRX, XMLs e probes locais](audit-fix-results/2026-10-29/). A imagem sintética de 6000×6000 dos probes é entrada de teste, não captura de jogo. Tempos desse probe headless não são benchmark de FPS.
 
 ## CI, pacote e capturas reais
 
@@ -46,9 +46,11 @@ O JAR distribuído e incluído no launcher tem SHA-256 `fe39c46a8b91a22cae7503d2
 
 [Resumo do client](audit-fix-results/2026-10-29/client-summary.json) · [Resumo do launcher/pacote](audit-fix-results/2026-10-29/launcher-summary.json) · [Regressão das edições](audit-fix-results/2026-10-29/edition-ci-summary.json) · [UI original](audit-fix-results/2026-10-29/launcher-ui-result.txt) · [Instalação original](audit-fix-results/2026-10-29/launcher-windows-install.txt).
 
+Após fixar o novo payload, os cinco workflows também concluíram com sucesso no SHA `943ec67`: Unified, Forge Legit/Full, Sky Studio, launcher e coleta Windows da auditoria. [Execuções da revalidação](audit-fix-results/2026-10-29/revalidation-after-pin.json). ZIP, JAR e amostras dos PNGs publicados foram baixados sem cabeçalho de autenticação, retornaram HTTP 200 e mantiveram os hashes verificados; [registro público](audit-fix-results/2026-10-29/public-download-check.json).
+
 As imagens atuais do jogo foram copiadas sem alteração do CI do client: **154 PNGs novos**, incluindo 153 capturas do framebuffer e uma da janela X11. O GIF da capa foi refeito com os doze frames novos. A galeria do launcher contém apenas os seis PNGs da execução Windows final. Os arquivos de imagem anteriores e o vídeo da alpha.2 foram retirados das pastas atuais; seu histórico continua no Git. Não foi gravado um novo vídeo contínuo nesta correção.
 
-O código Java preserva o mesmo estado validado pelo CI `40873708575`; a revisão seguinte atualiza o payload fixado e o aviso de recuperação do launcher. Os commits de publicação das evidências e downloads não alteram código de runtime, testes ou workflows. Os manifests identificam separadamente a fonte do client e a fonte do launcher.
+O código Java preserva o mesmo estado validado pelo CI `40873708575`; a revisão seguinte atualiza o payload fixado e o aviso de recuperação do launcher. Os commits de publicação das evidências e downloads não alteram código de runtime, testes ou workflows. Os manifests identificam separadamente a fonte do client e a fonte do launcher. [Objetos Git dos inputs de runtime validados](audit-fix-results/2026-10-29/validated-source-trees.json). O commit de publicação usa `[skip ci]` porque altera somente documentação, downloads e capturas; a compilação e os testes são os dos SHAs identificados acima.
 
 ## Reprodução
 
