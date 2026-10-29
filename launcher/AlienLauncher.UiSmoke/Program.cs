@@ -96,8 +96,13 @@ internal static class Program
             File.WriteAllText(Path.Combine(root, "settings.json"), original);
             using var form = new LauncherWindow(root); form.Show(); Application.DoEvents();
             Check(Control<Label>(form, "status").Text.Contains("recuperados"), "Oversized settings open the real window with a recovery message");
-            Check(File.ReadAllText(Directory.EnumerateFiles(root, "settings.invalid-*.json").Single()) == original, "Startup preserves exact rejected settings");
+            string backup = Directory.EnumerateFiles(root, "settings.invalid-*.json").Single();
+            Check(File.ReadAllText(backup) == original, "Startup preserves exact rejected settings");
             Capture(form, "06-launcher-settings-recovery");
+            Control<Button>(form, "diagnostics").PerformClick(); Application.DoEvents();
+            var diagnostics = form.OwnedForms.Single();
+            Check(diagnostics.Controls.OfType<RichTextBox>().Single().Text.Contains(Path.GetFileName(backup)), "Recovery diagnostics retain the exact backup filename");
+            diagnostics.Close();
             form.Close(); Application.DoEvents();
             Check(LauncherPreferences.Load(root).MemoryMb == 4096, "Recovered window saves usable defaults on close");
         }

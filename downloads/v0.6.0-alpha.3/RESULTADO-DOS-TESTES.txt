@@ -1,0 +1,12 @@
+ALIEN CLIENT UNIFIED - VALIDACAO DA COMPILACAO
+GitHub Actions run: 40873708575
+Git commit: 269ecd7ade044db00ab06e410763f3ddc1d1ade6
+JUnit: 181 testes, nenhum erro ou falha
+Minecraft 1.8.9 (Linux/display virtual/Mesa): PASS 24 checks
+JAR, classes, recursos, fontes e JUnit verificados pela mesma janela de validacao.
+SHA256 dos fontes/build: 97df29e84e61bef0e36c96717d9d482da0705616f3505bbea389abef0e30b7cf
+SHA256 das classes/recursos: b2bc7d4da3961a65cacf1d08145cffd691b3cb8b49af8928b882bf47346a7277
+SHA256 dos relatorios JUnit: 06d4cdc81efa45d1ac4d37186c5178f4937fd515c9719306b4d6424e63c8ed32
+Forge real: Combat Studio, perfis, JSON, dummy local e framebuffer
+Nao representa teste Windows/OptiFine/GPU real/servidor externo.
+SHA256: fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842  AlienClient-Unified-1.8.9.jar

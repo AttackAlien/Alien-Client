@@ -1,0 +1,25 @@
+ALIEN CLIENT UNIFIED - PRIMEIRO TESTE (EXPERIMENTAL)
+================================================
+Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8.
+
+INSTALAR NO WINDOWS
+1) Instale um perfil Minecraft Java 1.8.9 com Forge 11.15.1.2318 e Java 8.
+2) Feche o Minecraft. No Explorador, abra %APPDATA%\.minecraft\mods.
+   Outros launchers podem usar uma pasta do jogo diferente.
+3) Faça backup e REMOVA da pasta mods qualquer JAR antigo Alien Client
+   (Legit, Full ou versoes anteriores). So pode haver um modid alienclient.
+4) Copie SOMENTE AlienClient-Unified-1.8.9.jar para a pasta mods.
+5) Inicie o Minecraft Forge 1.8.9, abra um mundo local e aperte Right Shift.
+6) Explore Combat Studio, World Studio, HUD Editor e o ClickGUI.
+
+COMPATIBILIDADE E RISCOS
+- Build experimental, NAO e uma release estavel nem um launcher independente.
+- Compilado/testado em Linux Java 8/Forge 1.8.9 com display virtual/Mesa.
+- Ainda NAO testado nesta etapa com Windows, GPU real, OptiFine ou servidores.
+- Combat comeca desativado. Presets Legit/Full podem violar regras PvP.
+- Fake anti-aim, silent aim e bypass nao estao implementados.
+- Config antiga Legit e reutilizada em config/alien-client/; faca backup.
+- Config antiga Full em config/alien-client-full/ NAO migra automaticamente.
+
+CODIGO E RELATORIOS
+https://github.com/AttackAlien/Alien-Client

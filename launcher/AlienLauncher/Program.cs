@@ -164,7 +164,11 @@ internal sealed class LauncherWindow : Form
         if (!preferences.Alien) AddGameChoice(new GameChoice("Minecraft " + preferences.Version + " · Vanilla", preferences.Version, false));
         var saved = gameChoice.Items.Cast<GameChoice>().FirstOrDefault(c => c.Version == preferences.Version && c.Alien == preferences.Alien);
         gameChoice.SelectedItem = saved ?? gameChoice.Items[0]; ShowPage(false);
-        if (!string.IsNullOrEmpty(preferences.RecoveryMessage)) SetStatus(preferences.RecoveryMessage);
+        if (!string.IsNullOrEmpty(preferences.RecoveryMessage))
+        {
+            SetStatus("Configuração inválida: valores padrão recuperados. Consulte o diagnóstico para detalhes do arquivo original.");
+            AddLog(preferences.RecoveryMessage);
+        }
         AddLog("Launcher " + LauncherProfile.LauncherVersion + " / pacote Alien " + LauncherProfile.ClientVersion + ": " + (File.Exists(Path.Combine(Payload, JarName)) ? "localizado" : "extraia o ZIP completo"));
     }
 

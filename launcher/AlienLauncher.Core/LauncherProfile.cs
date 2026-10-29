@@ -8,13 +8,13 @@ public sealed record LauncherProfile(string Version, bool Alien)
 {
     public static readonly string LauncherVersion = typeof(LauncherProfile).Assembly
         .GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion.Split('+')[0];
-    public const string ClientVersion = "0.6.0-alpha.2";
+    public const string ClientVersion = "0.6.0-alpha.3";
     public const string MinecraftVersion = "1.8.9";
     public const string ForgeBuild = "11.15.1.2318";
     public const string JarName = "AlienClient-Unified-1.8.9.jar";
-    public const string ClientSource = "32829c561b8dc53719a71b7a6621c58cb5a2e8f5";
-    public const string ClientRun = "40136496598";
-    public const string ClientSha256 = "17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc";
+    public const string ClientSource = "269ecd7ade044db00ab06e410763f3ddc1d1ade6";
+    public const string ClientRun = "40873708575";
+    public const string ClientSha256 = "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842";
     public string Label => Alien ? $"Alien {ClientVersion} / Forge {MinecraftVersion}" : $"Minecraft {Version} / Vanilla";
     public void Validate()
     {
