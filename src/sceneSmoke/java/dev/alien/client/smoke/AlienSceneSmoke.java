@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;import net.minecraft.client.gui.*;import n
 import net.minecraftforge.fml.common.*;import net.minecraftforge.fml.common.event.*;import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;import net.minecraftforge.fml.common.gameevent.TickEvent;import org.lwjgl.opengl.*;
 @Mod(modid="alien_scene_smoke",name="Alien visual scenes validation",version="1",clientSideOnly=true,dependencies="required-after:alienclient")
 public final class AlienSceneSmoke {
- private Minecraft m;private File out;private int stage;private long since,start,frames,bones,cute,glass,landings,bodyGlass,heldGlass,dropGlass;private boolean done,animationCaptured;private java.awt.Robot robot;private final Set<Integer> skyColors=new HashSet<Integer>();private BufferedImage cosmic;private final List<String> checks=new ArrayList<String>();
+ private Minecraft m;private File out;private int stage;private long since,start,frames,bones,cute,glass,landings,bodyGlass,heldGlass,dropGlass;private boolean done,animationCaptured;private java.awt.Robot robot;private final Set<List<Integer>> skyFrames=new HashSet<List<Integer>>();private BufferedImage cosmic;private final List<String> checks=new ArrayList<String>();
  private ClientConfig c(){return AlienClient.get().config();}
  @Mod.EventHandler public void init(FMLInitializationEvent e)throws Exception{if(!Boolean.getBoolean("alien.scene.smoke"))return;m=Minecraft.getMinecraft();out=new File(System.getProperty("alien.scene.smoke.output"));Files.createDirectories(out.toPath());Files.deleteIfExists(new File(out,"result.txt").toPath());AlienClient.get().store().resetDefaults();start=since=System.nanoTime();FMLCommonHandler.instance().bus().register(this);}
  private long elapsed(long t){return (System.nanoTime()-t)/1000000;}
@@ -14,7 +14,14 @@ public final class AlienSceneSmoke {
  private EntityPlayerMP sp(){return m.getIntegratedServer().getConfigurationManager().playerEntityList.get(0);}
  private void next(){stage++;since=System.nanoTime();System.out.println("ALIEN_SCENE_STAGE "+stage);}
  private void require(boolean b,String s){if(!b)throw new AssertionError(s);checks.add(s);System.out.println("ALIEN_SCENE_CHECK "+s);}
- private void capture(String s)throws Exception{File f=new File(out,"screenshots/"+s+".png");Files.deleteIfExists(f.toPath());ScreenShotHelper.saveScreenshot(out,s+".png",m.displayWidth,m.displayHeight,m.getFramebuffer());BufferedImage im=ImageIO.read(f);require(im!=null&&im.getWidth()==m.displayWidth,"Real framebuffer "+s);require(GL11.glGetError()==GL11.GL_NO_ERROR,"Clean OpenGL after "+s);if(s.endsWith("sky")&&c().scenes.skyIndex()>0)skyColors.add(im.getRGB(im.getWidth()/4,im.getHeight()/5));}
+ private void capture(String s)throws Exception{File f=new File(out,"screenshots/"+s+".png");Files.deleteIfExists(f.toPath());ScreenShotHelper.saveScreenshot(out,s+".png",m.displayWidth,m.displayHeight,m.getFramebuffer());BufferedImage im=ImageIO.read(f);require(im!=null&&im.getWidth()==m.displayWidth,"Real framebuffer "+s);require(GL11.glGetError()==GL11.GL_NO_ERROR,"Clean OpenGL after "+s);if(s.endsWith("sky")&&c().scenes.skyIndex()>0)skyFrames.add(skySamples(im));}
+ /** Compare sky regions: different presets can legitimately share one RGB pixel. */
+ private List<Integer> skySamples(BufferedImage image){
+  List<Integer> samples=new ArrayList<Integer>();
+  for(int y=image.getHeight()/10;y<image.getHeight()/3;y+=8)
+   for(int x=image.getWidth()/4;x<image.getWidth()*3/4;x+=8)samples.add(image.getRGB(x,y));
+  return samples;
+ }
  private void step()throws Exception{SceneConfig fx=c().scenes;
   switch(stage){
    case 0:if(m.currentScreen==null)return;require(!fx.enabled,"Old profiles start with all new scene FX off");Display.setDisplayMode(new DisplayMode(1280,720));java.lang.reflect.Method resize=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);resize.setAccessible(true);resize.invoke(m,1280,720);m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=30;m.gameSettings.renderDistanceChunks=4;m.gameSettings.pauseOnLostFocus=false;m.launchIntegratedServer("AlienScenes-"+System.currentTimeMillis(),"Disposable scenes validation",new WorldSettings(42,WorldSettings.GameType.CREATIVE,false,false,WorldType.FLAT));next();return;
@@ -45,7 +52,7 @@ public final class AlienSceneSmoke {
    case 16:capture("83-fire-sky");fx.sky="Sunset";next();return;
    case 17:capture("84-sunset-sky");fx.sky="Ocean";next();return;
    case 18:capture("85-ocean-sky");fx.sky="Storm";next();return;
-   case 19:capture("86-storm-sky");require(skyColors.size()==8,"All eight sky presets have distinct real framebuffer samples");fx.enabled=false;frames=SceneShaders.frames();next();return;
+   case 19:capture("86-storm-sky");require(skyFrames.size()==8,"All eight sky presets have distinct sampled framebuffer regions");fx.enabled=false;frames=SceneShaders.frames();next();return;
    case 20:require(SceneShaders.frames()==frames,"Scene FX OFF leaves the original renderer untouched");require(SceneManager.waveCount()==0&&SceneManager.pathCount()==0,"OFF clears transient wave and chroma histories");capture("87-scene-fx-off-restored");require(sp().worldObj.getWorldTime()==6000,"Visual modes never change actual server time");fx.enabled=true;fx.mode="Chroma";fx.sky="Off";m.thePlayer.rotationPitch=22;m.gameSettings.thirdPersonView=1;robot=new java.awt.Robot();robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
    case 21:robot.keyRelease(java.awt.event.KeyEvent.VK_W);require(SceneManager.pathCount()>1,"Actual X11 movement leaves multiple Chroma color-history samples");capture("88-chroma-moving-path");fx.enabled=false;m.loadWorld(null);m.displayGuiScreen(new net.minecraft.client.gui.GuiMainMenu());next();return;
    case 22:require(SceneManager.pathCount()==0&&SceneManager.waveCount()==0,"Disconnect clears all scene histories");capture("89-scene-after-disconnect");done=true;write(true,null);m.shutdown();return;
