@@ -32,6 +32,7 @@ jobs:
       ALIEN_TOOLS_DIR: ${{ github.workspace }}/.tools
       GRADLE_USER_HOME: ${{ github.workspace }}/.gradle-user
       ALIEN_EDITION: "unified"
+      ALIEN_VALIDATED_REVISION: ${{ github.event.pull_request.head.sha || github.sha }}
       ALIEN_COMBAT_SMOKE_TIMEOUT_SECONDS: "480"
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +52,9 @@ jobs:
       - name: Bootstrap verified JDK 8 and Gradle 2.14.1
         run: bash ./scripts/bootstrap.sh
       - name: Compile Unified, run JUnit and verify actual JAR provenance
-        run: ./gradlew --no-daemon -Pedition=unified clean setupDecompWorkspace build
+        run: |
+          test "$(git rev-parse HEAD)" = "$ALIEN_VALIDATED_REVISION"
+          ./gradlew --no-daemon -Pedition=unified clean setupDecompWorkspace build
       - name: Inspect Unified artifact
         run: |
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar

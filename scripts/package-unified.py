@@ -150,7 +150,7 @@ CODIGO E RELATORIOS
 https://github.com/AttackAlien/Alien-Client
 """
     run_id = os.environ.get("GITHUB_RUN_ID", "execucao-local")
-    revision = os.environ.get("GITHUB_SHA", "codigo-local")
+    revision = os.environ.get("ALIEN_VALIDATED_REVISION", os.environ.get("GITHUB_SHA", "codigo-local"))
     validation = (
         "ALIEN CLIENT UNIFIED - VALIDACAO DA COMPILACAO\n"
         "GitHub Actions run: " + run_id + "\n"
