@@ -73,7 +73,7 @@ public sealed class InstanceInstaller(string root, ClientPayload payload)
         return await installed.Runtime.BuildProcessAsync(installed.VersionId, new MLaunchOption
         {
             Session = session, MaximumRamMb = Math.Clamp(ram, 1024, 16384), JavaPath = installed.JavaPath,
-            ScreenWidth = 1280, ScreenHeight = 720, GameLauncherName = "AlienLauncher", GameLauncherVersion = "0.2.0-alpha.1"
+            ScreenWidth = 1280, ScreenHeight = 720, GameLauncherName = "AlienLauncher", GameLauncherVersion = LauncherProfile.LauncherVersion
         }, ct);
     }
 }

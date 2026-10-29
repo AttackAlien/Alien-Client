@@ -7,7 +7,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>AlienLauncher</AssemblyName>
     <RootNamespace>AlienLauncher</RootNamespace>
-    <Version>0.3.0-alpha.2</Version>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>

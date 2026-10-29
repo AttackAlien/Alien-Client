@@ -12,7 +12,8 @@ public sealed class LauncherTests : IDisposable
     public void Dispose() => Directory.Delete(root, true);
     [Theory]
     [InlineData("../1.8.9")][InlineData("1.8.9/../../")][InlineData("latest")][InlineData("26w1a")][InlineData("1.8.9;anything")]
-    public void InvalidVersionNeverCreatesAProfile(string id) => Assert.Throws<InvalidDataException>(() => new LauncherProfile(id, false).DirectoryAt(root));
+    [InlineData("1.8.9\n")][InlineData("1.8.9\r\n")][InlineData(" 1.8.9")][InlineData(null)]
+    public void InvalidVersionNeverCreatesAProfile(string? id) => Assert.Throws<InvalidDataException>(() => new LauncherProfile(id!, false).DirectoryAt(root));
     [Fact] public void AlienCannotBeInjectedIntoModernMinecraft() => Assert.Throws<InvalidDataException>(() => new LauncherProfile("1.21.1", true).Validate());
     [Fact] public void ProfilesHaveIndependentSavesModsAndSettings()
     {
@@ -31,6 +32,40 @@ public sealed class LauncherTests : IDisposable
     {
         string java = Environment.GetEnvironmentVariable("ALIEN_TEST_JAVA8") ?? throw new InvalidOperationException("Set ALIEN_TEST_JAVA8");
         Assert.Equal(8, await RuntimePolicy.CheckAsync(java, 8)); await Assert.ThrowsAsync<InvalidDataException>(() => RuntimePolicy.CheckAsync(java, 21));
+    }
+    [Fact] public void NonzeroJavaExitIsRejectedEvenWithAValidVersionHeader()
+    { Assert.Throws<InvalidDataException>(() => RuntimePolicy.ValidateVersionResult(42, "openjdk version \"1.8.0_472\"", 8)); }
+    [Fact] public void SuccessfulJavaVersionResponseKeepsMajorValidation()
+    {
+        Assert.Equal(8, RuntimePolicy.ValidateVersionResult(0, "openjdk version \"1.8.0_472\"", 8));
+        Assert.Throws<InvalidDataException>(() => RuntimePolicy.ValidateVersionResult(0, "openjdk version \"21.0.9\"", 8));
+    }
+    [Fact] public void OversizedValidSettingsRecoverAndPreserveExactOriginal()
+    {
+        string original = "{\"MemoryMb\":2048}" + new string(' ', 17000);
+        File.WriteAllText(Path.Combine(root, "settings.json"), original);
+        var recovered = LauncherPreferences.Load(root);
+        Assert.Equal(4096, recovered.MemoryMb); Assert.True(recovered.Alien); Assert.NotEmpty(recovered.RecoveryMessage);
+        string backup = Assert.Single(Directory.EnumerateFiles(root, "settings.invalid-*.json"));
+        Assert.Equal(original, File.ReadAllText(backup));
+        recovered.MemoryMb = 6144; recovered.Save(root);
+        Assert.Equal(6144, LauncherPreferences.Load(root).MemoryMb);
+        Assert.DoesNotContain("RecoveryMessage", File.ReadAllText(Path.Combine(root, "settings.json")));
+    }
+    [Fact] public void CorruptSettingsBackupDoesNotBlockTheNextLaunch()
+    {
+        File.WriteAllText(Path.Combine(root, "settings.json"), "broken-json");
+        var recovered = LauncherPreferences.Load(root); recovered.Save(root);
+        Assert.Equal("broken-json", File.ReadAllText(Assert.Single(Directory.EnumerateFiles(root, "settings.invalid-*.json"))));
+        Assert.Empty(LauncherPreferences.Load(root).RecoveryMessage);
+    }
+    [Fact] public void OversizedSerializationNeverReplacesUsableSettings()
+    {
+        new LauncherPreferences { MemoryMb = 2048 }.Save(root);
+        string before = File.ReadAllText(Path.Combine(root, "settings.json"));
+        Assert.Throws<InvalidDataException>(() => new LauncherPreferences { Java8Path = new string('\u6f22', 3000) }.Save(root));
+        Assert.Equal(before, File.ReadAllText(Path.Combine(root, "settings.json")));
+        Assert.Empty(Directory.EnumerateFiles(root, "*.tmp"));
     }
     [Fact] public void DiagnosticsRemoveTokensBearerJsonUrlsAndJwt()
     {

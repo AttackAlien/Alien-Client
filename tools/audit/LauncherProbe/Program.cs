@@ -19,8 +19,13 @@ try
         string java = Path.Combine(root, "failed-java");
         await File.WriteAllTextAsync(java, "#!/bin/sh\nprintf 'openjdk version \"1.8.0_472\"\\n' >&2\nexit 42\n");
         File.SetUnixFileMode(java, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
-        int accepted = await RuntimePolicy.CheckAsync(java, 8);
-        observations.Add(new { test = "java_exit_42", acceptedMajor = accepted, actualExit = 42, fixture = "synthetic version-output wrapper; not a real JVM" });
+        try
+        {
+            int accepted = await RuntimePolicy.CheckAsync(java, 8);
+            observations.Add(new { test = "java_exit_42", acceptedMajor = accepted, rejected = false });
+        }
+        catch (InvalidDataException)
+        { observations.Add(new { test = "java_exit_42", rejected = true, actualExit = 42, fixture = "synthetic version-output wrapper; not a real JVM" }); }
     }
     observations.Add(new { test = "release_id_with_newline", accepted = Accepted("1.8.9\n") });
 

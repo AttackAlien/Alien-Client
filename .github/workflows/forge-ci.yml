@@ -2,8 +2,15 @@ name: Alien Client - Forge 1.8.9 CI
 
 on:
   pull_request:
-    branches:
-      - main
+    paths:
+      - "src/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - "gradle/**"
+      - "gradlew"
+      - "gradle.properties"
+      - "scripts/**"
+      - ".github/workflows/forge-ci.yml"
   workflow_dispatch:
 
 permissions:
@@ -35,6 +42,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Select Java 8 (ForgeGradle 2.1 requirement)
         uses: actions/setup-java@v4

@@ -73,6 +73,36 @@ public class ConfigStoreTest {
         assertEquals("Nebula", reloaded.config().theme);
         assertEquals(1, store.directory().listFiles((dir,name) -> name.startsWith("config.invalid-")).length);
     }
+    @Test public void manualProfileSwitchKeepsBoundProfileAndGlobalPreferences() throws IOException {
+        store.config().theme = "Global"; store.save();
+        store.config().theme = "Server A"; store.saveProfile("server_A");
+        store.config().theme = "Personal B"; store.config().perServerProfiles = false; store.saveProfile("personal_B");
+        store.config().theme = "Global"; store.config().perServerProfiles = true;
+        store.bindServer("audit.example", "server_A"); store.loadServerProfile("audit.example");
+        byte[] beforeA = Files.readAllBytes(new File(store.directory(), "profiles/server_A.json").toPath());
+        byte[] beforeB = Files.readAllBytes(new File(store.directory(), "profiles/personal_B.json").toPath());
+        assertTrue(store.loadProfile("personal_B"));
+        assertEquals("Personal B", store.config().theme);
+        assertTrue(store.config().perServerProfiles);
+        assertArrayEquals(beforeA, Files.readAllBytes(new File(store.directory(), "profiles/server_A.json").toPath()));
+        assertArrayEquals(beforeB, Files.readAllBytes(new File(store.directory(), "profiles/personal_B.json").toPath()));
+        assertEquals("server_A", store.serverProfile("audit.example"));
+        store.config().theme = "Edited B"; store.save();
+        assertEquals("Server A", store.previewProfile("server_A").theme);
+        assertEquals("Edited B", store.previewProfile("personal_B").theme);
+        store.leaveServerProfile(); assertEquals("Global", store.config().theme);
+        ConfigStore reloaded = new ConfigStore(store.directory()); reloaded.load();
+        assertEquals("Global", reloaded.config().theme);
+        reloaded.loadServerProfile("audit.example"); assertEquals("Server A", reloaded.config().theme);
+    }
+    @Test public void rejectedManualProfileDoesNotChangeServerSaveDestination() throws IOException {
+        store.config().theme = "Server A"; store.saveProfile("server_A");
+        store.bindServer("audit.example", "server_A"); store.loadServerProfile("audit.example");
+        write(new File(store.directory(), "profiles/broken.json"), "{\"version\":999}");
+        try { store.loadProfile("broken"); fail("Unsupported profile accepted"); } catch (IOException expected) { }
+        store.config().theme = "Edited A"; store.save();
+        assertEquals("Edited A", store.previewProfile("server_A").theme);
+    }
     @Test public void perServerSaveDoesNotOverwriteGlobalDefaults() throws IOException {
         store.config().theme = "Global"; store.save();
         store.config().theme = "Server"; store.saveProfile("server");

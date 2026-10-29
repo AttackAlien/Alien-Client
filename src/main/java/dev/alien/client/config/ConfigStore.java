@@ -72,6 +72,15 @@ public final class ConfigStore {
         File file = safeFile(new File(directory, "profiles"), name + ".json");
         if (!file.isFile()) return false;
         ClientConfig next = read(file);
+        if (serverBase != null) {
+            // Manual selection overrides the automatic profile for this connection.
+            // Keep the binding and global baseline; future edits belong to the
+            // explicitly selected profile, never to the previously bound one.
+            next.perServerProfiles = current.perServerProfiles;
+            current = next;
+            activeServerProfile = name;
+            return true;
+        }
         ClientConfig previous = current;
         current = next;
         try { save(); } catch (IOException e) { current = previous; throw e; }
