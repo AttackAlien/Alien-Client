@@ -352,8 +352,8 @@ public final class AlienUltimateSmoke {
             Field input=m.currentScreen.getClass().getDeclaredField("input");input.setAccessible(true);((GuiTextField)input.get(m.currentScreen)).setText("0.35");click(1);
             require(Math.abs(trail().headOpacity-.35f)<1e-5,"Typed curve value is applied through the actual numeric control");next();return;}
         case 55:
-            capture("134-trail-exact-opacity");c().cosmetics.self.animations=true;m.displayGuiScreen(null);
-            m.gameSettings.thirdPersonView=1;m.thePlayer.rotationYaw=-40;m.thePlayer.rotationPitch=22;
+            capture("134-trail-exact-opacity");trail().headOpacity=1;c().cosmetics.self.animations=true;m.displayGuiScreen(null);
+            m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw=-40;m.thePlayer.rotationPitch=-12;
             robot.keyPress(java.awt.event.KeyEvent.VK_W);robot.keyPress(java.awt.event.KeyEvent.VK_D);next();return;
         case 56:
             require(CosmeticManager.texturedRibbonSegments()>0&&"smoke-streak.png".equals(CosmeticManager.lastTrailTextureName()),"Real player movement renders the imported PNG on world-space ribbon geometry");

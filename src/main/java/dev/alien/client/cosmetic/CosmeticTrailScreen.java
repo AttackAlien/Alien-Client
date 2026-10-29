@@ -21,7 +21,7 @@ public final class CosmeticTrailScreen extends PremiumScreen {
     private boolean opacity;
     private GuiButton activeControl;
     private List<String> textures;
-    private String message="Drag points / right-click for an exact value. Tail -> Head.";
+    private String message="Drag points / right-click: exact value.";
     private static final String[] STOPS={"Tail","Middle","Head"};
 
     public CosmeticTrailScreen(GuiScreen parent,CosmeticConfig.Accessory a){this.parent=parent;this.a=a;}
@@ -99,7 +99,7 @@ public final class CosmeticTrailScreen extends PremiumScreen {
         String note="Particles".equals(a.trailStyle)?"Particle style uses its existing settings; select Ribbon to design.":message;
         if(!materialError.isEmpty())note="Soft fallback / "+materialError;
         Ui.text(fontRendererObj.trimStringToWidth(note,panelWidth-102),left,height-18,materialError.isEmpty()?Ui.theme().muted:0xffff8799);
-        if(maximumScroll>0)Ui.text("Scroll",left+panelWidth-44,bodyBottom-13,Ui.theme().muted);
+        if(maximumScroll>0)Ui.text("Scroll",left+panelWidth-42,15,Ui.theme().muted);
     }
     private void drawCurve(){
         boolean editable=d().enabled&&"Ribbon".equals(a.trailStyle);

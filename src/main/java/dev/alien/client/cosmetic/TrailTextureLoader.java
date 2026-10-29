@@ -24,7 +24,7 @@ public final class TrailTextureLoader {
         if (CosmeticConfig.safeName(name,".png").isEmpty()) throw new IOException("Choose a local PNG filename");
         File file=new File(directory,name); rejectLinks(file);
         if (!file.getCanonicalFile().getParentFile().equals(directory.getCanonicalFile()) || !file.isFile() || file.length()>MAX_BYTES)
-            throw new IOException("PNG missing or larger than 1 MiB");
+            throw new IOException("PNG missing or >1 MiB");
         try (ImageInputStream input=ImageIO.createImageInputStream(file)) {
             if (input==null) throw new IOException("Cannot open PNG");
             Iterator<ImageReader> readers=ImageIO.getImageReaders(input);
@@ -34,7 +34,7 @@ public final class TrailTextureLoader {
                 reader.setInput(input);
                 if (!"png".equalsIgnoreCase(reader.getFormatName())) throw new IOException("Texture must be PNG");
                 int w=reader.getWidth(0),h=reader.getHeight(0);
-                if (w<1 || h<1 || w>MAX_DIMENSION || h>MAX_DIMENSION) throw new IOException("PNG dimensions must be 1..1024");
+                if (w<1 || h<1 || w>MAX_DIMENSION || h>MAX_DIMENSION) throw new IOException("PNG dimensions: 1..1024");
                 BufferedImage image=reader.read(0);
                 if (image==null) throw new IOException("Cannot decode PNG");
                 return image;
