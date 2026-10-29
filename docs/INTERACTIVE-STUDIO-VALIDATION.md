@@ -18,7 +18,7 @@ Fonte `32829c561b8dc53719a71b7a6621c58cb5a2e8f5`, branch `feature/interactive-st
 
 São **525 execuções JUnit** (175 por composição) e **526 verificações gráficas** em seis sessões Unified. Checks incluem capturas, controles, pixels, persistência e entidades; não são 526 comparações golden image nem benchmark. Evidência final: **24/10/2026, 21:59–22:05 UTC**.
 
-[154 fotos originais](../captures/README.md) · [MP4 4min48s / GIF 2min59s](../captures/video-atual/README.md) · [Resultados/proveniência](../captures/atual/unified/validation.json) · [JAR/ZIP testado](../downloads/v0.6.0-alpha.2/).
+[154 fotos originais](https://github.com/AttackAlien/Alien-Client/blob/8bf23165744e0fc630689c1de76ca0b6316a191c/captures/README.md) · [MP4 4min48s / GIF 2min59s](https://github.com/AttackAlien/Alien-Client/blob/8bf23165744e0fc630689c1de76ca0b6316a191c/captures/video-atual/README.md) · [Resultados/proveniência](https://github.com/AttackAlien/Alien-Client/blob/8bf23165744e0fc630689c1de76ca0b6316a191c/captures/atual/unified/validation.json) · [JAR/ZIP testado](../downloads/v0.6.0-alpha.2/).
 
 ## Verificações novas
 

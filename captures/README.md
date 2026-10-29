@@ -1,12 +1,14 @@
-# Capturas atuais — Alien Interactive Studio 0.6.0-alpha.2
+# Capturas atuais — Alien Client Unified 0.6.0-alpha.3
 
-**154 PNGs originais**, executando **Minecraft Forge 1.8.9**, em **24/10/2026, 21:59–22:05 UTC**. Fonte `32829c561b8dc53719a71b7a6621c58cb5a2e8f5`; Java 8u472, Linux/Xvfb/Mesa. 153 capturas reais do framebuffer e uma captura direta da janela X11, sem retoque, montagem ou geração por IA.
+**154 PNGs novos e originais**, obtidos em **29/10/2026**, executando Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa. Fonte `269ecd7ade044db00ab06e410763f3ddc1d1ade6`, [CI aprovado 40873708575](https://github.com/AttackAlien/Alien-Client/actions/runs/40873708575). O período do workflow foi 09:29:43–09:39:51 no fuso da Bahia (UTC−3); ele inclui compilação e testes, não somente o momento das capturas.
 
-O segundo vídeo trouxe menu 3D, controles de cena, Orbit, galeria, perfis, oito estilos de céu nomeados e novos efeitos. Foram integrados às funções anteriores, mantendo Minecraft 1.8.9. [Recursos e limites](../docs/INTERACTIVE-STUDIO.md) · [Resultados e comandos](../docs/INTERACTIVE-STUDIO-VALIDATION.md) · [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge.
+153 PNGs vêm do framebuffer e um da janela X11. Foram copiados sem retoques, montagem ou geração de imagem. **Todas as imagens anteriores desta pasta foram substituídas.** O GIF da capa foi refeito com os doze frames originais novos. O vídeo longo anterior foi retirado da galeria atual; não há nova gravação contínua nesta correção.
 
-**Todas as mídias da pasta atual foram substituídas por esta revisão.** Seis sessões passaram **526 verificações gráficas**: geral 161, céu 37, combate 24, HUD/Full/cosméticos 92, Scene Studio 70, Interactive Studio 142. Incluem checks de captura e estados; não são 526 golden images ou benchmark. JUnit: **175 por composição**, zero falhas.
+**181 JUnit, 526 verificações gráficas em seis sessões e 12 testes de empacotamento aprovados.** As sessões foram: menus/geral 161, céu 37, combate 24, HUD/Full/cosméticos 92, Scene Studio 70 e Interactive Studio 142. Esses números incluem estados, handlers e verificações de captura; não são benchmark ou 526 golden images.
 
-**[Vídeo completo — 4min48s / GIF — 2min59s](video-atual/README.md)** · [JAR/ZIP atual](../downloads/v0.6.0-alpha.2/) · [Todos os PNGs](atual/unified/)
+[Correções e resultados](../docs/AUDIT-FIXES-2026-10-29.md) · [JAR/ZIP corrigido](../downloads/v0.6.0-alpha.3/README.md) · [Fotos novas do launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [Todos os PNGs](atual/unified/) · [PR #21](https://github.com/AttackAlien/Alien-Client/pull/21), sem merge.
+
+Os recursos visuais existentes foram preservados. Esta revisão corrige perfis e miniaturas. Os logs ainda registram limitações dos fixtures ao descarregar mundos e ausência de áudio no runner; [ocorrências observadas](atual/unified/known-log-errors.txt). Os checks passaram, mas os logs não estão livres de erros.
 
 | Recurso novo | Captura real |
 | --- | --- |

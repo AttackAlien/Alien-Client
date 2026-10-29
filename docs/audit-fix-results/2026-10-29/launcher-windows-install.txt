@@ -1,0 +1,26 @@
+Verificando Minecraft 1.8.9 e o Java gerenciado...
+Arquivos: 0/1 — com.mojang:netty:1.8.8
+Arquivos: 1/951 — net.java.dev.jna:platform:3.4.0
+Arquivos: 25/951 — net.java.dev.jna:jna:3.4.0
+Arquivos: 52/951 — minecraft/lang/eo_UY.lang
+Arquivos: 85/951 — minecraft/lang/lv_LV.lang
+Arquivos: 223/951 — minecraft/sounds/mob/chicken/say2.ogg
+Arquivos: 486/951 — minecraft/sounds/mob/villager/idle1.ogg
+Arquivos: 591/951 — minecraft/sounds/note/bd.ogg
+Arquivos: 699/951 — realms/lang/en_AU.lang
+Arquivos: 737/951 — realms/lang/nn_NO.lang
+Arquivos: 766/951 — Welcome.html
+Arquivos: 789/951 — bin/jabswitch.exe
+Arquivos: 813/951 — bin/jsound.dll
+Arquivos: 839/951 — bin/servertool.exe
+Arquivos: 863/951 — lib/content-types.properties
+Arquivos: 887/951 — lib/ext/sunec.jar
+Arquivos: 927/951 — lib/management-agent.jar
+Arquivos: 950/951 — release
+Arquivos: 951/951 — lib/rt.jar
+Instalando/verificando Forge 11.15.1.2318 com Java 8...
+Arquivos: 0/1 — net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9
+Arquivos: 3/968 — org.scala-lang.plugins:scala-continuations-plugin_2.11.1:1.0.2
+Arquivos: 968/968 — net.sf.trove4j:trove4j:3.0.3
+Instalação verificada. Java 8.
+INSTALL_PASS {"VersionId":"1.8.9-forge1.8.9-11.15.1.2318-1.8.9","JavaMajor":8,"Directory":"D:\\a\\_temp\\AlienLauncher-InstallProbe\\instances\\unified-1.8.9"}

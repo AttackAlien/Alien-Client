@@ -1,27 +1,35 @@
-# Alien Launcher 0.3.0-alpha.2 — novo emblema
+# Alien Launcher 0.3.0-alpha.3 — capturas atuais
 
-**26/10/2026 às 11:50 (Bahia)**. Quatro capturas novas da janela realmente executada no Windows Server 2022, por `Graphics.CopyFromScreen`. Sem mockups, montagem ou geração por IA. O novo emblema aparece no painel e na lateral; o restante da interface foi preservado. As capturas anteriores do launcher foram removidas desta pasta; somente a rodada atual está publicada aqui.
+**29/10/2026, 09:43 no fuso da Bahia (UTC−3)**. Seis PNGs originais da janela realmente executada no Windows Server 2022, por `Graphics.CopyFromScreen`. Capturas anteriores desta pasta foram substituídas. Layout e emblema aprovados foram preservados.
 
-[Baixar launcher 0.3](../../downloads/launcher/v0.3.0-alpha.2/README.md) · [Validação e limites](../../docs/LAUNCHER-REDESIGN-0.3.md) · [CI aprovado 40343053042](https://github.com/AttackAlien/Alien-Client/actions/runs/40343053042) · [Metadados e hashes](manifest.json).
+[Baixar launcher corrigido](../../downloads/launcher/v0.3.0-alpha.3/README.md) · [Resultados e limites](../../docs/AUDIT-FIXES-2026-10-29.md) · [CI 40875290339](https://github.com/AttackAlien/Alien-Client/actions/runs/40875290339) · [Metadados e hashes](manifest.json) · [Minecraft executado no Forge](../README.md).
 
-## Tela inicial
+## Tela inicial — Unified 0.6.0-alpha.3
 
-![Launcher real — tela inicial nova](01-launcher-alien.png)
+![Janela real do launcher com o client corrigido](01-launcher-alien.png)
 
 ## Perfil Vanilla independente
 
-![Launcher real — perfil Vanilla](02-launcher-vanilla.png)
+![Vanilla 1.21.1 selecionado na janela real](02-launcher-vanilla.png)
 
-## Configurações e controle de RAM
+## Configurações e RAM
 
-O teste abriu esta tela pelo botão real, ajustou a RAM pelo teclado e salvou 6 GB. O valor foi recuperado depois de fechar a janela.
-
-![Launcher real — configurações](03-launcher-settings.png)
+![Configurações reais com 6 GB salvos](03-launcher-settings.png)
 
 ## Diagnóstico
 
-Conteúdo real da sessão de teste, sem credenciais. O relógio dentro da janela usa UTC, o fuso do runner.
+![Diagnóstico real da sessão](04-launcher-diagnostics.png)
 
-![Launcher real — diagnóstico](04-launcher-diagnostics.png)
+## Vanilla salvo restaurado ao reabrir
 
-**22 testes Linux, 22 Windows e 36 verificações da interface passaram.** A conta está desconectada; não foi simulado um login Microsoft. O cenário no painel principal é um asset de uma captura anterior do client. Estas imagens comprovam a interface nova em execução, sem representar nova execução do Minecraft ou gameplay Windows.
+O teste salvou 1.21.4, reabriu a janela e confirmou o seletor, o botão Jogar Minecraft e a persistência após fechar. A versão não foi substituída por Alien.
+
+![Vanilla 1.21.4 restaurado na janela real](05-launcher-restored-vanilla.png)
+
+## Configuração inválida recuperada
+
+A janela abriu após encontrar um JSON válido maior que 16 KiB, recuperou padrões e preservou o original em backup. O teste abriu o diagnóstico e conferiu o nome exato do arquivo preservado.
+
+![Aviso real de recuperação da configuração](06-launcher-settings-recovery.png)
+
+**31 testes Linux, 31 Windows e 46 verificações da interface passaram**, incluindo limites de controles e checagens de captura. A instalação isolada do Forge/Java também passou. Não houve login Microsoft nesta coleta. O cenário do painel é um asset de uma captura anterior do Minecraft; estas fotos registram o launcher WinForms. O emblema é arte de marca incorporada ao produto; os PNGs de evidência são leituras reais do desktop, sem retoques ou geração de imagem.

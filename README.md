@@ -15,8 +15,8 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 </p>
 
 <p>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=feature%2Finteractive-studio-20261024"></a>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=feature%2Finteractive-studio-20261024"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=fix%2Faudit-findings-20261026"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=fix%2Faudit-findings-20261026"></a>
 </p>
 
 <a href="#-comece-a-jogar"><strong>COMECE A JOGAR</strong></a>
@@ -43,7 +43,9 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
-Nesta branch, a **0.6.0-alpha.2** acrescenta menu 3D interativo, Orbit/galeria de módulos, biblioteca local de perfis, oito estilos de céu nomeados e Mist, Afterglow, Radiance, Target ESP, Bokeh, Hand Movement, Name Tags e Zoom. Preserva HUD/Full, cosméticos, trilhas e Scene Studio dos PRs #15/#16/#17. **Minecraft continua 1.8.9**. [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge. [Recursos/limites](docs/INTERACTIVE-STUDIO.md) · [Validação](docs/INTERACTIVE-STUDIO-VALIDATION.md) · [Build de teste](downloads/v0.6.0-alpha.2/).
+Nesta branch, a **0.6.0-alpha.3** reúne menu 3D interativo, Orbit/galeria de módulos, biblioteca local de perfis, oito estilos de céu nomeados e Mist, Afterglow, Radiance, Target ESP, Bokeh, Hand Movement, Name Tags e Zoom. Preserva HUD/Full, cosméticos, trilhas e Scene Studio dos PRs #15/#16/#17. **Minecraft continua 1.8.9**. [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge. [Recursos/limites](docs/INTERACTIVE-STUDIO.md) · [Validação](docs/INTERACTIVE-STUDIO-VALIDATION.md) · [Build de teste](downloads/v0.6.0-alpha.3/).
+
+A revisão **0.6.0-alpha.3 / launcher 0.3.0-alpha.3** corrige os achados da auditoria, preservando os recursos e o visual aprovados. [Correções e testes](docs/AUDIT-FIXES-2026-10-29.md) · [PR #21](https://github.com/AttackAlien/Alien-Client/pull/21), sem merge.
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -64,7 +66,7 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
-[Assistir ao vídeo real completo (4min48s) ou ao GIF de prévia (2min59s)](captures/video-atual/README.md).
+[Ver as capturas reais atuais](captures/README.md) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
 
 <table>
   <tr>
@@ -146,16 +148,16 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ### Opção A — Alien Launcher 0.3 *(alpha para Windows x64)*
 
-A interface 0.3 traz navegação lateral, cenário do client, controles escuros e configurações separadas. O launcher incorpora o **Unified 0.6.0-alpha.2**, instala Forge/Java em uma pasta isolada e verifica a integridade do client antes de abri-lo. Inclui seleção de Java 8, RAM/perfis persistentes, cancelar, sair da conta e diagnóstico. O seletor oferece **Alien em Forge 1.8.9** ou **Minecraft Vanilla independente**; os módulos do Alien continuam exclusivos da versão 1.8.9.
+A interface 0.3 traz navegação lateral, cenário do client, controles escuros e configurações separadas. O launcher incorpora o **Unified 0.6.0-alpha.3**, instala Forge/Java em uma pasta isolada e verifica a integridade do client antes de abri-lo. Inclui seleção de Java 8, RAM/perfis persistentes, cancelar, sair da conta e diagnóstico. O seletor oferece **Alien em Forge 1.8.9** ou **Minecraft Vanilla independente**; os módulos do Alien continuam exclusivos da versão 1.8.9.
 
-**[→ Baixar o pacote portátil de teste](downloads/launcher/v0.3.0-alpha.2/README.md)** · [Capturas reais atuais](captures/launcher-atual/README.md) · [Validação e limites](docs/LAUNCHER-REDESIGN-0.3.md) · [PR #19](https://github.com/AttackAlien/Alien-Client/pull/19)
+**[→ Baixar o pacote portátil de teste](downloads/launcher/v0.3.0-alpha.3/README.md)** · [Capturas reais atuais](captures/launcher-atual/README.md) · [Validação e limites](docs/LAUNCHER-REDESIGN-0.3.md) · [PR #21](https://github.com/AttackAlien/Alien-Client/pull/21)
 
 Extraia o ZIP inteiro e abra `AlienLauncher.exe`. O login exige uma conta Microsoft que possua Minecraft Java e o WebView2 Runtime. **Autenticação Microsoft interativa e gameplay num PC Windows físico ainda precisam de validação.** Este candidato incorpora o trabalho do PR #12; não é release estável e não foi mesclado na main.
 
 ### Opção B — Minecraft Forge + Alien Client
 
 1. Instale o **Minecraft Java 1.8.9**, o **Forge 11.15.1.2318** e use **Java 8**.
-2. Baixe o [**candidato testado 0.6.0-alpha.2**](downloads/v0.6.0-alpha.2/README.md) desta branch / PR #18.
+2. Baixe o [**candidato testado 0.6.0-alpha.3**](downloads/v0.6.0-alpha.3/README.md) desta branch / PR #21.
 3. Extraia `AlienClient-Unified-1.8.9.jar` do ZIP de instalação, ou baixe o JAR diretamente na mesma página.
 4. Copie o JAR para a pasta `mods` da instalação Forge 1.8.9. **Remova outros JARs do Alien Client** desse perfil.
 5. Entre em um mundo e aperte **Right Shift** para abrir a interface.
@@ -180,7 +182,7 @@ O projeto usa **Java 8**, **Minecraft Forge 1.8.9** e **ForgeGradle**. Para comp
 ```bash
 git clone https://github.com/AttackAlien/Alien-Client.git
 cd Alien-Client
-git switch feature/interactive-studio-20261024
+git switch fix/audit-findings-20261026
 bash scripts/bootstrap.sh
 ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
 ```
@@ -194,7 +196,7 @@ Saída esperada: `build/unified/libs/AlienClient-Unified-1.8.9.jar`. A integraç
 | Qualidade e compatibilidade | [CI](docs/CI.md) · [Testes e benchmarks](docs/BENCHMARKS.md) · [Desenvolvimento](docs/DEVELOPMENT.md) |
 | Créditos e componentes externos | [Licenças de terceiros](docs/THIRD_PARTY.md) · [Revisão open source](docs/OPEN_SOURCE_REVIEW.md) |
 
-As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, use o [**Unified 0.6.0-alpha.2 validado nesta branch**](downloads/v0.6.0-alpha.2/README.md).
+As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, use o [**Unified 0.6.0-alpha.3 validado nesta branch**](downloads/v0.6.0-alpha.3/README.md).
 
 ---
 
