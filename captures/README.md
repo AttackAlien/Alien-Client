@@ -1,14 +1,34 @@
-# Capturas atuais — Alien Client Unified 0.6.0-alpha.3
+# Capturas atuais — Trail Studio / Unified 0.7.0-alpha.1
 
-**154 PNGs novos e originais**, obtidos em **29/10/2026**, executando Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa. Fonte `269ecd7ade044db00ab06e410763f3ddc1d1ade6`, [CI aprovado 40873708575](https://github.com/AttackAlien/Alien-Client/actions/runs/40873708575). O período do workflow foi 09:29:43–09:39:51 no fuso da Bahia (UTC−3); ele inclui compilação e testes, não somente o momento das capturas.
+**190 PNGs novos e originais**, Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa, em 29/10/2026. Fonte `f10f753eae78e95fa8a76112f5a58b689d5063ae`, [CI aprovado 40887787750](https://github.com/AttackAlien/Alien-Client/actions/runs/40887787750). São 189 capturas do framebuffer e uma da janela X11; sem retoques, montagem ou geração de imagem.
 
-153 PNGs vêm do framebuffer e um da janela X11. Foram copiados sem retoques, montagem ou geração de imagem. **Todas as imagens anteriores desta pasta foram substituídas.** O GIF da capa foi refeito com os doze frames originais novos. O vídeo longo anterior foi retirado da galeria atual; não há nova gravação contínua nesta correção.
+**Todas as imagens anteriores da pasta atual foram substituídas.** Os GIFs foram refeitos com os frames novos: vinte para as trilhas, com intervalos registrados, e doze para a capa. Não houve nova gravação contínua longa nesta revisão.
 
-**181 JUnit, 526 verificações gráficas em seis sessões e 12 testes de empacotamento aprovados.** As sessões foram: menus/geral 161, céu 37, combate 24, HUD/Full/cosméticos 92, Scene Studio 70 e Interactive Studio 142. Esses números incluem estados, handlers e verificações de captura; não são benchmark ou 526 golden images.
+**193 JUnit, 586 verificações gráficas e 12 testes de empacotamento aprovados.** As seis sessões foram: geral 161, céu 37, combate 24, HUD/Full/cosméticos/Trail Studio 152, Scene Studio 70 e Interactive Studio 142. Os checks incluem handlers, estados e capturas; não equivalem a 586 golden images ou benchmark.
 
-[Correções e resultados](../docs/AUDIT-FIXES-2026-10-29.md) · [JAR/ZIP corrigido](../downloads/v0.6.0-alpha.3/README.md) · [Fotos novas do launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [Todos os PNGs](atual/unified/) · [PR #21](https://github.com/AttackAlien/Alien-Client/pull/21), sem merge.
+[Como usar](../docs/TRAIL-STUDIO.md) · [Validação e limites](../docs/TRAIL-STUDIO-VALIDATION.md) · [JAR/ZIP](../downloads/v0.7.0-alpha.1/README.md) · [Launcher atualizado](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22), sem merge.
 
-Os recursos visuais existentes foram preservados. Esta revisão corrige perfis e miniaturas. Os logs ainda registram limitações dos fixtures ao descarregar mundos e ausência de áudio no runner; [ocorrências observadas](atual/unified/known-log-errors.txt). Os checks passaram, mas os logs não estão livres de erros.
+## Trail Studio — editor real
+
+![Editor de trilhas executado no Forge](atual/unified/128-trail-studio-overview.png)
+
+[Curva de largura](atual/unified/130-trail-width-curve.png) · [Curva de transparência](atual/unified/131-trail-opacity-curve.png) · [HSV/HEX](atual/unified/132-trail-color-picker.png) · [PNG próprio](atual/unified/133-trail-png-material.png) · [Valor numérico](atual/unified/134-trail-exact-opacity.png) · [Layout compacto](atual/unified/139-trail-studio-compact.png).
+
+## Trilha em movimento
+
+GIF derivado somente dos vinte PNGs reais `trail-motion-*.png`, sem interpolação. Movimento lateral por teclado X11 e câmera ajustada pelo fixture.
+
+![Trilha real em movimento](atual/unified/trilha-em-movimento.gif)
+
+## Presets no mundo
+
+[Nebula](atual/unified/136-trail-nebula-world.png) · [Ember](atual/unified/137-trail-ember-world.png) · [Glacier](atual/unified/138-trail-glacier-world.png) · [PNG importado](atual/unified/135-trail-custom-png-world.png).
+
+![Trilha Nebula no mundo](atual/unified/136-trail-nebula-world.png)
+
+[Fallback real de PNG rejeitado](atual/unified/140-trail-invalid-png-fallback.png) · [OFF](atual/unified/142-trail-off-restored.png) · [Particles preservado](atual/unified/143-trail-particles-preserved.png). O PNG quadriculado da importação é uma entrada sintética de teste realmente renderizada no jogo; não é uma foto simulada. As máscaras prontas são originais do client.
+
+Os logs completos estão no artifact; [ocorrências selecionadas](atual/unified/known-log-errors.txt) registram as limitações restantes do ambiente/fixtures. As imagens abaixo também foram atualizadas na mesma rodada.
 
 | Recurso novo | Captura real |
 | --- | --- |

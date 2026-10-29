@@ -2,7 +2,7 @@
 
 Os cinco achados prioritários e as três observações menores da [auditoria de 26/10](AUDIT-2026-10-26.md) receberam correções e regressões no [PR #21](https://github.com/AttackAlien/Alien-Client/pull/21), branch `fix/audit-findings-20261026`, baseada no PR #20. O layout e o emblema aprovados foram preservados. Sem merge na main.
 
-**Resultado: os oito achados receberam correções e suas regressões passaram.** A classificação permanece alpha pelos limites de autenticação e hardware descritos abaixo. [Launcher 0.3.0-alpha.3](../downloads/launcher/v0.3.0-alpha.3/README.md) · [Unified 0.6.0-alpha.3](../downloads/v0.6.0-alpha.3/README.md) · [Fotos do launcher](../captures/launcher-atual/README.md) · [Fotos do Minecraft](../captures/README.md).
+**Resultado: os oito achados receberam correções e suas regressões passaram.** A classificação permanece alpha pelos limites de autenticação e hardware descritos abaixo. [Launcher 0.3.0-alpha.3](../downloads/launcher/v0.3.0-alpha.3/README.md) · [Unified 0.6.0-alpha.3](../downloads/v0.6.0-alpha.3/README.md) · [Fotos do launcher](https://github.com/AttackAlien/Alien-Client/blob/eb5f0201a0aae9a3966f6b473c1493e2ee691530/captures/launcher-atual/README.md) · [Fotos do Minecraft](https://github.com/AttackAlien/Alien-Client/blob/eb5f0201a0aae9a3966f6b473c1493e2ee691530/captures/README.md).
 
 | Achado | Comportamento corrigido | Regressão |
 | --- | --- | --- |

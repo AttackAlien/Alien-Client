@@ -1,31 +1,32 @@
 {
-  "code_revision": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
-  "validation_revision": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
-  "version": "0.6.0-alpha.3",
-  "workflow_run": "40873708575",
+  "ci_completed_utc": "2026-10-29T14:14:23Z",
+  "code_revision": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
+  "validation_revision": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
+  "version": "0.7.0-alpha.1",
+  "workflow_run": "40887787750",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 92 checks",
+    "ultimate": "PASS 152 checks",
     "scene": "PASS 70 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 181,
+      "tests": 193,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842",
-    "junit_sha256": "06d4cdc81efa45d1ac4d37186c5178f4937fd515c9719306b4d6424e63c8ed32",
-    "runtime_sha256": "b2bc7d4da3961a65cacf1d08145cffd691b3cb8b49af8928b882bf47346a7277",
-    "source_sha256": "97df29e84e61bef0e36c96717d9d482da0705616f3505bbea389abef0e30b7cf",
-    "started_ns": 1793277303721779429
+    "jar_sha256": "69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240",
+    "junit_sha256": "70c47e3d0d5c71354f6b96fa4503bd0c8b814aecb24f38ad36615ab6bd29149f",
+    "runtime_sha256": "392fe86ace83d4e2be9ce13b1bfff21abb4d934cf3738262dc2d72844b1d7553",
+    "source_sha256": "055715e4df892432b8d146ea7a56a4b42f67feace040ff2ee137817c496bd632",
+    "started_ns": 1793282942323719224
   },
   "screenshots": {
     "01-title.png": "general",
@@ -181,26 +182,61 @@
     "96-module-gallery-player.png": "studio",
     "97-module-gallery-hud.png": "studio",
     "98-profile-library.png": "studio",
-    "99-profile-load-preview.png": "studio"
+    "99-profile-load-preview.png": "studio",
+    "trail-motion-19.png": "ultimate",
+    "trail-motion-18.png": "ultimate",
+    "trail-motion-17.png": "ultimate",
+    "trail-motion-16.png": "ultimate",
+    "trail-motion-13.png": "ultimate",
+    "trail-motion-15.png": "ultimate",
+    "trail-motion-14.png": "ultimate",
+    "trail-motion-12.png": "ultimate",
+    "trail-motion-10.png": "ultimate",
+    "trail-motion-11.png": "ultimate",
+    "trail-motion-09.png": "ultimate",
+    "trail-motion-08.png": "ultimate",
+    "trail-motion-07.png": "ultimate",
+    "trail-motion-06.png": "ultimate",
+    "trail-motion-05.png": "ultimate",
+    "trail-motion-04.png": "ultimate",
+    "trail-motion-02.png": "ultimate",
+    "trail-motion-03.png": "ultimate",
+    "trail-motion-01.png": "ultimate",
+    "trail-motion-00.png": "ultimate",
+    "143-trail-particles-preserved.png": "ultimate",
+    "142-trail-off-restored.png": "ultimate",
+    "141-trail-fallback-world.png": "ultimate",
+    "140-trail-invalid-png-fallback.png": "ultimate",
+    "139-trail-studio-compact.png": "ultimate",
+    "138-trail-glacier-world.png": "ultimate",
+    "137-trail-ember-world.png": "ultimate",
+    "136-trail-nebula-world.png": "ultimate",
+    "134-trail-exact-opacity.png": "ultimate",
+    "135-trail-custom-png-world.png": "ultimate",
+    "133-trail-png-material.png": "ultimate",
+    "132-trail-color-picker.png": "ultimate",
+    "131-trail-opacity-curve.png": "ultimate",
+    "130-trail-width-curve.png": "ultimate",
+    "129-trail-ember-preset.png": "ultimate",
+    "128-trail-studio-overview.png": "ultimate"
   },
   "notes": [
-    "154 fresh original PNGs from the passing CI run, copied verbatim. 127-main-menu-actual-x11-window.png is a direct X11 capture; others are original framebuffer screenshots.",
+    "190 fresh original PNGs from the passing CI run, copied verbatim. 127-main-menu-actual-x11-window.png is a direct X11 capture; others are original framebuffer screenshots.",
     "Cape GIF is a format conversion of the twelve new original cape-motion PNGs, with no synthetic frames.",
     "No physical GPU, Windows gameplay, Microsoft authentication or external multiplayer validation.",
-    "Sky cubemap fixture uses a labeled procedural atlas rendered by the actual game; it is test input, not a finished imported artwork."
+    "Sky cubemap fixture uses a labeled procedural atlas rendered by the actual game; it is test input, not a finished imported artwork.",
+    "Trail GIF uses twenty original trail-motion PNGs and recorded capture intervals; no interpolation. Camera is scripted and movement uses native X11 keyboard input."
   ],
   "workflow_utc_window": {
-    "start": "2026-10-29T12:29:43Z",
-    "end": "2026-10-29T12:39:51Z"
+    "start": "2026-10-29T14:03:53Z",
+    "end": "2026-10-29T14:14:23Z"
   },
   "known_test_teardown_chunk_exceptions": {
     "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 76,
+    "scene": 74,
     "studio": 0
-  },
-  "ci_completed_utc": "2026-10-29T12:39:51Z",
-  "collected_utc": "2026-10-29T12:48:31.275398+00:00"
+  }
 }

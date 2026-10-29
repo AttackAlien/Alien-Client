@@ -58,7 +58,7 @@ PASS Real framebuffer 85-ocean-sky
 PASS Clean OpenGL after 85-ocean-sky
 PASS Real framebuffer 86-storm-sky
 PASS Clean OpenGL after 86-storm-sky
-PASS All eight sky presets have distinct real framebuffer samples
+PASS All eight sky presets have distinct sampled framebuffer regions
 PASS Scene FX OFF leaves the original renderer untouched
 PASS OFF clears transient wave and chroma histories
 PASS Real framebuffer 87-scene-fx-off-restored

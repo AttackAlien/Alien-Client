@@ -38,6 +38,9 @@ public final class AlienUltimateSmoke {
     private final List<String> checks=new ArrayList<String>();
     private EntityOtherPlayerMP dummy;private Robot robot;private long beforeFoods,beforePotions,beforeBlocks;
     private float angleBefore;private int oldSlot;private float draggedX;
+    private int[] trailPreviewPixels,trailPreviewBounds;private int trailMovieFrame;
+    private final List<Long> trailMovieTimes=new ArrayList<Long>();
+    private TrailDesign trail(){return c().cosmetics.self.trailDesign;}
     private ClientConfig c(){return AlienClient.get().config();}
     @Mod.EventHandler public void init(FMLInitializationEvent e)throws Exception{
         if(!Boolean.getBoolean("alien.ultimate.smoke"))return;
@@ -49,7 +52,7 @@ public final class AlienUltimateSmoke {
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
             if(elapsed(start)>230000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
+            long wait=stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -302,6 +305,92 @@ public final class AlienUltimateSmoke {
         case 47:
             capture("70-sakura-cosmetic-studio");require(CosmeticManager.activeRibbonCount()==0,"Reduced cosmetic animation leaves no active ribbon simulation");
             require(GL11.glGetError()==GL11.GL_NO_ERROR,"CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state");
+            c().cosmetics.self.trail=true;c().cosmetics.self.trailWidth=.3f;c().cosmetics.self.trailOpacity=1;c().cosmetics.self.trailLifetime=1.8f;
+            trail().applyPreset("Nebula");m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));next();return;
+        case 48:
+            require(m.currentScreen instanceof CosmeticTrailScreen&&button(10).enabled&&button(11).enabled,"Real Trail Studio exposes opt-in designer and texture controls");
+            capture("128-trail-studio-overview");click(30);
+            require("Ember".equals(trail().preset)&&"Dashes".equals(trail().texture),"Preset button applies its actual material, gradient and curve values");next();return;
+        case 49:{
+            capture("129-trail-ember-preset");rememberTrailPreview("129-trail-ember-preset");
+            int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
+            call("mouseClicked",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2]/2,trailCanvas[1]+trailCanvas[3]/2,0);
+            call("mouseClickMove",new Class[]{int.class,int.class,int.class,long.class},trailCanvas[0]+trailCanvas[2]/2,trailCanvas[1]+trailCanvas[3]/4,0,100L);
+            call("mouseReleased",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2]/2,trailCanvas[1]+trailCanvas[3]/4,0);
+            require(trail().middleWidth>1.1f&&trail().middleWidth<1.2f&&"Custom".equals(trail().preset),"Dragging the real width canvas changes its middle stop");next();return;}
+        case 50:{
+            capture("130-trail-width-curve");require(changedTrailPreview("130-trail-width-curve")>40,"Width edit changes actual material-preview framebuffer pixels");rememberTrailPreview("130-trail-width-curve");
+            click(27);int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
+            call("mouseClicked",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2],trailCanvas[1]+trailCanvas[3]/2,0);
+            call("mouseClickMove",new Class[]{int.class,int.class,int.class,long.class},trailCanvas[0]+trailCanvas[2],trailCanvas[1]+Math.round(trailCanvas[3]*.8f),0,100L);
+            call("mouseReleased",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2],trailCanvas[1]+Math.round(trailCanvas[3]*.8f),0);
+            require(trail().headOpacity>.15f&&trail().headOpacity<.25f,"Opacity curve independently edits the newest end of the ribbon");next();return;}
+        case 51:
+            capture("131-trail-opacity-curve");require(changedTrailPreview("131-trail-opacity-curve")>30,"Opacity edit changes real preview pixels without changing the texture");
+            click(23);require(m.currentScreen instanceof dev.alien.client.gui.ui.ColorPickerScreen,"Trail stop opens the existing real HSV and HEX picker");next();return;
+        case 52:{
+            Field field=m.currentScreen.getClass().getDeclaredField("hex");field.setAccessible(true);GuiTextField hex=(GuiTextField)field.get(m.currentScreen);
+            hex.setText("#4DDFA");hex.setFocused(true);call("keyTyped",new Class[]{char.class,int.class},'8',org.lwjgl.input.Keyboard.KEY_8);
+            require(trail().headColor==0x4DDFA8,"Typing HEX through the actual picker updates the selected stop");next();return;}
+        case 53:{
+            capture("132-trail-color-picker");click(1);
+            c().cosmetics.saveLook(1,c().cosmetics.self);AlienClient.get().store().saveProfile("trail_studio_smoke");
+            float middle=trail().middleWidth;c().cosmetics.self.trailDesign=new TrailDesign();
+            require(AlienClient.get().store().loadProfile("trail_studio_smoke")&&trail().headColor==0x4DDFA8&&Math.abs(trail().middleWidth-middle)<1e-5,"Actual Unified profile load restores custom trail stops");
+            require(c().cosmetics.loadLook(1).trailDesign.headColor==0x4DDFA8,"Saved cosmetic look includes an independent trail design");
+            File folder=new File(AlienClient.get().store().directory(),"cosmetics/trails");TrailTextureLoader.ensureDirectory(folder);
+            BufferedImage png=new BufferedImage(64,16,BufferedImage.TYPE_INT_ARGB);
+            for(int y=0;y<16;y++)for(int x=0;x<64;x++)png.setRGB(x,y,(((x/8+y/4)&1)==0?0xff:0x30)<<24|0xffffff);
+            ImageIO.write(png,"png",new File(folder,"smoke-streak.png"));
+            m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));click(13);
+            for(int i=0;i<70&&!("PNG".equals(trail().texture)&&"smoke-streak.png".equals(trail().customTexture));i++)click(11);
+            require("PNG".equals(trail().texture)&&"smoke-streak.png".equals(trail().customTexture),"Reload and texture selector discover an actual local PNG");next();return;}
+        case 54:{
+            capture("133-trail-png-material");click(27);int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
+            call("mouseClicked",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2],trailCanvas[1]+trailCanvas[3]/2,1);
+            require(m.currentScreen instanceof dev.alien.client.gui.ui.ValueInputScreen,"Right-click curve opens precise numeric input");
+            Field input=m.currentScreen.getClass().getDeclaredField("input");input.setAccessible(true);((GuiTextField)input.get(m.currentScreen)).setText("0.35");click(1);
+            require(Math.abs(trail().headOpacity-.35f)<1e-5,"Typed curve value is applied through the actual numeric control");next();return;}
+        case 55:
+            capture("134-trail-exact-opacity");trail().headOpacity=1;c().cosmetics.self.animations=true;m.displayGuiScreen(null);
+            m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw=-40;m.thePlayer.rotationPitch=-12;
+            robot.keyPress(java.awt.event.KeyEvent.VK_D);next();return;
+        case 56:
+            require(CosmeticManager.texturedRibbonSegments()>0&&"smoke-streak.png".equals(CosmeticManager.lastTrailTextureName()),"Real player movement renders the imported PNG on world-space ribbon geometry");
+            require(CosmeticManager.drawnRibbonSegments()<=192&&CosmeticManager.activeRibbonCount()<=8,"Designed trails retain bounded shared geometry and player budgets");
+            capture("135-trail-custom-png-world");trail().applyPreset("Nebula");next();return;
+        case 57:
+            require("Silk".equals(CosmeticManager.lastTrailTextureName()),"Nebula binds the actual Silk material in the world renderer");capture("136-trail-nebula-world");trail().applyPreset("Ember");next();return;
+        case 58:
+            require("Dashes".equals(CosmeticManager.lastTrailTextureName()),"Ember binds the actual segmented material in the world renderer");capture("137-trail-ember-world");trail().applyPreset("Glacier");next();return;
+        case 59:
+            require("Weave".equals(CosmeticManager.lastTrailTextureName()),"Glacier binds the actual woven material in the world renderer");capture("138-trail-glacier-world");trail().applyPreset("Nebula");next();return;
+        case 60:
+            capture(String.format(Locale.ROOT,"trail-motion-%02d",trailMovieFrame));trailMovieTimes.add(System.currentTimeMillis());m.thePlayer.rotationYaw+=3;
+            if(++trailMovieFrame<20){since=System.nanoTime();return;}
+            try(PrintWriter times=new PrintWriter(new File(out,"trail-motion-times.txt"),"UTF-8")){for(Long time:trailMovieTimes)times.println(time);}
+            robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));
+            robot.mouseMove(Display.getX()+400,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 61:{
+            int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
+            require(m.currentScreen.width<=400&&trailCanvas[1]>=72&&trailCanvas[1]+trailCanvas[3]<=m.currentScreen.height-31,"Actual mouse wheel exposes the full curve editor in compact scaled layout");
+            capture("139-trail-studio-compact");c().ui.menuScale=1;m.gameSettings.guiScale=1;resize(1280,720);
+            File folder=new File(AlienClient.get().store().directory(),"cosmetics/trails");ImageIO.write(new BufferedImage(2048,2,BufferedImage.TYPE_INT_ARGB),"png",new File(folder,"oversized.png"));
+            trail().texture="PNG";trail().customTexture="oversized.png";m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));click(13);next();return;}
+        case 62:
+            capture("140-trail-invalid-png-fallback");require(GL11.glGetError()==GL11.GL_NO_ERROR,"Preview, graph and imported-texture fallback restore clean OpenGL state");
+            m.displayGuiScreen(null);robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 63:
+            require(CosmeticManager.texturedRibbonSegments()>0&&"Soft / fallback".equals(CosmeticManager.lastTrailTextureName()),"Rejected PNG renders the truthful Soft fallback instead of pretending import success");
+            capture("141-trail-fallback-world");robot.keyRelease(java.awt.event.KeyEvent.VK_W);m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));click(1);m.displayGuiScreen(null);next();return;
+        case 64:
+            require(!c().cosmetics.self.trail&&CosmeticManager.activeRibbonCount()==0&&CosmeticManager.texturedRibbonSegments()==0,"Actual OFF control clears designed trail simulation and rendering");
+            capture("142-trail-off-restored");m.displayGuiScreen(new CosmeticTrailScreen(null,c().cosmetics.self));click(10);click(1);click(2);
+            require("Particles".equals(c().cosmetics.self.trailStyle)&&!button(3).enabled&&!button(11).enabled,"Legacy particle choice remains selectable with designer-only controls disabled");next();return;
+        case 65:
+            capture("143-trail-particles-preserved");require(GL11.glGetError()==GL11.GL_NO_ERROR,"All designed trail world passes and editor screens leave clean OpenGL state");
+            c().cosmetics.self.trail=false;AlienClient.get().save();
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");
@@ -318,6 +407,15 @@ public final class AlienUltimateSmoke {
     private void faceDummy(float offset){float[] a=angles();m.thePlayer.rotationYaw=a[0]+offset;m.thePlayer.rotationPitch=a[1];m.thePlayer.prevRotationYaw=m.thePlayer.rotationYaw;}
     private void resize(int w,int h)throws Exception{Display.setDisplayMode(new DisplayMode(w,h));Method r=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);r.setAccessible(true);r.invoke(m,w,h);}
     private void next(){stage++;since=System.nanoTime();System.out.println("ALIEN_ULTIMATE_SMOKE_STAGE "+stage);}
+    private int[] trailPreview(String name)throws Exception{
+        BufferedImage image=ImageIO.read(new File(out,"screenshots/"+name+".png"));
+        int[] b=trailPreviewBounds;return image.getRGB(b[0],b[1],b[2],b[3],null,0,b[2]);
+    }
+    private void rememberTrailPreview(String name)throws Exception{
+        int[] b=((CosmeticTrailScreen)m.currentScreen).materialCanvasBounds();float scale=m.displayWidth/(float)m.currentScreen.width;
+        trailPreviewBounds=new int[]{Math.round(b[0]*scale),Math.round(b[1]*scale),Math.round(b[2]*scale),Math.round(b[3]*scale)};trailPreviewPixels=trailPreview(name);
+    }
+    private int changedTrailPreview(String name)throws Exception{int[] next=trailPreview(name);int count=0;for(int i=0;i<next.length;i++)if(next[i]!=trailPreviewPixels[i])count++;return count;}
     private static long elapsed(long since){return (System.nanoTime()-since)/1000000;}
     private void require(boolean yes,String message){if(!yes)throw new AssertionError(message);checks.add(message);System.out.println("ALIEN_ULTIMATE_SMOKE_CHECK "+message);}
     private void capture(String name)throws Exception{File file=new File(out,"screenshots/"+name+".png");Files.deleteIfExists(file.toPath());ScreenShotHelper.saveScreenshot(out,name+".png",m.displayWidth,m.displayHeight,m.getFramebuffer());

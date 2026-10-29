@@ -1,0 +1,85 @@
+{
+  "publishedCommit": "77517dcb83cd4da333c46b38e588bd39b59bbd23",
+  "results": [
+    {
+      "path": "downloads/launcher/v0.3.0-alpha.4/AlienLauncher-Windows-x64-0.3.0-alpha.4.zip",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/downloads/launcher/v0.3.0-alpha.4/AlienLauncher-Windows-x64-0.3.0-alpha.4.zip",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/zip",
+      "bytes": 70729629,
+      "sha256": "9a54a20f6771cff56718c1f3be9f14407135201f3e89060a832630a04ea7d65a",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "downloads/v0.7.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/downloads/v0.7.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 1203415,
+      "sha256": "69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/01-launcher-alien.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/launcher-atual/01-launcher-alien.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 192568,
+      "sha256": "7b2bb4fe5c18da6f23f1cdd055c175706ad377dfe678f7d408ef819deb8d2f7d",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 194639,
+      "sha256": "c84694f945a90e09a98b495787afda58a8b0c125e7566616e55df1ae3cb4e9cf",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/06-launcher-settings-recovery.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/launcher-atual/06-launcher-settings-recovery.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 193890,
+      "sha256": "a8d4f4e43e9ce4713a8c3390e9f2c2764d2a507d9a1f81fe25b66741733dd922",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/128-trail-studio-overview.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/atual/unified/128-trail-studio-overview.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 146864,
+      "sha256": "08a04c4fd04f7de6d6cdfdb3e70a679b29f0c708345383dfa75bd8375a26b387",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/136-trail-nebula-world.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/atual/unified/136-trail-nebula-world.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 242064,
+      "sha256": "65fd6e2ce794068995f4e401f3760b58c2188e8595a531bb1b3c4bc4e60a55bd",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/trilha-em-movimento.gif",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/77517dcb83cd4da333c46b38e588bd39b59bbd23/captures/atual/unified/trilha-em-movimento.gif",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/gif",
+      "bytes": 3606166,
+      "sha256": "ef2b461fd5964d5c2186575fc4ef4fd79826159141a52c1322d2643b0cc4cd0e",
+      "matchesLocalVerifiedArtifact": true
+    }
+  ]
+}
