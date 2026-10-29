@@ -92,7 +92,7 @@ internal sealed class LauncherWindow : Form
         foreach (var version in versions)
         {
             string id = version.Name;
-            if (!Regex.IsMatch(id, @"^\d+\.\d+(\.\d+)?$")) continue;
+            if (!Regex.IsMatch(id, @"\A[0-9]{1,3}\.[0-9]{1,3}(\.[0-9]{1,3})?\z")) continue;
             // Only official numeric release IDs; snapshots and prereleases are excluded.
             AddGameChoice(new GameChoice("Minecraft " + id + " (Vanilla)", id, false));
             discovered++;
@@ -135,7 +135,7 @@ internal sealed class LauncherWindow : Form
         var close = new StudioButton(); Configure(close, "", "close", 958, 4, 36, 28); close.Quiet = true; close.AccessibleName = "Fechar launcher"; close.Click += (_, _) => Close();
 
         gameChoice.Name = "profile"; gameChoice.SetBounds(232, 434, 416, 41); Controls.Add(gameChoice); homeControls.Add(gameChoice);
-        AddGameChoice(new GameChoice("Alien Unified 0.6.0-alpha.2", GameVersion, true));
+        AddGameChoice(new GameChoice("Alien Unified " + LauncherProfile.ClientVersion, GameVersion, true));
         foreach (string version in new[] { "1.8.9", "1.12.2", "1.16.5", "1.20.1", "1.21.1" }) AddGameChoice(new GameChoice("Minecraft " + version + " · Vanilla", version, false));
         gameChoice.SelectedIndexChanged += (_, _) =>
         {
@@ -161,9 +161,15 @@ internal sealed class LauncherWindow : Form
         Configure(resetJava, "Restaurar automático", "", 232, 366, 210, 30); resetJava.Quiet = true; resetJava.ForeColor = Studio.Accent; settingsControls.Add(resetJava); resetJava.Click += (_, _) => { javaPath.Clear(); SavePreferences(); SetStatus("Java gerenciado será verificado na instalação."); };
         Configure(signOut, "Sair da conta", "", 752, 450, 196, 40); signOut.Name = "signOut"; settingsControls.Add(signOut);
         signOut.Click += async (_, _) => await RunTaskAsync(async () => { await login.Signout(operation!.Token); session = null; account.Text = "Ainda não conectado"; SetStatus("Conta removida do launcher."); });
+        if (!preferences.Alien) AddGameChoice(new GameChoice("Minecraft " + preferences.Version + " · Vanilla", preferences.Version, false));
         var saved = gameChoice.Items.Cast<GameChoice>().FirstOrDefault(c => c.Version == preferences.Version && c.Alien == preferences.Alien);
         gameChoice.SelectedItem = saved ?? gameChoice.Items[0]; ShowPage(false);
-        AddLog("Launcher 0.3 / pacote Alien " + LauncherProfile.ClientVersion + ": " + (File.Exists(Path.Combine(Payload, JarName)) ? "localizado" : "extraia o ZIP completo"));
+        if (!string.IsNullOrEmpty(preferences.RecoveryMessage))
+        {
+            SetStatus("Configuração inválida: valores padrão recuperados. Consulte o diagnóstico para detalhes do arquivo original.");
+            AddLog(preferences.RecoveryMessage);
+        }
+        AddLog("Launcher " + LauncherProfile.LauncherVersion + " / pacote Alien " + LauncherProfile.ClientVersion + ": " + (File.Exists(Path.Combine(Payload, JarName)) ? "localizado" : "extraia o ZIP completo"));
     }
 
     private Label AddLabel(string text, string name, int x, int y, int width, int height, float size, Color color, bool bold = false)
@@ -187,7 +193,7 @@ internal sealed class LauncherWindow : Form
         Studio.Alien(g, new(25, 31, 31, 35));
         Studio.Write(g, "BIBLIOTECA", new(24, 103, 138, 18), 7.5f, Studio.Muted, true);
         Studio.Write(g, "ALIEN LAUNCHER", new(24, 625, 148, 18), 7.5f, Studio.Muted);
-        Studio.Write(g, "0.3.0-alpha.2", new(24, 646, 148, 18), 8, Studio.Muted);
+        Studio.Write(g, LauncherProfile.LauncherVersion, new(24, 646, 148, 18), 8, Studio.Muted);
         Studio.Write(g, settingsPage ? "Biblioteca / Preferências" : "Biblioteca / Alien Client", new(208, 20, 500, 20), 8, Studio.Muted);
         Studio.Write(g, settingsPage ? "Tudo do seu jeito." : "Vamos jogar.", new(206, 46, 600, 44), 23, Studio.Text, true);
         Studio.Fill(g, new(814, 57, 158, 27), Color.FromArgb(34, 29, 50), 13);

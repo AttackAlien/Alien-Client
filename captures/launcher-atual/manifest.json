@@ -1,42 +1,71 @@
 {
-  "launcherVersion": "0.3.0-alpha.2",
-  "launcherSource": "69ac3f43f73e2511cfbf19dc04e9c05ac6f293ef",
-  "workflowRun": "40343053042",
+  "launcherVersion": "0.3.0-alpha.3",
+  "launcherSource": "943ec678deb089bc7748b8df3ff9f4d891d62c89",
+  "workflowRun": "40875290339",
+  "client": {
+    "clientVersion": "0.6.0-alpha.3",
+    "minecraft": "1.8.9",
+    "forge": "11.15.1.2318",
+    "repository": "AttackAlien/Alien-Client",
+    "sourceCommit": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
+    "workflow": ".github/workflows/unified-client-ci.yml",
+    "runId": "40873708575",
+    "artifact": "alien-unified-40873708575",
+    "jar": "AlienClient-Unified-1.8.9.jar",
+    "sha256": "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842",
+    "status": "audit fixes from PR #21; not merged into main"
+  },
   "captures": [
+    {
+      "file": "05-launcher-restored-vanilla.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-29T12:43:05.4917022+00:00",
+      "width": 1000,
+      "height": 680
+    },
+    {
+      "file": "06-launcher-settings-recovery.png",
+      "method": "CopyFromScreen / actual Windows desktop",
+      "utc": "2026-10-29T12:43:05.7535944+00:00",
+      "width": 1000,
+      "height": 680
+    },
     {
       "file": "01-launcher-alien.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-26T14:50:11.5361531+00:00",
+      "utc": "2026-10-29T12:43:07.0092031+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "02-launcher-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-26T14:50:12.2677883+00:00",
+      "utc": "2026-10-29T12:43:07.7934805+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "03-launcher-settings.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-26T14:50:13.1780498+00:00",
+      "utc": "2026-10-29T12:43:08.5802071+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "04-launcher-diagnostics.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-26T14:50:14.0687097+00:00",
+      "utc": "2026-10-29T12:43:09.4345806+00:00",
       "width": 840,
       "height": 470
     }
   ],
   "sha256": {
-    "01-launcher-alien.png": "3d39597b0c7827758461d2553bd940ede23c83e551f65b79225652a41cc03477",
-    "02-launcher-vanilla.png": "07267cab74290d2f59463aa43fcb4ae24f34b7613fdf63a5b34797ba920fd2c4",
-    "04-launcher-diagnostics.png": "5fa711f85f93ded5118669e9ce309f5bbd5097e67259f6b2be818a98a15d96ba",
-    "03-launcher-settings.png": "8bd7121f7ffeb19a8a8a06557ab3c3741a571a55b081223dbd8e627615c7d75e"
+    "05-launcher-restored-vanilla.png": "af0a1efb219a2e241a6016881ea9a3c5e17d1c3c8f4e85e7beb48fd12a9816ec",
+    "06-launcher-settings-recovery.png": "fe759e7ad96ab1b2756006d56275a3528bcee89362b609537d96ecc08a32987d",
+    "01-launcher-alien.png": "35b86a02250ab3b14f39ac9291fd8d344b1fa0864f6f105d790fb3983a2e808e",
+    "02-launcher-vanilla.png": "27f0ab73e0a84fb502dd6433235b53b15bab321c635d98398362a650e9116a45",
+    "03-launcher-settings.png": "3507b8043662eb2947f23de3edcc85f777d6303a9f26609e84202c3e86fef3d3",
+    "04-launcher-diagnostics.png": "beb7e31e55e02c5e6436206db36c710bbafb0c4932dcb3832d95d6ffd8d0b837"
   },
   "emblem": {
     "file": "launcher/AlienLauncher/Assets/alien-mark.png",

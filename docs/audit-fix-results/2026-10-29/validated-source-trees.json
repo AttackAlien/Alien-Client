@@ -1,0 +1,27 @@
+{
+  "validatedLauncherRevision": "943ec678deb089bc7748b8df3ff9f4d891d62c89",
+  "validatedClientRevision": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
+  "runtimePaths": [
+    "src",
+    "launcher",
+    "scripts",
+    ".github",
+    "build.gradle",
+    "settings.gradle",
+    "gradle",
+    "gradlew",
+    "gradle.properties"
+  ],
+  "validatedGitObjects": {
+    "src": "eb055f27676ee7f4e594fb2166aa69a54a6e9d59",
+    "launcher": "feb7f1ca6b21024ed3262e545c97a5306595d4bb",
+    "scripts": "fee36849031de1d8b1c96aaf61a9d27a42fa1c9e",
+    ".github": "d47e0ee70b86150f1adb501a4ac87dce0626f6d1",
+    "build.gradle": "ffe4ebcb25521507b2bfb07340ed55dd46bb3b91",
+    "settings.gradle": "81882d61c1a60b84587992706714634e85d0790c",
+    "gradle": "e644eda988a66b65550d9abf81eab3c06707ceea",
+    "gradlew": "cf866ec02c3d6071a5eeba482661da9c626824a2",
+    "gradle.properties": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a"
+  },
+  "publicationChangesRuntimeSources": false
+}

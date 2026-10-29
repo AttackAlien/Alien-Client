@@ -16,6 +16,12 @@ internal static class Program
         output = Path.GetFullPath(args.Single()); Directory.CreateDirectory(output);
         string root = Path.Combine(Path.GetTempPath(), "AlienLauncher-UiSmoke-" + Guid.NewGuid().ToString("N"));
         Application.SetHighDpiMode(HighDpiMode.SystemAware); Application.EnableVisualStyles(); Application.SetCompatibleTextRenderingDefault(false);
+        try { VerifyRestoredProfiles(); VerifyRecoverableSettings(); }
+        catch (Exception failure)
+        {
+            File.WriteAllText(Path.Combine(output, "failure.txt"), PrivateDiagnostics.Clean(failure.ToString()));
+            return 1;
+        }
         var window = new LauncherWindow(root); int result = 1;
         window.Shown += async (_, _) =>
         {
@@ -62,6 +68,46 @@ internal static class Program
         Application.Run(window); return result;
     }
     private static T Control<T>(Form form, string name) where T : Control => (T)form.Controls.Find(name, true).Single();
+    private static void VerifyRestoredProfiles()
+    {
+        foreach (string version in new[] { "1.21.1", "1.21.4" })
+        {
+            string root = Path.Combine(Path.GetTempPath(), "AlienLauncher-Restore-" + Guid.NewGuid().ToString("N"));
+            try
+            {
+                new LauncherPreferences { Alien = false, Version = version, MemoryMb = 6144 }.Save(root);
+                using var form = new LauncherWindow(root); form.Show(); Application.DoEvents();
+                Check(Control<ProfilePicker>(form, "profile").Text.Contains(version) && Control<Button>(form, "play").Text == "Jogar Minecraft", "Saved Vanilla version restored without switching to Alien / " + version);
+                if (version == "1.21.4") Capture(form, "05-launcher-restored-vanilla");
+                form.Close(); Application.DoEvents();
+                var saved = LauncherPreferences.Load(root);
+                Check(!saved.Alien && saved.Version == version && saved.MemoryMb == 6144, "Closing retains saved Vanilla profile and RAM / " + version);
+            }
+            finally { if (Directory.Exists(root)) Directory.Delete(root, true); }
+        }
+    }
+    private static void VerifyRecoverableSettings()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "AlienLauncher-Recover-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+        string original = "{\"MemoryMb\":2048}" + new string(' ', 17000);
+        try
+        {
+            File.WriteAllText(Path.Combine(root, "settings.json"), original);
+            using var form = new LauncherWindow(root); form.Show(); Application.DoEvents();
+            Check(Control<Label>(form, "status").Text.Contains("recuperados"), "Oversized settings open the real window with a recovery message");
+            string backup = Directory.EnumerateFiles(root, "settings.invalid-*.json").Single();
+            Check(File.ReadAllText(backup) == original, "Startup preserves exact rejected settings");
+            Capture(form, "06-launcher-settings-recovery");
+            Control<Button>(form, "diagnostics").PerformClick(); Application.DoEvents();
+            var diagnostics = form.OwnedForms.Single();
+            Check(diagnostics.Controls.OfType<RichTextBox>().Single().Text.Contains(Path.GetFileName(backup)), "Recovery diagnostics retain the exact backup filename");
+            diagnostics.Close();
+            form.Close(); Application.DoEvents();
+            Check(LauncherPreferences.Load(root).MemoryMb == 4096, "Recovered window saves usable defaults on close");
+        }
+        finally { Directory.Delete(root, true); }
+    }
     private static void Check(bool value, string description) { if (!value) throw new InvalidOperationException(description); checks.Add(description); }
     private static void Capture(Form form, string name)
     {

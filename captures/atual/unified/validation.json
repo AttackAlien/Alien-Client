@@ -1,43 +1,31 @@
 {
-  "published_utc": "2026-10-24T22:06:34.278550+00:00",
-  "code_revision": "32829c561b8dc53719a71b7a6621c58cb5a2e8f5",
-  "validation_revision": "32829c561b8dc53719a71b7a6621c58cb5a2e8f5",
-  "version": "0.6.0-alpha.2",
-  "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xvfb / Mesa software OpenGL",
+  "code_revision": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
+  "validation_revision": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
+  "version": "0.6.0-alpha.3",
+  "workflow_run": "40873708575",
+  "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
-    "ultimate": "PASS 92 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
+    "ultimate": "PASS 92 checks",
     "scene": "PASS 70 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 175,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "legit": {
-      "tests": 175,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0
-    },
-    "full": {
-      "tests": 175,
+      "tests": 181,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "3f5a60e0e3d765ef2fd34b04c0b602a6c06f8fd7c422caa133746dd8b5e70550",
-    "junit_sha256": "64ec94fa3d1227cc3c7824910f5144d09acfe87df0542e8635c686e729b04cd5",
-    "runtime_sha256": "5e054cf8531d6af528e268a704e3dc3f66d2cc38f67e2744d7378b05633e6b2e",
-    "source_sha256": "c04537c831e6f8444e901a9f66acf0713e20ca44f3da4f96e3349e391eb52b83",
-    "started_ns": 1792879303587204330
+    "jar_sha256": "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842",
+    "junit_sha256": "06d4cdc81efa45d1ac4d37186c5178f4937fd515c9719306b4d6424e63c8ed32",
+    "runtime_sha256": "b2bc7d4da3961a65cacf1d08145cffd691b3cb8b49af8928b882bf47346a7277",
+    "source_sha256": "97df29e84e61bef0e36c96717d9d482da0705616f3505bbea389abef0e30b7cf",
+    "started_ns": 1793277303721779429
   },
   "screenshots": {
     "01-title.png": "general",
@@ -196,22 +184,23 @@
     "99-profile-load-preview.png": "studio"
   },
   "notes": [
-    "153 PNG files are original Minecraft framebuffer captures; 127-main-menu-actual-x11-window.png is a direct X11 window capture. No retouching or generated imagery.",
-    "Practice target is client-only; hunger, potion healing and bridge blocks are verified on the integrated server.",
-    "Cape GIF is assembled only from the twelve original cape-motion framebuffer PNGs.",
-    "Sky cubemap test uses a labeled procedural test atlas rendered by Minecraft, not a finished imported asset.",
-    "No physical GPU, Windows gameplay or external multiplayer test."
+    "154 fresh original PNGs from the passing CI run, copied verbatim. 127-main-menu-actual-x11-window.png is a direct X11 capture; others are original framebuffer screenshots.",
+    "Cape GIF is a format conversion of the twelve new original cape-motion PNGs, with no synthetic frames.",
+    "No physical GPU, Windows gameplay, Microsoft authentication or external multiplayer validation.",
+    "Sky cubemap fixture uses a labeled procedural atlas rendered by the actual game; it is test input, not a finished imported artwork."
   ],
-  "recorded_utc_window": {
-    "start": "2026-10-24T21:59:50+00:00",
-    "end": "2026-10-24T22:05:20.150000+00:00"
+  "workflow_utc_window": {
+    "start": "2026-10-29T12:29:43Z",
+    "end": "2026-10-29T12:39:51Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 72,
+    "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 77,
+    "scene": 76,
     "studio": 0
-  }
+  },
+  "ci_completed_utc": "2026-10-29T12:39:51Z",
+  "collected_utc": "2026-10-29T12:48:31.275398+00:00"
 }

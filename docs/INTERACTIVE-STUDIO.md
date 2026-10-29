@@ -44,7 +44,7 @@ A geometria estática do cenário tem cache em display list e invalidação no r
 
 Não foram importados código, logo, áudio, vídeo, modelos ou texturas Purxiy. O atlas do menu vem da instalação do próprio Minecraft; nenhum asset Mojang foi extraído para redistribuição. O tecido CC0 e seu crédito anterior continuam no pacote. As implementações novas não dependem de serviços online.
 
-Veja [resultados e comandos](INTERACTIVE-STUDIO-VALIDATION.md), [capturas atuais](../captures/README.md) e [vídeo atual](../captures/video-atual/README.md) após a validação.
+Veja [resultados e comandos](INTERACTIVE-STUDIO-VALIDATION.md), [capturas atuais](../captures/README.md) e [histórico de mídia](../captures/video-atual/README.md) após a validação.
 
 ## Apresentação da janela
 

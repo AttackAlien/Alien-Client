@@ -1,5 +1,7 @@
 # Alien Launcher 0.3 — redesign e validação
 
+**Atualização de 29/10:** o layout e o emblema deste redesign foram preservados no launcher **0.3.0-alpha.3**. [Download corrigido](../downloads/launcher/v0.3.0-alpha.3/README.md) · [Validação atual](AUDIT-FIXES-2026-10-29.md) · [Capturas novas](../captures/launcher-atual/README.md). Os números e o JAR descritos abaixo são o histórico do redesign 0.3.0-alpha.2.
+
 A interface foi refeita no [PR #19](https://github.com/AttackAlien/Alien-Client/pull/19), na branch `feature/launcher-unified-alpha2-20261026`, sem merge na main. O código Java e o núcleo de instalação/perfis/autenticação não mudaram neste redesign.
 
 [Download Windows x64](../downloads/launcher/v0.3.0-alpha.2/README.md) · [Capturas reais atuais](../captures/launcher-atual/README.md) · [CI final](https://github.com/AttackAlien/Alien-Client/actions/runs/40343053042).

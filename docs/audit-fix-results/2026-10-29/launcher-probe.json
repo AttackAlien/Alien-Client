@@ -1,0 +1,16 @@
+[
+  {
+    "test": "oversized_settings",
+    "exception": "none"
+  },
+  {
+    "test": "java_exit_42",
+    "rejected": true,
+    "actualExit": 42,
+    "fixture": "synthetic version-output wrapper; not a real JVM"
+  },
+  {
+    "test": "release_id_with_newline",
+    "accepted": false
+  }
+]

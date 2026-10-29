@@ -12,10 +12,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-        with: {persist-credentials: false}
+        with: {persist-credentials: false, ref: "${{ github.event.pull_request.head.sha || github.sha }}"}
       - uses: actions/setup-dotnet@v4
         with: {dotnet-version: '8.0.427'}
-      - name: Compile isolated audit probe against unchanged launcher
+      - name: Compile isolated audit probe against the reviewed launcher revision
         run: dotnet publish tools/audit/WindowsProbe/WindowsProbe.csproj -c Release -r win-x64 --self-contained true -o audit-probe
       - name: Record behavior (evidence, not product approval)
         shell: pwsh

@@ -19,11 +19,17 @@ public static class RuntimePolicy
         try
         {
             var stdout = process.StandardOutput.ReadToEndAsync(timeout.Token); var stderr = process.StandardError.ReadToEndAsync(timeout.Token);
-            await process.WaitForExitAsync(timeout.Token); int major = ParseMajor(await stdout + "\n" + await stderr);
-            if (major != required) throw new InvalidDataException($"Este perfil requer Java {required}; o executável selecionado é Java {major}.");
-            return major;
+            await process.WaitForExitAsync(timeout.Token);
+            return ValidateVersionResult(process.ExitCode, await stdout + "\n" + await stderr, required);
         }
         finally { if (!process.HasExited) process.Kill(true); }
+    }
+    public static int ValidateVersionResult(int exitCode, string output, int required)
+    {
+        if (exitCode != 0) throw new InvalidDataException("A consulta ao Java falhou com código " + exitCode + ". Selecione outro Java ou repare a instalação.");
+        int major = ParseMajor(output);
+        if (major != required) throw new InvalidDataException($"Este perfil requer Java {required}; o executável selecionado é Java {major}.");
+        return major;
     }
 }
 
