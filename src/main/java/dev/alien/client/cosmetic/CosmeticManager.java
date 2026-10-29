@@ -30,6 +30,8 @@ public final class CosmeticManager {
     public static float lastCapeBend(){return lastCapeBend;}
     public static int activeRibbonCount(){return RibbonTrails.activeCount();}
     public static int drawnRibbonSegments(){return RibbonTrails.drawnSegments();}
+    public static int texturedRibbonSegments(){return RibbonTrails.texturedSegments();}
+    public static String lastTrailTextureName(){return RibbonTrails.lastTexture();}
     @SubscribeEvent public void renderRibbons(RenderWorldLastEvent event){ribbons.render(event);}
 
     public void attach(RenderPlayer renderer){renderer.addLayer(new AccessoryLayer(renderer));}

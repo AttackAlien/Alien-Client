@@ -72,6 +72,7 @@ public final class CosmeticConfig {
         public boolean trail;
         public String trailStyle = "Ribbon";
         public float trailWidth = .16f, trailLifetime = .9f, trailOpacity = .8f;
+        public TrailDesign trailDesign = new TrailDesign();
         public float offsetX, offsetY, offsetZ, rotationX, rotationY, rotationZ;
         public float scale = 1;
         public float hatSize = 1;
@@ -102,6 +103,8 @@ public final class CosmeticConfig {
             trailWidth = clamp(trailWidth, .04f, .45f);
             trailLifetime = clamp(trailLifetime, .25f, 2);
             trailOpacity = clamp(trailOpacity, .1f, 1);
+            if (trailDesign == null) trailDesign = new TrailDesign();
+            trailDesign.normalize();
             detailLevel = choice(detailLevel, "Low", "Balanced", "High");
             capePattern = choice(capePattern, "ALIEN", "MOON", "STARS", "PLAIN");
             modelFile = safeName(modelFile, ".json");
@@ -113,6 +116,7 @@ public final class CosmeticConfig {
             a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
             a.charm = charm; a.aura = aura; a.trail = trail;
             a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;
+            a.trailDesign = trailDesign == null ? new TrailDesign() : trailDesign.copy();
             a.offsetX = offsetX; a.offsetY = offsetY; a.offsetZ = offsetZ;
             a.rotationX = rotationX; a.rotationY = rotationY; a.rotationZ = rotationZ;
             a.scale = scale; a.color = color; a.secondaryColor = secondaryColor;
