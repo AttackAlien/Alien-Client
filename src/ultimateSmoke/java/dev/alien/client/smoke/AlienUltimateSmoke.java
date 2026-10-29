@@ -354,11 +354,11 @@ public final class AlienUltimateSmoke {
         case 55:
             capture("134-trail-exact-opacity");trail().headOpacity=1;c().cosmetics.self.animations=true;m.displayGuiScreen(null);
             m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw=-40;m.thePlayer.rotationPitch=-12;
-            robot.keyPress(java.awt.event.KeyEvent.VK_W);robot.keyPress(java.awt.event.KeyEvent.VK_D);next();return;
+            robot.keyPress(java.awt.event.KeyEvent.VK_D);next();return;
         case 56:
             require(CosmeticManager.texturedRibbonSegments()>0&&"smoke-streak.png".equals(CosmeticManager.lastTrailTextureName()),"Real player movement renders the imported PNG on world-space ribbon geometry");
             require(CosmeticManager.drawnRibbonSegments()<=192&&CosmeticManager.activeRibbonCount()<=8,"Designed trails retain bounded shared geometry and player budgets");
-            capture("135-trail-custom-png-world");trail().applyPreset("Nebula");robot.keyRelease(java.awt.event.KeyEvent.VK_D);next();return;
+            capture("135-trail-custom-png-world");trail().applyPreset("Nebula");next();return;
         case 57:
             require("Silk".equals(CosmeticManager.lastTrailTextureName()),"Nebula binds the actual Silk material in the world renderer");capture("136-trail-nebula-world");trail().applyPreset("Ember");next();return;
         case 58:
