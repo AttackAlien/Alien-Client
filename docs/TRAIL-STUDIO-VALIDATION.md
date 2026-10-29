@@ -50,6 +50,8 @@ Client: fonte `f10f753eae78e95fa8a76112f5a58b689d5063ae`, [CI 40887787750](https
 
 Os 190 PNGs do jogo foram copiados sem alteração do CI aprovado, assim como o ZIP Windows. São 189 capturas do framebuffer e uma da janela X11. Os seis PNGs do launcher vêm da janela WinForms realmente executada no Windows Server 2022. As pastas atuais substituem as imagens anteriores; evidências históricas continuam identificadas por versão e commit no Git. O GIF das trilhas contém 20 frames reais, 7,38 segundos, com intervalos de captura registrados; não é uma nova gravação contínua longa.
 
+ZIP, JAR, GIF e amostras das fotos publicadas foram baixados sem cabeçalho de autenticação, retornaram HTTP 200 e mantiveram os hashes locais conferidos. [Verificação pública dos downloads](trail-results/2026-10-29/public-download-check.json).
+
 O launcher fixa o JAR do CI aprovado do client. Sua atualização e o commit de publicação usam `[skip ci]` para evitar repetir Java sem alterações; a atualização do launcher recebeu execução manual completa do próprio workflow no SHA acima. [Objetos Git dos inputs validados](trail-results/2026-10-29/validated-source-trees.json) permitem conferir que os commits de publicação alteram somente documentação, capturas e downloads. O recibo textual dentro do ZIP Windows tem o mesmo conteúdo com terminações CRLF; o JAR é idêntico byte a byte.
 
 Os comandos completos da rodada remota estão em [unified-client-ci.yml](../.github/workflows/unified-client-ci.yml): build/JUnit, seis runners `scripts/ci-*-smoke-xorg.sh`, testes Python e empacotamento. A execução Windows está em [alien-launcher.yml](../.github/workflows/alien-launcher.yml).
