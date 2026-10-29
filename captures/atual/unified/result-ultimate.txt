@@ -1,4 +1,4 @@
-PASS 92 checks
+PASS 152 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -94,3 +94,63 @@ PASS Real framebuffer capture 69-woven-kasa-world
 PASS Real framebuffer capture 70-sakura-cosmetic-studio
 PASS Reduced cosmetic animation leaves no active ribbon simulation
 PASS CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state
+PASS Real Trail Studio exposes opt-in designer and texture controls
+PASS Real framebuffer capture 128-trail-studio-overview
+PASS Preset button applies its actual material, gradient and curve values
+PASS Real framebuffer capture 129-trail-ember-preset
+PASS Dragging the real width canvas changes its middle stop
+PASS Real framebuffer capture 130-trail-width-curve
+PASS Width edit changes actual material-preview framebuffer pixels
+PASS Opacity curve independently edits the newest end of the ribbon
+PASS Real framebuffer capture 131-trail-opacity-curve
+PASS Opacity edit changes real preview pixels without changing the texture
+PASS Trail stop opens the existing real HSV and HEX picker
+PASS Typing HEX through the actual picker updates the selected stop
+PASS Real framebuffer capture 132-trail-color-picker
+PASS Actual Unified profile load restores custom trail stops
+PASS Saved cosmetic look includes an independent trail design
+PASS Reload and texture selector discover an actual local PNG
+PASS Real framebuffer capture 133-trail-png-material
+PASS Right-click curve opens precise numeric input
+PASS Typed curve value is applied through the actual numeric control
+PASS Real framebuffer capture 134-trail-exact-opacity
+PASS Real player movement renders the imported PNG on world-space ribbon geometry
+PASS Designed trails retain bounded shared geometry and player budgets
+PASS Real framebuffer capture 135-trail-custom-png-world
+PASS Nebula binds the actual Silk material in the world renderer
+PASS Real framebuffer capture 136-trail-nebula-world
+PASS Ember binds the actual segmented material in the world renderer
+PASS Real framebuffer capture 137-trail-ember-world
+PASS Glacier binds the actual woven material in the world renderer
+PASS Real framebuffer capture 138-trail-glacier-world
+PASS Real framebuffer capture trail-motion-00
+PASS Real framebuffer capture trail-motion-01
+PASS Real framebuffer capture trail-motion-02
+PASS Real framebuffer capture trail-motion-03
+PASS Real framebuffer capture trail-motion-04
+PASS Real framebuffer capture trail-motion-05
+PASS Real framebuffer capture trail-motion-06
+PASS Real framebuffer capture trail-motion-07
+PASS Real framebuffer capture trail-motion-08
+PASS Real framebuffer capture trail-motion-09
+PASS Real framebuffer capture trail-motion-10
+PASS Real framebuffer capture trail-motion-11
+PASS Real framebuffer capture trail-motion-12
+PASS Real framebuffer capture trail-motion-13
+PASS Real framebuffer capture trail-motion-14
+PASS Real framebuffer capture trail-motion-15
+PASS Real framebuffer capture trail-motion-16
+PASS Real framebuffer capture trail-motion-17
+PASS Real framebuffer capture trail-motion-18
+PASS Real framebuffer capture trail-motion-19
+PASS Actual mouse wheel exposes the full curve editor in compact scaled layout
+PASS Real framebuffer capture 139-trail-studio-compact
+PASS Real framebuffer capture 140-trail-invalid-png-fallback
+PASS Preview, graph and imported-texture fallback restore clean OpenGL state
+PASS Rejected PNG renders the truthful Soft fallback instead of pretending import success
+PASS Real framebuffer capture 141-trail-fallback-world
+PASS Actual OFF control clears designed trail simulation and rendering
+PASS Real framebuffer capture 142-trail-off-restored
+PASS Legacy particle choice remains selectable with designer-only controls disabled
+PASS Real framebuffer capture 143-trail-particles-preserved
+PASS All designed trail world passes and editor screens leave clean OpenGL state

@@ -11,21 +11,21 @@ PASS Main menu actually renders cached 3D geometry without starting a world
 PASS Menu scene creates no playable world/server
 PASS Real framebuffer 91-interactive-main-menu
 PASS Clean OpenGL after 91-interactive-main-menu
-PASS Actual X11 screen presents the UI / 91-interactive-main-menu / mean RGB error 15.89572199038485
-PASS Actual X11 window matches the rendered menu instead of a white backbuffer / mean RGB error 15.89572199038485
+PASS Actual X11 screen presents the UI / 91-interactive-main-menu / mean RGB error 15.87224540595944
+PASS Actual X11 window matches the rendered menu instead of a white backbuffer / mean RGB error 15.87224540595944
 PASS Main menu opens actual scene controls
 PASS Scene/time/weather/camera controls change persisted renderer values
 PASS Actual X11 mouse drag orbits the menu camera
 PASS Real framebuffer 92-menu-scene-controls
 PASS Clean OpenGL after 92-menu-scene-controls
-PASS Actual X11 screen presents the UI / 92-menu-scene-controls / mean RGB error 2.6098787124484466
+PASS Actual X11 screen presents the UI / 92-menu-scene-controls / mean RGB error 2.610049539985846
 PASS Real framebuffer 93-alpine-menu-night
 PASS Clean OpenGL after 93-alpine-menu-night
-PASS Actual X11 screen presents the UI / 93-alpine-menu-night / mean RGB error 1.7371452278107231
+PASS Actual X11 screen presents the UI / 93-alpine-menu-night / mean RGB error 1.7375600946872636
 PASS Vanilla multiplayer screen blurs the actual animated menu framebuffer
 PASS Real framebuffer 94-multiplayer-menu-blur
 PASS Clean OpenGL after 94-multiplayer-menu-blur
-PASS Actual X11 screen presents the UI / 94-multiplayer-menu-blur / mean RGB error 0.04326817482978256
+PASS Actual X11 screen presents the UI / 94-multiplayer-menu-blur / mean RGB error 0.058642653195695144
 PASS Actual visible multiplayer pixels show scene colors instead of vanilla dirt
 PASS Native multiplayer font textures render glyphs rather than solid boxes
 PASS Transparent server list preserves the native stored entry (offline local fixture)
@@ -33,25 +33,25 @@ PASS Selecting the real native server row enables its original Join action
 PASS Refresh preserves the custom backdrop and native server list
 PASS Real framebuffer 95-module-gallery-render
 PASS Clean OpenGL after 95-module-gallery-render
-PASS Actual X11 screen presents the UI / 95-module-gallery-render / mean RGB error 0.010152036508285136
+PASS Actual X11 screen presents the UI / 95-module-gallery-render / mean RGB error 0.007614027381213852
 PASS Actual X11 mouse wheel scrolls the module gallery
 PASS Real framebuffer 125-gallery-scene-effects
 PASS Clean OpenGL after 125-gallery-scene-effects
-PASS Actual X11 screen presents the UI / 125-gallery-scene-effects / mean RGB error 0.010396075847426606
+PASS Actual X11 screen presents the UI / 125-gallery-scene-effects / mean RGB error 0.006589062156819679
 PASS Real framebuffer 96-module-gallery-player
 PASS Clean OpenGL after 96-module-gallery-player
-PASS Actual X11 screen presents the UI / 96-module-gallery-player / mean RGB error 0.01854698977475169
+PASS Actual X11 screen presents the UI / 96-module-gallery-player / mean RGB error 0.008565780803865584
 PASS Real framebuffer 97-module-gallery-hud
 PASS Clean OpenGL after 97-module-gallery-hud
-PASS Actual X11 screen presents the UI / 97-module-gallery-hud / mean RGB error 0.010640115186568076
+PASS Actual X11 screen presents the UI / 97-module-gallery-hud / mean RGB error 0.014422724943260854
 PASS Gallery is a real optional Unified menu layout
 PASS Library creates three real local presets
 PASS Real framebuffer 98-profile-library
 PASS Clean OpenGL after 98-profile-library
-PASS Actual X11 screen presents the UI / 98-profile-library / mean RGB error 0.02086536349659565
+PASS Actual X11 screen presents the UI / 98-profile-library / mean RGB error 0.011103789930936867
 PASS Real framebuffer 99-profile-load-preview
 PASS Clean OpenGL after 99-profile-load-preview
-PASS Actual X11 screen presents the UI / 99-profile-load-preview / mean RGB error 0.004221880567147424
+PASS Actual X11 screen presents the UI / 99-profile-load-preview / mean RGB error 0.007369988042072382
 PASS Profile card computes actual enable/disable differences
 PASS Duplicate button writes actual separate profile
 PASS Rename button preserves complete profile
@@ -61,7 +61,7 @@ PASS Photo button saves current actual framebuffer
 PASS Load button activates original Unified profile
 PASS Real framebuffer 100-profile-in-use
 PASS Clean OpenGL after 100-profile-in-use
-PASS Actual X11 screen presents the UI / 100-profile-in-use / mean RGB error 0.004295092368889865
+PASS Actual X11 screen presents the UI / 100-profile-in-use / mean RGB error 0.0040998608975766895
 PASS Import button validates and stores actual clipboard JSON
 PASS Name Tags render actual visible player name and health
 PASS Real framebuffer 101-live-name-tags
@@ -117,14 +117,14 @@ PASS Clean OpenGL after 118-sky-rose-palette
 PASS Palette control visibly changes actual sky colors
 PASS Real framebuffer 119-living-sky-controls
 PASS Clean OpenGL after 119-living-sky-controls
-PASS Actual X11 screen presents the UI / 119-living-sky-controls / mean RGB error 37.05190716743539
+PASS Actual X11 screen presents the UI / 119-living-sky-controls / mean RGB error 37.03875344705567
 PASS Sky style button edits the actual shader preset
 PASS Palette button selects persisted shader palette
 PASS Reset restores sky animation values
 PASS Sky OFF button restores original sky
 PASS Real framebuffer 120-player-depth-settings
 PASS Clean OpenGL after 120-player-depth-settings
-PASS Actual X11 screen presents the UI / 120-player-depth-settings / mean RGB error 1.1693144934963515
+PASS Actual X11 screen presents the UI / 120-player-depth-settings / mean RGB error 1.1671669473119066
 PASS Player settings controls edit actual optional visual features
 PASS New visual master OFF stops shader work
 PASS OFF clears Afterglow history
@@ -134,11 +134,11 @@ PASS Clean OpenGL after 121-studio-fx-off-restored
 PASS Disconnect clears transient effects
 PASS Real framebuffer 122-studio-after-disconnect
 PASS Clean OpenGL after 122-studio-after-disconnect
-PASS Actual X11 screen presents the UI / 122-studio-after-disconnect / mean RGB error 0.048466212753495864
+PASS Actual X11 screen presents the UI / 122-studio-after-disconnect / mean RGB error 0.010688923054396369
 PASS Real framebuffer 123-orbit-navigation
 PASS Clean OpenGL after 123-orbit-navigation
-PASS Actual X11 screen presents the UI / 123-orbit-navigation / mean RGB error 0.028943065622178295
+PASS Actual X11 screen presents the UI / 123-orbit-navigation / mean RGB error 0.025990189618566514
 PASS Orbit navigation opens the real Render module category
 PASS Real framebuffer 124-gallery-from-orbit
 PASS Clean OpenGL after 124-gallery-from-orbit
-PASS Actual X11 screen presents the UI / 124-gallery-from-orbit / mean RGB error 0.025575322742026015
+PASS Actual X11 screen presents the UI / 124-gallery-from-orbit / mean RGB error 0.012470410230129098

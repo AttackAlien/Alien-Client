@@ -1,6 +1,6 @@
 # Alien Launcher 0.3.0-alpha.3 — Windows x64
 
-**[Baixar ZIP — 67.44 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/fix/audit-findings-20261026/downloads/launcher/v0.3.0-alpha.3/AlienLauncher-Windows-x64-0.3.0-alpha.3.zip)** · [Fotos novas](../../../captures/launcher-atual/README.md) · [Correções e testes](../../../docs/AUDIT-FIXES-2026-10-29.md) · [SHA-256](SHA256SUMS.txt) · [Recibo](RESULTADO-DOS-TESTES.txt).
+**[Baixar ZIP — 67.44 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/fix/audit-findings-20261026/downloads/launcher/v0.3.0-alpha.3/AlienLauncher-Windows-x64-0.3.0-alpha.3.zip)** · [Fotos novas](https://github.com/AttackAlien/Alien-Client/blob/eb5f0201a0aae9a3966f6b473c1493e2ee691530/captures/launcher-atual/README.md) · [Correções e testes](../../../docs/AUDIT-FIXES-2026-10-29.md) · [SHA-256](SHA256SUMS.txt) · [Recibo](RESULTADO-DOS-TESTES.txt).
 
 Mantém o layout escuro e o emblema aprovado, recupera configurações inválidas e restaura a versão Vanilla salva. Inclui o **Unified 0.6.0-alpha.3 corrigido / Forge 1.8.9**, com integridade e origem fixadas.
 

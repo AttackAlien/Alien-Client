@@ -1,0 +1,11 @@
+ALIEN LAUNCHER 0.3.0-alpha.4 - VALIDACAO
+Launcher source: a2f11fef4675af5fcf9260992a01a98767a5ed9f
+Launcher CI: 40890062885
+Client source: f10f753eae78e95fa8a76112f5a58b689d5063ae
+Client CI: 40887787750
+Client SHA256: 69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240
+Linux .NET: 31 PASS / Windows .NET: 31 PASS
+Actual Windows UI: PASS 46 checks; six original native captures
+Actual isolated Forge 1.8.9 installation with Java 8: PASS
+Microsoft interactive login and physical Windows gameplay: NOT VALIDATED
+ZIP SHA256: 9a54a20f6771cff56718c1f3be9f14407135201f3e89060a832630a04ea7d65a

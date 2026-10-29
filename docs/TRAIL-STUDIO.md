@@ -20,7 +20,7 @@ Quatro materiais originais estão disponíveis: **Soft**, **Silk**, **Dashes** e
 
 Use **PNG folder**, copie seu arquivo para `config/alien-client/cosmetics/trails/` na instância do jogo e clique **Reload PNGs**. **Texture** percorre os materiais e os PNGs locais encontrados. O botão de pasta também copia seu caminho para a área de transferência quando a operação está disponível.
 
-- PNG local, nome de arquivo simples terminado em `.png`, até **1 MiB**, dimensões de **1 a 1024 px** por eixo.
+- PNG local, nome com até 64 caracteres (letras, números, ponto, `_` ou `-`), terminado em `.png`, até **1 MiB**, dimensões de **1 a 1024 px** por eixo.
 - RGB do PNG é multiplicado pelo gradiente. Use branco nos três pontos para manter as cores originais de uma textura colorida.
 - Arquivo ausente ou rejeitado usa **Soft**, com aviso real no editor. Corrija o arquivo e use **Reload PNGs** para tentar novamente.
 - O perfil salva o nome do PNG; o arquivo precisa ser copiado separadamente ao compartilhar o perfil com outra instalação.
@@ -33,4 +33,4 @@ O desenho acompanha o acessório selecionado, inclusive overrides locais de joga
 
 O render usa a trajetória real do jogador, respeita profundidade e desaparece ao desligar, parar além da duração, teleportar ou mudar de mundo. Mantém os limites compartilhados de até oito trajetórias e 192 segmentos por passe; o brilho acompanha o orçamento de performance existente. A textura repete por distância percorrida e não estica quando pontos antigos expiram. Há quatro texturas prontas, oito slots reutilizáveis para PNGs e cache limitado de rejeições, sem decodificar o arquivo a cada quadro.
 
-São visuais locais. Não há sincronização dos cosméticos com outros clientes ou alteração de mecânicas de movimento. As imagens e os resultados da rodada aprovada serão vinculados no relatório de validação.
+São visuais locais. Não há sincronização dos cosméticos com outros clientes ou alteração de mecânicas de movimento. [Validação e capturas reais](TRAIL-STUDIO-VALIDATION.md).

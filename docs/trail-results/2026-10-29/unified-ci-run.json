@@ -1,0 +1,10 @@
+{
+  "id": 40887787750,
+  "html_url": "https://github.com/AttackAlien/Alien-Client/actions/runs/40887787750",
+  "head_sha": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
+  "event": "pull_request",
+  "conclusion": "success",
+  "path": ".github/workflows/unified-client-ci.yml",
+  "created_at": "2026-10-29T14:03:53Z",
+  "updated_at": "2026-10-29T14:14:23Z"
+}
