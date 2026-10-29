@@ -1,13 +1,13 @@
 {
-  "clientVersion": "0.6.0-alpha.3",
+  "clientVersion": "0.7.0-alpha.1",
   "minecraft": "1.8.9",
   "forge": "11.15.1.2318",
   "repository": "AttackAlien/Alien-Client",
-  "sourceCommit": "269ecd7ade044db00ab06e410763f3ddc1d1ade6",
+  "sourceCommit": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
   "workflow": ".github/workflows/unified-client-ci.yml",
-  "runId": "40873708575",
-  "artifact": "alien-unified-40873708575",
+  "runId": "40887787750",
+  "artifact": "alien-unified-40887787750",
   "jar": "AlienClient-Unified-1.8.9.jar",
-  "sha256": "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842",
-  "status": "audit fixes from PR #21; not merged into main"
+  "sha256": "69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240",
+  "status": "Trail Studio from PR #22; not merged into main"
 }

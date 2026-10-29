@@ -27,6 +27,7 @@ internal sealed class LauncherWindow : Form
     private const string GameVersion = "1.8.9";
     private const string ForgeBuild = "11.15.1.2318";
     private const string JarName = "AlienClient-Unified-1.8.9.jar";
+    private static readonly string ClientSeries = string.Join(".", LauncherProfile.ClientVersion.Split('.').Take(2));
     private readonly string root;
     private readonly string Payload = Path.Combine(AppContext.BaseDirectory, "payload");
     private readonly MinecraftLauncher launcher;
@@ -197,7 +198,7 @@ internal sealed class LauncherWindow : Form
         Studio.Write(g, settingsPage ? "Biblioteca / Preferências" : "Biblioteca / Alien Client", new(208, 20, 500, 20), 8, Studio.Muted);
         Studio.Write(g, settingsPage ? "Tudo do seu jeito." : "Vamos jogar.", new(206, 46, 600, 44), 23, Studio.Text, true);
         Studio.Fill(g, new(814, 57, 158, 27), Color.FromArgb(34, 29, 50), 13);
-        Studio.Write(g, "UNIFIED  /  0.6 ALPHA", new(827, 63, 145, 20), 8, Studio.Accent, true);
+        Studio.Write(g, "UNIFIED  /  " + ClientSeries + " ALPHA", new(827, 63, 145, 20), 8, Studio.Accent, true);
         if (settingsPage) { PaintSettings(g); return; }
         var hero = new Rectangle(208, 116, 764, 256); using var clip = Studio.Round(hero, 18); var state = g.Save(); g.SetClip(clip);
         if (scene != null) g.DrawImage(scene, hero, new Rectangle(0, 150, 850, 480), GraphicsUnit.Pixel);
