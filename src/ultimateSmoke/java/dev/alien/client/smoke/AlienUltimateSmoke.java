@@ -346,7 +346,7 @@ public final class AlienUltimateSmoke {
             for(int i=0;i<70&&!("PNG".equals(trail().texture)&&"smoke-streak.png".equals(trail().customTexture));i++)click(11);
             require("PNG".equals(trail().texture)&&"smoke-streak.png".equals(trail().customTexture),"Reload and texture selector discover an actual local PNG");next();return;}
         case 54:{
-            capture("133-trail-png-material");int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
+            capture("133-trail-png-material");click(27);int[] trailCanvas=((CosmeticTrailScreen)m.currentScreen).curveCanvasBounds();
             call("mouseClicked",new Class[]{int.class,int.class,int.class},trailCanvas[0]+trailCanvas[2],trailCanvas[1]+trailCanvas[3]/2,1);
             require(m.currentScreen instanceof dev.alien.client.gui.ui.ValueInputScreen,"Right-click curve opens precise numeric input");
             Field input=m.currentScreen.getClass().getDeclaredField("input");input.setAccessible(true);((GuiTextField)input.get(m.currentScreen)).setText("0.35");click(1);

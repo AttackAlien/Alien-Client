@@ -21,7 +21,7 @@ final class RibbonTrails {
     static int texturedSegments(){return textured;}static String lastTexture(){return lastTexture;}
     void tick(Minecraft m,CosmeticConfig config){
         tick++;
-        if(world!=m.theWorld||m.thePlayer==null||!config.enabled){paths.clear();active=drawn=0;world=m.theWorld;}
+        if(world!=m.theWorld||m.thePlayer==null||!config.enabled){paths.clear();active=drawn=textured=0;lastTexture="";world=m.theWorld;}
         if(m.thePlayer==null||m.theWorld==null||!config.enabled)return;
         for(Entry e:paths.values())e.present=false;
         int allowed=Math.min(8,Math.max(0,AlienClient.get().performance().cosmeticBudget()));
