@@ -1,12 +1,12 @@
-# Alien Launcher 0.3.0-alpha.4 — Windows x64
+# Alien Launcher 0.3.0-alpha.5 — Windows x64
 
-Launcher experimental para **Alien Client Unified 0.7.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Incorpora o trabalho do PR #12, preservando o Trail Studio do PR #22. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
+Launcher experimental para **Alien Client Unified 0.8.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Incorpora o trabalho do PR #12, incluindo o Emote Studio do PR #23 e preservando o Trail Studio. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
 
 Interface 0.3: navegação lateral, painel visual com cenário real do client, seletor de perfis escuro, configurações separadas e controle de RAM por mouse/teclado. O núcleo de instalação e autenticação foi preservado.
 
 ## Usar
 
-1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.4.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
+1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.5.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
 2. Abra `AlienLauncher.exe` em Windows 10/11 x64. O .NET está incluído no pacote.
 3. Escolha Alien ou um perfil Vanilla. **Instalar / Reparar** baixa/verifica arquivos oficiais; não requer mover JAR manualmente.
 4. Use **Entrar com Microsoft** e uma conta que possua Minecraft Java. A senha é inserida somente na janela Microsoft. O login requer Microsoft Edge WebView2 Runtime.
@@ -17,7 +17,7 @@ Interface 0.3: navegação lateral, painel visual com cenário real do client, s
 
 - Instâncias, contas e configurações ficam em `%LOCALAPPDATA%\AlienLauncher`. A `.minecraft` original não é usada para o cache de contas.
 - Alien usa `instances/unified-1.8.9`; Vanilla usa `instances/vanilla-<versão>`. Não há injeção do JAR Alien em versões modernas.
-- O pacote fixa o JAR do CI aprovado **40887787750**, fonte **f10f753**, client **0.7.0-alpha.1**, SHA-256 `69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240`. O manifesto local não pode escolher outro hash arbitrário.
+- O pacote fixa o JAR do CI aprovado **41828928551**, fonte **8725dd2**, client **0.8.0-alpha.1**, SHA-256 `9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c`. O manifesto local não pode escolher outro hash arbitrário.
 - A cópia exata desse JAR, seu checksum e o recibo original do CI ficam em `launcher/payload`, para reconstruir o launcher mesmo depois que o artifact temporário do GitHub expirar. `dotnet publish` copia o payload para o diretório final.
 - Atualizar preserva saves, configurações e outros mods. JARs antigos que declaram o modid `alienclient` são movidos para `alien-backups`, incluindo cópias em `mods/1.8.9`; a cópia nova é validada antes de substituir. Falhas restauram arquivos já movidos.
 - Java é instalado pela biblioteca e **sua versão real é consultada antes de executar**. Alien exige Java 8; versões Vanilla usam o requisito do metadado oficial. O seletor de Java 8 permite escolher outro executável compatível, sem afetar os perfis Java 17/21.
@@ -43,3 +43,7 @@ dotnet publish launcher/AlienLauncher/AlienLauncher.csproj -c Release -r win-x64
 ```
 
 O ZIP final precisa de `payload/AlienClient-Unified-1.8.9.jar`, `payload/SHA256SUMS.txt` e `payload/client-source.json`. As bibliotecas CmlLib/XboxAuthNet são MIT; seus avisos/licenças e o crédito do client são preservados. Não é um produto oficial Microsoft/Mojang.
+
+## Emote Studio
+
+No mundo, segure B, aponte para um emote e solte para dançar. Floss, Orange Justice e Take the L ocupam as primeiras posições. Personalize em Cosmetic Studio → Emotes. Movimento, ataque, uso de itens, dano e menus interrompem a dança. São animações locais, sem áudio ou sincronização com outros jogadores.
