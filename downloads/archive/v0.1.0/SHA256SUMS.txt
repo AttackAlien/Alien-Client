@@ -1,0 +1,3 @@
+cf3f4cb9bef67ef4300a0fc8c4d78d21a6693361cdaae33303db614207a5be62  alien-client-0.1.0.jar
+e0b53622407f4a5f49f35ab5d0d998ae162068f28be11a7889f7f65f7246b53d  alien-client-0.1.0-source.zip
+3d75928d488d853b88dc6fe25bde9c730ef43f947c60cd241ebf8996e2fd9827  alien-client-capturas-reais.zip
