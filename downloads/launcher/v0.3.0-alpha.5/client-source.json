@@ -1,0 +1,13 @@
+{
+  "clientVersion": "0.8.0-alpha.1",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "repository": "AttackAlien/Alien-Client",
+  "sourceCommit": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+  "workflow": ".github/workflows/unified-client-ci.yml",
+  "runId": "41828928551",
+  "artifact": "alien-unified-41828928551",
+  "jar": "AlienClient-Unified-1.8.9.jar",
+  "sha256": "9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c",
+  "status": "Emote Studio from PR #23; not merged into main"
+}

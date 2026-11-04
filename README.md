@@ -11,12 +11,12 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
   <img alt="Minecraft 1.8.9" src="https://img.shields.io/badge/Minecraft-1.8.9-8264ED?style=for-the-badge&labelColor=111827">
   <img alt="Forge 11.15.1.2318" src="https://img.shields.io/badge/Forge-11.15.1.2318-443A74?style=for-the-badge&labelColor=111827">
   <img alt="Java 8" src="https://img.shields.io/badge/Java-8-6366F1?style=for-the-badge&labelColor=111827">
-  <img alt="Alpha 0.6" src="https://img.shields.io/badge/Unified-0.7_ALPHA-A78BFA?style=for-the-badge&labelColor=111827">
+  <img alt="Alpha 0.8" src="https://img.shields.io/badge/Unified-0.8_ALPHA-A78BFA?style=for-the-badge&labelColor=111827">
 </p>
 
 <p>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=feature%2Ftrail-studio-20261029"></a>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=feature%2Ftrail-studio-20261029"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=feature%2Femote-studio-20261104"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=feature%2Femote-studio-20261104"></a>
 </p>
 
 <a href="#-comece-a-jogar"><strong>COMECE A JOGAR</strong></a>
@@ -43,9 +43,9 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
-Nesta branch, a **0.7.0-alpha.1** reúne menu 3D interativo, Orbit/galeria de módulos, biblioteca local de perfis, oito estilos de céu nomeados e Mist, Afterglow, Radiance, Target ESP, Bokeh, Hand Movement, Name Tags e Zoom. Preserva HUD/Full, cosméticos, trilhas e Scene Studio dos PRs #15/#16/#17. **Minecraft continua 1.8.9**. [PR #18](https://github.com/AttackAlien/Alien-Client/pull/18), sem merge. [Recursos/limites](docs/INTERACTIVE-STUDIO.md) · [Validação](docs/INTERACTIVE-STUDIO-VALIDATION.md) · [Build de teste](downloads/v0.7.0-alpha.1/).
+A **0.8.0-alpha.1** acrescenta o **Emote Studio**: Floss, Orange Justice e Take the L, roda na tecla B, prévia com seu jogador real e preferências nos perfis. [Como usar](docs/EMOTE-STUDIO.md) · [Validação](docs/EMOTE-STUDIO-VALIDATION.md) · [PR #23](https://github.com/AttackAlien/Alien-Client/pull/23), sem merge.
 
-A **0.7.0-alpha.1** acrescenta o **Trail Studio**: textura própria, três pontos de cor/largura/transparência, curvas arrastáveis e presets, integrados aos perfis. [Como usar](docs/TRAIL-STUDIO.md) · [Validação](docs/TRAIL-STUDIO-VALIDATION.md) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22), sem merge. As [correções da auditoria](docs/AUDIT-FIXES-2026-10-29.md) foram preservadas.
+Preserva menu 3D, galeria de módulos, HUD/Full, biblioteca de perfis, céu/clima, partículas, cosméticos, Scene Studio, [Trail Studio](docs/TRAIL-STUDIO.md) e as [correções da auditoria](docs/AUDIT-FIXES-2026-10-29.md). **Minecraft continua 1.8.9**. [Build atual](downloads/v0.8.0-alpha.1/README.md).
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -66,9 +66,13 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
-[Ver as capturas reais atuais](captures/README.md) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
+[Ver as capturas reais atuais](captures/README.md) · [GIF real dos três clássicos](captures/atual/unified/emotes-em-movimento.gif) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
 
 <table>
+  <tr>
+    <td width="50%" align="center"><a href="captures/atual/unified/148-emote-studio-floss.png"><img alt="Emote Studio executado no Minecraft Forge" src="captures/atual/unified/148-emote-studio-floss.png"></a><br><b>Emote Studio</b><br><sub>Floss, Orange Justice e Take the L</sub></td>
+    <td width="50%" align="center"><a href="captures/atual/unified/144b-emote-wheel-selected.png"><img alt="Roda de emotes aberta pela tecla B no jogo real" src="captures/atual/unified/144b-emote-wheel-selected.png"></a><br><b>Roda na tecla B</b><br><sub>Oito posições, seleção por mouse ou teclado</sub></td>
+  </tr>
   <tr>
     <td width="50%" align="center">
       <a href="captures/atual/unified/128-trail-studio-overview.png"><img alt="Trail Studio real no Minecraft Forge" src="captures/atual/unified/128-trail-studio-overview.png"></a><br>
@@ -158,16 +162,16 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ### Opção A — Alien Launcher 0.3 *(alpha para Windows x64)*
 
-A interface 0.3 traz navegação lateral, cenário do client, controles escuros e configurações separadas. O launcher incorpora o **Unified 0.7.0-alpha.1**, instala Forge/Java em uma pasta isolada e verifica a integridade do client antes de abri-lo. Inclui seleção de Java 8, RAM/perfis persistentes, cancelar, sair da conta e diagnóstico. O seletor oferece **Alien em Forge 1.8.9** ou **Minecraft Vanilla independente**; os módulos do Alien continuam exclusivos da versão 1.8.9.
+A interface 0.3 traz navegação lateral, cenário do client, controles escuros e configurações separadas. O launcher incorpora o **Unified 0.8.0-alpha.1**, instala Forge/Java em uma pasta isolada e verifica a integridade do client antes de abri-lo. Inclui seleção de Java 8, RAM/perfis persistentes, cancelar, sair da conta e diagnóstico. O seletor oferece **Alien em Forge 1.8.9** ou **Minecraft Vanilla independente**; os módulos do Alien continuam exclusivos da versão 1.8.9.
 
-**[→ Baixar o pacote portátil de teste](downloads/launcher/v0.3.0-alpha.4/README.md)** · [Capturas reais atuais](captures/launcher-atual/README.md) · [Validação e limites](docs/TRAIL-STUDIO-VALIDATION.md) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22)
+**[→ Baixar o pacote portátil de teste](downloads/launcher/v0.3.0-alpha.5/README.md)** · [Capturas reais atuais](captures/launcher-atual/README.md) · [Validação e limites](docs/EMOTE-STUDIO-VALIDATION.md) · [PR #23](https://github.com/AttackAlien/Alien-Client/pull/23)
 
 Extraia o ZIP inteiro e abra `AlienLauncher.exe`. O login exige uma conta Microsoft que possua Minecraft Java e o WebView2 Runtime. **Autenticação Microsoft interativa e gameplay num PC Windows físico ainda precisam de validação.** Este candidato incorpora o trabalho do PR #12; não é release estável e não foi mesclado na main.
 
 ### Opção B — Minecraft Forge + Alien Client
 
 1. Instale o **Minecraft Java 1.8.9**, o **Forge 11.15.1.2318** e use **Java 8**.
-2. Baixe o [**candidato testado 0.7.0-alpha.1**](downloads/v0.7.0-alpha.1/README.md) desta branch / PR #22.
+2. Baixe o [**candidato testado 0.8.0-alpha.1**](downloads/v0.8.0-alpha.1/README.md) desta branch / PR #23.
 3. Extraia `AlienClient-Unified-1.8.9.jar` do ZIP de instalação, ou baixe o JAR diretamente na mesma página.
 4. Copie o JAR para a pasta `mods` da instalação Forge 1.8.9. **Remova outros JARs do Alien Client** desse perfil.
 5. Entre em um mundo e aperte **Right Shift** para abrir a interface.
@@ -192,7 +196,7 @@ O projeto usa **Java 8**, **Minecraft Forge 1.8.9** e **ForgeGradle**. Para comp
 ```bash
 git clone https://github.com/AttackAlien/Alien-Client.git
 cd Alien-Client
-git switch feature/trail-studio-20261029
+git switch feature/emote-studio-20261104
 bash scripts/bootstrap.sh
 ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
 ```
@@ -206,7 +210,7 @@ Saída esperada: `build/unified/libs/AlienClient-Unified-1.8.9.jar`. A integraç
 | Qualidade e compatibilidade | [CI](docs/CI.md) · [Testes e benchmarks](docs/BENCHMARKS.md) · [Desenvolvimento](docs/DEVELOPMENT.md) |
 | Créditos e componentes externos | [Licenças de terceiros](docs/THIRD_PARTY.md) · [Revisão open source](docs/OPEN_SOURCE_REVIEW.md) |
 
-As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, use o [**Unified 0.7.0-alpha.1 validado nesta branch**](downloads/v0.7.0-alpha.1/README.md).
+As versões separadas **Legit/Full** em [downloads](downloads/README.md) são **históricas**. Para testar o desenvolvimento atual, use o [**Unified 0.8.0-alpha.1 validado nesta branch**](downloads/v0.8.0-alpha.1/README.md).
 
 ---
 

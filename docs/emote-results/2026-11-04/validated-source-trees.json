@@ -1,0 +1,55 @@
+{
+  "validatedClientRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+  "validatedLauncherRevision": "e080fbf144df1e1f1b40adbd854b795b7cde9ca9",
+  "runtimePaths": {
+    "src": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "a151c606696de68c143ed7828dbd09d58d0bb8b3"
+    },
+    "scripts": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "fee36849031de1d8b1c96aaf61a9d27a42fa1c9e"
+    },
+    "build.gradle": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "20fe16d9d4e58674500120d1781e7162c901b998"
+    },
+    "settings.gradle": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "81882d61c1a60b84587992706714634e85d0790c"
+    },
+    "gradle": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "e644eda988a66b65550d9abf81eab3c06707ceea"
+    },
+    "gradlew": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "cf866ec02c3d6071a5eeba482661da9c626824a2"
+    },
+    "gradle.properties": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a"
+    },
+    ".github/workflows/unified-client-ci.yml": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "f5f668dcd721eeb9ff06d6fbbd292cb1211554af"
+    },
+    ".github/workflows/forge-ci.yml": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "b2ebba3e790384c2f1f1395f4222f1a3d7b842bc"
+    },
+    ".github/workflows/sky-studio-ci.yml": {
+      "validatedRevision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+      "gitObject": "e9eae1c60c0a7c0aa4b6a401592adb579ad4751b"
+    },
+    "launcher": {
+      "validatedRevision": "e080fbf144df1e1f1b40adbd854b795b7cde9ca9",
+      "gitObject": "75aa679eb6b963c5405df903d3bb641c4a288e4f"
+    },
+    ".github/workflows/alien-launcher.yml": {
+      "validatedRevision": "e080fbf144df1e1f1b40adbd854b795b7cde9ca9",
+      "gitObject": "b67cc61c58360c1379b5e958c70b9e65b7d591e5"
+    }
+  },
+  "publicationChangesRuntimeSources": false
+}

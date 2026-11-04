@@ -30,7 +30,7 @@ O CI `40885490289` passou pelo Trail Studio, mas falhou numa checagem anterior d
 
 ## CI e entrega
 
-**Rodada completa aprovada.** [CI e origens](trail-results/2026-10-29/ci-runs.json) · [Client](../downloads/v0.7.0-alpha.1/README.md) · [Launcher Windows](../downloads/launcher/v0.3.0-alpha.4/README.md) · [Fotos do jogo](../captures/README.md) · [Fotos do launcher](../captures/launcher-atual/README.md).
+**Rodada completa aprovada.** [CI e origens](trail-results/2026-10-29/ci-runs.json) · [Client](../downloads/v0.7.0-alpha.1/README.md) · [Launcher Windows](../downloads/launcher/v0.3.0-alpha.4/README.md) · [Fotos do jogo](https://github.com/AttackAlien/Alien-Client/blob/4fce5c20c150bd4a2f83c0e1882db56b4565b52b/captures/README.md) · [Fotos do launcher](https://github.com/AttackAlien/Alien-Client/blob/4fce5c20c150bd4a2f83c0e1882db56b4565b52b/captures/launcher-atual/README.md).
 
 | Verificação | Resultado |
 | --- | --- |
@@ -62,4 +62,4 @@ As imagens de teste são capturas do jogo, sem retoques ou geração. O PNG quad
 
 O GIF foi montado com 20 frames reais e os intervalos registrados, sem interpolação. Não comprova sincronização remota, gameplay Windows, GPU física, OptiFine, multiplayer externo ou benchmark de FPS. Login Microsoft e hardware físico mantêm os limites da alpha anterior. O renderer mantém teste de profundidade, limites de geometria e caches limitados; não se promete ganho de FPS.
 
-Os logs ainda registram limitações do runner: áudio indisponível e tarefas de chunks após descarregamento dos mundos nos fixtures General/Scene. Nesta rodada houve 81 e 74 ocorrências dessa pilha, respectivamente; não são contagens de quedas do jogo. As seis sessões e seus checks terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos no artifact do CI.
+Os logs ainda registram limitações do runner: áudio indisponível e tarefas de chunks após descarregamento dos mundos nos fixtures General/Scene. Nesta rodada houve 81 e 74 ocorrências dessa pilha, respectivamente; não são contagens de quedas do jogo. As seis sessões e seus checks terminaram com PASS. [Ocorrências selecionadas](https://github.com/AttackAlien/Alien-Client/blob/4fce5c20c150bd4a2f83c0e1882db56b4565b52b/captures/atual/unified/known-log-errors.txt); logs completos no artifact do CI.

@@ -1,71 +1,71 @@
 {
-  "launcherVersion": "0.3.0-alpha.4",
-  "launcherSource": "a2f11fef4675af5fcf9260992a01a98767a5ed9f",
-  "workflowRun": "40890062885",
+  "launcherVersion": "0.3.0-alpha.5",
+  "launcherSource": "e080fbf144df1e1f1b40adbd854b795b7cde9ca9",
+  "workflowRun": "41830735294",
   "client": {
-    "clientVersion": "0.7.0-alpha.1",
+    "clientVersion": "0.8.0-alpha.1",
     "minecraft": "1.8.9",
     "forge": "11.15.1.2318",
     "repository": "AttackAlien/Alien-Client",
-    "sourceCommit": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
+    "sourceCommit": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
     "workflow": ".github/workflows/unified-client-ci.yml",
-    "runId": "40887787750",
-    "artifact": "alien-unified-40887787750",
+    "runId": "41828928551",
+    "artifact": "alien-unified-41828928551",
     "jar": "AlienClient-Unified-1.8.9.jar",
-    "sha256": "69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240",
-    "status": "Trail Studio from PR #22; not merged into main"
+    "sha256": "9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c",
+    "status": "Emote Studio from PR #23; not merged into main"
   },
   "captures": [
     {
       "file": "05-launcher-restored-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:19:57.3947005+00:00",
+      "utc": "2026-11-04T12:38:39.4399982+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "06-launcher-settings-recovery.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:19:57.5678716+00:00",
+      "utc": "2026-11-04T12:38:39.6963656+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "01-launcher-alien.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:19:58.7942195+00:00",
+      "utc": "2026-11-04T12:38:40.9588286+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "02-launcher-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:19:59.5235991+00:00",
+      "utc": "2026-11-04T12:38:41.7290163+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "03-launcher-settings.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:20:00.2889198+00:00",
+      "utc": "2026-11-04T12:38:42.5045104+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "04-launcher-diagnostics.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-10-29T14:20:01.1166674+00:00",
+      "utc": "2026-11-04T12:38:43.354718+00:00",
       "width": 840,
       "height": 470
     }
   ],
   "sha256": {
-    "05-launcher-restored-vanilla.png": "c84694f945a90e09a98b495787afda58a8b0c125e7566616e55df1ae3cb4e9cf",
-    "06-launcher-settings-recovery.png": "a8d4f4e43e9ce4713a8c3390e9f2c2764d2a507d9a1f81fe25b66741733dd922",
-    "01-launcher-alien.png": "7b2bb4fe5c18da6f23f1cdd055c175706ad377dfe678f7d408ef819deb8d2f7d",
-    "02-launcher-vanilla.png": "408131e65f27bf24e07641d3a85844941a4274d500bd68f0d74a6312b126d957",
-    "03-launcher-settings.png": "51a57680f6ec5b3732b0d40485062baf383d5c735540ad8ad16f229c1fe97a8d",
-    "04-launcher-diagnostics.png": "1a2cc0ba021fe9366a7ca1bb83a06bde4b523c0215a39a99a64b9614004811d5"
+    "05-launcher-restored-vanilla.png": "598222c2a19647e16cd37eda98f6fff716861d4f0862cd7f412ba8b2c187c4f4",
+    "06-launcher-settings-recovery.png": "7b3455dca1cc3a0e51da329e5b2642635ade17cfb5457e155aba6e6f4d00df1f",
+    "01-launcher-alien.png": "c7d0c428980f101c3135933894ab811de1e7a9eb903a0202004b7b09e85408a5",
+    "02-launcher-vanilla.png": "c6c9a9c3a0673bf10f0e92a90cb2f5ea5a4fe00b187f623dca68dcc7c188880c",
+    "03-launcher-settings.png": "8994bf3cc9faae21e139bca0d1933ff0913cdebc6706b506994d96c1cf238294",
+    "04-launcher-diagnostics.png": "4ad39c12129be42b4c5152dd5789069faf4a688413cb6dffca0e17c6d2050dd8"
   },
   "emblem": {
     "file": "launcher/AlienLauncher/Assets/alien-mark.png",

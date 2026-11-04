@@ -1,34 +1,38 @@
-# Capturas atuais — Trail Studio / Unified 0.7.0-alpha.1
+# Capturas atuais — Emote Studio / Unified 0.8.0-alpha.1
 
-**190 PNGs novos e originais**, Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa, em 29/10/2026. Fonte `f10f753eae78e95fa8a76112f5a58b689d5063ae`, [CI aprovado 40887787750](https://github.com/AttackAlien/Alien-Client/actions/runs/40887787750). São 189 capturas do framebuffer e uma da janela X11; sem retoques, montagem ou geração de imagem.
+**251 PNGs novos e originais**, obtidos em 04/11/2026 executando Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa por software. Fonte `8725dd2826050689506e404cf6f1b0e7a3647fa0`, [CI aprovado 41828928551](https://github.com/AttackAlien/Alien-Client/actions/runs/41828928551). Uma imagem é a janela X11; as demais são capturas originais do framebuffer. Sem geração de imagem, montagem ou retoques.
 
-**Todas as imagens anteriores da pasta atual foram substituídas.** Os GIFs foram refeitos com os frames novos: vinte para as trilhas, com intervalos registrados, e doze para a capa. Não houve nova gravação contínua longa nesta revisão.
+**Todas as fotos anteriores da pasta atual foram substituídas.** Capas, trilhas e os demais estúdios também foram capturados novamente. Os GIFs usam somente os frames desta rodada, sem interpolação.
 
-**193 JUnit, 586 verificações gráficas e 12 testes de empacotamento aprovados.** As seis sessões foram: geral 161, céu 37, combate 24, HUD/Full/cosméticos/Trail Studio 152, Scene Studio 70 e Interactive Studio 142. Os checks incluem handlers, estados e capturas; não equivalem a 586 golden images ou benchmark.
+**204 JUnit, 680 verificações gráficas e 12 testes de empacotamento aprovados.** Sessões: geral 161, céu 37, combate 24, HUD/Full/cosméticos/trilhas/emotes 245, Scene Studio 71 e Interactive Studio 142. Os checks incluem estados, controles e capturas; não são um benchmark ou 680 golden images.
 
-[Como usar](../docs/TRAIL-STUDIO.md) · [Validação e limites](../docs/TRAIL-STUDIO-VALIDATION.md) · [JAR/ZIP](../downloads/v0.7.0-alpha.1/README.md) · [Launcher atualizado](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22), sem merge.
+[Como usar](../docs/EMOTE-STUDIO.md) · [Validação e limites](../docs/EMOTE-STUDIO-VALIDATION.md) · [JAR/ZIP](../downloads/v0.8.0-alpha.1/README.md) · [Launcher atualizado](launcher-atual/README.md) · [Origem e hashes](atual/unified/validation.json) · [PR #23](https://github.com/AttackAlien/Alien-Client/pull/23), sem merge.
 
-## Trail Studio — editor real
+## Emote Studio no jogo real
 
-![Editor de trilhas executado no Forge](atual/unified/128-trail-studio-overview.png)
+![Emote Studio com o jogador real](atual/unified/148-emote-studio-floss.png)
 
-[Curva de largura](atual/unified/130-trail-width-curve.png) · [Curva de transparência](atual/unified/131-trail-opacity-curve.png) · [HSV/HEX](atual/unified/132-trail-color-picker.png) · [PNG próprio](atual/unified/133-trail-png-material.png) · [Valor numérico](atual/unified/134-trail-exact-opacity.png) · [Layout compacto](atual/unified/139-trail-studio-compact.png).
+[Floss](atual/unified/148-emote-studio-floss.png) · [Orange Justice](atual/unified/149-emote-studio-orange-justice.png) · [Take the L](atual/unified/150-emote-studio-take-the-l.png) · [Slots](atual/unified/151-emote-slot-assignment.png) · [Preferências](atual/unified/152-emote-settings.png) · [Layout compacto](atual/unified/153-emote-studio-compact.png).
 
-## Trilha em movimento
+## Três clássicos em movimento
 
-GIF derivado somente dos vinte PNGs reais `trail-motion-*.png`, sem interpolação. Movimento lateral por teclado X11 e câmera ajustada pelo fixture.
+**48 frames reais, 15.49 segundos**, na ordem Floss → Orange Justice → Take the L. Intervalos de captura registrados; não há quadros inventados.
 
-![Trilha real em movimento](atual/unified/trilha-em-movimento.gif)
+![GIF real dos três emotes](atual/unified/emotes-em-movimento.gif)
 
-## Presets no mundo
+## Roda aberta pela tecla B
 
-[Nebula](atual/unified/136-trail-nebula-world.png) · [Ember](atual/unified/137-trail-ember-world.png) · [Glacier](atual/unified/138-trail-glacier-world.png) · [PNG importado](atual/unified/135-trail-custom-png-world.png).
+![Roda de emotes no Minecraft real](atual/unified/144b-emote-wheel-selected.png)
 
-![Trilha Nebula no mundo](atual/unified/136-trail-nebula-world.png)
+[Floss no mundo com armadura real](atual/unified/145-floss-world.png) · [Orange Justice no mundo](atual/unified/146-orange-justice-world.png) · [Take the L no mundo](atual/unified/147-take-the-l-world.png) · [Compatibilidade Glass](atual/unified/154-emote-glass-world.png) · [Compatibilidade Skeleton](atual/unified/155-emote-skeleton-world.png).
 
-[Fallback real de PNG rejeitado](atual/unified/140-trail-invalid-png-fallback.png) · [OFF](atual/unified/142-trail-off-restored.png) · [Particles preservado](atual/unified/143-trail-particles-preserved.png). O PNG quadriculado da importação é uma entrada sintética de teste realmente renderizada no jogo; não é uma foto simulada. As máscaras prontas são originais do client.
+As danças são adaptações próprias para o modelo rígido do Minecraft. **Não há áudio nem sincronização pela rede.** Outros jogadores não veem a dança somente por você instalar o Alien.
 
-Os logs completos estão no artifact; [ocorrências selecionadas](atual/unified/known-log-errors.txt) registram as limitações restantes do ambiente/fixtures. As imagens abaixo também foram atualizadas na mesma rodada.
+## Trilhas e capas recapturadas
+
+[Trail Studio](atual/unified/128-trail-studio-overview.png) · [Nebula](atual/unified/136-trail-nebula-world.png) · [Ember](atual/unified/137-trail-ember-world.png) · [Glacier](atual/unified/138-trail-glacier-world.png) · [GIF novo das trilhas](atual/unified/trilha-em-movimento.gif) · [GIF novo da capa](atual/unified/capa-em-movimento.gif).
+
+Os PNGs usados para testar importação são entradas de teste renderizadas no jogo. [Ocorrências conhecidas dos logs](atual/unified/known-log-errors.txt); logs completos no artifact do CI. As demais fotos abaixo também pertencem à nova rodada.
 
 | Recurso novo | Captura real |
 | --- | --- |

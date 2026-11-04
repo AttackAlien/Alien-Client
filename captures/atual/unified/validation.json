@@ -1,32 +1,32 @@
 {
-  "ci_completed_utc": "2026-10-29T14:14:23Z",
-  "code_revision": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
-  "validation_revision": "f10f753eae78e95fa8a76112f5a58b689d5063ae",
-  "version": "0.7.0-alpha.1",
-  "workflow_run": "40887787750",
+  "ci_completed_utc": "2026-11-04T12:35:03Z",
+  "code_revision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+  "validation_revision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
+  "version": "0.8.0-alpha.1",
+  "workflow_run": "41828928551",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 152 checks",
-    "scene": "PASS 70 checks",
+    "ultimate": "PASS 245 checks",
+    "scene": "PASS 71 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 193,
+      "tests": 204,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240",
-    "junit_sha256": "70c47e3d0d5c71354f6b96fa4503bd0c8b814aecb24f38ad36615ab6bd29149f",
-    "runtime_sha256": "392fe86ace83d4e2be9ce13b1bfff21abb4d934cf3738262dc2d72844b1d7553",
-    "source_sha256": "055715e4df892432b8d146ea7a56a4b42f67feace040ff2ee137817c496bd632",
-    "started_ns": 1793282942323719224
+    "jar_sha256": "9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c",
+    "junit_sha256": "cbd1f595134e3df32c92d37bf63307df436b898ba747d1031f8d286cec976624",
+    "runtime_sha256": "6ebbce86e747062a9a9d913bb3c060b5622109f99d8fde0311ad63f5438274a5",
+    "source_sha256": "9ec29a00239649f967e4986c33ef224ba4042c1547f2d9a50b7a689241516afb",
+    "started_ns": 1793795358807158936
   },
   "screenshots": {
     "01-title.png": "general",
@@ -218,25 +218,141 @@
     "131-trail-opacity-curve.png": "ultimate",
     "130-trail-width-curve.png": "ultimate",
     "129-trail-ember-preset.png": "ultimate",
-    "128-trail-studio-overview.png": "ultimate"
+    "128-trail-studio-overview.png": "ultimate",
+    "emote-motion-47.png": "ultimate",
+    "emote-motion-46.png": "ultimate",
+    "emote-motion-45.png": "ultimate",
+    "emote-motion-44.png": "ultimate",
+    "emote-motion-43.png": "ultimate",
+    "emote-motion-42.png": "ultimate",
+    "emote-motion-41.png": "ultimate",
+    "emote-motion-40.png": "ultimate",
+    "emote-motion-39.png": "ultimate",
+    "emote-motion-38.png": "ultimate",
+    "emote-motion-37.png": "ultimate",
+    "emote-motion-36.png": "ultimate",
+    "emote-motion-35.png": "ultimate",
+    "emote-motion-34.png": "ultimate",
+    "emote-motion-33.png": "ultimate",
+    "emote-motion-32.png": "ultimate",
+    "emote-motion-31.png": "ultimate",
+    "emote-motion-30.png": "ultimate",
+    "emote-motion-29.png": "ultimate",
+    "emote-motion-28.png": "ultimate",
+    "emote-motion-27.png": "ultimate",
+    "emote-motion-26.png": "ultimate",
+    "emote-motion-25.png": "ultimate",
+    "emote-motion-24.png": "ultimate",
+    "emote-motion-23.png": "ultimate",
+    "emote-motion-22.png": "ultimate",
+    "emote-motion-21.png": "ultimate",
+    "emote-motion-20.png": "ultimate",
+    "emote-motion-19.png": "ultimate",
+    "emote-motion-18.png": "ultimate",
+    "emote-motion-17.png": "ultimate",
+    "emote-motion-16.png": "ultimate",
+    "emote-motion-15.png": "ultimate",
+    "emote-motion-14.png": "ultimate",
+    "emote-motion-13.png": "ultimate",
+    "emote-motion-12.png": "ultimate",
+    "emote-motion-11.png": "ultimate",
+    "emote-motion-10.png": "ultimate",
+    "emote-motion-09.png": "ultimate",
+    "emote-motion-08.png": "ultimate",
+    "emote-motion-07.png": "ultimate",
+    "emote-motion-06.png": "ultimate",
+    "emote-motion-05.png": "ultimate",
+    "emote-motion-04.png": "ultimate",
+    "emote-motion-03.png": "ultimate",
+    "emote-motion-02.png": "ultimate",
+    "emote-motion-01.png": "ultimate",
+    "emote-motion-00.png": "ultimate",
+    "155-emote-skeleton-world.png": "ultimate",
+    "154-emote-glass-world.png": "ultimate",
+    "153-emote-studio-compact.png": "ultimate",
+    "152-emote-settings.png": "ultimate",
+    "151-emote-slot-assignment.png": "ultimate",
+    "150-emote-studio-take-the-l.png": "ultimate",
+    "149-emote-studio-orange-justice.png": "ultimate",
+    "148-emote-studio-floss.png": "ultimate",
+    "147-take-the-l-world.png": "ultimate",
+    "146-orange-justice-world.png": "ultimate",
+    "145-floss-world.png": "ultimate",
+    "144b-emote-wheel-selected.png": "ultimate",
+    "144-emote-wheel.png": "ultimate"
+  },
+  "movies": {
+    "cape": {
+      "frames": 12,
+      "encodedFrames": 12,
+      "milliseconds": 1200,
+      "sourcePrefix": "cape-motion",
+      "syntheticFrames": false
+    },
+    "trail": {
+      "frames": 20,
+      "encodedFrames": 20,
+      "milliseconds": 7630,
+      "sourcePrefix": "trail-motion",
+      "syntheticFrames": false
+    },
+    "emotes": {
+      "frames": 48,
+      "encodedFrames": 48,
+      "milliseconds": 15490,
+      "sourcePrefix": "emote-motion",
+      "syntheticFrames": false
+    }
+  },
+  "emoteMotionPixelChecks": {
+    "floss": {
+      "uniqueBodyRegions": 16,
+      "minimumChangedBodyPixels": 48924,
+      "bodyRegion": [
+        790,
+        180,
+        1120,
+        590
+      ]
+    },
+    "orange_justice": {
+      "uniqueBodyRegions": 16,
+      "minimumChangedBodyPixels": 45862,
+      "bodyRegion": [
+        790,
+        180,
+        1120,
+        590
+      ]
+    },
+    "take_the_l": {
+      "uniqueBodyRegions": 16,
+      "minimumChangedBodyPixels": 25521,
+      "bodyRegion": [
+        790,
+        180,
+        1120,
+        590
+      ]
+    }
   },
   "notes": [
-    "190 fresh original PNGs from the passing CI run, copied verbatim. 127-main-menu-actual-x11-window.png is a direct X11 capture; others are original framebuffer screenshots.",
-    "Cape GIF is a format conversion of the twelve new original cape-motion PNGs, with no synthetic frames.",
-    "No physical GPU, Windows gameplay, Microsoft authentication or external multiplayer validation.",
-    "Sky cubemap fixture uses a labeled procedural atlas rendered by the actual game; it is test input, not a finished imported artwork.",
-    "Trail GIF uses twenty original trail-motion PNGs and recorded capture intervals; no interpolation. Camera is scripted and movement uses native X11 keyboard input."
+    "251 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
+    "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
+    "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
+    "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-10-29T14:03:53Z",
-    "end": "2026-10-29T14:14:23Z"
+    "start": "2026-11-04T12:23:58Z",
+    "end": "2026-11-04T12:35:03Z"
   },
   "known_test_teardown_chunk_exceptions": {
     "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 74,
+    "scene": 78,
     "studio": 0
   }
 }

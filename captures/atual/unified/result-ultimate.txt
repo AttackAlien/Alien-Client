@@ -1,4 +1,4 @@
-PASS 152 checks
+PASS 245 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -154,3 +154,96 @@ PASS Real framebuffer capture 142-trail-off-restored
 PASS Legacy particle choice remains selectable with designer-only controls disabled
 PASS Real framebuffer capture 143-trail-particles-preserved
 PASS All designed trail world passes and editor screens leave clean OpenGL state
+PASS Native B key opens the actual emote wheel
+PASS Real framebuffer capture 144-emote-wheel
+PASS Native mouse hovers the intended first wheel sector
+PASS Real framebuffer capture 144b-emote-wheel-selected
+PASS Native hover and release selects Floss and begins actual playback / Playing / Floss / floss / GUI null / ground true / input 0.0,0.0 / attack false / use false / swing false
+PASS First-person emote temporarily switches to the front third-person camera
+PASS Emote poses reach the actual Minecraft player model renderer
+PASS Real server-synchronized armor uses animated emote pose hooks
+PASS Dance root transforms leave actual world coordinates and camera yaw unchanged
+PASS Real framebuffer capture 145-floss-world
+PASS Orange Justice replaces active playback without removing player layers
+PASS Real framebuffer capture 146-orange-justice-world
+PASS Take the L plays with a raised arm and alternating leg poses
+PASS Real framebuffer capture 147-take-the-l-world
+PASS Smooth stop ends playback and restores the owned first-person camera
+PASS Emote world and armor render passes balance their matrix stack without GL errors
+PASS Real framebuffer capture 148-emote-studio-floss
+PASS All three requested classics have real library controls
+PASS Real framebuffer capture 149-emote-studio-orange-justice
+PASS Library control changes the real animated player preview selection
+PASS Real framebuffer capture 150-emote-studio-take-the-l
+PASS Wheel slot assignment stores the selected classic through actual controls
+PASS Real framebuffer capture 151-emote-slot-assignment
+PASS Unified profile reload restores emote slots alongside existing cosmetics and HUD
+PASS Hide held item preference has a real profile-backed control
+PASS Real framebuffer capture 152-emote-settings
+PASS Actual wheel scrolling keeps the last emote reachable in compact scaled layouts
+PASS Real framebuffer capture 153-emote-studio-compact
+PASS Emote starts from the studio-selected profile in a neutral world state
+PASS Native forward movement cancels dancing and restores the camera
+PASS Neutral playback restarts after movement cancellation
+PASS Native attack input immediately cancels actual emote playback
+PASS Studio preview never starts world playback or persists an active dance
+PASS Real framebuffer capture emote-motion-00
+PASS Real framebuffer capture emote-motion-01
+PASS Real framebuffer capture emote-motion-02
+PASS Real framebuffer capture emote-motion-03
+PASS Real framebuffer capture emote-motion-04
+PASS Real framebuffer capture emote-motion-05
+PASS Real framebuffer capture emote-motion-06
+PASS Real framebuffer capture emote-motion-07
+PASS Real framebuffer capture emote-motion-08
+PASS Real framebuffer capture emote-motion-09
+PASS Real framebuffer capture emote-motion-10
+PASS Real framebuffer capture emote-motion-11
+PASS Real framebuffer capture emote-motion-12
+PASS Real framebuffer capture emote-motion-13
+PASS Real framebuffer capture emote-motion-14
+PASS Real framebuffer capture emote-motion-15
+PASS Real framebuffer capture emote-motion-16
+PASS Real framebuffer capture emote-motion-17
+PASS Real framebuffer capture emote-motion-18
+PASS Real framebuffer capture emote-motion-19
+PASS Real framebuffer capture emote-motion-20
+PASS Real framebuffer capture emote-motion-21
+PASS Real framebuffer capture emote-motion-22
+PASS Real framebuffer capture emote-motion-23
+PASS Real framebuffer capture emote-motion-24
+PASS Real framebuffer capture emote-motion-25
+PASS Real framebuffer capture emote-motion-26
+PASS Real framebuffer capture emote-motion-27
+PASS Real framebuffer capture emote-motion-28
+PASS Real framebuffer capture emote-motion-29
+PASS Real framebuffer capture emote-motion-30
+PASS Real framebuffer capture emote-motion-31
+PASS Real framebuffer capture emote-motion-32
+PASS Real framebuffer capture emote-motion-33
+PASS Real framebuffer capture emote-motion-34
+PASS Real framebuffer capture emote-motion-35
+PASS Real framebuffer capture emote-motion-36
+PASS Real framebuffer capture emote-motion-37
+PASS Real framebuffer capture emote-motion-38
+PASS Real framebuffer capture emote-motion-39
+PASS Real framebuffer capture emote-motion-40
+PASS Real framebuffer capture emote-motion-41
+PASS Real framebuffer capture emote-motion-42
+PASS Real framebuffer capture emote-motion-43
+PASS Real framebuffer capture emote-motion-44
+PASS Real framebuffer capture emote-motion-45
+PASS Real framebuffer capture emote-motion-46
+PASS Real framebuffer capture emote-motion-47
+PASS Actual previews and all three classic movies restore clean OpenGL and render scope
+PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1112 before=1064 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
+PASS Real framebuffer capture 154-emote-glass-world
+PASS Skeleton material and skeleton overlay keep using the animated body rig
+PASS Real framebuffer capture 155-emote-skeleton-world
+PASS Opening an editor immediately cancels actual world playback
+PASS Playback starts before actual damage interruption test
+PASS Actual integrated-server damage decreases health and stops the emote
+PASS Playback starts before profile context change
+PASS Changing the actual Unified profile clears playback and restores the owned camera
+PASS Disabled emotes reject playback instead of reporting a fictional active dance
+PASS Material, damage, menu and profile interruption checks leave clean GL state

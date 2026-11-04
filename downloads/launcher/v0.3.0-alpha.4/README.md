@@ -1,6 +1,6 @@
 # Alien Launcher 0.3.0-alpha.4 — Trail Studio / Windows x64
 
-**[Baixar ZIP — 67.45 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/trail-studio-20261029/downloads/launcher/v0.3.0-alpha.4/AlienLauncher-Windows-x64-0.3.0-alpha.4.zip)** · [Fotos reais atuais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/TRAIL-STUDIO-VALIDATION.md) · [SHA-256](SHA256SUMS.txt) · [Origem do client](client-source.json).
+**[Baixar ZIP — 67.45 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/trail-studio-20261029/downloads/launcher/v0.3.0-alpha.4/AlienLauncher-Windows-x64-0.3.0-alpha.4.zip)** · [Fotos reais atuais](https://github.com/AttackAlien/Alien-Client/blob/4fce5c20c150bd4a2f83c0e1882db56b4565b52b/captures/launcher-atual/README.md) · [Validação](../../../docs/TRAIL-STUDIO-VALIDATION.md) · [SHA-256](SHA256SUMS.txt) · [Origem do client](client-source.json).
 
 Inclui o **Unified 0.7.0-alpha.1 / Forge 1.8.9 / Java 8**, com o novo Trail Studio e as correções da auditoria. O layout e o emblema aprovados foram mantidos; a identificação do client acompanha a versão real incluída.
 

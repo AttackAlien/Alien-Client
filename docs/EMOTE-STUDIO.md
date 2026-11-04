@@ -14,7 +14,7 @@ As preferências integram os perfis Unified e sua exportação/importação. A d
 
 ## Limites
 
-Animações de corpo inteiro precisam da visão em terceira pessoa. O modelo vanilla tem braços e pernas rígidos, sem cotovelos, joelhos ou dedos; as danças são adaptações para esse modelo. O modelo e as camadas existentes de capa, acessórios, pele e armadura são preservados. Renderizadores de terceiros que substituem o modelo vanilla podem não ser compatíveis; esse caso gera uma mensagem em vez de indicar reprodução bem-sucedida.
+Animações de corpo inteiro precisam da visão em terceira pessoa. O modelo vanilla tem braços e pernas rígidos, sem cotovelos, joelhos ou dedos; as danças são adaptações para esse modelo. O modelo e as camadas existentes de capa, acessórios, pele e armadura são preservados. Renderizadores de terceiros que substituem o modelo vanilla podem não ser compatíveis; a reprodução é recusada quando o modelo é incompatível.
 
 Não há áudio, sincronização por rede ou mod de servidor. Outros jogadores não veem sua dança somente por você instalar o Alien. Os nomes identificam a inspiração; não há vínculo oficial com Fortnite ou Epic Games. O client permanece em Minecraft Java 1.8.9 / Forge 11.15.1.2318.
 

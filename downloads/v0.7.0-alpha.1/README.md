@@ -4,7 +4,7 @@ Minecraft Java **1.8.9 / Forge 11.15.1.2318 / Java 8**. Editor de trilhas com te
 
 [Baixar ZIP](AlienClient-Unified-Primeiro-Teste.zip) · [Baixar JAR](AlienClient-Unified-1.8.9.jar) · [Instalação](LEIA-ME-INSTALACAO.txt) · [SHA-256](SHA256SUMS.txt) · [Recibo do CI](RESULTADO-DOS-TESTES.txt).
 
-[Como usar o Trail Studio](../../docs/TRAIL-STUDIO.md) · [Resultados e limites](../../docs/TRAIL-STUDIO-VALIDATION.md) · [Fotos atuais](../../captures/README.md) · [Launcher atualizado](../launcher/v0.3.0-alpha.4/README.md) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22).
+[Como usar o Trail Studio](../../docs/TRAIL-STUDIO.md) · [Resultados e limites](../../docs/TRAIL-STUDIO-VALIDATION.md) · [Fotos atuais](https://github.com/AttackAlien/Alien-Client/blob/4fce5c20c150bd4a2f83c0e1882db56b4565b52b/captures/README.md) · [Launcher atualizado](../launcher/v0.3.0-alpha.4/README.md) · [PR #22](https://github.com/AttackAlien/Alien-Client/pull/22).
 
 Abra **Cosmetic Studio → Motion → Trail settings**, escolha **Ribbon** e ative **Trail** e **Designer**. O PNG próprio fica em `config/alien-client/cosmetics/trails/` e precisa ser copiado separadamente ao compartilhar perfis.
 
