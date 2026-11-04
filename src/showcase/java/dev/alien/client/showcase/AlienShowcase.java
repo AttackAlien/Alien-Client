@@ -122,7 +122,7 @@ public final class AlienShowcase {
         else if(chapter==7){int part=Math.min(2,(int)(t/4));if(part!=change){if(part==1){release();a().auraDesign.applyPreset("Celestial");AlienClient.get().emotes().request("floss");}else if(part==2){AlienClient.get().emotes().stop();a().auraDesign.applyPreset("Arcane");server(()->player().worldObj.setWorldTime(18000));}change=part;}
             if(part==0){yaw((float)(t*25));movementSeen|=ReactiveAuras.selfMovement()>.5f;}if(part==1)emoteSeen|=ReactiveAuras.selfEmote()>.8f;if(part==2)nightSeen|=ReactiveAuras.selfNight()>.8f;
         }else if(chapter==9){if(t>1.5)c().combat.enabled=true;if(t>3)aimSeen|=aimError()<2;}
-        else if(chapter==12&&t>1&&change<0){robot.keyPress(KeyEvent.VK_SHIFT);robot.keyPress(KeyEvent.VK_W);change=0;}
+        else if(chapter==12){m.thePlayer.rotationPitch=m.thePlayer.prevRotationPitch=77;if(t>1&&change<0){robot.keyPress(KeyEvent.VK_SHIFT);robot.keyPress(KeyEvent.VK_W);change=0;}}
     }
     private void dummy(){target=new EntityOtherPlayerMP(m.theWorld,new GameProfile(UUID.fromString("72e00e09-3bf8-4c80-8d20-076b62f2a239"),"AlienTreino"));target.setPosition(m.thePlayer.posX,m.thePlayer.posY,m.thePlayer.posZ+3);target.setHealth(20);m.theWorld.addEntityToWorld(-7723,target);}
     private float aimError(){float[] targetAngles=CombatMath.lookAt(m.thePlayer.posX,m.thePlayer.posY+m.thePlayer.getEyeHeight(),m.thePlayer.posZ,target.posX,target.posY+target.getEyeHeight(),target.posZ);return CombatMath.angularDistance(m.thePlayer.rotationYaw,m.thePlayer.rotationPitch,targetAngles[0],targetAngles[1]);}
