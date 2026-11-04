@@ -27,7 +27,7 @@ Os testes puros cobrem migração sem ativar Reactive nos perfis antigos, valore
 
 ## Vídeo contínuo e fluidez medida
 
-**[Assistir / baixar o MP4](../captures/video-atual/Alien-Client-0.9-customizacoes-full.mp4)** — 103.67 segundos, 960×540, H.264/YUV420p, **30 FPS de gravação**, sem áudio.
+**[Assistir / baixar o MP4](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/video-atual/Alien-Client-0.9-customizacoes-full.mp4)** — 103.67 segundos, 960×540, H.264/YUV420p, **30 FPS de gravação**, sem áudio.
 
 O arquivo é a saída original do FFmpeg x11grab, copiada byte a byte, sem sequência de fotos, aceleração ou frames gerados/interpolados. O jogo renderizou com mediana de **56.6 FPS**, P95 de **26.2 ms por frame**, nesta tomada Linux/Mesa por software. A medição é do jogo; o FPS de gravação não foi usado como substituto da medição de renderização. Isso não promete desempenho equivalente em outro computador.
 
@@ -35,7 +35,7 @@ Treze capítulos mostram capa, acessórios, trilhas, partículas, céu, HUD, emo
 
 As verificações do filme confirmaram alinhamento real da câmera pelo Aimbot, consumo de pão e aumento da fome por Auto Food, cura por Auto Potion e múltiplos blocos colocados por AutoBridge durante caminhada em Survival. AutoBridge é ativado explicitamente para seu capítulo e permanece desligado por padrão no preset Full. A câmera foi mantida voltada para a ponte após o teleporte de preparação.
 
-Abertura, shader e cenário foram preparados antes de iniciar a gravação. A resolução e as opções gráficas disponíveis no jogo foram ajustadas para fluidez, incluindo ausência de blur no menu. [Medições, capítulos e checks do filme](aura-results/2026-11-04/video/) · [SHA-256 do MP4](../captures/video-atual/SHA256SUMS.txt). A imagem de prévia do vídeo é um frame extraído aos 67 segundos, não uma ilustração.
+Abertura, shader e cenário foram preparados antes de iniciar a gravação. A resolução e as opções gráficas disponíveis no jogo foram ajustadas para fluidez, incluindo ausência de blur no menu. [Medições, capítulos e checks do filme](aura-results/2026-11-04/video/) · [SHA-256 do MP4](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/video-atual/SHA256SUMS.txt). A imagem de prévia do vídeo é um frame extraído aos 67 segundos, não uma ilustração.
 
 ## Origem verificável
 
@@ -47,7 +47,7 @@ Launcher: fonte `331ee2bbf7aa12e18503e4c3e7bc793b489020e8`, [CI 41845407649](htt
 
 Os GIFs de auras, emotes, trilhas e capa usam somente PNGs desta rodada. Os intervalos de auras/emotes/trilhas foram registrados; a capa usa 100 ms por frame na conversão. Não há interpolação. Evidências históricas continuam vinculadas às versões e commits correspondentes.
 
-A publicação de documentação, downloads e mídias usa `[skip ci]`; não altera os arquivos de execução validados. O launcher recebeu seu workflow completo no SHA registrado acima. [Objetos Git comparados](aura-results/2026-11-04/validated-source-trees.json) · [Manifesto das fotos](../captures/atual/unified/validation.json).
+A publicação de documentação, downloads e mídias usa `[skip ci]`; não altera os arquivos de execução validados. O launcher recebeu seu workflow completo no SHA registrado acima. [Objetos Git comparados](aura-results/2026-11-04/validated-source-trees.json) · [Manifesto das fotos](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/atual/unified/validation.json).
 
 ## Comandos
 
@@ -67,7 +67,7 @@ Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. GPU física, gameplay em PC W
 
 As auras e os emotes são locais, sem sincronização pela rede. Não há áudio nem luz dinâmica real no terreno. O orçamento de partículas, a distância, as animações e o master de cosméticos limitam o efeito. Perfis antigos mantêm Classic até a opção Reactive ser escolhida.
 
-O runner não tem áudio funcional. Os logs das sessões General/Scene ainda registram tarefas de chunks após descarregar mundos: 81 e 73 ocorrências da pilha nesta rodada; não são contagens de quedas do jogo. Todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos nos artifacts do CI.
+O runner não tem áudio funcional. Os logs das sessões General/Scene ainda registram tarefas de chunks após descarregar mundos: 81 e 73 ocorrências da pilha nesta rodada; não são contagens de quedas do jogo. Todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/atual/unified/known-log-errors.txt); logs completos nos artifacts do CI.
 
 ## Acesso público
 

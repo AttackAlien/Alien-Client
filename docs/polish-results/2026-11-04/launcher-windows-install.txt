@@ -1,0 +1,36 @@
+Verificando Minecraft 1.8.9 e o Java gerenciado...
+Arquivos: 0/1 — com.mojang:netty:1.8.8
+Arquivos: 12/951 — org.apache.commons:commons-lang3:3.3.2
+Arquivos: 40/951 — icons/minecraft.icns
+Arquivos: 51/951 — minecraft/lang/af_ZA.lang
+Arquivos: 64/951 — minecraft/lang/ga_IE.lang
+Arquivos: 88/951 — minecraft/lang/oc_FR.lang
+Arquivos: 99/951 — minecraft/lang/sr_SP.lang
+Arquivos: 125/951 — minecraft/sounds/ambient/weather/rain2.ogg
+Arquivos: 190/951 — minecraft/sounds/mob/bat/idle2.ogg
+Arquivos: 237/951 — minecraft/sounds/mob/creeper/say1.ogg
+Arquivos: 308/951 — minecraft/sounds/mob/guardian/flop3.ogg
+Arquivos: 377/951 — minecraft/sounds/mob/horse/wood4.ogg
+Arquivos: 481/951 — minecraft/sounds/mob/villager/hit1.ogg
+Arquivos: 562/951 — minecraft/sounds/mob/zombie/death.ogg
+Arquivos: 570/951 — minecraft/sounds/music/game/hal3.ogg
+Arquivos: 584/951 — minecraft/sounds/music/game/nether/nether4.ogg
+Arquivos: 637/951 — minecraft/sounds/music/game/piano3.ogg
+Arquivos: 689/951 — realms/lang/de_DE.lang
+Arquivos: 702/951 — realms/lang/el_GR.lang
+Arquivos: 716/951 — realms/lang/id_ID.lang
+Arquivos: 728/951 — realms/lang/nds_DE.lang
+Arquivos: 741/951 — realms/lang/sl_SI.lang
+Arquivos: 755/951 — THIRDPARTYLICENSEREADME-JAVAFX.txt
+Arquivos: 816/951 — bin/keytool.exe
+Arquivos: 948/951 — lib/resources.jar
+Arquivos: 950/951 — 1.8.9
+Arquivos: 951/951 — lib/rt.jar
+Instalando/verificando Forge 11.15.1.2318 com Java 8...
+Arquivos: 0/1 — net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9
+Arquivos: 3/968 — com.typesafe:config:1.2.1
+Arquivos: 5/968 — org.scala-lang:scala-actors-migration_2.11:1.1.0
+Arquivos: 965/968 — org.scala-lang:scala-xml_2.11:1.0.2
+Arquivos: 968/968 — org.scala-lang:scala-reflect:2.11.1
+Instalação verificada. Java 8.
+INSTALL_PASS {"VersionId":"1.8.9-forge1.8.9-11.15.1.2318-1.8.9","JavaMajor":8,"Directory":"D:\\a\\_temp\\AlienLauncher-InstallProbe\\instances\\unified-1.8.9"}

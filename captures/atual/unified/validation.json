@@ -1,32 +1,32 @@
 {
-  "ci_completed_utc": "2026-11-04T14:03:44Z",
-  "code_revision": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
-  "validation_revision": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
-  "version": "0.9.0-alpha.1",
-  "workflow_run": "41842322972",
+  "ci_completed_utc": "2026-11-04T14:56:35Z",
+  "code_revision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+  "validation_revision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+  "version": "0.10.0-alpha.1",
+  "workflow_run": "41850500847",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 307 checks",
+    "ultimate": "PASS 328 checks",
     "scene": "PASS 71 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 216,
+      "tests": 223,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036",
-    "junit_sha256": "97bc6a3ec980cd629ffe625e3b91e4125bcf25e1423cc81fb0860044b52c5d88",
-    "runtime_sha256": "7dcddc309320023700d981d76f939b2896bc10e52c6ab5f61134ec1307d9cb65",
-    "source_sha256": "212430b140b823710bfcd1b05ad6555ac41cb3af29ab5209b43136a82b770034",
-    "started_ns": 1793800723409425188
+    "jar_sha256": "e8a12308278af4048b9ac3d1d103014409c51fd293386d761ccb007eb8fe4b6e",
+    "junit_sha256": "8a3ecd13be87beb37d76f081f48a618779e219d2a86408620ef67e90b04ec945",
+    "runtime_sha256": "d305a9b2932c93e7bfc9657dc2f1c90e5ec3da22ceb46fdff39f0b16d380ba52",
+    "source_sha256": "5a1d4c4aee057da8bb3fa6dc8c18844f87f959be6af4f5efeeeb978fd5dab42f",
+    "started_ns": 1793803784399073700
   },
   "screenshots": {
     "01-title.png": "general",
@@ -318,7 +318,14 @@
     "159-aura-emote-floss.png": "ultimate",
     "158-aura-arcane-moving.png": "ultimate",
     "157-aura-arcane-idle.png": "ultimate",
-    "156-aura-classic-preserved.png": "ultimate"
+    "156-aura-classic-preserved.png": "ultimate",
+    "177-sky-atmosphere-compact.png": "ultimate",
+    "176-sky-atmosphere-editor.png": "ultimate",
+    "175-realistic-overcast.png": "ultimate",
+    "174-realistic-clear.png": "ultimate",
+    "173-realistic-night.png": "ultimate",
+    "172-realistic-sunset.png": "ultimate",
+    "171-realistic-day-clouds.png": "ultimate"
   },
   "movies": {
     "cape": {
@@ -331,21 +338,21 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 6460,
+      "milliseconds": 8020,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 14200,
+      "milliseconds": 16080,
       "sourcePrefix": "emote-motion",
       "syntheticFrames": false
     },
     "auras": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 6530,
+      "milliseconds": 7690,
       "sourcePrefix": "aura-motion",
       "syntheticFrames": false
     }
@@ -353,7 +360,7 @@
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 45385,
+      "minimumChangedBodyPixels": 49324,
       "bodyRegion": [
         790,
         180,
@@ -363,7 +370,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 49395,
+      "minimumChangedBodyPixels": 46801,
       "bodyRegion": [
         790,
         180,
@@ -373,7 +380,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 23693,
+      "minimumChangedBodyPixels": 32366,
       "bodyRegion": [
         790,
         180,
@@ -383,22 +390,22 @@
     }
   },
   "notes": [
-    "290 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "297 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-04T13:54:01Z",
-    "end": "2026-11-04T14:03:44Z"
+    "start": "2026-11-04T14:44:00Z",
+    "end": "2026-11-04T14:56:35Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 81,
+    "general": 72,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 73,
+    "scene": 80,
     "studio": 0
   }
 }

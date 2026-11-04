@@ -20,7 +20,7 @@ PASS Real framebuffer 75-xray-skeleton
 PASS Clean OpenGL after 75-xray-skeleton
 PASS Integrated server actually spawns the dropped item in a loaded chunk
 PASS Glass shader draws player and real held/dropped item geometry
-PASS Glass is applied separately to player/held/dropped geometry (counts 26/26/26)
+PASS Glass is applied separately to player/held/dropped geometry (counts 23/23/23)
 PASS Real framebuffer 76-glass-player-items
 PASS Clean OpenGL after 76-glass-player-items
 PASS Chroma uses a real bounded player path and post process

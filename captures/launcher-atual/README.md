@@ -1,12 +1,12 @@
-# Launcher 0.3.0-alpha.6 — capturas atuais
+# Launcher 0.3.0-alpha.7 — capturas atuais
 
-Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 04/11/2026. As fotos anteriores desta pasta foram substituídas. Layout e emblema aprovados foram mantidos; o client incluído agora é **Unified 0.9.0-alpha.1**.
+Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 04/11/2026. As fotos anteriores desta pasta foram substituídas. Layout e emblema aprovados foram mantidos; o client incluído agora é **Unified 0.10.0-alpha.1**.
 
-[Baixar launcher com Aura Studio](../../downloads/launcher/v0.3.0-alpha.6/README.md) · [Resultados e limites](../../docs/REACTIVE-AURAS-VALIDATION.md) · [CI 41845407649](https://github.com/AttackAlien/Alien-Client/actions/runs/41845407649) · [Métodos, horários e hashes](manifest.json) · [290 fotos novas do Minecraft](../README.md).
+[Baixar launcher atualizado](../../downloads/launcher/v0.3.0-alpha.7/README.md) · [Resultados e limites](../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [CI 41853665597](https://github.com/AttackAlien/Alien-Client/actions/runs/41853665597) · [Métodos, horários e hashes](manifest.json) · [297 fotos novas do Minecraft](../README.md).
 
 ## Tela inicial
 
-![Launcher real com Aura Studio incluído](01-launcher-alien.png)
+![Launcher real com danças e céu polidos](01-launcher-alien.png)
 
 ## Vanilla independente
 

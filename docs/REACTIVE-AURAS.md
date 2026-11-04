@@ -24,4 +24,4 @@ O efeito usa geometria local, teste de profundidade, até oito estados de jogado
 
 As auras reativas dependem das animações globais e do look. A aura Classic mantém seu comportamento anterior. Não há luz dinâmica no terreno, alteração de vida/atributos, áudio ou sincronização pela rede. Outros jogadores não veem sua aura somente por você instalar o Alien. Overrides de jogadores conhecidos continuam sendo configurações locais; o gatilho Emotes acompanha somente o jogador local.
 
-[Resultados dos testes](REACTIVE-AURAS-VALIDATION.md) · [Capturas atuais](../captures/README.md) · [Vídeo atual](../captures/video-atual/README.md).
+[Resultados dos testes](REACTIVE-AURAS-VALIDATION.md) · [Capturas atuais](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/README.md) · [Vídeo atual](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/video-atual/README.md).

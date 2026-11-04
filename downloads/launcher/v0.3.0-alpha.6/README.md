@@ -1,6 +1,6 @@
 # Launcher 0.3.0-alpha.6 — Windows x64
 
-**[Baixar ZIP — 67.50 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/reactive-auras-20261104/downloads/launcher/v0.3.0-alpha.6/AlienLauncher-Windows-x64-0.3.0-alpha.6.zip)** · [Fotos reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/REACTIVE-AURAS-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
+**[Baixar ZIP — 67.50 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/reactive-auras-20261104/downloads/launcher/v0.3.0-alpha.6/AlienLauncher-Windows-x64-0.3.0-alpha.6.zip)** · [Fotos reais](https://github.com/AttackAlien/Alien-Client/blob/4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa/captures/launcher-atual/README.md) · [Validação](../../../docs/REACTIVE-AURAS-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
 
 Inclui **Unified 0.9.0-alpha.1**, Aura Studio e todos os recursos anteriores. O layout e o emblema aprovados foram mantidos.
 

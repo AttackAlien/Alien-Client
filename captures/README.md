@@ -1,10 +1,22 @@
-# Capturas atuais — auras reativas / Unified 0.9.0-alpha.1
+# Capturas atuais — danças e céu polidos / Unified 0.10.0-alpha.1
 
-**290 PNGs novos do jogo** e **seis capturas novas do launcher**, todos obtidos executando os programas reais em 04/11/2026. As imagens anteriores da galeria atual foram substituídas. Uma foto do jogo vem da janela X11; as demais são originais do framebuffer, copiadas sem retoque do CI.
+**297 PNGs novos do jogo** e **seis capturas novas do launcher**, obtidos nos programas reais em 04/11/2026. As imagens anteriores da galeria atual foram substituídas. Uma captura vem da janela X11; as demais são originais do framebuffer, copiadas sem retoque do CI.
 
-**216 JUnit, 742 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `93dcd285cfba8aac9b7e5023f4fc1689ed42cb11`, [CI 41842322972](https://github.com/AttackAlien/Alien-Client/actions/runs/41842322972). Esses checks incluem estados, controles e imagens; não são um benchmark ou golden images.
+**223 JUnit, 763 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `a66a68da0fe525c3389688bedeb84668770ebbf7`, [CI 41850500847](https://github.com/AttackAlien/Alien-Client/actions/runs/41850500847).
 
-[Vídeo contínuo — customizações e Full](video-atual/README.md) · [Guia das auras](../docs/REACTIVE-AURAS.md) · [Resultados e limites](../docs/REACTIVE-AURAS-VALIDATION.md) · [Client](../downloads/v0.9.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #24](https://github.com/AttackAlien/Alien-Client/pull/24), sem merge.
+[Vídeo contínuo atualizado](video-atual/README.md) · [Guia](../docs/ANIMATION-SKY-POLISH.md) · [Resultados e limites](../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Client](../downloads/v0.10.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #25](https://github.com/AttackAlien/Alien-Client/pull/25), sem merge.
+
+## Céu realista com nuvens suaves
+
+![Realistic executado no Forge](atual/unified/171-realistic-day-clouds.png)
+
+[Pôr do sol](atual/unified/172-realistic-sunset.png) · [Noite](atual/unified/173-realistic-night.png) · [Sem nuvens](atual/unified/174-realistic-clear.png) · [Encoberto](atual/unified/175-realistic-overcast.png) · [Editor real](atual/unified/176-sky-atmosphere-editor.png) · [Layout compacto](atual/unified/177-sky-atmosphere-compact.png).
+
+## Danças articuladas
+
+![Orange Justice com cotovelos e joelhos articulados](atual/unified/149-emote-studio-orange-justice.png)
+
+[GIF novo dos três clássicos](atual/unified/emotes-em-movimento.gif) · [Floss no mundo](atual/unified/145-floss-world.png) · [Take the L](atual/unified/147-take-the-l-world.png) · [Configurações](atual/unified/152-emote-settings.png).
 
 ## Aura Studio real
 
