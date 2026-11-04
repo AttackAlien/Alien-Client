@@ -45,9 +45,11 @@ O **Alien Client Unified** reúne personalização visual e ferramentas configur
 
 **[BAIXAR RELEASE 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)** · [Launcher Windows x64](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip) · [JAR para Forge](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienClient-Unified-1.8.9.jar)
 
+**Novo nesta branch — 0.11.0-alpha.1:** Mascot Studio com mini alien animado, Follow/Shoulder/Orbit, paletas e reações reais a movimento, emotes e repouso. [Guia](docs/ANIMATED-MASCOT.md) · [Resultados](docs/ANIMATED-MASCOT-VALIDATION.md) · [PR #28](https://github.com/AttackAlien/Alien-Client/pull/28). O release público 0.10 acima foi preservado; o mascote ainda é candidato de revisão.
+
 A **0.10.0-alpha.1** traz danças articuladas, com cotovelos e joelhos flexíveis, e o céu **Realistic**, com nuvens suaves, horizonte natural e iluminação por horário. [Como usar](docs/ANIMATION-SKY-POLISH.md) · [Integração e validação do release](docs/releases/v0.10.0-alpha.1/README.md) · [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
 
-**[Vídeo real atualizado: customizações e módulos Full funcionando](captures/video-atual/README.md)** — gravação contínua de 105.8s a 30 FPS. Preserva Aura Studio, Emote Studio, HUD/Full, menu 3D, perfis, céu/clima, partículas, cosméticos, Scene Studio, Trail Studio e as correções da auditoria. **Minecraft continua 1.8.9.**
+**[Vídeo real atualizado: customizações e módulos Full funcionando](captures/video-atual/README.md)** — gravação contínua de 123.7s a 29.97 FPS, incluindo o mascote. Preserva Aura Studio, Emote Studio, HUD/Full, menu 3D, perfis, céu/clima, partículas, cosméticos, Scene Studio, Trail Studio e as correções da auditoria. **Minecraft continua 1.8.9.**
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -71,6 +73,10 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 [Ver as capturas reais atuais](captures/README.md) · [GIF real dos três clássicos](captures/atual/unified/emotes-em-movimento.gif) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
 
 <table>
+  <tr>
+    <td width="50%" align="center"><a href="captures/atual/unified/179-mascot-studio-alien.png"><img alt="Mascot Studio real no Forge" src="captures/atual/unified/179-mascot-studio-alien.png"></a><br><b>Mini alien animado</b></td>
+    <td width="50%" align="center"><a href="captures/atual/unified/181-mascot-follow-moving.png"><img alt="Mascote acompanhando movimento real" src="captures/atual/unified/181-mascot-follow-moving.png"></a><br><b>Companheiro no mundo</b></td>
+  </tr>
   <tr>
     <td width="50%" align="center"><a href="captures/atual/unified/171-realistic-day-clouds.png"><img alt="Céu realista no Forge" src="captures/atual/unified/171-realistic-day-clouds.png"></a><br><b>Nuvens suaves</b></td>
     <td width="50%" align="center"><a href="captures/atual/unified/149-emote-studio-orange-justice.png"><img alt="Emote articulado real" src="captures/atual/unified/149-emote-studio-orange-justice.png"></a><br><b>Danças articuladas</b></td>

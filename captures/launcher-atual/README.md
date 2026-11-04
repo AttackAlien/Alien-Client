@@ -1,12 +1,14 @@
-# Launcher 0.3.0-alpha.7 — capturas atuais
+# Launcher 0.3.0-alpha.8 — capturas atuais
 
-Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 04/11/2026. As fotos anteriores desta pasta foram substituídas. Layout e emblema aprovados foram mantidos; o client incluído agora é **Unified 0.10.0-alpha.1**.
+Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 04/11/2026. As fotos anteriores desta pasta foram substituídas. Layout e emblema aprovados foram mantidos; o client incluído agora é **Unified 0.11.0-alpha.1**.
 
-[Baixar launcher atualizado](../../downloads/launcher/v0.3.0-alpha.7/README.md) · [Resultados e limites](../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [CI 41853665597](https://github.com/AttackAlien/Alien-Client/actions/runs/41853665597) · [Métodos, horários e hashes](manifest.json) · [297 fotos novas do Minecraft](../README.md).
+Os artifacts contêm 31 testes Windows, 31 Linux, 46 checks da janela e instalação aprovados. A API do GitHub ainda informa o workflow como `queued`, sem conclusão; os relatórios originais e os hashes foram conferidos independentemente. [Registro da inconsistência](../../docs/ANIMATED-MASCOT-VALIDATION.md#estado-do-workflow-do-launcher).
+
+[Baixar launcher atualizado](../../downloads/launcher/v0.3.0-alpha.8/README.md) · [Resultados e limites](../../docs/ANIMATED-MASCOT-VALIDATION.md) · [CI 41877291508](https://github.com/AttackAlien/Alien-Client/actions/runs/41877291508) · [Métodos, horários e hashes](manifest.json) · [336 fotos novas do Minecraft](../README.md).
 
 ## Tela inicial
 
-![Launcher real com danças e céu polidos](01-launcher-alien.png)
+![Launcher real com mascote animado](01-launcher-alien.png)
 
 ## Vanilla independente
 

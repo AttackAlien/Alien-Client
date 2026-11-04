@@ -1,0 +1,65 @@
+{
+  "validatedClientRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+  "validatedLauncherRevision": "abcbf57908af259fbf89e67ae8f471c0cc47db12",
+  "runtimePaths": {
+    "src": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "b8b6dbd21ef279bea5a8f8400e7367abfa0386b7"
+    },
+    "scripts": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "4bbd6dbc98de1551621c685a468e4283d3e4c04a"
+    },
+    "build.gradle": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "4073382862c8f790a8615a6fa47eadcb8022d0a6"
+    },
+    "settings.gradle": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "81882d61c1a60b84587992706714634e85d0790c"
+    },
+    "gradle": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "e644eda988a66b65550d9abf81eab3c06707ceea"
+    },
+    "gradlew": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "cf866ec02c3d6071a5eeba482661da9c626824a2"
+    },
+    "gradle.properties": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a"
+    },
+    ".github/workflows/unified-client-ci.yml": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "540a9f7cd1fce093211e8ff845f2185654f6b6d1"
+    },
+    ".github/workflows/forge-ci.yml": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "b2ebba3e790384c2f1f1395f4222f1a3d7b842bc"
+    },
+    ".github/workflows/sky-studio-ci.yml": {
+      "validatedRevision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+      "gitObject": "e9eae1c60c0a7c0aa4b6a401592adb579ad4751b"
+    },
+    "launcher": {
+      "validatedRevision": "abcbf57908af259fbf89e67ae8f471c0cc47db12",
+      "gitObject": "636db0f58ed52c8be8acb9673451fe60b984081f"
+    },
+    ".github/workflows/alien-launcher.yml": {
+      "validatedRevision": "abcbf57908af259fbf89e67ae8f471c0cc47db12",
+      "gitObject": "594546e03914ab1af388d8b8a1fdd50534d29fce"
+    }
+  },
+  "publicationChangesRuntimeSources": false,
+  "movieSource": "2eef9a5227cff07830300d8d05a6d0b01aacc4a0",
+  "movieProductionAndShowcaseObjectsMatchClientCI": {
+    "src/main": "30545f8e2aac61d76fadf56452d291e3f68a13ce",
+    "src/unified": "37fd62e2c61e3be0976c4a435f95026e47372253",
+    "src/showcase": "47f98c148f926a1087951665adabcdfc79f218e9"
+  },
+  "postCaptureValidationChanges": [
+    "Native-rate validator",
+    "Studio test-world teardown sequence"
+  ]
+}

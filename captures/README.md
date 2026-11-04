@@ -1,10 +1,24 @@
-# Capturas atuais — danças e céu polidos / Unified 0.10.0-alpha.1
+# Capturas atuais — mascote animado / Unified 0.11.0-alpha.1
 
-**297 PNGs novos do jogo** e **seis capturas novas do launcher**, obtidos nos programas reais em 04/11/2026. As imagens anteriores da galeria atual foram substituídas. Uma captura vem da janela X11; as demais são originais do framebuffer, copiadas sem retoque do CI.
+**336 PNGs novos do jogo** e **seis novos do launcher** substituem a galeria anterior. São capturas dos programas reais em 04/11/2026, copiadas sem retoque dos artifacts de teste. Uma imagem do jogo é da janela X11; as demais são originais do framebuffer. As seis do launcher vieram da janela nativa no Windows.
 
-**223 JUnit, 763 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `a66a68da0fe525c3389688bedeb84668770ebbf7`, [CI 41850500847](https://github.com/AttackAlien/Alien-Client/actions/runs/41850500847).
+**237 JUnit, 825 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa`, [CI 41874722323](https://github.com/AttackAlien/Alien-Client/actions/runs/41874722323).
 
-[Vídeo contínuo atualizado](video-atual/README.md) · [Guia](../docs/ANIMATION-SKY-POLISH.md) · [Resultados e limites](../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Client](../downloads/v0.10.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
+Os recibos de testes e instalação do launcher passaram; a API do GitHub ainda informa o workflow como `queued`, sem conclusão, apesar de disponibilizar os artifacts. [Detalhes e evidências](../docs/ANIMATED-MASCOT-VALIDATION.md#estado-do-workflow-do-launcher).
+
+[Guia](../docs/ANIMATED-MASCOT.md) · [Resultados e limites](../docs/ANIMATED-MASCOT-VALIDATION.md) · [Vídeo atualizado](video-atual/README.md) · [Client candidato](../downloads/v0.11.0-alpha.1/README.md) · [Launcher candidato](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #28](https://github.com/AttackAlien/Alien-Client/pull/28).
+
+## Mascot Studio real
+
+![Mini alien original no Forge](atual/unified/179-mascot-studio-alien.png)
+
+[GIF atual do mascote](atual/unified/mascote-em-movimento.gif) · [Mint](atual/unified/180-mascot-studio-mint.png) · [Solar](atual/unified/186-mascot-studio-solar.png) · [Layout compacto](atual/unified/191-mascot-studio-compact.png).
+
+## Acompanhando o dono
+
+![Movimento real acompanhado pelo mascote](atual/unified/181-mascot-follow-moving.png)
+
+[No ombro](atual/unified/184-mascot-shoulder-preview.png) · [Órbita](atual/unified/185-mascot-orbit-world.png) · [Aceno com emote](atual/unified/182-mascot-emote-wave.png) · [Reação desligada](atual/unified/183-mascot-emote-reaction-off.png) · [Dormindo](atual/unified/189-mascot-idle-sleep.png) · [Despertando](atual/unified/190-mascot-awake-moving.png) · [Após teleporte](atual/unified/188-mascot-after-teleport.png) · [OFF](atual/unified/192-mascot-off-world.png).
 
 ## Céu realista com nuvens suaves
 

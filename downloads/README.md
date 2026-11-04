@@ -1,3 +1,7 @@
+# Candidato com mascote — Unified 0.11.0-alpha.1 / launcher 0.3.0-alpha.8
+
+[Client candidato](v0.11.0-alpha.1/README.md) · [Launcher candidato](launcher/v0.3.0-alpha.8/README.md) · [Testes e limites](../docs/ANIMATED-MASCOT-VALIDATION.md). [PR #28](https://github.com/AttackAlien/Alien-Client/pull/28), sem merge. Estes arquivos incluem o Mascot Studio e foram copiados dos artifacts de teste, com hashes e recibos conferidos. O CI do client concluiu com sucesso; os recibos do launcher passaram, mas o estado do workflow na API do GitHub ainda está pendente.
+
 **[Abrir release e baixar os arquivos](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)**
 
 # Release alpha atual — Unified 0.10.0-alpha.1 / launcher 0.3.0-alpha.7

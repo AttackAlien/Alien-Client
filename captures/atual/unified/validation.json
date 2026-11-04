@@ -1,32 +1,32 @@
 {
-  "ci_completed_utc": "2026-11-04T14:56:35Z",
-  "code_revision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
-  "validation_revision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
-  "version": "0.10.0-alpha.1",
-  "workflow_run": "41850500847",
+  "ci_completed_utc": "2026-11-04T17:21:27Z",
+  "code_revision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+  "validation_revision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+  "version": "0.11.0-alpha.1",
+  "workflow_run": "41874722323",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 328 checks",
+    "ultimate": "PASS 390 checks",
     "scene": "PASS 71 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 223,
+      "tests": 237,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "e8a12308278af4048b9ac3d1d103014409c51fd293386d761ccb007eb8fe4b6e",
-    "junit_sha256": "8a3ecd13be87beb37d76f081f48a618779e219d2a86408620ef67e90b04ec945",
-    "runtime_sha256": "d305a9b2932c93e7bfc9657dc2f1c90e5ec3da22ceb46fdff39f0b16d380ba52",
-    "source_sha256": "5a1d4c4aee057da8bb3fa6dc8c18844f87f959be6af4f5efeeeb978fd5dab42f",
-    "started_ns": 1793803784399073700
+    "jar_sha256": "8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43",
+    "junit_sha256": "1ea96c127f8aa8147714446d9249be22bbe551bb33573676c76467b9a57580fe",
+    "runtime_sha256": "5752ed158a525978b3cfe912eece8311bc95f1127309da83d0596bd7e562e4a2",
+    "source_sha256": "ee3eb78ddf57e55688716739cff16cf5fa23c4c19d549e77ec042905b4f69f1b",
+    "started_ns": 1793812516151703514
   },
   "screenshots": {
     "01-title.png": "general",
@@ -325,7 +325,46 @@
     "174-realistic-clear.png": "ultimate",
     "173-realistic-night.png": "ultimate",
     "172-realistic-sunset.png": "ultimate",
-    "171-realistic-day-clouds.png": "ultimate"
+    "171-realistic-day-clouds.png": "ultimate",
+    "mascot-motion-23.png": "ultimate",
+    "mascot-motion-22.png": "ultimate",
+    "mascot-motion-21.png": "ultimate",
+    "mascot-motion-20.png": "ultimate",
+    "mascot-motion-18.png": "ultimate",
+    "mascot-motion-19.png": "ultimate",
+    "mascot-motion-17.png": "ultimate",
+    "mascot-motion-16.png": "ultimate",
+    "mascot-motion-15.png": "ultimate",
+    "mascot-motion-14.png": "ultimate",
+    "mascot-motion-13.png": "ultimate",
+    "mascot-motion-12.png": "ultimate",
+    "mascot-motion-11.png": "ultimate",
+    "mascot-motion-10.png": "ultimate",
+    "mascot-motion-09.png": "ultimate",
+    "mascot-motion-08.png": "ultimate",
+    "mascot-motion-05.png": "ultimate",
+    "mascot-motion-07.png": "ultimate",
+    "mascot-motion-06.png": "ultimate",
+    "mascot-motion-04.png": "ultimate",
+    "mascot-motion-03.png": "ultimate",
+    "mascot-motion-02.png": "ultimate",
+    "mascot-motion-01.png": "ultimate",
+    "mascot-motion-00.png": "ultimate",
+    "192-mascot-off-world.png": "ultimate",
+    "191-mascot-studio-compact.png": "ultimate",
+    "190-mascot-awake-moving.png": "ultimate",
+    "189-mascot-idle-sleep.png": "ultimate",
+    "188-mascot-after-teleport.png": "ultimate",
+    "187-mascot-animation-off.png": "ultimate",
+    "186-mascot-studio-solar.png": "ultimate",
+    "185-mascot-orbit-world.png": "ultimate",
+    "184-mascot-shoulder-preview.png": "ultimate",
+    "182-mascot-emote-wave.png": "ultimate",
+    "183-mascot-emote-reaction-off.png": "ultimate",
+    "181-mascot-follow-moving.png": "ultimate",
+    "180-mascot-studio-mint.png": "ultimate",
+    "179-mascot-studio-alien.png": "ultimate",
+    "178-mascot-studio-off.png": "ultimate"
   },
   "movies": {
     "cape": {
@@ -338,29 +377,36 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 8020,
+      "milliseconds": 6730,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 16080,
+      "milliseconds": 14920,
       "sourcePrefix": "emote-motion",
       "syntheticFrames": false
     },
     "auras": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 7690,
+      "milliseconds": 6730,
       "sourcePrefix": "aura-motion",
+      "syntheticFrames": false
+    },
+    "mascot": {
+      "frames": 24,
+      "encodedFrames": 24,
+      "milliseconds": 8140,
+      "sourcePrefix": "mascot-motion",
       "syntheticFrames": false
     }
   },
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 49324,
+      "minimumChangedBodyPixels": 48770,
       "bodyRegion": [
         790,
         180,
@@ -370,7 +416,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 46801,
+      "minimumChangedBodyPixels": 45423,
       "bodyRegion": [
         790,
         180,
@@ -380,7 +426,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 32366,
+      "minimumChangedBodyPixels": 20453,
       "bodyRegion": [
         790,
         180,
@@ -389,23 +435,33 @@
       ]
     }
   },
+  "mascotMotionPixelChecks": {
+    "uniqueBodyRegions": 24,
+    "medianChangedBodyPixels": 25454,
+    "bodyRegion": [
+      820,
+      180,
+      1120,
+      570
+    ]
+  },
   "notes": [
-    "297 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "336 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-04T14:44:00Z",
-    "end": "2026-11-04T14:56:35Z"
+    "start": "2026-11-04T17:09:07Z",
+    "end": "2026-11-04T17:21:27Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 72,
+    "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 80,
-    "studio": 0
+    "scene": 75,
+    "studio": 78
   }
 }

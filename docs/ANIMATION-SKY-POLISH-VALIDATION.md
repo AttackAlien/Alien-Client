@@ -35,13 +35,13 @@ Details abriu o editor real. O handler do slider alterou a cobertura usada pelo 
 
 ## Vídeo e capturas atuais
 
-**[Assistir / baixar MP4](../captures/video-atual/Alien-Client-0.10-customizacoes-full.mp4)** — 105.77s, 960×540, H.264/YUV420p, **30 FPS de gravação**, sem áudio. Mediana de renderização **57.6 FPS**, P95 **31.2 ms/frame**, nesta tomada Linux/Mesa por software. O MP4 é a saída original contínua de ffmpeg x11grab, sem reedição, aceleração, sequência de fotos ou interpolação. Não é promessa de desempenho em outra máquina.
+**[Assistir / baixar MP4](https://github.com/AttackAlien/Alien-Client/blob/9bf39732430ba0b5ea07fd30c0cbc56f4104c6de/captures/video-atual/Alien-Client-0.10-customizacoes-full.mp4)** — 105.77s, 960×540, H.264/YUV420p, **30 FPS de gravação**, sem áudio. Mediana de renderização **57.6 FPS**, P95 **31.2 ms/frame**, nesta tomada Linux/Mesa por software. O MP4 é a saída original contínua de ffmpeg x11grab, sem reedição, aceleração, sequência de fotos ou interpolação. Não é promessa de desempenho em outra máquina.
 
 Treze capítulos mostram capa, acessórios, trilhas, partículas, céu Realistic, HUD, danças articuladas, auras e Full. Os módulos reais alinharam a câmera com o alvo de treino, consumiram pão/aumentaram a fome, curaram o jogador com poção e colocaram vários blocos durante caminhada em Survival. O fixture prepara condições de fome/vida/inventário no servidor integrado e é identificado nas legendas como demonstração automatizada local; ele não é distribuído no JAR. AutoBridge é ativado separadamente para seu capítulo.
 
 **297 PNGs novos do jogo** substituem a galeria anterior. Uma captura é da janela X11; as demais são originais do framebuffer, copiadas byte a byte do CI aprovado. Seis PNGs novos do launcher vêm da janela WinForms no Windows Server 2022. Os GIFs de emotes, auras, trilhas e capa são conversões dos novos PNGs; os três primeiros usam intervalos registrados. A capa usa 100 ms por frame. A prévia do vídeo é um frame extraído aos 53s. Não há imagens simuladas.
 
-[Manifesto das capturas](../captures/atual/unified/validation.json) · [Medições/checks do filme](polish-results/2026-11-04/video/) · [Hashes do MP4](../captures/video-atual/SHA256SUMS.txt).
+[Manifesto das capturas](https://github.com/AttackAlien/Alien-Client/blob/9bf39732430ba0b5ea07fd30c0cbc56f4104c6de/captures/atual/unified/validation.json) · [Medições/checks do filme](polish-results/2026-11-04/video/) · [Hashes do MP4](https://github.com/AttackAlien/Alien-Client/blob/9bf39732430ba0b5ea07fd30c0cbc56f4104c6de/captures/video-atual/SHA256SUMS.txt).
 
 ## Origem e pacotes
 
@@ -72,7 +72,7 @@ Antes da rodada final, foram corrigidas duas expectativas JUnit antigas que cont
 
 Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. GPU física, gameplay em PC Windows pessoal, autenticação/licença/renovação/logout Microsoft, OptiFine e servidores externos não validados. O filme usa identidade de desenvolvimento em mundo local.
 
-Emotes/auras são locais, sem sincronização de danças pela rede. As nuvens são camadas procedurais suaves, sem ray marching volumétrico. O ambiente não tem áudio funcional. As sessões General/Scene registram tarefas de chunks após descarregar mundos: 72 e 80 ocorrências de pilha; não são contagens de quedas do jogo. As seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos nos artifacts.
+Emotes/auras são locais, sem sincronização de danças pela rede. As nuvens são camadas procedurais suaves, sem ray marching volumétrico. O ambiente não tem áudio funcional. As sessões General/Scene registram tarefas de chunks após descarregar mundos: 72 e 80 ocorrências de pilha; não são contagens de quedas do jogo. As seis sessões terminaram com PASS. [Ocorrências selecionadas](https://github.com/AttackAlien/Alien-Client/blob/9bf39732430ba0b5ea07fd30c0cbc56f4104c6de/captures/atual/unified/known-log-errors.txt); logs completos nos artifacts.
 
 ## Downloads públicos
 

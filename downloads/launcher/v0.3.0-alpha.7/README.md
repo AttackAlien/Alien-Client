@@ -1,6 +1,6 @@
 # Launcher 0.3.0-alpha.7 — Windows x64
 
-**[Baixar ZIP — 67.51 MiB](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip)** · [Fotos reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
+**[Baixar ZIP — 67.51 MiB](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip)** · [Fotos reais](https://github.com/AttackAlien/Alien-Client/blob/9bf39732430ba0b5ea07fd30c0cbc56f4104c6de/captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
 
 Inclui **Unified 0.10.0-alpha.1**, com danças e céu polidos e todos os recursos anteriores. Layout e emblema aprovados preservados.
 

@@ -1,0 +1,33 @@
+{
+  "workflowStatus": "queued",
+  "workflowConclusion": null,
+  "workflowFinalized": false,
+  "testReceiptsPassed": true,
+  "launcherSource": "abcbf57908af259fbf89e67ae8f471c0cc47db12",
+  "launcherRun": "41877291508",
+  "clientSource": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+  "clientRun": "41874722323",
+  "clientJarSha256": "8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43",
+  "windowsTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "linuxTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "nativeUiChecks": 46,
+  "nativeCaptures": 6,
+  "installation": "PASS",
+  "zipSha256": "277675c6043c8f989d02615b896a602b4a89d41b958e2e053cb150c420bb3f45",
+  "zipBytes": 70813134,
+  "zipCrc": "PASS",
+  "exePeArchitecture": "AMD64",
+  "excludedTestToolsAndAccountCaches": "PASS",
+  "microsoftAuthenticationTested": false,
+  "physicalWindowsGameplayTested": false
+}

@@ -1,0 +1,9 @@
+{
+  "captureSource": "2eef9a5227cff07830300d8d05a6d0b01aacc4a0",
+  "validationUtilityCommit": "ceac9b29dfe5a6c0e4fd43195c737f0f395c45a0",
+  "change": "Accept native 29.97 or 30 fps timing and record the actual encoded rate; no change to capture arguments or frames.",
+  "requestedFps": 30,
+  "encodedFps": 29.97002997002997,
+  "rational": "30000/1001",
+  "rawMovieUntouched": true
+}
