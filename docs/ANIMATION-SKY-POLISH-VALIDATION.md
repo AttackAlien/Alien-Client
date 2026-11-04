@@ -73,3 +73,7 @@ Antes da rodada final, foram corrigidas duas expectativas JUnit antigas que cont
 Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. GPU física, gameplay em PC Windows pessoal, autenticação/licença/renovação/logout Microsoft, OptiFine e servidores externos não validados. O filme usa identidade de desenvolvimento em mundo local.
 
 Emotes/auras são locais, sem sincronização de danças pela rede. As nuvens são camadas procedurais suaves, sem ray marching volumétrico. O ambiente não tem áudio funcional. As sessões General/Scene registram tarefas de chunks após descarregar mundos: 72 e 80 ocorrências de pilha; não são contagens de quedas do jogo. As seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos nos artifacts.
+
+## Downloads públicos
+
+Doze URLs foram baixadas sem autenticação e retornaram HTTP 200 com SHA-256 idêntico aos arquivos locais verificados, incluindo MP4, JAR, ZIP Windows, PNGs e GIFs. [Recibo da conferência pública](polish-results/2026-11-04/public-download-check.json). O console original da gravação está preservado sem alteração dentro de [minecraft-console.zip](polish-results/2026-11-04/video/minecraft-console.zip), com hash em [console-log.json](polish-results/2026-11-04/video/console-log.json).
