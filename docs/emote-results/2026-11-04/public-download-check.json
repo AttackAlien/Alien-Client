@@ -1,0 +1,85 @@
+{
+  "publishedCommit": "fb7f1d804b5d66c0bb5843ebd174c2818dbb1633",
+  "results": [
+    {
+      "path": "downloads/launcher/v0.3.0-alpha.5/AlienLauncher-Windows-x64-0.3.0-alpha.5.zip",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/downloads/launcher/v0.3.0-alpha.5/AlienLauncher-Windows-x64-0.3.0-alpha.5.zip",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/zip",
+      "bytes": 70758597,
+      "sha256": "d3c13c13f9b4149d3c84c370af4eb1ae68b30395bf90382d20b110baf382d254",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "downloads/v0.8.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/downloads/v0.8.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 1234283,
+      "sha256": "9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/01-launcher-alien.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/launcher-atual/01-launcher-alien.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 192604,
+      "sha256": "c7d0c428980f101c3135933894ab811de1e7a9eb903a0202004b7b09e85408a5",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 194651,
+      "sha256": "598222c2a19647e16cd37eda98f6fff716861d4f0862cd7f412ba8b2c187c4f4",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/144b-emote-wheel-selected.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/atual/unified/144b-emote-wheel-selected.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 85126,
+      "sha256": "18da2224e641861ca7274e53244b81650824371a0f2be8715711ed7a60df8554",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/148-emote-studio-floss.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/atual/unified/148-emote-studio-floss.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 88296,
+      "sha256": "0385631db44fe13733f5ab0658d789ca07fb709fd40246c6b2282cf0bde991a4",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/150-emote-studio-take-the-l.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/atual/unified/150-emote-studio-take-the-l.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 92843,
+      "sha256": "b0a4f3720a3c4d773bb9e2391c6ecb2945ba0462201009dd678ce4815469d2d4",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/emotes-em-movimento.gif",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/fb7f1d804b5d66c0bb5843ebd174c2818dbb1633/captures/atual/unified/emotes-em-movimento.gif",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/gif",
+      "bytes": 3536580,
+      "sha256": "c5b3632ff102b0005130e4ce5c7394c9a82c06822e4d098337e35cb87be7eba4",
+      "matchesLocalVerifiedArtifact": true
+    }
+  ]
+}

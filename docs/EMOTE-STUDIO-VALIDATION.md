@@ -67,3 +67,7 @@ Os emotes são adaptações procedurais próprias para braços/pernas rígidos, 
 O runner não tem áudio funcional. Os logs ainda registram tarefas de chunks após descarregar mundos nos fixtures General/Scene: 81 e 78 ocorrências dessa pilha nesta rodada. Não são contagens de quedas do jogo. Todas as seis sessões concluíram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos no artifact do CI.
 
 [Download do client](../downloads/v0.8.0-alpha.1/README.md) · [Launcher Windows](../downloads/launcher/v0.3.0-alpha.5/README.md) · [Fotos e GIF reais](../captures/README.md).
+
+## Acesso público verificado
+
+O ZIP do launcher, o JAR, amostras das fotos e o GIF foram baixados novamente sem autenticação a partir do commit `fb7f1d804b5d66c0bb5843ebd174c2818dbb1633`: oito URLs responderam HTTP 200 e seus SHA-256 coincidiram com os arquivos validados. [Recibo da conferência pública](emote-results/2026-11-04/public-download-check.json).
