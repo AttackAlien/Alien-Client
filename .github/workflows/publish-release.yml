@@ -1,0 +1,42 @@
+name: Publish validated Alien alpha release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alien-publish-v0.10.0-alpha.1
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 40
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ALIEN_VALIDATED_MAIN: 9bf39732430ba0b5ea07fd30c0cbc56f4104c6de
+      ALIEN_MAIN_UNIFIED_RUN: '41858348061'
+      ALIEN_MAIN_LAUNCHER_RUN: '41858418026'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Verify main CIs, source identity and packages, then publish
+        run: python3 .github/release/publish.py
+      - name: Keep release validation receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alien-release-validation-${{ github.run_id }}
+          path: |
+            release-output/VALIDATION.json
+            release-output/SHA256SUMS.txt
+            release-output/release-notes.md
+            release-output/AlienClient-Validation-Reports.zip
+          if-no-files-found: warn
