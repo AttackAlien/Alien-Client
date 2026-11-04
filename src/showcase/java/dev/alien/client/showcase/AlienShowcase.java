@@ -37,7 +37,7 @@ import org.lwjgl.opengl.*;
 public final class AlienShowcase {
     private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu personalizado","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge"};
     private static final double[] LENGTHS={8,8,8,8,6,8,12,12,4,6,7,7,9};
-    private Minecraft m;private File out;private Robot robot;private long started,warm,filmStart,chapterStart,lastFrame;private int chapter=-2,change=-1;private boolean launched,prepared,ready,finished;
+    private Minecraft m;private File out;private Robot robot;private long started,warm,filmStart,chapterStart,lastFrame;private int chapter=-2,change=-1;private boolean launched,prepared,ready,finished,previewPrepared;
     private CosmeticStudioScreen studio;private EntityOtherPlayerMP target;
     private final List<Double> frameTimes=new ArrayList<Double>();private final List<String> checks=new ArrayList<String>();private final List<Map<String,Object>> chapters=new ArrayList<Map<String,Object>>();
     private long foods,potions,blocks;private boolean movementSeen,emoteSeen,nightSeen,aimSeen;private float aimStart;private int foodStart;private float healthStart;
@@ -61,6 +61,7 @@ public final class AlienShowcase {
             if(!ready){
                 if(seconds(warm)<3)return;
                 check(SceneShaders.status().startsWith("Ready"),"Scene shader compiled before recording");c().scenes.enabled=false;c().effects.enabled=false;a().trail=false;a().aura=false;
+                if(!previewPrepared){enter(0);chapter=-2;previewPrepared=true;return;}
                 json("ready.json",map("x",Display.getX(),"y",Display.getY(),"width",m.displayWidth,"height",m.displayHeight));ready=true;return;
             }
             if(chapter==-2){if(!new File(out,"recording.start").isFile())return;filmStart=System.nanoTime();enter(0);lastFrame=System.nanoTime();return;}
@@ -71,7 +72,7 @@ public final class AlienShowcase {
     }
     private void resize()throws Exception{Display.setDisplayMode(new DisplayMode(960,540));java.lang.reflect.Method method=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);method.setAccessible(true);method.invoke(m,960,540);}
     private void prepare()throws Exception{
-        m.displayGuiScreen(null);release();m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=60;m.gameSettings.enableVsync=false;m.gameSettings.renderDistanceChunks=2;m.gameSettings.fancyGraphics=false;m.gameSettings.ambientOcclusion=0;m.gameSettings.clouds=0;m.gameSettings.useVbo=true;
+        m.displayGuiScreen(null);release();m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=60;m.gameSettings.enableVsync=false;m.gameSettings.renderDistanceChunks=2;m.gameSettings.fancyGraphics=false;m.gameSettings.ambientOcclusion=0;m.gameSettings.clouds=0;m.gameSettings.useVbo=true;m.gameSettings.showInventoryAchievementHint=false;m.guiAchievement.clearAchievements();m.renderGlobal.loadRenderers();
         c().ui.blur=0;c().ui.menuScale=1;c().hud.applyPreset("Cinematic");c().performance.adaptiveEnabled=false;c().performance.maxParticles=128;c().performance.maxCosmetics=4;c().performance.preset="Balanced";
         c().world.enabled=false;c().cosmetics.enabled=true;a().enabled=true;a().hat="SAKURA";a().face="NONE";a().back="CAPE";a().color=0xAF8BEB;a().secondaryColor=0x60DCD1;a().capePattern="MOON";a().detailLevel="Balanced";a().animations=true;
         a().aura=true;a().auraDesign.applyPreset("Arcane");a().trail=true;a().trailDesign.applyPreset("Nebula");c().scenes.enabled=true;c().scenes.sky="Galaxy";
@@ -82,7 +83,7 @@ public final class AlienShowcase {
     private void yaw(float value){m.thePlayer.rotationYaw=m.thePlayer.prevRotationYaw=m.thePlayer.rotationYawHead=m.thePlayer.prevRotationYawHead=m.thePlayer.renderYawOffset=m.thePlayer.prevRenderYawOffset=value;}
     private void enter(int next)throws Exception{
         release();AlienClient.get().emotes().stop();c().combat.applyPreset("OFF");m.displayGuiScreen(null);a().aura=a().trail=false;c().effects.enabled=false;c().scenes.enabled=false;c().hud.enabled=false;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=5;
-        chapter=next;change=-1;chapterStart=System.nanoTime();chapters.add(map("title",TITLES[next],"startSeconds",seconds(filmStart),"plannedSeconds",LENGTHS[next]));System.out.println("ALIEN_SHOWCASE "+TITLES[next]);
+        chapter=next;change=-1;chapterStart=System.nanoTime();if(filmStart!=0)chapters.add(map("title",TITLES[next],"startSeconds",seconds(filmStart),"plannedSeconds",LENGTHS[next]));System.out.println("ALIEN_SHOWCASE "+TITLES[next]);
         switch(next){
         case 0:a().hat="NONE";a().back="CAPE";studio=new CosmeticStudioScreen(null);m.displayGuiScreen(studio);studio.setPreviewYaw(160);studio.setPreviewZoom(1.12f);break;
         case 1:a().back="NONE";a().hat="SAKURA";studio=new CosmeticStudioScreen(null);m.displayGuiScreen(studio);studio.setPreviewZoom(1.2f);break;
@@ -106,7 +107,7 @@ public final class AlienShowcase {
         case 12:
             m.gameSettings.thirdPersonView=0;c().hud.applyPreset("Survival");blocks=FullToolsManager.placedBlocks();
             server(()->{EntityPlayerMP p=player();p.setHealth(20);p.getFoodStats().setFoodLevel(20);p.worldObj.setBlockState(new BlockPos(0,12,0),Blocks.stone.getDefaultState());p.setPositionAndUpdate(.5,13,.5);p.inventory.mainInventory[6]=new ItemStack(Blocks.stone,64);p.inventoryContainer.detectAndSendChanges();});
-            c().combat.applyPreset("FULL");yaw(0);m.thePlayer.rotationPitch=77;break;
+            c().combat.applyPreset("FULL");c().combat.tools.bridge=true;yaw(0);m.thePlayer.rotationPitch=77;break;
         default:throw new AssertionError(next);
         }
     }
