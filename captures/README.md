@@ -4,7 +4,7 @@
 
 **223 JUnit, 763 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `a66a68da0fe525c3389688bedeb84668770ebbf7`, [CI 41850500847](https://github.com/AttackAlien/Alien-Client/actions/runs/41850500847).
 
-[Vídeo contínuo atualizado](video-atual/README.md) · [Guia](../docs/ANIMATION-SKY-POLISH.md) · [Resultados e limites](../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Client](../downloads/v0.10.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #25](https://github.com/AttackAlien/Alien-Client/pull/25), sem merge.
+[Vídeo contínuo atualizado](video-atual/README.md) · [Guia](../docs/ANIMATION-SKY-POLISH.md) · [Resultados e limites](../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Client](../downloads/v0.10.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
 
 ## Céu realista com nuvens suaves
 

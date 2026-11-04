@@ -6,4 +6,4 @@ Minecraft Java **1.8.9 / Forge 11.15.1.2318 / Java 8**. Emotes com cotovelos/joe
 
 [Guia](../../docs/ANIMATION-SKY-POLISH.md) · [Testes](../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Fotos](../../captures/README.md) · [Vídeo contínuo](../../captures/video-atual/README.md) · [Launcher atualizado](../launcher/v0.3.0-alpha.7/README.md).
 
-Abra Emote Studio para as danças e Scene Studio → Sky → Realistic / Details para a atmosfera. As customizações são locais. Instale um único JAR Alien em mods. [PR #25](https://github.com/AttackAlien/Alien-Client/pull/25), sem merge.
+Abra Emote Studio para as danças e Scene Studio → Sky → Realistic / Details para a atmosfera. As customizações são locais. Instale um único JAR Alien em mods. [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).

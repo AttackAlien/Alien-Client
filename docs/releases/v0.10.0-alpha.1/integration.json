@@ -1,0 +1,195 @@
+{
+  "version": "0.10.0-alpha.1",
+  "prerelease": true,
+  "previousMain": "b7b6bf99a29b3cdbb7deaa92dde98115289b0615",
+  "validatedClientSource": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+  "validatedLauncherSource": "62539e68395cb45d4affccfcafbcd6dbc73e2184",
+  "runtimePaths": {
+    "src": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "3ea215e160913de2bb57dd51e16398b4e74d37aa"
+    },
+    "scripts": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "0e43f9599ada2b767b619a0a62d5ed00f5391db4"
+    },
+    "build.gradle": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "2b4b117a534809b2b0da32bbb61464f2f9f4ebe8"
+    },
+    "settings.gradle": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "81882d61c1a60b84587992706714634e85d0790c"
+    },
+    "gradle": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "e644eda988a66b65550d9abf81eab3c06707ceea"
+    },
+    "gradlew": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "cf866ec02c3d6071a5eeba482661da9c626824a2"
+    },
+    "gradle.properties": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a"
+    },
+    ".github/workflows/unified-client-ci.yml": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "540a9f7cd1fce093211e8ff845f2185654f6b6d1"
+    },
+    ".github/workflows/forge-ci.yml": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "b2ebba3e790384c2f1f1395f4222f1a3d7b842bc"
+    },
+    ".github/workflows/sky-studio-ci.yml": {
+      "validatedRevision": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+      "gitObject": "e9eae1c60c0a7c0aa4b6a401592adb579ad4751b"
+    },
+    "launcher": {
+      "validatedRevision": "62539e68395cb45d4affccfcafbcd6dbc73e2184",
+      "gitObject": "f9076fee02d163a8ec4f4de2320c0b8eee96050c"
+    },
+    ".github/workflows/alien-launcher.yml": {
+      "validatedRevision": "62539e68395cb45d4affccfcafbcd6dbc73e2184",
+      "gitObject": "3376faa904e200dee6547c15b016ea2ab300fc35"
+    }
+  },
+  "openPullRequests": [
+    {
+      "number": 1,
+      "title": "Add real Minecraft Forge visual test captures",
+      "previousBase": "main",
+      "head": "bcebb679d59e67e835edb58dd6b11df438d8d87a",
+      "includedAsAncestor": true,
+      "review": "Historical screenshots superseded by the 297 current real captures; original commit retained, old gallery images not restored."
+    },
+    {
+      "number": 2,
+      "title": "Stage verified 0.1.0 release artifacts for GitHub publishing",
+      "previousBase": "main",
+      "head": "228a107ea52aa882cd0151dbabda8ed07f8ee8cb",
+      "includedAsAncestor": true,
+      "review": "All four original staged files preserved byte-for-byte under downloads/archive/v0.1.0, with original SHA-256 verification."
+    },
+    {
+      "number": 6,
+      "title": "Package first playable Unified alpha with validated JAR, SHA256 and Windows setup",
+      "previousBase": "main",
+      "head": "a726a6fcbbcaba182c8d524299f061a981b98690",
+      "includedAsAncestor": true,
+      "review": "Original packaging and Windows checks are retained and extended by the current provenance-bound packager and 12 regression tests."
+    },
+    {
+      "number": 7,
+      "title": "Studios V2: Skybox Gallery, favorites and saved Cosmetic Looks",
+      "previousBase": "main",
+      "head": "1c2c55ad70b0966afc03c3339d3f2fe9fdd38db8",
+      "includedAsAncestor": true,
+      "review": "SkyboxGallery.java and CosmeticLooks.java are byte-identical to this original PR; gallery/favorites/looks remain covered by original and expanded tests."
+    },
+    {
+      "number": 12,
+      "title": "feat: Alien Launcher with Microsoft login, Windows EXE and Minecraft version selector",
+      "previousBase": "main",
+      "head": "d7109cc13999df785d69a3991824a265a4aed089",
+      "includedAsAncestor": true,
+      "review": "Original launcher login, official version discovery, Forge installation and separate Vanilla instances are retained in the redesigned launcher and extracted Core services; current native UI and installation already validated."
+    },
+    {
+      "number": 15,
+      "title": "Add HUD Ultimate, Full tools and refined particles to Unified",
+      "previousBase": "main",
+      "head": "e86870479bfe0af25e5ca32eb62a1848865af699",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 16,
+      "title": "Refine cosmetic trails, cape motion and sculpted headwear",
+      "previousBase": "feature/hud-studio-ultimate-20261023",
+      "head": "13d0fae435de6bf29e052740d9b9c13b2f78e7d9",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 17,
+      "title": "Add nine video-inspired visual scenes without changing Minecraft version",
+      "previousBase": "feature/cosmetic-trails-polish-20261023",
+      "head": "2e901baae83e724299095848d524a0c4c99e7634",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 18,
+      "title": "Add interactive studios, living skies and local visual effects",
+      "previousBase": "feature/visual-scenes-20261024",
+      "head": "9e64fa7c80888f40701db0416be2adeb604c4067",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 19,
+      "title": "Redesign Windows launcher and integrate verified Unified alpha 2",
+      "previousBase": "feature/interactive-studio-20261024",
+      "head": "8bf23165744e0fc630689c1de76ca0b6316a191c",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 20,
+      "title": "Audit Alien client and launcher: five findings with reproducible evidence",
+      "previousBase": "feature/launcher-unified-alpha2-20261026",
+      "head": "54c95a25787c814a7af0e801b1d84ac629915b1d",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 21,
+      "title": "Fix audited profile loss, launcher recovery and stacked PR validation",
+      "previousBase": "audit/alien-client-20261026",
+      "head": "eb5f0201a0aae9a3966f6b473c1493e2ee691530",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 22,
+      "title": "Add Trail Studio: textured ribbons with editable color, width and opacity curves",
+      "previousBase": "fix/audit-findings-20261026",
+      "head": "4fce5c20c150bd4a2f83c0e1882db56b4565b52b",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 23,
+      "title": "Emote Studio: Floss, Orange Justice and Take the L",
+      "previousBase": "feature/trail-studio-20261029",
+      "head": "8c11c2fecdd864a458d46e7e2ce950edde8a9140",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 24,
+      "title": "Reactive Aura Studio and continuous customization/Full showcase",
+      "previousBase": "feature/emote-studio-20261104",
+      "head": "4ea1b8bb2a66fb4250fb7aaa98310aa9f9f5e8aa",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    },
+    {
+      "number": 25,
+      "title": "Polish articulated emotes and realistic sky \u2014 Unified 0.10",
+      "previousBase": "feature/reactive-auras-20261104",
+      "head": "ee4f85e3346907458cd4a44bf885a5d5d49e0011",
+      "includedAsAncestor": true,
+      "review": "Already an ancestor of PR #25; all validated current source retained."
+    }
+  ],
+  "historyStrategy": "Merge commits retain every PR head. Ours was used only for the five reviewed historical branches whose current implementation is already present or superseded; the unique 0.1 staged artifacts were preserved separately.",
+  "runtimeSourceChanges": false,
+  "localJUnit": {
+    "tests": 223,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

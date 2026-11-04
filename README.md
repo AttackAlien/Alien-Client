@@ -15,8 +15,8 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 </p>
 
 <p>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=feature%2Fanimation-sky-polish-20261104"></a>
-  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=feature%2Fanimation-sky-polish-20261104"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml"><img alt="Unified CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/unified-client-ci.yml/badge.svg?branch=main"></a>
+  <a href="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml"><img alt="Forge CI" src="https://github.com/AttackAlien/Alien-Client/actions/workflows/forge-ci.yml/badge.svg?branch=main"></a>
 </p>
 
 <a href="#-comece-a-jogar"><strong>COMECE A JOGAR</strong></a>
@@ -43,14 +43,16 @@ cosméticos, HUD, céu personalizado, ferramentas de combate opcionais e métric
 
 O **Alien Client Unified** reúne personalização visual e ferramentas configuráveis em **um único client**, sem precisar escolher entre arquivos “Legit” e “Full”. O redesign **0.4.0-alpha.2**, o Combat Studio com autorização por sessão e o Performance Engine V2 já fazem parte da `main`.
 
-A **0.10.0-alpha.1** traz danças articuladas, com cotovelos e joelhos flexíveis, e o céu **Realistic**, com nuvens suaves, horizonte natural e iluminação por horário. [Como usar](docs/ANIMATION-SKY-POLISH.md) · [Resultados](docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [PR #25](https://github.com/AttackAlien/Alien-Client/pull/25), sem merge.
+**[BAIXAR RELEASE 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)** · [Launcher Windows x64](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip) · [JAR para Forge](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienClient-Unified-1.8.9.jar)
+
+A **0.10.0-alpha.1** traz danças articuladas, com cotovelos e joelhos flexíveis, e o céu **Realistic**, com nuvens suaves, horizonte natural e iluminação por horário. [Como usar](docs/ANIMATION-SKY-POLISH.md) · [Integração e validação do release](docs/releases/v0.10.0-alpha.1/README.md) · [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
 
 **[Vídeo real atualizado: customizações e módulos Full funcionando](captures/video-atual/README.md)** — gravação contínua de 105.8s a 30 FPS. Preserva Aura Studio, Emote Studio, HUD/Full, menu 3D, perfis, céu/clima, partículas, cosméticos, Scene Studio, Trail Studio e as correções da auditoria. **Minecraft continua 1.8.9.**
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
 > [!NOTE]
-> **Projeto em fase alpha.** O client jogável é para **Minecraft Java 1.8.9 + Forge 11.15.1.2318 + Java 8**. O launcher separado está em desenvolvimento; ainda não é uma versão estável publicada.
+> **Projeto em fase alpha.** O client jogável é para **Minecraft Java 1.8.9 + Forge 11.15.1.2318 + Java 8**. Client e launcher estão disponíveis no release alpha; ainda não são uma versão estável.
 
 ## ✦ O que tem no Alien
 
@@ -204,7 +206,7 @@ O projeto usa **Java 8**, **Minecraft Forge 1.8.9** e **ForgeGradle**. Para comp
 ```bash
 git clone https://github.com/AttackAlien/Alien-Client.git
 cd Alien-Client
-git switch feature/animation-sky-polish-20261104
+git switch main
 bash scripts/bootstrap.sh
 ./gradlew --no-daemon -Pedition=unified setupDecompWorkspace clean build
 ```

@@ -1,6 +1,8 @@
-# Candidato atual — Unified 0.10.0-alpha.1 / launcher 0.3.0-alpha.7
+**[Abrir release e baixar os arquivos](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)**
 
-[Baixar o Alien Client corrigido](v0.10.0-alpha.1/README.md) · [Baixar o launcher Windows x64](launcher/v0.3.0-alpha.7/README.md). Minecraft Java 1.8.9 / Forge / Java 8. Danças e céu polidos no [PR #25](https://github.com/AttackAlien/Alien-Client/pull/25), sem merge ou release estável.
+# Release alpha atual — Unified 0.10.0-alpha.1 / launcher 0.3.0-alpha.7
+
+[Baixar o Alien Client corrigido](v0.10.0-alpha.1/README.md) · [Baixar o launcher Windows x64](launcher/v0.3.0-alpha.7/README.md). Minecraft Java 1.8.9 / Forge / Java 8. Danças e céu polidos no [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
 
 [Resultados e limites](../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [Fotos atuais do client](../captures/README.md) · [Fotos atuais do launcher](../captures/launcher-atual/README.md).
 

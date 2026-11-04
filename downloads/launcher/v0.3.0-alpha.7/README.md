@@ -1,6 +1,6 @@
 # Launcher 0.3.0-alpha.7 — Windows x64
 
-**[Baixar ZIP — 67.51 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/animation-sky-polish-20261104/downloads/launcher/v0.3.0-alpha.7/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip)** · [Fotos reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
+**[Baixar ZIP — 67.51 MiB](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip)** · [Fotos reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATION-SKY-POLISH-VALIDATION.md) · [SHA-256](SHA256SUMS.txt).
 
 Inclui **Unified 0.10.0-alpha.1**, com danças e céu polidos e todos os recursos anteriores. Layout e emblema aprovados preservados.
 
@@ -13,4 +13,4 @@ Dados em `%LOCALAPPDATA%\AlienLauncher`. Saves, configurações e outros mods pr
 
 [CI 41853665597](https://github.com/AttackAlien/Alien-Client/actions/runs/41853665597): 31 testes Linux, 31 Windows, 46 checks da janela real, seis capturas e instalação Forge/Java 8 aprovados. Fonte `62539e68395cb45d4affccfcafbcd6dbc73e2184`. ZIP original do CI, CRC completo e EXE PE/AMD64 verificados.
 
-ZIP SHA-256: `4258bf05cfec0b35539ed996a3b54b79fc6cbf3fe73f415b5c48e167248910ca`. JAR incluído: `e8a12308278af4048b9ac3d1d103014409c51fd293386d761ccb007eb8fe4b6e`. Alpha do PR #25, sem merge. Login/licença Microsoft e gameplay em Windows físico não validados. EXE sem assinatura Authenticode; ferramentas de teste e caches de conta não distribuídos.
+ZIP SHA-256: `4258bf05cfec0b35539ed996a3b54b79fc6cbf3fe73f415b5c48e167248910ca`. JAR incluído: `e8a12308278af4048b9ac3d1d103014409c51fd293386d761ccb007eb8fe4b6e`. Release alpha 0.10, integrado à main. Login/licença Microsoft e gameplay em Windows físico não validados. EXE sem assinatura Authenticode; ferramentas de teste e caches de conta não distribuídos.
