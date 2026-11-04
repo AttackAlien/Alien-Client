@@ -57,6 +57,10 @@ Launcher 0.3.0-alpha.8: `abcbf57908af259fbf89e67ae8f471c0cc47db12`, [CI 41877291
 
 [Client candidato](../downloads/v0.11.0-alpha.1/README.md) · [Launcher candidato](../downloads/launcher/v0.3.0-alpha.8/README.md). A publicação de mídia e downloads usa `[skip ci]` e conserva os arquivos de execução validados. Após a captura, mudaram o validador de taxa do gravador e o desligamento do mundo no fixture Studio; os fontes de produção e do filme continuam idênticos. A sintaxe do gravador e a leitura dos metadados reais passaram localmente. [Objetos Git comparados](mascot-results/2026-11-04/validated-source-trees.json).
 
+### Acesso público verificado
+
+Doze arquivos foram baixados novamente das URLs públicas, sem cabeçalho de autenticação: JAR, ZIP do launcher, MP4, imagens do jogo/launcher e GIFs. Todos retornaram HTTP 200 e SHA-256 idêntico ao arquivo local validado. [Recibo com URLs imutáveis e hashes](mascot-results/2026-11-04/public-download-check.json).
+
 ## Comandos e limites
 
 ```bash
