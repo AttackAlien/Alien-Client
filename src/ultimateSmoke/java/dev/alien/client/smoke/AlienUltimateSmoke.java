@@ -2,6 +2,7 @@ package dev.alien.client.smoke;
 
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
+import dev.alien.client.emote.*;
 import dev.alien.client.combat.*;
 import dev.alien.client.hud.*;
 import dev.alien.client.gui.*;
@@ -37,7 +38,8 @@ public final class AlienUltimateSmoke {
     private Minecraft m;private File out;private long start,since;private int stage;private boolean done;
     private final List<String> checks=new ArrayList<String>();
     private EntityOtherPlayerMP dummy;private Robot robot;private long beforeFoods,beforePotions,beforeBlocks;
-    private float angleBefore;private int oldSlot;private float draggedX;
+    private float emoteHealth,angleBefore;private int oldSlot;private float draggedX;
+    private long emoteModelsBefore,emoteArmorBefore;private double emoteX,emoteZ;private float emoteYaw;private int emoteMovie;private final List<Long> emoteTimes=new ArrayList<Long>();
     private int[] trailPreviewPixels,trailPreviewBounds;private int trailMovieFrame;
     private final List<Long> trailMovieTimes=new ArrayList<Long>();
     private TrailDesign trail(){return c().cosmetics.self.trailDesign;}
@@ -52,7 +54,7 @@ public final class AlienUltimateSmoke {
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
             if(elapsed(start)>230000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
+            long wait=stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -89,11 +91,13 @@ public final class AlienUltimateSmoke {
             m.gameSettings.thirdPersonView=0;m.gameSettings.renderDistanceChunks=4;
             dummy();c().hud.applyPreset("PvP");c().hud.theme="Cyan";c().hud.widgets.get("target").x=.58f;
             c().hud.widgets.get("target").y=.65f;c().hud.widgets.get("crosshair").customColor=true;c().hud.widgets.get("crosshair").color=0xff43d9ed;
-            faceDummy(0);AlienClient.get().save();next();return;
+            faceDummy(0);AlienClient.get().save();
+            if(Boolean.getBoolean("alien.ultimate.emotes.only")){robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);prepareEmotes();stage=65;}
+            next();return;
         case 2:
             require(UltimateHud.trackedEntity()==dummy.getEntityId(),"Target HUD selects the real ray-traced practice entity");
             require(m.thePlayer.inventory.armorInventory[3]!=null,"Real server inventory armor synchronizes to client");
-            robot=new Robot();robot.mouseMove(Display.getX()+m.displayWidth/2,Display.getY()+m.displayHeight/2);
+            robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);robot.mouseMove(Display.getX()+m.displayWidth/2,Display.getY()+m.displayHeight/2);
             robot.mousePress(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);next();return;
         case 3:
             robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);
@@ -390,7 +394,100 @@ public final class AlienUltimateSmoke {
             require("Particles".equals(c().cosmetics.self.trailStyle)&&!button(3).enabled&&!button(11).enabled,"Legacy particle choice remains selectable with designer-only controls disabled");next();return;
         case 65:
             capture("143-trail-particles-preserved");require(GL11.glGetError()==GL11.GL_NO_ERROR,"All designed trail world passes and editor screens leave clean OpenGL state");
-            c().cosmetics.self.trail=false;AlienClient.get().save();
+            prepareEmotes();next();return;
+        case 66:
+            emoteModelsBefore=AlienClient.get().emotes().posedFrames();emoteArmorBefore=AlienClient.get().emotes().armorFrames();
+            emoteX=m.thePlayer.posX;emoteZ=m.thePlayer.posZ;emoteYaw=m.thePlayer.rotationYaw;
+            robot.keyPress(java.awt.event.KeyEvent.VK_B);next();return;
+        case 67:{
+            require(m.currentScreen instanceof EmoteWheelScreen,"Native B key opens the actual emote wheel");capture("144-emote-wheel");
+            int[] pos=((EmoteWheelScreen)m.currentScreen).slotCenter(0);float scale=m.displayWidth/(float)m.currentScreen.width;
+            robot.mouseMove(Display.getX()+Math.round(pos[0]*scale),Display.getY()+Math.round(pos[1]*scale));next();return;}
+        case 68:
+            require(m.currentScreen instanceof EmoteWheelScreen&&((EmoteWheelScreen)m.currentScreen).hoveredSlot()==0,"Native mouse hovers the intended first wheel sector");capture("144b-emote-wheel-selected");
+            robot.keyRelease(java.awt.event.KeyEvent.VK_B);next();return;
+        case 69:
+            System.out.println("EMOTE_STATE "+emoteState());
+            require(m.currentScreen==null&&"floss".equals(AlienClient.get().emotes().activeId()),"Native hover and release selects Floss and begins actual playback / "+AlienClient.get().emotes().status()+" / "+AlienClient.get().emotes().activeId()+" / GUI "+m.currentScreen+" / ground "+m.thePlayer.onGround+" / input "+m.thePlayer.movementInput.moveForward+","+m.thePlayer.movementInput.moveStrafe+" / attack "+m.gameSettings.keyBindAttack.isKeyDown()+" / use "+m.thePlayer.isUsingItem()+" / swing "+m.thePlayer.isSwingInProgress);
+            require(m.gameSettings.thirdPersonView==2,"First-person emote temporarily switches to the front third-person camera");
+            require(AlienClient.get().emotes().posedFrames()>emoteModelsBefore,"Emote poses reach the actual Minecraft player model renderer");
+            require(AlienClient.get().emotes().armorFrames()>emoteArmorBefore,"Real server-synchronized armor uses animated emote pose hooks");
+            require(Math.hypot(m.thePlayer.posX-emoteX,m.thePlayer.posZ-emoteZ)<.01&&Math.abs(m.thePlayer.rotationYaw-emoteYaw)<.01,"Dance root transforms leave actual world coordinates and camera yaw unchanged");
+            capture("145-floss-world");AlienClient.get().emotes().request("orange_justice");next();return;
+        case 70:
+            require("orange_justice".equals(AlienClient.get().emotes().activeId()),"Orange Justice replaces active playback without removing player layers");capture("146-orange-justice-world");AlienClient.get().emotes().request("take_the_l");next();return;
+        case 71:
+            require("take_the_l".equals(AlienClient.get().emotes().activeId()),"Take the L plays with a raised arm and alternating leg poses");capture("147-take-the-l-world");AlienClient.get().emotes().stop();next();return;
+        case 72:
+            require(!AlienClient.get().emotes().active()&&m.gameSettings.thirdPersonView==0,"Smooth stop ends playback and restores the owned first-person camera");
+            require(AlienClient.get().emotes().renderDepth()==0&&GL11.glGetError()==GL11.GL_NO_ERROR,"Emote world and armor render passes balance their matrix stack without GL errors");
+            server(()->{EntityPlayerMP p=serverPlayer();p.inventory.armorInventory[2]=null;p.inventoryContainer.detectAndSendChanges();});
+            m.displayGuiScreen(new EmoteStudioScreen(null));next();return;
+        case 73:
+            capture("148-emote-studio-floss");require(button(100)!=null&&button(101)!=null&&button(102)!=null,"All three requested classics have real library controls");click(101);next();return;
+        case 74:
+            capture("149-emote-studio-orange-justice");require("orange_justice".equals(c().emotes.selected),"Library control changes the real animated player preview selection");click(102);next();return;
+        case 75:
+            capture("150-emote-studio-take-the-l");click(11);click(200);click(31);
+            require("take_the_l".equals(c().emotes.slots[0]),"Wheel slot assignment stores the selected classic through actual controls");capture("151-emote-slot-assignment");
+            AlienClient.get().store().saveProfile("emotes_smoke");c().emotes.slots[0]="wave";
+            require(AlienClient.get().store().loadProfile("emotes_smoke")&&"take_the_l".equals(c().emotes.slots[0]),"Unified profile reload restores emote slots alongside existing cosmetics and HUD");
+            m.displayGuiScreen(new EmoteStudioScreen(null));click(12);next();return;
+        case 76:
+            click(26);require(!c().emotes.hideHeldItem,"Hide held item preference has a real profile-backed control");click(26);capture("152-emote-settings");
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new EmoteStudioScreen(null));
+            robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 77:
+            require(m.currentScreen.width<=400&&button(107).yPosition+button(107).height<=m.currentScreen.height-42,"Actual wheel scrolling keeps the last emote reachable in compact scaled layouts");
+            capture("153-emote-studio-compact");c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(null);next();return;
+        case 78:
+            AlienClient.get().emotes().request("floss");next();return;
+        case 79:
+            require(AlienClient.get().emotes().active(),"Emote starts from the studio-selected profile in a neutral world state");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 80:
+            require(!AlienClient.get().emotes().active()&&m.gameSettings.thirdPersonView==0,"Native forward movement cancels dancing and restores the camera");robot.keyRelease(java.awt.event.KeyEvent.VK_W);next();return;
+        case 81:
+            AlienClient.get().emotes().request("orange_justice");next();return;
+        case 82:
+            require(AlienClient.get().emotes().active(),"Neutral playback restarts after movement cancellation");robot.mousePress(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);next();return;
+        case 83:
+            robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);require(!AlienClient.get().emotes().active(),"Native attack input immediately cancels actual emote playback");
+            next();return;
+        case 84:
+            m.displayGuiScreen(new EmoteStudioScreen(null));click(100);
+            require(!AlienClient.get().emotes().active(),"Studio preview never starts world playback or persists an active dance");next();return;
+        case 85:
+            capture(String.format(Locale.ROOT,"emote-motion-%02d",emoteMovie));emoteTimes.add(System.currentTimeMillis());
+            if(++emoteMovie==16)click(101);if(emoteMovie==32)click(102);
+            if(emoteMovie<48){since=System.nanoTime();return;}
+            try(PrintWriter times=new PrintWriter(new File(out,"emote-motion-times.txt"),"UTF-8")){for(Long time:emoteTimes)times.println(time);}
+            next();return;
+        case 86:
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Actual previews and all three classic movies restore clean OpenGL and render scope");
+            m.displayGuiScreen(null);c().scenes.enabled=true;c().scenes.mode="Glass";emoteModelsBefore=AlienClient.get().emotes().posedFrames();
+            AlienClient.get().emotes().request("floss");next();return;
+        case 87:
+            require(AlienClient.get().emotes().active()&&AlienClient.get().emotes().posedFrames()>emoteModelsBefore,"Emotes animate the existing Glass renderer without replacing its material layers / "+emoteState());
+            capture("154-emote-glass-world");c().scenes.mode="Skeleton";emoteModelsBefore=AlienClient.get().emotes().posedFrames();next();return;
+        case 88:
+            require(AlienClient.get().emotes().posedFrames()>emoteModelsBefore&&dev.alien.client.scene.ScenePlayerLayer.boneFrames()>0,"Skeleton material and skeleton overlay keep using the animated body rig");
+            capture("155-emote-skeleton-world");c().scenes.enabled=false;m.displayGuiScreen(new EmoteStudioScreen(null));
+            require(!AlienClient.get().emotes().active(),"Opening an editor immediately cancels actual world playback");m.displayGuiScreen(null);next();return;
+        case 89:
+            AlienClient.get().emotes().request("take_the_l");next();return;
+        case 90:
+            require(AlienClient.get().emotes().active(),"Playback starts before actual damage interruption test");emoteHealth=serverPlayer().getHealth();server(()->{if(!serverPlayer().attackEntityFrom(DamageSource.generic,2))throw new AssertionError("Fixture damage rejected by server");});next();return;
+        case 91:
+            require(m.thePlayer.getHealth()<emoteHealth&&!AlienClient.get().emotes().active(),"Actual integrated-server damage decreases health and stops the emote");next();return;
+        case 92:
+            AlienClient.get().emotes().request("floss");next();return;
+        case 93:
+            require(AlienClient.get().emotes().active(),"Playback starts before profile context change");AlienClient.get().store().loadProfile("emotes_smoke");next();return;
+        case 94:
+            require(!AlienClient.get().emotes().active()&&m.gameSettings.thirdPersonView==0,"Changing the actual Unified profile clears playback and restores the owned camera");
+            c().emotes.enabled=false;require(!AlienClient.get().emotes().request("floss"),"Disabled emotes reject playback instead of reporting a fictional active dance");c().emotes.enabled=true;
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Material, damage, menu and profile interruption checks leave clean GL state");
+            m.displayGuiScreen(null);c().cosmetics.self.trail=false;AlienClient.get().save();
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");
@@ -400,6 +497,17 @@ public final class AlienUltimateSmoke {
             System.out.println("ALIEN_ULTIMATE_SMOKE_PASS checks="+checks.size());m.shutdown();return;
         default:throw new AssertionError(stage);
         }
+    }
+    private String emoteState(){return AlienClient.get().emotes().status()+" active="+AlienClient.get().emotes().activeId()+" models="+AlienClient.get().emotes().posedFrames()+" before="+emoteModelsBefore+" ground="+m.thePlayer.onGround+" moving="+m.thePlayer.movementInput.moveForward+","+m.thePlayer.movementInput.moveStrafe+" jump="+m.gameSettings.keyBindJump.isKeyDown()+" sneak="+m.thePlayer.isSneaking()+" water="+m.thePlayer.isInWater()+" swing="+m.thePlayer.isSwingInProgress+" attack="+m.gameSettings.keyBindAttack.isKeyDown()+" use="+m.gameSettings.keyBindUseItem.isKeyDown()+","+m.thePlayer.isUsingItem()+" gui="+m.currentScreen;}
+    private void prepareEmotes()throws Exception{
+        // Xorg without a window manager can consume native key releases inside the old GUI.
+        // Neutralize the earlier fixture's owned inputs before testing fresh wheel interaction.
+        robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);
+        net.minecraft.client.settings.KeyBinding.unPressAllKeys();
+            c().cosmetics.self.trail=false;c().emotes=new EmoteConfig();c().effects.enabled=false;c().world.enabled=false;
+            c().scenes.enabled=false;m.gameSettings.guiScale=2;m.displayGuiScreen(null);m.gameSettings.thirdPersonView=0;m.thePlayer.rotationYaw=0;m.thePlayer.rotationPitch=0;
+            server(()->{EntityPlayerMP p=serverPlayer();p.inventory.armorInventory[2]=new ItemStack(Items.diamond_chestplate);p.inventoryContainer.detectAndSendChanges();for(Object obj:new ArrayList<Object>(p.worldObj.loadedEntityList))if(obj instanceof net.minecraft.entity.EntityLiving)((net.minecraft.entity.EntityLiving)obj).setDead();});
+        AlienClient.get().save();
     }
     private void dummy(){dummy=new EntityOtherPlayerMP(m.theWorld,new GameProfile(UUID.fromString("7d5b4917-113a-4f6c-bd06-f218720e1801"),"AlienPractice"));
         dummy.setPosition(m.thePlayer.posX+2,m.thePlayer.posY,m.thePlayer.posZ-1);dummy.setHealth(20);m.theWorld.addEntityToWorld(-12432,dummy);}

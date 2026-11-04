@@ -14,6 +14,7 @@ import dev.alien.client.gui.InterfacePreferences;
 
 /** Versioned, client-only preferences. No server state belongs here. */
 public final class ClientConfig {
+    public dev.alien.client.emote.EmoteConfig emotes = new dev.alien.client.emote.EmoteConfig();
     public dev.alien.client.studio.StudioConfig studio = new dev.alien.client.studio.StudioConfig();
     public int version = 1;
     public boolean menuReplacement = true;
@@ -39,6 +40,8 @@ public final class ClientConfig {
     public dev.alien.client.scene.SceneConfig scenes = new dev.alien.client.scene.SceneConfig();
 
     public void normalize() {
+        if (emotes == null) emotes = new dev.alien.client.emote.EmoteConfig();
+        emotes.normalize();
         if (version != 1) throw new IllegalArgumentException("Unsupported config version: " + version);
         animationSpeed = clamp(animationSpeed, .1f, 3f);
         opacity = clamp(opacity, .3f, 1f);
