@@ -52,7 +52,7 @@ python3 - "$out" <<'PY'
 from pathlib import Path
 import hashlib,json,sys
 p=Path(sys.argv[1]);r=json.loads((p/'result.json').read_text());probe=json.loads((p/'ffprobe.json').read_text());video=next(s for s in probe['streams'] if s['codec_type']=='video')
-assert r['status']=='PASS' and len(r['chapters'])==13
+assert r['status']=='PASS' and len(r['chapters'])==14
 assert video['codec_name']=='h264' and video['r_frame_rate']=='30/1' and video['pix_fmt']=='yuv420p'
 assert float(probe['format']['duration'])>=100
 assert r['medianRenderedFps']>=28,(r['medianRenderedFps'],r['p95FrameMs'])

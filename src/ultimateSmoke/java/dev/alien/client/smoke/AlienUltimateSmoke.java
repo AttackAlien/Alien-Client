@@ -3,6 +3,7 @@ package dev.alien.client.smoke;
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
 import dev.alien.client.emote.*;
+import dev.alien.client.cosmetic.pet.*;
 import dev.alien.client.scene.*;
 import dev.alien.client.cosmetic.aura.*;
 import dev.alien.client.combat.*;
@@ -42,7 +43,7 @@ public final class AlienUltimateSmoke {
     private EntityOtherPlayerMP dummy;private Robot robot;private long beforeFoods,beforePotions,beforeBlocks;
     private float emoteHealth,angleBefore,auraIdle;private long auraLegacyBefore;private int auraMovie;private final List<Long> auraTimes=new ArrayList<Long>();private int oldSlot;private float draggedX;
     private long emoteModelsBefore,emoteArmorBefore,jointsBefore,skyServerTime;private int[] clearSky;private net.minecraftforge.client.IRenderHandler cloudRendererBefore;private int cloudSettingBefore;private double emoteX,emoteZ;private float emoteYaw;private int emoteMovie;private final List<Long> emoteTimes=new ArrayList<Long>();
-    private int[] trailPreviewPixels,trailPreviewBounds;private int trailMovieFrame;
+    private int[] trailPreviewPixels,trailPreviewBounds;private double petStartX,petOrbitX,petOrbitZ,petOwnerZ;private int petMovie;private final List<Long> petTimes=new ArrayList<Long>();private int trailMovieFrame;
     private final List<Long> trailMovieTimes=new ArrayList<Long>();
     private TrailDesign trail(){return c().cosmetics.self.trailDesign;}
     private ClientConfig c(){return AlienClient.get().config();}
@@ -55,8 +56,8 @@ public final class AlienUltimateSmoke {
     @SubscribeEvent public void render(TickEvent.RenderTickEvent e){
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
-            if(elapsed(start)>300000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
+            if(elapsed(start)>360000)throw new AssertionError("Deadline at stage "+stage);
+            long wait=stage==142?9000:stage==147?180:stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -94,7 +95,8 @@ public final class AlienUltimateSmoke {
             dummy();c().hud.applyPreset("PvP");c().hud.theme="Cyan";c().hud.widgets.get("target").x=.58f;
             c().hud.widgets.get("target").y=.65f;c().hud.widgets.get("crosshair").customColor=true;c().hud.widgets.get("crosshair").color=0xff43d9ed;
             faceDummy(0);AlienClient.get().save();
-            if(Boolean.getBoolean("alien.ultimate.polish.only")){robot=new Robot();prepareAuras();stage=116;}
+            if(Boolean.getBoolean("alien.ultimate.pet.only")){robot=new Robot();preparePet();stage=125;}
+            else if(Boolean.getBoolean("alien.ultimate.polish.only")){robot=new Robot();prepareAuras();stage=116;}
             else if(Boolean.getBoolean("alien.ultimate.auras.only")){robot=new Robot();prepareAuras();stage=94;}
             else if(Boolean.getBoolean("alien.ultimate.emotes.only")){robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);prepareEmotes();stage=65;}
             next();return;
@@ -580,6 +582,62 @@ public final class AlienUltimateSmoke {
         case 125:
             require(m.theWorld.provider.getCloudRenderer()==cloudRendererBefore&&m.gameSettings.clouds==cloudSettingBefore,"Disabling the realistic sky restores the exact previous cloud renderer and video preference");
             require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Polished sky, compact editor and jointed emotes leave balanced OpenGL state");
+            preparePet();next();return;
+        case 126:
+            m.displayGuiScreen(new CosmeticStudioScreen(null));click(150);require(m.currentScreen instanceof PetStudioScreen,"Cosmetic Studio mascot navigation opens the real editor without replacing existing studios");capture("178-mascot-studio-off");click(10);next();return;
+        case 127:
+            require(PetManager.activeCount()==1&&PetManager.drawnCount()==1&&PetManager.previewCount()>0,"The enabled mascot reaches both real world geometry and the large live editor preview");capture("179-mascot-studio-alien");click(12);next();return;
+        case 128:
+            require("Mint".equals(c().cosmetics.self.pet.preset),"Actual palette control applies Mint colors to the real mascot");capture("180-mascot-studio-mint");click(13);next();return;
+        case 129:{
+            Field field=m.currentScreen.getClass().getDeclaredField("hex");field.setAccessible(true);GuiTextField hex=(GuiTextField)field.get(m.currentScreen);hex.setText("#FF9AC");hex.setFocused(true);call("keyTyped",new Class[]{char.class,int.class},'7',org.lwjgl.input.Keyboard.KEY_7);
+            require(c().cosmetics.self.pet.color==0xFF9AC7,"Mascot HEX picker updates the material through the actual keyboard handler");click(1);c().cosmetics.saveLook(3,c().cosmetics.self);AlienClient.get().store().saveProfile("mascot_smoke");c().cosmetics.self.pet.enabled=false;
+            require(AlienClient.get().store().loadProfile("mascot_smoke")&&c().cosmetics.self.pet.enabled&&c().cosmetics.self.pet.color==0xFF9AC7,"Real Unified profile loading restores mascot appearance and activation");c().cosmetics.self.pet.color=0xA98AEF;
+            require(c().cosmetics.loadLook(3).pet.color==0xFF9AC7,"Saved cosmetic looks retain independent mascot preferences");m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(1);petStartX=m.thePlayer.posZ;robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;}
+        case 130:
+            require(PetManager.selfMovement()>.5&&m.thePlayer.posZ>petStartX+.2,"Native movement feeds the mascot's actual smoothed movement response");capture("181-mascot-follow-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);next();return;
+        case 131:
+            require(PetManager.selfMovement()<.1&&Math.hypot(PetManager.selfX()-m.thePlayer.posX,PetManager.selfZ()-m.thePlayer.posZ)<2,"The follower settles beside the actual owner after stopping native input");AlienClient.get().emotes().request("floss");next();return;
+        case 132:
+            require(AlienClient.get().emotes().active()&&PetManager.selfDance()>.9,"Real Floss playback makes the mascot wave");capture("182-mascot-emote-wave");AlienClient.get().emotes().stop();m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(3);click(31);click(1);AlienClient.get().emotes().request("floss");next();return;
+        case 133:
+            require(AlienClient.get().emotes().active()&&PetManager.selfDance()<.05,"The editor's Emotes OFF control releases the mascot reaction while real Floss continues");capture("183-mascot-emote-reaction-off");AlienClient.get().emotes().stop();m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(11);click(5);next();return;
+        case 134:
+            require("Shoulder".equals(c().cosmetics.self.pet.mode)&&Math.abs(PetManager.selfY()-m.thePlayer.posY-1.6)<.02,"Actual Shoulder mode positions the real mascot at the owner's shoulder height");capture("184-mascot-shoulder-preview");click(11);click(1);petOrbitX=PetManager.selfX();next();return;
+        case 135:
+            petOrbitX=PetManager.selfX();petOrbitZ=PetManager.selfZ();petStartX=m.thePlayer.posX;petOwnerZ=m.thePlayer.posZ;next();return;
+        case 136:
+            require(Math.hypot(PetManager.selfX()-petOrbitX,PetManager.selfZ()-petOrbitZ)>.15&&Math.hypot(m.thePlayer.posX-petStartX,m.thePlayer.posZ-petOwnerZ)<.01,"Orbit moves the actual mascot around a stationary owner");capture("185-mascot-orbit-world");m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(12);click(12);click(12);next();return;
+        case 137:
+            require("Solar".equals(c().cosmetics.self.pet.preset),"Palette cycling reaches the actual Solar materials");capture("186-mascot-studio-solar");click(3);click(30);next();return;
+        case 138:
+            require(!c().cosmetics.self.pet.animate&&PetManager.drawnCount()==1,"Animation OFF preserves a visible static mascot instead of hiding it");capture("187-mascot-animation-off");click(30);click(31);click(2);click(11);click(1);next();return;
+        case 139:
+            server(()->serverPlayer().setPositionAndUpdate(serverPlayer().posX+80,serverPlayer().posY,serverPlayer().posZ));next();return;
+        case 140:
+            require(Math.abs(PetManager.selfX()-m.thePlayer.posX)<2&&PetManager.drawnCount()==1,"An actual server teleport reanchors the mascot near its owner without a long interpolation streak");capture("188-mascot-after-teleport");next();return;
+        case 141:
+            next();return;
+        case 142:
+            require(PetManager.selfSleep()>.9,"Actual owner inactivity smoothly puts the mascot to sleep");capture("189-mascot-idle-sleep");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 143:
+            require(PetManager.selfSleep()<.05&&PetManager.selfMovement()>.5,"Native movement wakes the sleeping mascot");capture("190-mascot-awake-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 144:
+            require(button(23).yPosition+button(23).height<=m.currentScreen.height-42,"Native scrolling exposes the final mascot appearance slider at compact GUI scale");capture("191-mascot-studio-compact");
+            c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(null);net.minecraft.client.settings.KeyBinding.unPressAllKeys();c().performance.maxCosmetics=0;next();return;
+        case 145:
+            require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Zero cosmetic budget clears actual mascot simulation and rendering");c().performance.maxCosmetics=4;c().cosmetics.self.pet.applyPreset("Alien");next();return;
+        case 146:
+            require(PetManager.activeCount()==1&&PetManager.drawnCount()==1,"Restoring the real cosmetic budget recreates the configured mascot");m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));next();return;
+        case 147:
+            capture(String.format(Locale.ROOT,"mascot-motion-%02d",petMovie));petTimes.add(System.currentTimeMillis());if(++petMovie<24){since=System.nanoTime();return;}
+            try(PrintWriter times=new PrintWriter(new File(out,"mascot-motion-times.txt"),"UTF-8")){for(Long time:petTimes)times.println(time);}click(10);click(1);next();return;
+        case 148:
+            require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Actual mascot OFF control clears world state and geometry");capture("192-mascot-off-world");AlienClient.get().store().loadProfile("mascot_smoke");next();return;
+        case 149:
+            require(PetManager.activeCount()==1&&PetManager.drawnCount()==1,"Loading the real saved profile restores the mascot without stale positions");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Mascot world rendering, large preview and compact editor restore clean OpenGL state");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");
@@ -589,6 +647,12 @@ public final class AlienUltimateSmoke {
             System.out.println("ALIEN_ULTIMATE_SMOKE_PASS checks="+checks.size());m.shutdown();return;
         default:throw new AssertionError(stage);
         }
+    }
+    private void preparePet()throws Exception{
+        robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);robot.keyRelease(java.awt.event.KeyEvent.VK_SHIFT);net.minecraft.client.settings.KeyBinding.unPressAllKeys();m.displayGuiScreen(null);
+        c().combat.applyPreset("OFF");c().scenes.enabled=false;c().world.enabled=false;c().effects.enabled=false;c().cosmetics.enabled=true;c().cosmetics.self.enabled=true;c().cosmetics.self.aura=false;c().cosmetics.self.trail=false;c().cosmetics.self.pet=new PetDesign();c().emotes=new EmoteConfig();
+        c().performance.adaptiveEnabled=false;c().performance.maxCosmetics=4;m.gameSettings.thirdPersonView=2;m.gameSettings.guiScale=2;m.thePlayer.rotationYaw=m.thePlayer.prevRotationYaw=0;m.thePlayer.rotationPitch=8;
+        if(dummy!=null)m.theWorld.removeEntityFromWorld(dummy.getEntityId());server(()->{EntityPlayerMP p=serverPlayer();p.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle","false");p.worldObj.setWorldTime(6000);p.clearActivePotions();for(int i=0;i<4;i++)p.inventory.armorInventory[i]=null;p.inventoryContainer.detectAndSendChanges();});AlienClient.get().save();
     }
     private void prepareAuras()throws Exception{
         robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);net.minecraft.client.settings.KeyBinding.unPressAllKeys();
