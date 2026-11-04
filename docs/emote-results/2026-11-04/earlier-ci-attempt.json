@@ -1,0 +1,16 @@
+{
+  "runId": 41826972466,
+  "url": "https://github.com/AttackAlien/Alien-Client/actions/runs/41826972466",
+  "sourceCommit": "966baf959b0df903e3d709f06c1849d4eac121e1",
+  "conclusion": "failure",
+  "passedBeforeFailure": {
+    "junit": 204,
+    "general": 161,
+    "sky": 37,
+    "combat": 24,
+    "ultimate": 245
+  },
+  "failure": "SceneSmoke stage 3: Player did not jump",
+  "finding": "The earlier fixture sampled instantaneous onGround state only after a render delay. A short jump can complete between render callbacks.",
+  "correction": "Use native held Space, observe airborne height each client tick, release Space after observation and retain actual landing/shader assertions."
+}
