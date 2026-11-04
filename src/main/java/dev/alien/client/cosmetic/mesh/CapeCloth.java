@@ -33,6 +33,10 @@ public final class CapeCloth implements MeshView {
 
     /** ageTicks may include partial ticks; movement is a local visual speed, not player state. */
     public void update(float ageTicks,float movement,float flutter) {
+        update(ageTicks,movement,flutter,0,0);
+    }
+
+    public void update(float ageTicks,float movement,float flutter,float bend,float lateral) {
         double age=Float.isFinite(ageTicks)?ageTicks%20000f:0;
         double speed=finiteClamp(movement,0,2),wind=finiteClamp(flutter,0,2);
         double sway=Math.sin(age*.055)*wind*.35;
@@ -43,11 +47,12 @@ public final class CapeCloth implements MeshView {
                 double s=col/(double)columns*2-1;
                 double phase=age*.14-t*4+s*1.5;
                 int at=index(row,col)*3;
-                positions[at]=(float)(s*half+sway*t2);
+                positions[at]=(float)(s*half+sway*t2+finiteClamp(lateral,-2,2)*t2);
                 positions[at+1]=(float)(1+16*t-.65*Math.pow(Math.abs(s),5)*Math.pow(t,7)
                         +.18*Math.pow(Math.sin(s*Math.PI*3),2)*Math.pow(t,8));
                 positions[at+2]=(float)(3.15+t*.35+t2*(.75+speed*.9)
-                        +wind*.65*t2*Math.sin(phase)+wind*.20*t2*Math.sin(age*.095+s*4));
+                        +finiteClamp(bend,0,5)*t2+wind*.65*t2*Math.sin(phase)+wind*.20*t2*Math.sin(age*.095+s*4)
+                        +wind*.12*Math.sin(s*Math.PI*5)*t2);
             }
         }
         // Smooth vertex normals from adjacent grid tangents, rather than flat rectangular panels.

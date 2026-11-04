@@ -1,0 +1,26 @@
+{
+  "auditedCommit": "8bf23165744e0fc630689c1de76ca0b6316a191c",
+  "clientVersion": "0.6.0-alpha.2",
+  "launcherVersion": "0.3.0-alpha.2",
+  "junit": {
+    "tests": 175,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "dotnetLinux": {
+    "tests": 22,
+    "failed": 0,
+    "skipped": 0
+  },
+  "windowsAuditRun": "40347200344",
+  "windowsAuditResult": "probe completed; custom saved profile restoration defect reproduced",
+  "nugetAdvisoriesReported": 0,
+  "productionModified": false,
+  "minecraftStartedDuringAudit": false,
+  "findings": {
+    "P1": 1,
+    "P2": 4,
+    "minorObservationsP3": 3
+  }
+}

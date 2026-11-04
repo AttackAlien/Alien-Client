@@ -200,7 +200,7 @@ public final class PanelMenuScreen extends AlienMenuScreen {
         return "Effects Studio";
     }
     private void openEditor(ModuleDescriptor module){
-        if(module.category()==ModuleCategory.COMBAT)mc.displayGuiScreen(new CombatStudioScreen(this));
+        if(module.category()==ModuleCategory.COMBAT)mc.displayGuiScreen(module.id().equals("aim_assist")||module.id().equals("click_assist")?new CombatStudioScreen(this):new FullToolsScreen(this));
         else if(module.category()==ModuleCategory.COSMETICS)mc.displayGuiScreen(new CosmeticStudioScreen(this));
         else if(module.category()==ModuleCategory.HUD)mc.displayGuiScreen(new HudEditorScreen(this));
         else if(module.category()==ModuleCategory.WORLD)mc.displayGuiScreen(new WorldStudioScreen(this));

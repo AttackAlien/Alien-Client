@@ -1,0 +1,158 @@
+PASS 155 checks
+Alien Client Legit 0.6.0-alpha.3; actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable world AlienSmoke-1793277233384
+This functional smoke run is not a performance benchmark.
+PASS Forge discovers the real Alien Client mod
+PASS The selected edition provider matches the actual Gradle runtime
+PASS Forge discovers the actual edition name and current version
+PASS The actual edition uses its isolated configuration namespace
+PASS The compiled edition policy agrees with its identity
+PASS The loaded resource marker belongs to the current edition
+PASS Exactly one edition resource is on the running game classpath
+PASS The runtime preserves all nine visual switches and Unified's eight gameplay switches
+PASS Edition access and actual gameplay impact survive the redesign integration
+PASS Existing combat features remain disabled on a new profile
+PASS Smoke loads current main classes directly, excluding the packaged jar (actual /home/runner/work/Alien-Client/Alien-Client/build/legit/classes/main/dev/alien/client/AlienClient.class)
+PASS Runtime HUD uses the Performance 2.0 four-line diagnostic widget
+PASS Optional main menu replaces vanilla title screen
+PASS Framebuffer capture 01-title
+PASS Alien control center initializes and renders
+PASS Framebuffer capture 02-dashboard
+PASS Appearance toggle changes and persists the actual config
+PASS Config is written to the actual game directory
+PASS Framebuffer capture 03-appearance
+PASS Performance preset control applies a real bounded effects budget
+PASS Framebuffer capture 04-performance
+PASS HudEditorScreen controls fit 427x240
+PASS HUD scale control edits the live widget
+PASS HUD alignment control repositions the live widget
+PASS Framebuffer capture 05-hud-editor-preview
+PASS WorldStudioScreen controls fit 427x240
+PASS World Studio custom sky switch is functional
+PASS World Studio local visual time switch is functional
+PASS Framebuffer capture 06-world-studio
+PASS EffectsScreen controls fit 427x240
+PASS Effects master switch is functional
+PASS Framebuffer capture 07-effects-studio
+PASS VisualStyleScreen controls fit 427x240
+PASS Camera and tint controls change actual optional effects
+PASS Framebuffer capture 08-camera-filter
+PASS The actual registered per-module key toggles the sky in a loaded world
+PASS A second real binding event restores the visual module switch
+PASS Per-module shortcuts do not activate while an editor is open
+PASS Editor key presses are drained without a deferred world toggle
+PASS Actual integrated Minecraft world starts and the local player joins
+PASS Visual midnight leaves actual server time advancing normally
+PASS Visual snow leaves actual server rain/thunder state unchanged
+PASS Framebuffer capture 09-local-world-aurora-cosmetics-hud
+PASS Custom midnight sky visibly replaces the vanilla daytime sky
+PASS Framebuffer capture 09b-custom-sky-minimum-distance
+PASS Custom midnight sky also renders at the vanilla minimum two-chunk distance
+PASS Minimum-distance sky fallback remains behind the visible grass terrain
+PASS Default registered menu shortcut is Right Shift
+PASS Registered menu key event opens the Alien menu inside the world
+PASS Alien module menu remains open and renders inside the loaded world
+PASS The actual registered shortcut opens the floating panel menu layout
+PASS Framebuffer capture 09c-alien-menu-inside-world
+PASS Sky and weather editor renders inside the loaded world
+PASS Framebuffer capture 09d-world-studio-inside-world
+PASS CosmeticStudioScreen controls fit 427x240
+PASS Cosmetic accessory selector edits the actual player preset
+PASS Framebuffer capture 10-cosmetic-live-player-preview
+PASS Cosmetic preview supports a stable user-selected turntable angle
+PASS Cosmetic preview supports bounded user-selected zoom
+PASS Framebuffer capture 14-smooth-kasa-and-cloth-front
+PASS The live cosmetic preview renders the player's skin as well as the accessory meshes
+PASS Framebuffer capture 15-cloth-cape-emblem-back
+PASS Framebuffer capture cape-motion-00
+PASS Framebuffer capture cape-motion-01
+PASS Framebuffer capture cape-motion-02
+PASS Framebuffer capture cape-motion-03
+PASS Framebuffer capture cape-motion-04
+PASS Framebuffer capture cape-motion-05
+PASS Framebuffer capture cape-motion-06
+PASS Framebuffer capture cape-motion-07
+PASS Framebuffer capture cape-motion-08
+PASS Framebuffer capture cape-motion-09
+PASS Framebuffer capture cape-motion-10
+PASS Framebuffer capture cape-motion-11
+PASS Animated cloth produces visible changes inside the back-view player region across actual rendered frames
+PASS Framebuffer capture 16-sculpted-samurai-kitsune
+PASS Framebuffer capture 17-sculpted-wings-back-view
+PASS Smooth meshes, textured cloth and repeated preview poses preserve a clean OpenGL state
+PASS Cosmetic Looks gallery opens during actual Forge rendering
+PASS CosmeticStudioScreen controls fit 427x240
+PASS Framebuffer capture 30-cosmetic-looks-gallery
+PASS Sakura preset updates real cosmetic meshes and particle options
+PASS Cosmetic look slot persists in active profile config
+PASS Loading saved look restores independent cosmetic snapshot
+PASS Phantom look selects the original futuristic visor
+PASS Saved look remains available after actual disk config reload
+PASS Framebuffer capture 31-cosmetic-phantom-look
+PASS Performance Engine 2.0 dashboard opens in actual Minecraft
+PASS PerformanceDashboardScreen controls fit 427x240
+PASS Framebuffer capture 32-performance-engine-dashboard
+PASS Performance Engine 2.0 dashboard opens in actual Minecraft
+PASS Framebuffer capture 33-performance-engine-compact-graph
+PASS Compact Graph/Stats view renders on a separate Minecraft frame
+PASS Performance Engine 2.0 dashboard opens in actual Minecraft
+PASS Adaptive Alien-only visual budgets can be explicitly enabled
+PASS Disabling adaptive quality preserves saved performance budgets
+PASS Framebuffer capture 11-hud-editor-live-world
+PASS Actual runtime profile save and load succeeds
+PASS Profile load restores the saved preferences
+PASS Imported PNG skybox decodes and uploads to the real renderer
+PASS Framebuffer capture 12-imported-skybox-live-world
+PASS Imported skybox visibly changes the rendered sky
+PASS No Alien Client persistence errors during the runtime workflow
+PASS OpenGL reports no error after studios and live world rendering
+PASS Crystal preset enables the real cyan sky and ambient diamond particle settings
+PASS Reference HUD enables its live brand and active visual modules list
+PASS Applying a procedural preset releases the previously uploaded PNG skybox
+PASS Framebuffer capture 18-crystal-cyan-sky-particles-hud
+PASS Crystal preset produces an actual cyan sky in the game framebuffer
+PASS Sakura preset changes the actual sky palette and ambient petal particle settings
+PASS Framebuffer capture 19-sakura-petals-sky-hud
+PASS Sakura produces a visibly different rendered sky from Crystal
+PASS Disabling local sky and weather restores the vanilla dimension renderers
+PASS Framebuffer capture 20-vanilla-sky-restored-after-presets
+PASS Atmosphere presets leave actual server time advancing normally
+PASS Atmosphere presets leave actual server rain and thunder unchanged
+PASS Ambient particles and restored sky preserve a clean OpenGL state
+PASS Alien screens use the actual bundled antialiased font renderer
+PASS Optional Gaussian blur executes real framebuffer shader passes
+PASS ThemeEditorScreen controls fit 427x240
+PASS Framebuffer capture 21-theme-editor-colors
+PASS The HSV color canvas is actually visible in the framebuffer
+PASS Theme palette button updates the actual persistent design tokens
+PASS ThemeEditorScreen controls fit 427x240
+PASS Framebuffer capture 22-theme-style-motion-blur
+PASS Custom font, rounded components and blur preserve a clean OpenGL state
+PASS PanelMenuScreen controls fit 480x300
+PASS Framebuffer capture 23-clickgui-16x10
+PASS HudEditorScreen controls fit 480x300
+PASS Framebuffer capture 24-hud-editor-16x10
+PASS ThemeEditorScreen controls fit 471x353
+PASS Framebuffer capture 25-theme-editor-4x3-scaled
+PASS CosmeticStudioScreen controls fit 471x353
+PASS Framebuffer capture 26-cosmetic-studio-4x3-scaled
+PASS Framebuffer capture 27-module-settings-keybind
+PASS The actual ClickGUI key editor assigns a module shortcut
+PASS ColorPickerScreen controls fit 427x240
+PASS Framebuffer capture 28-color-picker-hsv-rgba
+PASS Framebuffer capture 29-config-profiles
+PASS Responsive editors and custom controls preserve OpenGL state across window sizes
+PASS SkyboxOptionsScreen controls fit 427x240
+PASS Framebuffer capture 34-skybox-options-scaled
+PASS Preserved Sky Options render with modern components and no OpenGL errors
+PASS ValueInputScreen controls fit 427x240
+PASS Framebuffer capture 35-precise-numeric-input
+PASS Numeric input preserves the precision of the minimum fog density
+PASS Applying an unchanged precise numeric value succeeds and restores its parent screen
+PASS SkyboxOptionsScreen controls fit 427x240
+PASS Framebuffer capture 36-sky-options-minimal-white
+PASS SkyboxGalleryScreen controls fit 427x240
+PASS Framebuffer capture 37-sky-gallery-minimal-white
+PASS Minimal White studio screens and numeric editing preserve OpenGL state
+PASS Normal connection teardown unloads the disposable world
+PASS Disconnect restores the optional Alien title menu
+PASS Framebuffer capture 13-title-after-disconnect

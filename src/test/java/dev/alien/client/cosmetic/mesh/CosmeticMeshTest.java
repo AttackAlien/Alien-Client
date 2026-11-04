@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 /** Regression checks exercise silhouette, real openings, topology and fabric deformation. */
 public class CosmeticMeshTest {
     private static Mesh[] builtins() {
-        return new Mesh[]{CosmeticMeshes.hat("JAPANESE"),CosmeticMeshes.hat("SAMURAI"),CosmeticMeshes.hat("CROWN"),
+        return new Mesh[]{CosmeticMeshes.hat("JAPANESE"),CosmeticMeshes.hat("SAMURAI"),CosmeticMeshes.hat("CROWN"),CosmeticMeshes.hat("SAKURA"),
                 CosmeticMeshes.face("KITSUNE"),CosmeticMeshes.face("FUTURE"),CosmeticMeshes.face("GLASSES"),
                 CosmeticMeshes.back("WINGS",true),CosmeticMeshes.back("WINGS",false),CosmeticMeshes.back("BACKPACK",true),CosmeticMeshes.charm()};
     }

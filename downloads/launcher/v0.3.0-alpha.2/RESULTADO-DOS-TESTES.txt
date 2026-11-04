@@ -1,0 +1,11 @@
+ALIEN LAUNCHER 0.3.0-alpha.2 - WINDOWS X64
+Codigo: 69ac3f43f73e2511cfbf19dc04e9c05ac6f293ef
+CI: https://github.com/AttackAlien/Alien-Client/actions/runs/40343053042
+.NET Linux: 22/22; .NET Windows: 22/22; WinForms real: 36 checks
+Windows: instalacao real Minecraft 1.8.9 / Forge / Java 8 passou
+Capturas: 4 PNGs reais CopyFromScreen; galeria anterior substituida
+ZIP: PE AMD64, CRC integral e JAR fixado verificados; sem probes/caches de conta
+SHA256 ZIP: 3f8d5fe57af6514bbb6afd95ce050de8a60c62f627449c524fc64de335b2c008
+SHA256 JAR: 17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc
+Pendente: login Microsoft interativo e gameplay em PC Windows fisico
+Alpha, sem merge na main

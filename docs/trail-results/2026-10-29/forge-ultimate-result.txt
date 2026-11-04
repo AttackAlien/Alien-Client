@@ -1,0 +1,156 @@
+PASS 152 checks
+Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
+Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
+Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
+PASS All 12 existing widgets and three new widgets are registered
+PASS Unified registers nine visuals and eight real gameplay switches
+PASS New gameplay functions are off on fresh profiles
+PASS Target HUD selects the real ray-traced practice entity
+PASS Real server inventory armor synchronizes to client
+PASS CPS counts actual automated X11 mouse events delivered to LWJGL
+PASS Real framebuffer capture 40-hud-ultimate-pvp-live
+PASS Custom cyan crosshair replaces vanilla white at the actual framebuffer center
+PASS Health bar visibly interpolates after entity damage
+PASS Real framebuffer capture 41-target-health-animation
+PASS Animated target health converges to the entity's real 8/20 health
+PASS Real framebuffer capture 42-target-damaged
+PASS Removed entities clear the target; no invented target remains
+PASS Actual HUD canvas drag changes the selected widget position
+PASS Actual resize handle scales the existing target widget
+PASS HUD Center alignment operates after dragging and resizing
+PASS Real framebuffer capture 43-hud-ultimate-editor
+PASS Selected widget opens the real HUD settings screen
+PASS Widget opacity slider changes the selected widget only
+PASS HUD presets are accessible from the preserved editor
+PASS Real framebuffer capture 44-hud-presets-themes
+PASS Survival preset enables live health, speed and potion indicators
+PASS Real framebuffer capture 45-hud-survival-live
+PASS Cinematic disables gameplay overlays without deleting their settings
+PASS Real framebuffer capture 46-hud-cinematic-live
+PASS Real framebuffer capture 47-crosshair-options
+PASS Crosshair shape control selects an implemented shape
+PASS Auto Food selects actual hotbar food in a hungry server world
+PASS Auto Food restores the original selected slot after eating
+PASS Auto Food actually increases server-side hunger through vanilla item use
+PASS Real framebuffer capture 48-auto-food-result
+PASS Auto Potion selects an actual healing potion from the hotbar
+PASS Auto Potion produces real server-side healing
+PASS Real framebuffer capture 49-auto-potion-result
+PASS Anti Aim spin changes the actual camera orientation
+PASS Aimbot actually aligns the camera with the visible practice player
+PASS Real framebuffer capture 50-aimbot-target-hud
+PASS Auto Bridge calls the vanilla placement controller
+PASS Auto Bridge places the block in the actual integrated server world
+PASS Real framebuffer capture 51-auto-bridge-server-block
+PASS Auto Sprint enables the actual sprint state while forward input is held
+PASS Real framebuffer capture 52-full-modules-unified
+PASS All six new modules have actual clickable controls
+PASS Full module GUI edits the registered Auto Food state
+PASS Unified profile reload succeeds with all new sections
+PASS HUD preferences and Full tool settings round-trip together without data loss
+PASS Real framebuffer capture 53-hud-ultimate-scaled
+PASS HUD/avatars/items/crosshair and Full screens preserve clean OpenGL state
+PASS Automation leaves no stuck use key after master OFF
+PASS Auto Potion splash mode heals through a real thrown potion on the integrated server
+PASS Splash potion owns its camera while Aimbot is enabled and restores the pitch
+PASS Real framebuffer capture 54-auto-splash-potion-result
+PASS Opening a GUI interrupts automation and releases its owned use key
+PASS Opening a GUI during food use restores the user's hotbar slot
+PASS Real framebuffer capture 55-full-input-cleanup
+PASS OFF disables all Full tool execution after in-world tests
+PASS Full preset is functionally distinct and enables the implemented Full tools
+PASS Real framebuffer capture 56-full-preset-enabled
+PASS Real framebuffer capture 57-hud-light-theme-live
+PASS Real framebuffer capture 58-full-combat-catalog
+PASS Light HUD theme and full module catalog render without OpenGL errors
+PASS Cinematic particles spawn through the actual bounded world emitter
+PASS Cinematic feathered orb particles reach the world renderer
+PASS Real framebuffer capture 59-particles-cinematic-live
+PASS Sakura petals render within their real 72-particle budget
+PASS Real framebuffer capture 60-particles-sakura-live
+PASS PvP preset keeps actual movement particles within 24 and disables glow and ambient spawning
+PASS Real framebuffer capture 61-particles-pvp-live
+PASS Particle Studio controls edit the active renderer configuration
+PASS Particle shape, opacity, glow, flow and lifetime persist in Unified profiles
+PASS Real framebuffer capture 62-particle-studio-controls
+PASS Effects OFF clears particle simulation and rendering
+PASS All particle meshes, glow passes and controls preserve clean OpenGL state
+PASS New sculpted Sakura headwear is active in the actual player renderer
+PASS Real framebuffer capture 63-sakura-wreath-world
+PASS Real framebuffer capture 64-cc0-fabric-cape-studio
+PASS Motion tab opens actual per-player ribbon controls
+PASS Real framebuffer capture 65-cosmetic-ribbon-controls
+PASS Classic particle option remains available and ribbon-only sliders are disabled
+PASS Wreath and ribbon preferences round-trip with Unified profiles
+PASS Real X11 player movement produces a rendered continuous ribbon
+PASS Ribbon geometry respects the shared performance segment limit
+PASS Actual player movement drives the cape's damped spring response
+PASS Real framebuffer capture 66-ribbon-trail-and-cape-moving
+PASS Ribbon remains rendered while turning in front third-person view
+PASS Real framebuffer capture 67-ribbon-curved-path
+PASS Stationary trail fully expires after its configured lifetime
+PASS Real framebuffer capture 68-cape-relaxed-after-motion
+PASS Real framebuffer capture 69-woven-kasa-world
+PASS Real framebuffer capture 70-sakura-cosmetic-studio
+PASS Reduced cosmetic animation leaves no active ribbon simulation
+PASS CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state
+PASS Real Trail Studio exposes opt-in designer and texture controls
+PASS Real framebuffer capture 128-trail-studio-overview
+PASS Preset button applies its actual material, gradient and curve values
+PASS Real framebuffer capture 129-trail-ember-preset
+PASS Dragging the real width canvas changes its middle stop
+PASS Real framebuffer capture 130-trail-width-curve
+PASS Width edit changes actual material-preview framebuffer pixels
+PASS Opacity curve independently edits the newest end of the ribbon
+PASS Real framebuffer capture 131-trail-opacity-curve
+PASS Opacity edit changes real preview pixels without changing the texture
+PASS Trail stop opens the existing real HSV and HEX picker
+PASS Typing HEX through the actual picker updates the selected stop
+PASS Real framebuffer capture 132-trail-color-picker
+PASS Actual Unified profile load restores custom trail stops
+PASS Saved cosmetic look includes an independent trail design
+PASS Reload and texture selector discover an actual local PNG
+PASS Real framebuffer capture 133-trail-png-material
+PASS Right-click curve opens precise numeric input
+PASS Typed curve value is applied through the actual numeric control
+PASS Real framebuffer capture 134-trail-exact-opacity
+PASS Real player movement renders the imported PNG on world-space ribbon geometry
+PASS Designed trails retain bounded shared geometry and player budgets
+PASS Real framebuffer capture 135-trail-custom-png-world
+PASS Nebula binds the actual Silk material in the world renderer
+PASS Real framebuffer capture 136-trail-nebula-world
+PASS Ember binds the actual segmented material in the world renderer
+PASS Real framebuffer capture 137-trail-ember-world
+PASS Glacier binds the actual woven material in the world renderer
+PASS Real framebuffer capture 138-trail-glacier-world
+PASS Real framebuffer capture trail-motion-00
+PASS Real framebuffer capture trail-motion-01
+PASS Real framebuffer capture trail-motion-02
+PASS Real framebuffer capture trail-motion-03
+PASS Real framebuffer capture trail-motion-04
+PASS Real framebuffer capture trail-motion-05
+PASS Real framebuffer capture trail-motion-06
+PASS Real framebuffer capture trail-motion-07
+PASS Real framebuffer capture trail-motion-08
+PASS Real framebuffer capture trail-motion-09
+PASS Real framebuffer capture trail-motion-10
+PASS Real framebuffer capture trail-motion-11
+PASS Real framebuffer capture trail-motion-12
+PASS Real framebuffer capture trail-motion-13
+PASS Real framebuffer capture trail-motion-14
+PASS Real framebuffer capture trail-motion-15
+PASS Real framebuffer capture trail-motion-16
+PASS Real framebuffer capture trail-motion-17
+PASS Real framebuffer capture trail-motion-18
+PASS Real framebuffer capture trail-motion-19
+PASS Actual mouse wheel exposes the full curve editor in compact scaled layout
+PASS Real framebuffer capture 139-trail-studio-compact
+PASS Real framebuffer capture 140-trail-invalid-png-fallback
+PASS Preview, graph and imported-texture fallback restore clean OpenGL state
+PASS Rejected PNG renders the truthful Soft fallback instead of pretending import success
+PASS Real framebuffer capture 141-trail-fallback-world
+PASS Actual OFF control clears designed trail simulation and rendering
+PASS Real framebuffer capture 142-trail-off-restored
+PASS Legacy particle choice remains selectable with designer-only controls disabled
+PASS Real framebuffer capture 143-trail-particles-preserved
+PASS All designed trail world passes and editor screens leave clean OpenGL state

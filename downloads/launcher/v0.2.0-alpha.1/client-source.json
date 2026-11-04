@@ -1,0 +1,13 @@
+{
+  "clientVersion": "0.6.0-alpha.2",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "repository": "AttackAlien/Alien-Client",
+  "sourceCommit": "32829c561b8dc53719a71b7a6621c58cb5a2e8f5",
+  "workflow": ".github/workflows/unified-client-ci.yml",
+  "runId": "40136496598",
+  "artifact": "alien-unified-40136496598",
+  "jar": "AlienClient-Unified-1.8.9.jar",
+  "sha256": "17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc",
+  "status": "experimental candidate from PR #18; not merged into main"
+}

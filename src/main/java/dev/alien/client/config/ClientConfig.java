@@ -14,6 +14,8 @@ import dev.alien.client.gui.InterfacePreferences;
 
 /** Versioned, client-only preferences. No server state belongs here. */
 public final class ClientConfig {
+    public dev.alien.client.emote.EmoteConfig emotes = new dev.alien.client.emote.EmoteConfig();
+    public dev.alien.client.studio.StudioConfig studio = new dev.alien.client.studio.StudioConfig();
     public int version = 1;
     public boolean menuReplacement = true;
     public boolean animations = true;
@@ -35,8 +37,11 @@ public final class ClientConfig {
     public EffectsConfig effects = new EffectsConfig();
     public PerformanceConfig performance = new PerformanceConfig();
     public CombatConfig combat = new CombatConfig();
+    public dev.alien.client.scene.SceneConfig scenes = new dev.alien.client.scene.SceneConfig();
 
     public void normalize() {
+        if (emotes == null) emotes = new dev.alien.client.emote.EmoteConfig();
+        emotes.normalize();
         if (version != 1) throw new IllegalArgumentException("Unsupported config version: " + version);
         animationSpeed = clamp(animationSpeed, .1f, 3f);
         opacity = clamp(opacity, .3f, 1f);
@@ -51,7 +56,7 @@ public final class ClientConfig {
         moduleKeys = validKeys;
         accentColor |= 0xff000000;
         if (theme == null || theme.length() > 64) theme = "Nebula";
-        if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout)) menuLayout = "Panels";
+        if (!"Panels".equals(menuLayout) && !"Studio".equals(menuLayout) && !"Gallery".equals(menuLayout)) menuLayout = "Panels";
         if (panels == null) panels = new PanelLayoutConfig();
         panels.normalize();
         if (ui == null) ui = new ThemeConfig();
@@ -70,6 +75,9 @@ public final class ClientConfig {
         effects.normalize();
         performance.normalize();
         combat.normalize();
+        if(scenes==null)scenes=new dev.alien.client.scene.SceneConfig();
+        scenes.normalize();
+        if(studio==null)studio=new dev.alien.client.studio.StudioConfig();studio.normalize();
     }
 
     public static float clamp(float value, float min, float max) {

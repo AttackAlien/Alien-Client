@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+  "fullUltimate": "PASS 328 checks",
+  "targetedSky": "PASS 22 checks",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "display": ":115",
+  "environment": "Xorg dummy, Mesa software OpenGL, Java 8u472",
+  "command": "./gradlew --offline --no-daemon -Pedition=unified runUltimateSmokeClient",
+  "preliminaryRuns": [
+    "Two old unit-test expectations counted 16 sky styles; updated to 17 while retaining old indices.",
+    "Missing showcase-only EmoteManager import fixed before successful recording.",
+    "Initial cloud-hook check ran on the shader compile frame; bounded waiting now observes the subsequent actual client tick.",
+    "Visual inspection exposed vanilla cloud overlap and horizon streaks; actual owned cloud hook and horizon fade corrected both."
+  ]
+}

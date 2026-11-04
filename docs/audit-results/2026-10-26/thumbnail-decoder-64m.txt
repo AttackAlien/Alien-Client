@@ -1,0 +1,8 @@
+COMPRESSED_BYTES=105048
+READ_ERROR=javax.imageio.IIOException; cause=java.lang.OutOfMemoryError: Java heap space
+READ_ERROR=javax.imageio.IIOException; cause=java.lang.OutOfMemoryError: Java heap space
+READ_ERROR=javax.imageio.IIOException; cause=java.lang.OutOfMemoryError: Java heap space
+UNCACHED_DECODE_ATTEMPTS=3
+DIMENSION_GUARD_REACHED=0
+READ_ERRORS=3
+TOTAL_MS=111

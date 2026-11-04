@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
         clientSideOnly = true, acceptedMinecraftVersions = "[1.8.9]", acceptableRemoteVersions = "*")
 public final class AlienClient {
     public static final String MOD_ID = "alienclient";
-    public static final String VERSION = "0.4.0-alpha.2";
+    public static final String VERSION = "0.10.0-alpha.1";
     public static final Logger LOG = LogManager.getLogger("AlienClient");
     @Mod.Instance(MOD_ID) private static AlienClient instance;
     private final CombatSessionGuard combatSession = new CombatSessionGuard();
@@ -46,6 +46,7 @@ public final class AlienClient {
     private KeyBinding menuBinding;
     private ModuleManager modules;
     private ModuleKeybindManager moduleBindings;
+    private dev.alien.client.emote.EmoteManager emotes;
     private int lastMenuKey;
     private String serverContext;
     private String appliedBinding;
@@ -58,6 +59,7 @@ public final class AlienClient {
     public CombatSessionGuard combatSession() { return combatSession; }
     public ModuleManager modules() { return modules; }
     public String lastError() { return lastError; }
+    public dev.alien.client.emote.EmoteManager emotes() { return emotes; }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -76,10 +78,12 @@ public final class AlienClient {
         moduleBindings = new ModuleKeybindManager(modules, () -> config());
         performance = new PerformanceEngine();
         register(this); register(performance); register(new HudManager()); register(new WorldManager());
-        if ("unified".equals(BuildEdition.ID)) register(new CombatManager());
+        if ("unified".equals(BuildEdition.ID)) {register(new CombatManager());register(new dev.alien.client.combat.FullToolsManager());}
         CosmeticManager cosmetics = new CosmeticManager();
         cosmetics.install(); register(cosmetics);
-        LOG.info("{} {} initialized: {} registered visual modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);
+        dev.alien.client.scene.SceneManager scenes=new dev.alien.client.scene.SceneManager();scenes.install(cosmetics);register(scenes);register(new dev.alien.client.studio.StudioVisuals());
+        emotes=new dev.alien.client.emote.EmoteManager();register(emotes);
+        LOG.info("{} {} initialized: {} registered modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);
     }
 
     private static void register(Object listener) {

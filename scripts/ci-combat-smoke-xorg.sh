@@ -8,7 +8,7 @@ edition="${ALIEN_EDITION:?ALIEN_EDITION must be legit or full}"
 case "$edition" in unified) ;; *) echo "This runner requires the Unified build, got: $edition" >&2; exit 2;; esac
 out="$repo_dir/build/$edition/combat-smoke"
 mkdir -p "$out"
-display="${ALIEN_COMBAT_SMOKE_DISPLAY:-:102}"
+display="${ALIEN_COMBAT_SMOKE_DISPLAY:-:101}"
 deadline="${ALIEN_COMBAT_SMOKE_TIMEOUT_SECONDS:-480}"
 if ! [[ "$deadline" =~ ^[1-9][0-9]*$ ]] || (( deadline>900 )); then echo "Invalid timeout" >&2; exit 2; fi
 
@@ -50,7 +50,8 @@ export LIBGL_ALWAYS_SOFTWARE=1
 ready=false
 for i in {1..45}; do
   if timeout 2s xdpyinfo -display "$display" >/dev/null 2>&1; then ready=true;break; fi
-  if ! kill -0 "$xorg_pid" >/dev/null 2>&1; then break;fi
+  # sudo may own the live Xorg PID; kill -0 can return EPERM before xdpyinfo is ready.
+  if ! ps -p "$xorg_pid" >/dev/null 2>&1; then break;fi
   sleep .2
 done
 if [[ "$ready" != true ]]; then report "Xorg failed to become ready";collect;exit 1;fi

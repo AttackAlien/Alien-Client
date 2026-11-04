@@ -86,7 +86,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         previewWidth = left + panelWidth - 8 - previewX;
         bodyTop = top + 35; bodyBottom = height - 27; controlTop = bodyTop + 13;
         rowStep = Math.min(24, Math.max(18, (bodyBottom - controlTop - 2) / 7)); buttonHeight = rowStep - 3;
-        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks"};
+        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks", "Emotes", "Auras"};
         int navStep = Math.min(34, (bodyBottom - bodyTop - 15) / tabs.length);
         for (int i = 0; i < tabs.length; i++) buttonList.add(new StudioButton(2 + i,
                 railX, bodyTop + 8 + i * navStep, railWidth, navStep - 4, tabs[i]).selected(page == i));
@@ -120,8 +120,8 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             buttonList.add(new StudioSlider(81, controlX, controlTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
             buttonList.add(new StudioSlider(82, controlX, controlTop + rowStep * 2, controlWidth, buttonHeight, "Cape length", 8));
             buttonList.add(new StudioSlider(83, controlX, controlTop + rowStep * 3, controlWidth, buttonHeight, "Hat size", 9));
-            row(84, 4, "Mesh / " + a.detailLevel); row(86, 5, "Emblem / " + title(a.capePattern));
-            row(85, 6, "Reset motion");
+            row(84, 4, "Mesh / " + a.detailLevel); pairAt(86,"Emblem / "+title(a.capePattern),88,"Shine: "+on(a.capeShimmer),controlTop+rowStep*5,buttonHeight);
+            pairAt(85,"Reset motion",87,"Trail settings",controlTop+rowStep*6,buttonHeight);
         } else {
             pairAt(110, "Ronin", 111, "Celestial", controlTop, buttonHeight);
             pairAt(112, "Sakura", 113, "Phantom", controlTop + rowStep, buttonHeight);
@@ -155,9 +155,11 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         CosmeticConfig.Accessory a = current();
         if (button.id == 0) { AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
+        if (button.id == 9) { mc.displayGuiScreen(new dev.alien.client.cosmetic.aura.AuraStudioScreen(this,this::current)); return; }
+        if (button.id == 8) { mc.displayGuiScreen(new dev.alien.client.emote.EmoteStudioScreen(this)); return; }
         if (button.id >= 2 && button.id <= 7) { page = button.id - 2; initGui(); return; }
         switch (button.id) {
-            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN"); break;
+            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA"); break;
             case 11: a.face = cycle(a.face, "NONE", "KITSUNE", "FUTURE", "GLASSES"); break;
             case 12: a.back = cycle(a.back, "NONE", "CAPE", "WINGS", "BACKPACK"); break;
             case 13: a.charm = !a.charm; break;
@@ -188,6 +190,8 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             case 84: a.detailLevel = cycle(a.detailLevel, "Low", "Balanced", "High"); break;
             case 85: a.capeFlutter = a.capeLength = a.hatSize = 1; a.animations = true; a.detailLevel = "Balanced"; break;
             case 86: a.capePattern = cycle(a.capePattern, "ALIEN", "MOON", "STARS", "PLAIN"); break;
+            case 88: a.capeShimmer=!a.capeShimmer;break;
+            case 87: mc.displayGuiScreen(new CosmeticTrailScreen(this,a)); return;
             case 90: shownYaw = viewYaw = -24; shownPitch = viewPitch = -7; shownZoom = zoom = 1; message("Preview reset. Drag to turn; scroll to zoom."); break;
             case 91: turntable = !turntable; break;
             case 120: case 122: case 124: {
@@ -431,11 +435,11 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
             boolean animated = AlienClient.get().config().animations && !Ui.theme().reducedMotion;
             hoverAmount += ((hovered && enabled ? 1 : 0) - hoverAmount) * (animated ? .22f : 1);
-            if (id >= 2 && id <= 7) {
+            if (id >= 2 && id <= 9) {
                 int fill = selected ? Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), .28f)
                         : Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), hoverAmount * .1f);
                 Ui.rounded(xPosition + 1, yPosition, width - 2, height, 5, fill);
-                String icon = new String[]{"cosmetics", "settings", "player", "import", "effects", "folder"}[id - 2];
+                String icon = new String[]{"cosmetics", "settings", "player", "import", "effects", "folder", "player", "spark"}[id - 2];
                 if (height >= 24) Ui.icon(icon, xPosition + width / 2f - 4, yPosition + 3, 8,
                         selected ? Ui.accent() : Ui.theme().muted);
                 String label = Ui.font().trimStringToWidth(displayString, width - 3);

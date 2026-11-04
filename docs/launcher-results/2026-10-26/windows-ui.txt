@@ -1,0 +1,39 @@
+PASS 38 checks
+Actual window displays the current client version
+Control fits actual form / brand
+Control fits actual form / launcherTitle
+Control fits actual form / engine
+Control fits actual form / Label
+Control fits actual form / Label
+Control fits actual form / Label
+Control fits actual form / profile
+Control fits actual form / Button
+Control fits actual form / Panel
+Control fits actual form / Label
+Control fits actual form / memory
+Control fits actual form / Label
+Control fits actual form / Button
+Control fits actual form / Label
+Control fits actual form / ProgressBar
+Control fits actual form / Label
+Control fits actual form / java8
+Control fits actual form / Button
+Control fits actual form / Button
+Control fits actual form / cancel
+Control fits actual form / Button
+Control fits actual form / diagnostics
+Control fits actual form / Label
+Play is a real enabled production control
+Actual brand labels do not overlap
+Cancellation is disabled when no operation is running
+UI does not fabricate an authenticated account
+Actual native window capture has nonblank content / 01-launcher-alien
+Independent modern Vanilla profile exists
+Selecting Vanilla invokes actual selection handler
+Modern Vanilla does not claim to run Forge 1.8.9
+Actual native window capture has nonblank content / 02-launcher-vanilla
+Diagnostics button opens actual log window
+Diagnostics shows real launcher log, not sample text
+Actual native window capture has nonblank content / 03-launcher-diagnostics
+UI test never claimed a Microsoft login
+Closing persists actual profile and RAM preferences

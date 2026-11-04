@@ -1,0 +1,11 @@
+Fabric detail asset: Fabric Pattern 07, by Rob Tuytel / Poly Haven.
+License: CC0 1.0 Universal (public-domain dedication).
+Asset page: https://polyhaven.com/a/fabric_pattern_07
+License statement: https://polyhaven.com/license
+Legal deed: https://creativecommons.org/publicdomain/zero/1.0/
+Original, unmodified roughness image:
+https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/fabric_pattern_07/fabric_pattern_07_rough_1k.jpg
+SHA-256: 3d90ac40b5c32a15649cc8525b7eeed133ea46b63a0e3eae5e34911d5c967e3a
+API MD5: 28f47eb9de3e4ebe1dc519f601335fc4 (verified before inclusion).
+Used as a tinted woven-color detail in original Alien cape textures.
+This is not a PBR/normal-map renderer. No external runtime downloads.

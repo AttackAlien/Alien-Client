@@ -1,0 +1,108 @@
+{
+  "status": "PASS",
+  "sourceCommit": "a66a68da0fe525c3389688bedeb84668770ebbf7",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "width": 960,
+  "height": 540,
+  "seconds": 105.191203738,
+  "renderedFrames": 5380,
+  "medianFrameMs": 17.351698,
+  "p95FrameMs": 31.170311,
+  "medianRenderedFps": 57.631247385702544,
+  "chapters": [
+    {
+      "title": "01 / Capa animada",
+      "startSeconds": 0.003903899,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "02 / Chapeus e acessorios",
+      "startSeconds": 8.029505151,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "03 / Trilhas desenhadas",
+      "startSeconds": 16.037925429,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "04 / Particulas Sakura",
+      "startSeconds": 24.051605893,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "05 / Ceu realista e nuvens suaves",
+      "startSeconds": 32.054956588,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "06 / HUD Ultimate",
+      "startSeconds": 40.087979305,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "07 / Floss, Orange Justice, Take the L",
+      "startSeconds": 48.110486834,
+      "plannedSeconds": 12.0
+    },
+    {
+      "title": "08 / Auras reativas",
+      "startSeconds": 60.123446428,
+      "plannedSeconds": 12.0
+    },
+    {
+      "title": "09 / Modo FULL",
+      "startSeconds": 72.137268823,
+      "plannedSeconds": 4.0
+    },
+    {
+      "title": "10 / Aimbot - alvo de treino",
+      "startSeconds": 76.158934301,
+      "plannedSeconds": 6.0
+    },
+    {
+      "title": "11 / Auto Food",
+      "startSeconds": 82.16700061,
+      "plannedSeconds": 7.0
+    },
+    {
+      "title": "12 / Auto Potion",
+      "startSeconds": 89.1710684,
+      "plannedSeconds": 7.0
+    },
+    {
+      "title": "13 / AutoBridge",
+      "startSeconds": 96.181187136,
+      "plannedSeconds": 9.0
+    }
+  ],
+  "checks": [
+    "Scene shader compiled before recording",
+    "Scene shader compiled before recording",
+    "Clean OpenGL after 01 / Capa animada",
+    "Clean OpenGL after 02 / Chapeus e acessorios",
+    "Actual native movement renders designed ribbon geometry",
+    "Clean OpenGL after 03 / Trilhas desenhadas",
+    "Clean OpenGL after 04 / Particulas Sakura",
+    "Clean OpenGL after 05 / Ceu realista e nuvens suaves",
+    "Clean OpenGL after 06 / HUD Ultimate",
+    "Emotes reach actual articulated body model rendering",
+    "Clean OpenGL after 07 / Floss, Orange Justice, Take the L",
+    "Aura film records actual movement, emote and midnight responses",
+    "Aura geometry reaches the actual world framebuffer",
+    "Clean OpenGL after 08 / Auras reativas",
+    "Clean OpenGL after 09 / Modo FULL",
+    "Aimbot actually moves the camera from an offset to the visible practice target",
+    "Clean OpenGL after 10 / Aimbot - alvo de treino",
+    "Auto Food uses real bread and increases integrated-server hunger",
+    "Clean OpenGL after 11 / Auto Food",
+    "Auto Potion actually heals the integrated-server player",
+    "Clean OpenGL after 12 / Auto Potion",
+    "AutoBridge places multiple real blocks while walking in Survival",
+    "Clean OpenGL after 13 / AutoBridge"
+  ],
+  "capture": "Continuous native X11 recording; no generated or interpolated frames",
+  "environment": "Linux / software OpenGL / disposable integrated-server world",
+  "microsoftAuthenticationTested": false
+}

@@ -1,0 +1,65 @@
+{
+  "publishedCommit": "127fa0c24e4619e30c836ac1566027a939f47a47",
+  "results": [
+    {
+      "path": "downloads/launcher/v0.3.0-alpha.3/AlienLauncher-Windows-x64-0.3.0-alpha.3.zip",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/downloads/launcher/v0.3.0-alpha.3/AlienLauncher-Windows-x64-0.3.0-alpha.3.zip",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/zip",
+      "bytes": 70712496,
+      "sha256": "e680a086c39474e0f13c72b4c5ada032837c54726e0fe62ee4066f7870ac6f7f",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "downloads/v0.6.0-alpha.3/AlienClient-Unified-1.8.9.jar",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/downloads/v0.6.0-alpha.3/AlienClient-Unified-1.8.9.jar",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 1184324,
+      "sha256": "fe39c46a8b91a22cae7503d2dd1bfabfdf7ab98e8260d51c2643bffe97ae7842",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/01-launcher-alien.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/captures/launcher-atual/01-launcher-alien.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 192592,
+      "sha256": "35b86a02250ab3b14f39ac9291fd8d344b1fa0864f6f105d790fb3983a2e808e",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 194627,
+      "sha256": "af0a1efb219a2e241a6016881ea9a3c5e17d1c3c8f4e85e7beb48fd12a9816ec",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/06-launcher-settings-recovery.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/captures/launcher-atual/06-launcher-settings-recovery.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 193914,
+      "sha256": "fe759e7ad96ab1b2756006d56275a3528bcee89362b609537d96ecc08a32987d",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/100-profile-in-use.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/127fa0c24e4619e30c836ac1566027a939f47a47/captures/atual/unified/100-profile-in-use.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 140711,
+      "sha256": "7ec9825fe933c6a9285f3cb9a951120ece1b548ed445d15eb56bc5b46b8fa584",
+      "matchesLocalVerifiedArtifact": true
+    }
+  ]
+}

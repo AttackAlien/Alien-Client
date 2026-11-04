@@ -1,0 +1,32 @@
+2026-10-29T14:14:03.4807044Z ##[group]Run python3 -m unittest discover -s scripts/tests -p 'test_package_unified.py' -v
+2026-10-29T14:14:03.4807828Z [36;1mpython3 -m unittest discover -s scripts/tests -p 'test_package_unified.py' -v[0m
+2026-10-29T14:14:03.4871024Z shell: /usr/bin/bash -e {0}
+2026-10-29T14:14:03.4871312Z env:
+2026-10-29T14:14:03.4871634Z   ALIEN_TOOLS_DIR: /home/runner/work/Alien-Client/Alien-Client/.tools
+2026-10-29T14:14:03.4872211Z   GRADLE_USER_HOME: /home/runner/work/Alien-Client/Alien-Client/.gradle-user
+2026-10-29T14:14:03.4872662Z   ALIEN_EDITION: unified
+2026-10-29T14:14:03.4873036Z   ALIEN_VALIDATED_REVISION: f10f753eae78e95fa8a76112f5a58b689d5063ae
+2026-10-29T14:14:03.4873464Z   ALIEN_COMBAT_SMOKE_TIMEOUT_SECONDS: 480
+2026-10-29T14:14:03.4873900Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/8.0.504-1/x64
+2026-10-29T14:14:03.4874465Z   JAVA_HOME_8_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/8.0.504-1/x64
+2026-10-29T14:14:03.4874898Z ##[endgroup]
+2026-10-29T14:14:03.7876968Z test_new_validation_window_invalidates_previous_pass (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:03.9275884Z test_produces_single_unmodified_jar_with_verified_hash (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.0593954Z test_receipt_records_reviewed_checkout_instead_of_pr_merge_sha (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.1490444Z test_refuses_changed_jar_after_validation_begins (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.2148220Z test_refuses_corrupt_jar (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.3057770Z test_refuses_failed_junit (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.4235122Z test_refuses_false_positive_or_missing_combat_result (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.4924966Z test_refuses_missing_validation_window (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.5841164Z test_refuses_older_graphical_pass (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.6531759Z test_refuses_partial_junit_suite (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.7724994Z test_refuses_source_or_runtime_changes (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.8682172Z test_refuses_unavailable_graphical_result (test_package_unified.UnifiedPackagerRegressionTest) ... ok
+2026-10-29T14:14:04.8683031Z
+2026-10-29T14:14:04.8685049Z ----------------------------------------------------------------------
+2026-10-29T14:14:04.8686449Z Ran 12 tests in 1.190s
+2026-10-29T14:14:04.8686665Z
+2026-10-29T14:14:04.8686774Z OK
+2026-10-29T14:14:04.8687407Z Validation window opened for Unified JAR 69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240
+2026-10-29T14:14:04.8688711Z PASS: AlienClient-Unified-Primeiro-Teste.zip; JUnit: 193; PASS 24 checks; SHA256: 69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240
+2026-10-29T14:14:04.8690245Z PASS: AlienClient-Unified-Primeiro-Teste.zip; JUnit: 193; PASS 24 checks; SHA256: 69f5e881ab8f88e5a7bf36de44c3f217a83d4b343c94b369965f890a1cb0a240

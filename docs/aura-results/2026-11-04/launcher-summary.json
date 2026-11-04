@@ -1,0 +1,29 @@
+{
+  "launcherSource": "331ee2bbf7aa12e18503e4c3e7bc793b489020e8",
+  "launcherRun": "41845407649",
+  "clientSource": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
+  "clientRun": "41842322972",
+  "clientJarSha256": "2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036",
+  "windowsTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "linuxTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "notExecuted": 0
+  },
+  "nativeUiChecks": 46,
+  "nativeCaptures": 6,
+  "installation": "PASS",
+  "zipSha256": "fb5d9e3c25bfac64f3c91a3f6e6e296afbe108ab0306d4e067b20ebe83d05147",
+  "zipBytes": 70780376,
+  "zipCrc": "PASS",
+  "exePeArchitecture": "AMD64",
+  "excludedTestToolsAndAccountCaches": "PASS",
+  "microsoftAuthenticationTested": false,
+  "physicalWindowsGameplayTested": false
+}

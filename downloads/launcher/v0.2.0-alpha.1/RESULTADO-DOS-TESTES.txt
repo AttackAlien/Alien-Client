@@ -1,0 +1,19 @@
+ALIEN LAUNCHER 0.2.0-alpha.1 - CANDIDATO WINDOWS X64
+Codigo do launcher: fc9edb86a8dc91d8e0ca36606ac302b32471d662
+CI aprovado: https://github.com/AttackAlien/Alien-Client/actions/runs/40324521453
+Linux .NET: 22 testes, nenhum erro/falha/ignorado
+Windows .NET: 22 testes, nenhum erro/falha/ignorado
+Windows WinForms real: PASS 38 checks, 3 capturas CopyFromScreen
+Windows: instalacao real de Minecraft 1.8.9, Forge e Java 8 verificada
+Linux: Java automatico, Forge 1.8.9, JAR de distribuicao carregado e ativo por 20s
+Linux Vanilla 1.21.1: instalacao verificada, Java 21 real; sem teste grafico moderno
+ZIP: CRC integral valido, EXE PE AMD64 e payload exato; sem runners/cache de contas
+Tamanho do ZIP: 69676957 bytes
+SHA256 ZIP: 057b457cfd7a74b68dd1a4184d623162acfda43ac223be0b13db76a336a6730c
+Client: Unified 0.6.0-alpha.2
+Fonte do client: 32829c561b8dc53719a71b7a6621c58cb5a2e8f5
+CI do client: 40136496598
+SHA256 JAR: 17a1627a25b66423c1cf60bb745ca88b4888c5a376f93cb9cc736ae2e888c6fc
+PENDENTE: login Microsoft interativo/licenca, logout de sessao real, multiplayer e PC Windows fisico.
+Probe Linux usa identidade anonima apenas de teste, ausente do launcher distribuido.
+Nao e uma release estavel; nao houve merge na main.

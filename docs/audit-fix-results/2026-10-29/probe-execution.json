@@ -1,0 +1,18 @@
+{
+  "notice": "Exit 0 means evidence collection completed, not that the product has no defects.",
+  "minecraftStarted": false,
+  "probes": [
+    {
+      "file": "java-profile-reproduction.txt",
+      "probeExitCode": 0
+    },
+    {
+      "file": "thumbnail-method-64m.txt",
+      "probeExitCode": 0
+    },
+    {
+      "file": "thumbnail-method-256m.txt",
+      "probeExitCode": 0
+    }
+  ]
+}

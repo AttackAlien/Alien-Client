@@ -38,7 +38,9 @@ final class CosmeticMeshRenderer {
             int material = mesh.material(i);
             int color = material == Mesh.ACCENT ? secondary : material == Mesh.HIGHLIGHT ? mix(primary, secondary, .65f) : primary;
             float light = mesh.shade(i) * (material == Mesh.SHADOW ? .64f : 1f);
-            GL11.glColor4f(((color >> 16) & 255) / 255f * light, ((color >> 8) & 255) / 255f * light, (color & 255) / 255f * light, 1);
+            float specular=(material==Mesh.ACCENT||material==Mesh.HIGHLIGHT)
+                    ?(float)Math.pow(Math.max(0,-mesh.nx(i)*.31f-mesh.ny(i)*.79f-mesh.nz(i)*.53f),18)*.28f:0;
+            GL11.glColor4f(Math.min(1,((color >> 16) & 255) / 255f * light+specular), Math.min(1,((color >> 8) & 255) / 255f * light+specular), Math.min(1,(color & 255) / 255f * light+specular), 1);
             GL11.glNormal3f(mesh.nx(i), mesh.ny(i), mesh.nz(i));
             GL11.glVertex3f(mesh.x(i) / 16f, mesh.y(i) / 16f, mesh.z(i) / 16f);
         }

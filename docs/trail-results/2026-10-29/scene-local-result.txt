@@ -1,0 +1,72 @@
+PASS 70 checks
+Actual Forge 1.8.9 / GLSL 1.20 / Linux software OpenGL; disposable integrated world
+PASS Old profiles start with all new scene FX off
+PASS Real framebuffer 71-scenes-baseline
+PASS Clean OpenGL after 71-scenes-baseline
+PASS Real jump and landing emits a shockwave
+PASS GLSL 1.20 scene and glass programs compile and link: Ready / GLSL 1.20
+PASS Depth-based shockwave actually reaches the framebuffer
+PASS Real framebuffer 72-shockwave-landing
+PASS Clean OpenGL after 72-shockwave-landing
+PASS Cute World draws original face art on the posed player
+PASS Real framebuffer 73-cute-world
+PASS Clean OpenGL after 73-cute-world
+PASS Cyberspace applies actual depth-reconstructed grid shader
+PASS Real framebuffer 74-cyberspace-world
+PASS Clean OpenGL after 74-cyberspace-world
+PASS X-Ray decorative bones follow the actual vanilla player pose
+PASS Real framebuffer 75-xray-skeleton
+PASS Clean OpenGL after 75-xray-skeleton
+PASS Integrated server actually spawns the dropped item in a loaded chunk
+PASS Glass shader draws player and real held/dropped item geometry
+PASS Glass is applied separately to player/held/dropped geometry (counts 20/20/20)
+PASS Real framebuffer 76-glass-player-items
+PASS Clean OpenGL after 76-glass-player-items
+PASS Chroma uses a real bounded player path and post process
+PASS Real framebuffer 77-chroma-world
+PASS Clean OpenGL after 77-chroma-world
+PASS Scene Studio Shockwave button changes the real landing effect
+PASS Scene Studio Cape button enables actual animated Alien cape
+PASS Scene Studio Trail button enables the existing real ribbon renderer
+PASS Cute World button edits the live face layer
+PASS Scene Studio material selector Cyberspace
+PASS Scene Studio material selector Skeleton
+PASS Scene Studio material selector Glass
+PASS Scene Studio material selector Chroma
+PASS Sky button cycles actual procedural sky selection
+PASS Scene FX master button disables the actual compositor
+PASS Real framebuffer 78-scene-studio-controls
+PASS Clean OpenGL after 78-scene-studio-controls
+PASS Unified scene profile reload succeeds
+PASS Scene settings, animated cape and trail persist together
+PASS Real framebuffer 79-blackhole-sky
+PASS Clean OpenGL after 79-blackhole-sky
+PASS Real framebuffer 80-cosmic-sky
+PASS Clean OpenGL after 80-cosmic-sky
+PASS Real framebuffer 90-cosmic-sky-animation
+PASS Clean OpenGL after 90-cosmic-sky-animation
+PASS Procedural sky visibly animates in consecutive actual framebuffer captures
+PASS Real framebuffer 81-aurora-living-sky
+PASS Clean OpenGL after 81-aurora-living-sky
+PASS Real framebuffer 82-snow-clouds-sky
+PASS Clean OpenGL after 82-snow-clouds-sky
+PASS Real framebuffer 83-fire-sky
+PASS Clean OpenGL after 83-fire-sky
+PASS Real framebuffer 84-sunset-sky
+PASS Clean OpenGL after 84-sunset-sky
+PASS Real framebuffer 85-ocean-sky
+PASS Clean OpenGL after 85-ocean-sky
+PASS Real framebuffer 86-storm-sky
+PASS Clean OpenGL after 86-storm-sky
+PASS All eight sky presets have distinct sampled framebuffer regions
+PASS Scene FX OFF leaves the original renderer untouched
+PASS OFF clears transient wave and chroma histories
+PASS Real framebuffer 87-scene-fx-off-restored
+PASS Clean OpenGL after 87-scene-fx-off-restored
+PASS Visual modes never change actual server time
+PASS Actual X11 movement leaves multiple Chroma color-history samples
+PASS Real framebuffer 88-chroma-moving-path
+PASS Clean OpenGL after 88-chroma-moving-path
+PASS Disconnect clears all scene histories
+PASS Real framebuffer 89-scene-after-disconnect
+PASS Clean OpenGL after 89-scene-after-disconnect

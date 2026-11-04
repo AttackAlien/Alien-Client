@@ -1,0 +1,34 @@
+Verificando Minecraft 1.8.9 e o Java gerenciado...
+Arquivos: 0/1 — com.mojang:netty:1.8.8
+Arquivos: 14/951 — com.paulscode:codecjorbis:20101023
+Arquivos: 41/951 — minecraft/lang/da_DK.lang
+Arquivos: 44/951 — minecraft/lang/en_AU.lang
+Arquivos: 58/951 — minecraft/lang/en_CA.lang
+Arquivos: 67/951 — minecraft/lang/hu_HU.lang
+Arquivos: 73/951 — minecraft/lang/hi_IN.lang
+Arquivos: 81/951 — minecraft/lang/la_LA.lang
+Arquivos: 89/951 — minecraft/lang/mt_MT.lang
+Arquivos: 99/951 — minecraft/lang/sv_SE.lang
+Arquivos: 106/951 — minecraft/lang/ro_RO.lang
+Arquivos: 197/951 — minecraft/sounds/mob/blaze/death.ogg
+Arquivos: 303/951 — minecraft/sounds/mob/guardian/flop3.ogg
+Arquivos: 373/951 — minecraft/sounds/mob/horse/wood6.ogg
+Arquivos: 567/951 — minecraft/sounds/music/game/calm1.ogg
+Arquivos: 683/951 — realms/lang/ca_ES.lang
+Arquivos: 691/951 — realms/lang/cy_GB.lang
+Arquivos: 699/951 — realms/lang/eu_ES.lang
+Arquivos: 702/951 — realms/lang/fil_PH.lang
+Arquivos: 711/951 — realms/lang/hi_IN.lang
+Arquivos: 720/951 — realms/lang/is_IS.lang
+Arquivos: 730/951 — realms/lang/lt_LT.lang
+Arquivos: 740/951 — realms/lang/pl_PL.lang
+Arquivos: 749/951 — realms/lang/zh_CN.lang
+Arquivos: 758/951 — README.txt
+Arquivos: 899/951 — lib/fonts/LucidaBrightDemiItalic.ttf
+Arquivos: 951/951 — lib/rt.jar
+Instalando/verificando Forge 11.15.1.2318 com Java 8...
+Arquivos: 0/1 — net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9
+Arquivos: 3/561 — minecraft/sounds/mob/horse/idle2.ogg
+Arquivos: 968/968 — org.scala-lang:scala-reflect:2.11.1
+Instalação verificada. Java 8.
+INSTALL_PASS {"VersionId":"1.8.9-forge1.8.9-11.15.1.2318-1.8.9","JavaMajor":8,"Directory":"D:\\a\\_temp\\AlienLauncher-InstallProbe\\instances\\unified-1.8.9"}

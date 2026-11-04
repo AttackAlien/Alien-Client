@@ -155,6 +155,9 @@ public final class AlienCombatSmoke {
                 require(mc.theWorld.playerEntities.contains(target),"Disposable target is present in world player list");
                 CombatConfig c=combat();
                 c.applyPreset("FULL");
+                // Keep this suite a regression of the original gradual assist.
+                // Instant lock is verified separately by UltimateSmoke.
+                c.tools.aimbot=false;
                 c.visibleTargetsOnly=false;
                 c.aimStrength=.2F;
                 c.aimFov=150F;

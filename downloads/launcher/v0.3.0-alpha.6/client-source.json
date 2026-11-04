@@ -1,0 +1,13 @@
+{
+  "clientVersion": "0.9.0-alpha.1",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "repository": "AttackAlien/Alien-Client",
+  "sourceCommit": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
+  "workflow": ".github/workflows/unified-client-ci.yml",
+  "runId": "41842322972",
+  "artifact": "alien-unified-41842322972",
+  "jar": "AlienClient-Unified-1.8.9.jar",
+  "sha256": "2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036",
+  "status": "Reactive Aura Studio from PR #24; not merged into main"
+}

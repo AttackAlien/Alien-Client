@@ -1,0 +1,26 @@
+PASS 22 checks
+Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
+Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
+Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
+PASS All 12 existing widgets and three new widgets are registered
+PASS Unified registers nine visuals and eight real gameplay switches
+PASS New gameplay functions are off on fresh profiles
+PASS Reactive auras, previews and emotes leave clean OpenGL state and balanced render scopes
+PASS Realistic atmosphere compiles and renders on actual GLSL 1.20
+PASS Realistic sky suppresses block clouds through an owned render hook without changing user video settings
+PASS Real framebuffer capture 171-realistic-day-clouds
+PASS Local sunset changes the real shader without mutating integrated-server time
+PASS Real framebuffer capture 172-realistic-sunset
+PASS Real framebuffer capture 173-realistic-night
+PASS Real framebuffer capture 174-realistic-clear
+PASS Real framebuffer capture 175-realistic-overcast
+PASS Coverage zero versus one changes actual sky framebuffer pixels with cloud motion frozen
+PASS Sky gallery Details opens the actual atmosphere editor
+PASS Real framebuffer capture 176-sky-atmosphere-editor
+PASS Actual coverage slider edits the live profile-backed shader parameter
+PASS Unified profile reload restores actual atmosphere controls
+PASS Native scrolling exposes the final atmosphere control at compact GUI scale
+PASS Real framebuffer capture 177-sky-atmosphere-compact
+PASS Actual Reset restores atmosphere defaults
+PASS Disabling the realistic sky restores the exact previous cloud renderer and video preference
+PASS Polished sky, compact editor and jointed emotes leave balanced OpenGL state

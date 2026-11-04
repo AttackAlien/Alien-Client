@@ -1,0 +1,80 @@
+{
+  "runId": "40885490289",
+  "source": "3c0f145a751806745186d397b08f3209287ec05e",
+  "failure": "Old Scene Studio check compared only one pixel; BlackHole and Cosmic share RGB (53, 38, 98) there while all eight sampled sky regions differ.",
+  "productionRendererChangedForThisFix": false,
+  "samples": [
+    {
+      "file": "79-blackhole-sky.png",
+      "originalSinglePixelRgb": [
+        53,
+        38,
+        98
+      ],
+      "regionSha256": "4ec20684867230feaa434f42673452ff5ab992be3f358e2605811f917e2486cd"
+    },
+    {
+      "file": "80-cosmic-sky.png",
+      "originalSinglePixelRgb": [
+        53,
+        38,
+        98
+      ],
+      "regionSha256": "344f4e793389c602d84fa4bb55a9aebd4f6ca54329c7ae4a26043f18454f4750"
+    },
+    {
+      "file": "81-aurora-living-sky.png",
+      "originalSinglePixelRgb": [
+        23,
+        33,
+        50
+      ],
+      "regionSha256": "ab4aec3a53e594d651d4998e7736458c07b1ce33b284b87572451dca3386cca6"
+    },
+    {
+      "file": "82-snow-clouds-sky.png",
+      "originalSinglePixelRgb": [
+        78,
+        107,
+        150
+      ],
+      "regionSha256": "f3db7a97676f98a1c07a9a323f3ce68b8798fe73098fcbd1e9bf8195ad5b38c8"
+    },
+    {
+      "file": "83-fire-sky.png",
+      "originalSinglePixelRgb": [
+        73,
+        37,
+        40
+      ],
+      "regionSha256": "b2f2871c96396b14b17064b853c990947d6d7570d3300084a0e68e2ba06a0af2"
+    },
+    {
+      "file": "84-sunset-sky.png",
+      "originalSinglePixelRgb": [
+        85,
+        61,
+        115
+      ],
+      "regionSha256": "07c1f0a6b4f314ba3ae5cdf4322eec73d6faa23ead2c0f80967438be8ad9d161"
+    },
+    {
+      "file": "85-ocean-sky.png",
+      "originalSinglePixelRgb": [
+        33,
+        84,
+        132
+      ],
+      "regionSha256": "7f2af817b54c789f258b2b422cdb9ced94c51151bd078725a488ca03bc8a027b"
+    },
+    {
+      "file": "86-storm-sky.png",
+      "originalSinglePixelRgb": [
+        46,
+        53,
+        74
+      ],
+      "regionSha256": "5edd208136eb00b790f786a5e05122a24b44009d8b7d03ba262975c1c05b7d1f"
+    }
+  ]
+}

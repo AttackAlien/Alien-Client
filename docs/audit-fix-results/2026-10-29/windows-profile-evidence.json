@@ -1,0 +1,26 @@
+[
+  {
+    "test": "saved_vanilla_profile",
+    "requestedVersion": "1.21.1",
+    "actualVersion": "1.21.1",
+    "actualAlien": false,
+    "caption": "Minecraft 1.21.1 \u00b7 Vanilla",
+    "persistedAfterClose": {
+      "Version": "1.21.1",
+      "Alien": false
+    },
+    "profileRestored": true
+  },
+  {
+    "test": "saved_vanilla_profile",
+    "requestedVersion": "1.21.4",
+    "actualVersion": "1.21.4",
+    "actualAlien": false,
+    "caption": "Minecraft 1.21.4 \u00b7 Vanilla",
+    "persistedAfterClose": {
+      "Version": "1.21.4",
+      "Alien": false
+    },
+    "profileRestored": true
+  }
+]

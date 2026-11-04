@@ -11,6 +11,7 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -40,7 +41,7 @@ class UnifiedPackagerRegressionTest(unittest.TestCase):
         shutil.copyfile(packager.CONTEXT, self.context)
         for directory in ("classes/main", "resources/main"):
             shutil.copytree(packager.BUILT / directory, built / directory)
-        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke"):
+        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke", "src/studioSmoke"):
             if (packager.ROOT / directory).is_dir():
                 shutil.copytree(packager.ROOT / directory, root / directory)
         for name in ("build.gradle", "scripts/verify-edition-artifact.py"):
@@ -81,6 +82,14 @@ class UnifiedPackagerRegressionTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "smoke result is missing"):
             packager.produce()
         self.assertFalse(self.dist.exists())
+
+    def test_receipt_records_reviewed_checkout_instead_of_pr_merge_sha(self):
+        with patch.dict(os.environ, {"GITHUB_SHA": "synthetic-merge-sha",
+                                    "ALIEN_VALIDATED_REVISION": "reviewed-branch-sha"}):
+            packager.produce()
+        summary = (self.dist / "RESULTADO-DOS-TESTES.txt").read_text(encoding="utf-8")
+        self.assertIn("Git commit: reviewed-branch-sha\n", summary)
+        self.assertNotIn("synthetic-merge-sha", summary)
 
     def test_refuses_false_positive_or_missing_combat_result(self):
         self.smoke.write_text("PASS 24 checks\nNo GUI checks!\n", encoding="utf-8")

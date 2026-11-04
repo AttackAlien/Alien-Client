@@ -74,7 +74,7 @@ public class CombatConfigTest {
         assertNull(legacy.find("aim_assist"));
         if("unified".equals(BuildEdition.ID)) {
             ModuleManager unified=ModuleManager.visuals(()->c,true);
-            assertEquals(11,unified.modules().size());
+            assertEquals(17,unified.modules().size());
             assertNotNull(unified.find("aim_assist"));
             assertNotNull(unified.find("click_assist"));
             assertTrue(unified.toggle("aim_assist"));

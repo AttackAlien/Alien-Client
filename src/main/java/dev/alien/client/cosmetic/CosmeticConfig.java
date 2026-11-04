@@ -69,13 +69,18 @@ public final class CosmeticConfig {
         public String back = "NONE";
         public boolean charm;
         public boolean aura;
+        public dev.alien.client.cosmetic.aura.AuraDesign auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
         public boolean trail;
+        public String trailStyle = "Ribbon";
+        public float trailWidth = .16f, trailLifetime = .9f, trailOpacity = .8f;
+        public TrailDesign trailDesign = new TrailDesign();
         public float offsetX, offsetY, offsetZ, rotationX, rotationY, rotationZ;
         public float scale = 1;
         public float hatSize = 1;
         public float capeLength = 1;
         public float capeFlutter = 1;
         public boolean animations = true;
+        public boolean capeShimmer = false;
         public String detailLevel = "Balanced";
         public String capePattern = "ALIEN";
         public int color = 0xB79AFF;
@@ -85,7 +90,7 @@ public final class CosmeticConfig {
         public String textureFile = "";
 
         public void normalize() {
-            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN");
+            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA");
             face = choice(face, "NONE", "KITSUNE", "FUTURE", "GLASSES");
             back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK");
             offsetX = clamp(offsetX, -16, 16); offsetY = clamp(offsetY, -16, 16);
@@ -95,6 +100,14 @@ public final class CosmeticConfig {
             hatSize = clamp(hatSize, .75f, 1.35f);
             capeLength = clamp(capeLength, .65f, 1.35f);
             capeFlutter = clamp(capeFlutter, 0, 2);
+            trailStyle = choice(trailStyle, "Ribbon", "Particles");
+            trailWidth = clamp(trailWidth, .04f, .45f);
+            trailLifetime = clamp(trailLifetime, .25f, 2);
+            trailOpacity = clamp(trailOpacity, .1f, 1);
+            if (trailDesign == null) trailDesign = new TrailDesign();
+            trailDesign.normalize();
+            if (auraDesign == null) auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
+            auraDesign.normalize();
             detailLevel = choice(detailLevel, "Low", "Balanced", "High");
             capePattern = choice(capePattern, "ALIEN", "MOON", "STARS", "PLAIN");
             modelFile = safeName(modelFile, ".json");
@@ -105,11 +118,14 @@ public final class CosmeticConfig {
             Accessory a = new Accessory();
             a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
             a.charm = charm; a.aura = aura; a.trail = trail;
+            a.auraDesign = auraDesign == null ? new dev.alien.client.cosmetic.aura.AuraDesign() : auraDesign.copy();
+            a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;
+            a.trailDesign = trailDesign == null ? new TrailDesign() : trailDesign.copy();
             a.offsetX = offsetX; a.offsetY = offsetY; a.offsetZ = offsetZ;
             a.rotationX = rotationX; a.rotationY = rotationY; a.rotationZ = rotationZ;
             a.scale = scale; a.color = color; a.secondaryColor = secondaryColor;
             a.hatSize = hatSize; a.capeLength = capeLength; a.capeFlutter = capeFlutter;
-            a.animations = animations; a.detailLevel = detailLevel;
+            a.animations = animations; a.capeShimmer = capeShimmer; a.detailLevel = detailLevel;
             a.capePattern = capePattern;
             a.modelFile = modelFile; a.textureFile = textureFile;
             return a;

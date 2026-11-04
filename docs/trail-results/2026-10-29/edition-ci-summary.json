@@ -1,0 +1,46 @@
+{
+  "alien-legit-40887788068": {
+    "junit": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "graphics": {
+      "smoke/result.txt": "PASS 155 checks"
+    }
+  },
+  "alien-full-40887788068": {
+    "junit": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "graphics": {
+      "smoke/result.txt": "PASS 155 checks"
+    }
+  },
+  "sky-studio-full-40887787808": {
+    "junit": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "graphics": {
+      "sky-smoke/result.txt": "PASS 37 checks"
+    }
+  },
+  "sky-studio-legit-40887787808": {
+    "junit": {
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "graphics": {
+      "sky-smoke/result.txt": "PASS 37 checks"
+    }
+  }
+}

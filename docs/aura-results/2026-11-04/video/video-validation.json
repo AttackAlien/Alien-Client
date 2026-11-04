@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
+  "captureMethod": "Continuous native X11 / ffmpeg x11grab",
+  "generatedFrames": false,
+  "interpolatedFrames": false,
+  "recordingFps": 30,
+  "medianRenderedFps": 56.55307961774416,
+  "p95FrameMs": 26.209555,
+  "duration": 103.666667,
+  "width": 960,
+  "height": 540,
+  "sha256": "c0cdb76667cd166545d48c89d3c180ed6bac80c8b791fccb4c1d03a87f3c467b",
+  "bytes": 13147648
+}

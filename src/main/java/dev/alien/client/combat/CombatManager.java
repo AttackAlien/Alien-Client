@@ -28,17 +28,18 @@ public final class CombatManager {
         ClientConfig root=AlienClient.get().config();
         CombatConfig c=root.combat;
         if(!AlienClient.get().combatSession().permits(mc.theWorld,c,mc.isSingleplayer()) || c==null||!c.enabled){lastTarget=null;lastClick=0;return;}
+        if(FullToolsManager.busy()){lastTarget=null;return;}
         boolean held=Mouse.isButtonDown(0);
-        if(c.aimAssist && (!c.requireAttackHeld || held)) {
+        if((c.aimAssist||c.tools.aimbot) && (!c.requireAttackHeld || held)) {
             EntityPlayer target=selectTarget(mc,c);
             lastTarget=target;
             if(target!=null) {
                 float[] aim=CombatMath.lookAt(mc.thePlayer.posX,mc.thePlayer.posY+mc.thePlayer.getEyeHeight(),
                         mc.thePlayer.posZ,target.posX,target.posY+target.getEyeHeight(),target.posZ);
                 // Tick-only, bounded, gradual orientation; no silent aim/packet spoof.
-                mc.thePlayer.rotationYaw=CombatMath.interpolate(mc.thePlayer.rotationYaw,aim[0],c.aimStrength);
+                mc.thePlayer.rotationYaw=CombatMath.interpolate(mc.thePlayer.rotationYaw,aim[0],c.tools.aimbot?1:c.aimStrength);
                 mc.thePlayer.rotationPitch=Math.max(-90F,Math.min(90F,
-                        CombatMath.interpolate(mc.thePlayer.rotationPitch,aim[1],c.aimStrength)));
+                        CombatMath.interpolate(mc.thePlayer.rotationPitch,aim[1],c.tools.aimbot?1:c.aimStrength)));
             }
         } else lastTarget=null;
         // Repeated clicks require the physical attack button and a vanilla

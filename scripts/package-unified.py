@@ -50,7 +50,7 @@ def validation_inputs():
     resources = [p for p in (BUILT / "resources/main").rglob("*") if p.is_file()]
     require(bool(classes) and bool(resources), "Compiled Unified runtime inputs are missing")
     source_paths = [ROOT / "build.gradle", ROOT / "scripts/verify-edition-artifact.py"]
-    for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke"):
+    for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke", "src/studioSmoke"):
         source_paths.extend(p for p in (ROOT / directory).rglob("*") if p.is_file())
     require(all(p.is_file() for p in source_paths), "Build provenance inputs are missing")
     return {
@@ -150,7 +150,7 @@ CODIGO E RELATORIOS
 https://github.com/AttackAlien/Alien-Client
 """
     run_id = os.environ.get("GITHUB_RUN_ID", "execucao-local")
-    revision = os.environ.get("GITHUB_SHA", "codigo-local")
+    revision = os.environ.get("ALIEN_VALIDATED_REVISION", os.environ.get("GITHUB_SHA", "codigo-local"))
     validation = (
         "ALIEN CLIENT UNIFIED - VALIDACAO DA COMPILACAO\n"
         "GitHub Actions run: " + run_id + "\n"

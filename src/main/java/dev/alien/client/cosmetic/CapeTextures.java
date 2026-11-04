@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.io.InputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
@@ -14,7 +17,14 @@ import net.minecraft.util.ResourceLocation;
 /** Original fabric and emblems. Eight texture slots are reused during live color editing. */
 final class CapeTextures {
     private static final Map<String, ResourceLocation> CACHE = new LinkedHashMap<String, ResourceLocation>(16,.75f,true);
+    private static final BufferedImage WEAVE=loadWeave();
     private CapeTextures() { }
+
+    private static BufferedImage loadWeave(){
+        try(InputStream stream=CapeTextures.class.getResourceAsStream("/assets/alienclient/textures/cosmetic/fabric_pattern_07_rough_1k.jpg")){
+            return stream==null?null:ImageIO.read(stream);
+        }catch(IOException failure){return null;}
+    }
 
     static ResourceLocation get(CosmeticConfig.Accessory accessory) {
         String key=accessory.capePattern+":"+accessory.color+":"+accessory.secondaryColor;
@@ -39,6 +49,13 @@ final class CapeTextures {
             Color main=new Color(a.color&0xffffff),trim=new Color(a.secondaryColor&0xffffff);
             g.setPaint(new GradientPaint(0,0,main.brighter(),128,200,main.darker()));
             g.fillRect(0,0,128,256);
+            // Poly Haven CC0 roughness map is used as a subtle woven-color detail, not a PBR claim.
+            if(WEAVE!=null)for(int y=0;y<256;y++)for(int x=0;x<128;x++){
+                int tex=WEAVE.getRGB(x*WEAVE.getWidth()/128,y*WEAVE.getHeight()/256),base=image.getRGB(x,y);
+                float light=.83f+(tex&255)/255f*.22f;
+                image.setRGB(x,y,0xff000000|(Math.min(255,Math.round((base>>16&255)*light))<<16)
+                        |(Math.min(255,Math.round((base>>8&255)*light))<<8)|Math.min(255,Math.round((base&255)*light)));
+            }
             g.setColor(new Color(255,255,255,10));
             for(int x=0;x<128;x+=3)g.drawLine(x,0,x,256);
             g.setColor(new Color(0,0,0,18));
