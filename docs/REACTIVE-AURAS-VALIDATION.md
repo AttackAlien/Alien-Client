@@ -68,3 +68,7 @@ Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. GPU física, gameplay em PC W
 As auras e os emotes são locais, sem sincronização pela rede. Não há áudio nem luz dinâmica real no terreno. O orçamento de partículas, a distância, as animações e o master de cosméticos limitam o efeito. Perfis antigos mantêm Classic até a opção Reactive ser escolhida.
 
 O runner não tem áudio funcional. Os logs das sessões General/Scene ainda registram tarefas de chunks após descarregar mundos: 81 e 73 ocorrências da pilha nesta rodada; não são contagens de quedas do jogo. Todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos nos artifacts do CI.
+
+## Acesso público
+
+Nove URLs, incluindo o MP4, o ZIP do launcher, o JAR, fotos e GIF, foram baixadas sem autenticação: HTTP 200 e SHA-256 coincidentes com os arquivos verificados. [Recibo](aura-results/2026-11-04/public-download-check.json).

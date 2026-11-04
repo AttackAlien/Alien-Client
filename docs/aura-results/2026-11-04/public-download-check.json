@@ -1,0 +1,95 @@
+{
+  "publishedCommit": "4863beb2596d67c69cb9c6dc061ba33d48142278",
+  "results": [
+    {
+      "path": "captures/video-atual/Alien-Client-0.9-customizacoes-full.mp4",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/video-atual/Alien-Client-0.9-customizacoes-full.mp4",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 13147648,
+      "sha256": "c0cdb76667cd166545d48c89d3c180ed6bac80c8b791fccb4c1d03a87f3c467b",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "downloads/launcher/v0.3.0-alpha.6/AlienLauncher-Windows-x64-0.3.0-alpha.6.zip",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/downloads/launcher/v0.3.0-alpha.6/AlienLauncher-Windows-x64-0.3.0-alpha.6.zip",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/zip",
+      "bytes": 70780376,
+      "sha256": "fb5d9e3c25bfac64f3c91a3f6e6e296afbe108ab0306d4e067b20ebe83d05147",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "downloads/v0.9.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/downloads/v0.9.0-alpha.1/AlienClient-Unified-1.8.9.jar",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "bytes": 1257299,
+      "sha256": "2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/01-launcher-alien.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/launcher-atual/01-launcher-alien.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 192598,
+      "sha256": "d0ece4d8fb2b85677028f78e4114fb7f2fefca0efc1e06847fdf3343e45e7f80",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/launcher-atual/05-launcher-restored-vanilla.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 194642,
+      "sha256": "df93117eb4ae187a228e3c978f16949d450ea13a8860a36a5f689724a64e3a0c",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/144b-emote-wheel-selected.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/atual/unified/144b-emote-wheel-selected.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 84005,
+      "sha256": "47c5cd751214f7896dbdf33f880b1bb33fbe644bc7d989a571e12f907ee5c15f",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/164-aura-studio.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/atual/unified/164-aura-studio.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 100673,
+      "sha256": "90f71409b0e96b33a8e31ff3453807b0932d2b6a3415cb7229fd82a2ac2b9a31",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/159-aura-emote-floss.png",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/atual/unified/159-aura-emote-floss.png",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 82195,
+      "sha256": "933c5eaefce0c062588997d385639bcb41dc3c65683bdc44c20f664c18cd92df",
+      "matchesLocalVerifiedArtifact": true
+    },
+    {
+      "path": "captures/atual/unified/auras-em-movimento.gif",
+      "publicUrl": "https://raw.githubusercontent.com/AttackAlien/Alien-Client/4863beb2596d67c69cb9c6dc061ba33d48142278/captures/atual/unified/auras-em-movimento.gif",
+      "authorizationHeaderUsed": false,
+      "status": 200,
+      "contentType": "image/gif",
+      "bytes": 1762787,
+      "sha256": "e33d7f8b1104d6fae5631b77d3cd5facf96cca477d1a092e5425f76ebc594559",
+      "matchesLocalVerifiedArtifact": true
+    }
+  ]
+}
