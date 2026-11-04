@@ -16,6 +16,7 @@ public final class StudioModules {
         add(l,"bokeh","Bokeh","Render","Depth-aware focus blur; center stays sharp.",()->s.enabled&&s.bokeh,v->{s.bokeh=v;if(v)s.enabled=true;});
         add(l,"cute","Cute World","Render","Blinking original player face artwork.",()->s.enabled&&s.cute,v->{s.cute=v;if(v)s.enabled=true;});
         for(String mode:new String[]{"Cyberspace","Skeleton","Glass","Chroma"})add(l,"scene_"+mode.toLowerCase(Locale.ROOT),mode.equals("Skeleton")?"X-Ray bones":mode,"Render","Existing local "+mode+" scene material.",()->s.enabled&&mode.equals(s.mode),v->{s.mode=v?mode:"Natural";if(v)s.enabled=true;});
+        add(l,"aura_studio","Aura Studio","Player","Classic and reactive aura appearance, live movement, emotes and night.",()->c.cosmetics.enabled&&c.cosmetics.self.aura,v->{c.cosmetics.self.aura=v;if(v)c.cosmetics.enabled=true;});
         add(l,"emotes","Emote Studio","Player","Local animated emotes, wheel and profile preferences.",()->c.emotes.enabled,v->c.emotes.enabled=v);
         add(l,"zoom","Zoom / hold C","Player","Hold C in-world for optical FOV zoom.",()->c.studio.zoom,v->c.studio.zoom=v);
         add(l,"hand_movement","Hand Movement","Player","Subtle animated first-person hand sway.",()->c.studio.handMovement,v->c.studio.handMovement=v);

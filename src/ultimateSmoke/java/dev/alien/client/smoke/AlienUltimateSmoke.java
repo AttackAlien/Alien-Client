@@ -3,6 +3,7 @@ package dev.alien.client.smoke;
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
 import dev.alien.client.emote.*;
+import dev.alien.client.cosmetic.aura.*;
 import dev.alien.client.combat.*;
 import dev.alien.client.hud.*;
 import dev.alien.client.gui.*;
@@ -38,7 +39,7 @@ public final class AlienUltimateSmoke {
     private Minecraft m;private File out;private long start,since;private int stage;private boolean done;
     private final List<String> checks=new ArrayList<String>();
     private EntityOtherPlayerMP dummy;private Robot robot;private long beforeFoods,beforePotions,beforeBlocks;
-    private float emoteHealth,angleBefore;private int oldSlot;private float draggedX;
+    private float emoteHealth,angleBefore,auraIdle;private long auraLegacyBefore;private int auraMovie;private final List<Long> auraTimes=new ArrayList<Long>();private int oldSlot;private float draggedX;
     private long emoteModelsBefore,emoteArmorBefore;private double emoteX,emoteZ;private float emoteYaw;private int emoteMovie;private final List<Long> emoteTimes=new ArrayList<Long>();
     private int[] trailPreviewPixels,trailPreviewBounds;private int trailMovieFrame;
     private final List<Long> trailMovieTimes=new ArrayList<Long>();
@@ -53,8 +54,8 @@ public final class AlienUltimateSmoke {
     @SubscribeEvent public void render(TickEvent.RenderTickEvent e){
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
-            if(elapsed(start)>230000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
+            if(elapsed(start)>270000)throw new AssertionError("Deadline at stage "+stage);
+            long wait=stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -92,7 +93,8 @@ public final class AlienUltimateSmoke {
             dummy();c().hud.applyPreset("PvP");c().hud.theme="Cyan";c().hud.widgets.get("target").x=.58f;
             c().hud.widgets.get("target").y=.65f;c().hud.widgets.get("crosshair").customColor=true;c().hud.widgets.get("crosshair").color=0xff43d9ed;
             faceDummy(0);AlienClient.get().save();
-            if(Boolean.getBoolean("alien.ultimate.emotes.only")){robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);prepareEmotes();stage=65;}
+            if(Boolean.getBoolean("alien.ultimate.auras.only")){robot=new Robot();prepareAuras();stage=94;}
+            else if(Boolean.getBoolean("alien.ultimate.emotes.only")){robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);prepareEmotes();stage=65;}
             next();return;
         case 2:
             require(UltimateHud.trackedEntity()==dummy.getEntityId(),"Target HUD selects the real ray-traced practice entity");
@@ -487,7 +489,68 @@ public final class AlienUltimateSmoke {
             require(!AlienClient.get().emotes().active()&&m.gameSettings.thirdPersonView==0,"Changing the actual Unified profile clears playback and restores the owned camera");
             c().emotes.enabled=false;require(!AlienClient.get().emotes().request("floss"),"Disabled emotes reject playback instead of reporting a fictional active dance");c().emotes.enabled=true;
             require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Material, damage, menu and profile interruption checks leave clean GL state");
-            m.displayGuiScreen(null);c().cosmetics.self.trail=false;AlienClient.get().save();
+            m.displayGuiScreen(null);c().cosmetics.self.trail=false;AlienClient.get().save();prepareAuras();next();return;
+        case 95:
+            require(CosmeticManager.legacyAuraEmissions()>auraLegacyBefore,"Classic aura still emits the original real vanilla particles");capture("156-aura-classic-preserved");
+            c().cosmetics.self.auraDesign.applyPreset("Arcane");auraLegacyBefore=CosmeticManager.legacyAuraEmissions();next();return;
+        case 96:
+            require(ReactiveAuras.activeCount()==1&&ReactiveAuras.drawnUnits()>0,"Reactive aura generates actual depth-tested world geometry for the player");
+            require(CosmeticManager.legacyAuraEmissions()==auraLegacyBefore,"Reactive renderer replaces legacy aura particles while preserving the Classic option");auraIdle=ReactiveAuras.selfEnergy();capture("157-aura-arcane-idle");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 97:
+            require(ReactiveAuras.selfMovement()>.5f&&ReactiveAuras.selfEnergy()>auraIdle+.3f,"Native movement raises the real smoothed movement channel and aura energy");capture("158-aura-arcane-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);next();return;
+        case 98:
+            next();return;
+        case 99:
+            require(ReactiveAuras.selfMovement()<.08f,"Stopping native movement smoothly releases its aura reaction");AlienClient.get().emotes().request("floss");next();return;
+        case 100:
+            require(AlienClient.get().emotes().active()&&ReactiveAuras.selfEmote()>.8f,"Actual Floss playback feeds the real aura emote channel");capture("159-aura-emote-floss");AlienClient.get().emotes().stop();
+            server(()->serverPlayer().worldObj.setWorldTime(18000));next();return;
+        case 101:
+            require(ReactiveAuras.selfNight()>.8f&&serverPlayer().worldObj.getWorldTime()==18000,"Actual integrated-server midnight activates the night aura channel");capture("160-aura-night");
+            m.displayGuiScreen(new AuraStudioScreen(null,()->c().cosmetics.self));click(3);click(32);require(!c().cosmetics.self.auraDesign.night,"Real Night toggle disables only the night reaction");click(1);next();return;
+        case 102:
+            require(ReactiveAuras.selfNight()<.05f,"Disabling Night through the actual editor releases night energy while the world remains at midnight");capture("161-aura-night-reaction-off");
+            c().cosmetics.self.auraDesign.applyPreset("Neon");server(()->serverPlayer().worldObj.setWorldTime(6000));next();return;
+        case 103:
+            require("Orbit".equals(c().cosmetics.self.auraDesign.style)&&ReactiveAuras.drawnUnits()>0,"Neon preset renders actual intersecting orbit bands");capture("162-aura-neon-world");c().cosmetics.self.auraDesign.applyPreset("Celestial");next();return;
+        case 104:
+            require("Halo".equals(c().cosmetics.self.auraDesign.style)&&ReactiveAuras.drawnUnits()>0,"Celestial preset renders actual halos and orbiting crystals");capture("163-aura-celestial-world");c().cosmetics.self.auraDesign.applyPreset("Arcane");m.displayGuiScreen(new AuraStudioScreen(null,()->c().cosmetics.self));next();return;
+        case 105:
+            require(ReactiveAuras.previewUnits()>0,"Aura Studio renders the actual configured aura on the live player preview");capture("164-aura-studio");click(14);next();return;
+        case 106:{
+            Field field=m.currentScreen.getClass().getDeclaredField("hex");field.setAccessible(true);GuiTextField hex=(GuiTextField)field.get(m.currentScreen);hex.setText("#4DDFA");hex.setFocused(true);call("keyTyped",new Class[]{char.class,int.class},'8',org.lwjgl.input.Keyboard.KEY_8);
+            require(c().cosmetics.self.auraDesign.color==0x4DDFA8,"Aura HEX picker changes the real material color through its actual keyboard handler");capture("165-aura-color-picker");click(1);click(3);click(30);click(31);next();return;}
+        case 107:
+            require(!c().cosmetics.self.auraDesign.motion&&!c().cosmetics.self.auraDesign.emotes,"Movement and emote toggles edit independent profile-backed reaction flags");capture("166-aura-reactions");
+            c().cosmetics.saveLook(2,c().cosmetics.self);AlienClient.get().store().saveProfile("aura_smoke");c().cosmetics.self.auraDesign.color=0;
+            require(AlienClient.get().store().loadProfile("aura_smoke")&&c().cosmetics.self.auraDesign.color==0x4DDFA8,"Actual Unified profile reload restores custom aura colors and reactions");
+            require(c().cosmetics.loadLook(2).auraDesign.color==0x4DDFA8&&"take_the_l".equals(c().emotes.slots[0]),"Aura look snapshots preserve existing saved emotes and remain independent");
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new AuraStudioScreen(null,()->c().cosmetics.self));robot.mouseMove(Display.getX()+220,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 108:
+            require(m.currentScreen.width<=400&&button(23).yPosition+button(23).height<=m.currentScreen.height-42,"Native mouse-wheel scrolling exposes all aura appearance sliders in compact scaled layout");capture("167-aura-studio-compact");
+            c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(null);c().performance.adaptiveEnabled=false;c().performance.maxParticles=0;next();return;
+        case 109:
+            require(ReactiveAuras.activeCount()==0&&ReactiveAuras.drawnUnits()==0,"Zero particle budget clears reactive aura states and rendered geometry");capture("168-aura-zero-budget");c().performance.maxParticles=128;m.displayGuiScreen(new AuraStudioScreen(null,()->c().cosmetics.self));click(10);click(1);next();return;
+        case 110:
+            require(!c().cosmetics.self.aura&&ReactiveAuras.activeCount()==0&&ReactiveAuras.drawnUnits()==0,"Actual Aura OFF control clears transient reactions and rendering");capture("169-aura-off");AlienClient.get().store().loadProfile("aura_smoke");next();return;
+        case 111:
+            require(ReactiveAuras.activeCount()==1&&ReactiveAuras.drawnUnits()>0,"Loading a saved aura profile restores its appearance without stale simulation");capture("170-aura-profile-restored");
+            c().cosmetics.self.auraDesign.applyPreset("Arcane");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 112:
+            require(ReactiveAuras.drawnUnits()<=192&&ReactiveAuras.activeCount()<=8,"Aura renderer obeys hard shared geometry and player-state budgets");next();return;
+        case 113:
+            robot.keyRelease(java.awt.event.KeyEvent.VK_W);next();return;
+        case 114:
+            AlienClient.get().emotes().request("floss");next();return;
+        case 115:
+            require(AlienClient.get().emotes().active()&&ReactiveAuras.selfEmote()>.8f,"Aura movie begins from a real active emote rather than a simulated trigger");next();return;
+        case 116:
+            capture(String.format(Locale.ROOT,"aura-motion-%02d",auraMovie));auraTimes.add(System.currentTimeMillis());
+            if(++auraMovie<24){since=System.nanoTime();return;}
+            try(PrintWriter times=new PrintWriter(new File(out,"aura-motion-times.txt"),"UTF-8")){for(Long time:auraTimes)times.println(time);}
+            AlienClient.get().emotes().stop();next();return;
+        case 117:
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Reactive auras, previews and emotes leave clean OpenGL state and balanced render scopes");c().cosmetics.self.aura=false;AlienClient.get().save();
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");
@@ -497,6 +560,15 @@ public final class AlienUltimateSmoke {
             System.out.println("ALIEN_ULTIMATE_SMOKE_PASS checks="+checks.size());m.shutdown();return;
         default:throw new AssertionError(stage);
         }
+    }
+    private void prepareAuras()throws Exception{
+        robot.keyRelease(java.awt.event.KeyEvent.VK_W);robot.keyRelease(java.awt.event.KeyEvent.VK_D);net.minecraft.client.settings.KeyBinding.unPressAllKeys();
+        m.displayGuiScreen(null);c().combat.applyPreset("OFF");c().world.enabled=false;c().effects.enabled=false;c().scenes.enabled=false;
+        c().cosmetics.enabled=true;CosmeticConfig.Accessory a=c().cosmetics.self;a.enabled=true;a.animations=true;a.aura=true;a.trail=false;a.auraDesign=new AuraDesign();
+        // Keep the emote profile invariant in the targeted local aura run as well.
+        c().emotes.slots[0]="take_the_l";m.gameSettings.guiScale=2;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationYaw=0;m.thePlayer.rotationPitch=12;
+        server(()->{EntityPlayerMP p=serverPlayer();p.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle","false");p.worldObj.setWorldTime(6000);p.clearActivePotions();for(int i=0;i<4;i++)p.inventory.armorInventory[i]=null;p.inventoryContainer.detectAndSendChanges();});
+        auraLegacyBefore=CosmeticManager.legacyAuraEmissions();AlienClient.get().save();
     }
     private String emoteState(){return AlienClient.get().emotes().status()+" active="+AlienClient.get().emotes().activeId()+" models="+AlienClient.get().emotes().posedFrames()+" before="+emoteModelsBefore+" ground="+m.thePlayer.onGround+" moving="+m.thePlayer.movementInput.moveForward+","+m.thePlayer.movementInput.moveStrafe+" jump="+m.gameSettings.keyBindJump.isKeyDown()+" sneak="+m.thePlayer.isSneaking()+" water="+m.thePlayer.isInWater()+" swing="+m.thePlayer.isSwingInProgress+" attack="+m.gameSettings.keyBindAttack.isKeyDown()+" use="+m.gameSettings.keyBindUseItem.isKeyDown()+","+m.thePlayer.isUsingItem()+" gui="+m.currentScreen;}
     private void prepareEmotes()throws Exception{

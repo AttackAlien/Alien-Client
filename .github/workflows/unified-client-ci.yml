@@ -54,7 +54,7 @@ jobs:
       - name: Compile Unified, run JUnit and verify actual JAR provenance
         run: |
           test "$(git rev-parse HEAD)" = "$ALIEN_VALIDATED_REVISION"
-          ./gradlew --no-daemon -Pedition=unified clean setupDecompWorkspace build
+          ./gradlew --no-daemon -Pedition=unified clean setupDecompWorkspace build showcaseClasses
       - name: Inspect Unified artifact
         run: |
           test -s build/unified/libs/AlienClient-Unified-1.8.9.jar

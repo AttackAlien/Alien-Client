@@ -69,6 +69,7 @@ public final class CosmeticConfig {
         public String back = "NONE";
         public boolean charm;
         public boolean aura;
+        public dev.alien.client.cosmetic.aura.AuraDesign auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
         public boolean trail;
         public String trailStyle = "Ribbon";
         public float trailWidth = .16f, trailLifetime = .9f, trailOpacity = .8f;
@@ -105,6 +106,8 @@ public final class CosmeticConfig {
             trailOpacity = clamp(trailOpacity, .1f, 1);
             if (trailDesign == null) trailDesign = new TrailDesign();
             trailDesign.normalize();
+            if (auraDesign == null) auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
+            auraDesign.normalize();
             detailLevel = choice(detailLevel, "Low", "Balanced", "High");
             capePattern = choice(capePattern, "ALIEN", "MOON", "STARS", "PLAIN");
             modelFile = safeName(modelFile, ".json");
@@ -115,6 +118,7 @@ public final class CosmeticConfig {
             Accessory a = new Accessory();
             a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
             a.charm = charm; a.aura = aura; a.trail = trail;
+            a.auraDesign = auraDesign == null ? new dev.alien.client.cosmetic.aura.AuraDesign() : auraDesign.copy();
             a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;
             a.trailDesign = trailDesign == null ? new TrailDesign() : trailDesign.copy();
             a.offsetX = offsetX; a.offsetY = offsetY; a.offsetZ = offsetZ;

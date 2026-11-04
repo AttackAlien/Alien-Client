@@ -26,6 +26,9 @@ public final class CosmeticManager {
     private int rendered;
     private int tick;
     private final RibbonTrails ribbons=new RibbonTrails();
+    private final dev.alien.client.cosmetic.aura.ReactiveAuras auras=new dev.alien.client.cosmetic.aura.ReactiveAuras();
+    private static long legacyAuraEmissions;
+    public static long legacyAuraEmissions(){return legacyAuraEmissions;}
     private static float lastCapeBend;
     public static float lastCapeBend(){return lastCapeBend;}
     public static int activeRibbonCount(){return RibbonTrails.activeCount();}
@@ -33,6 +36,7 @@ public final class CosmeticManager {
     public static int texturedRibbonSegments(){return RibbonTrails.texturedSegments();}
     public static String lastTrailTextureName(){return RibbonTrails.lastTexture();}
     @SubscribeEvent public void renderRibbons(RenderWorldLastEvent event){ribbons.render(event);}
+    @SubscribeEvent public void renderAuras(RenderWorldLastEvent event){auras.render(event);}
 
     public void attach(RenderPlayer renderer){renderer.addLayer(new AccessoryLayer(renderer));}
 
@@ -45,7 +49,7 @@ public final class CosmeticManager {
 
     @SubscribeEvent
     public void onRenderTick(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) rendered = 0;
+        if (event.phase == TickEvent.Phase.START) {rendered = 0;auras.beginFrame();}
     }
 
     @SubscribeEvent
@@ -53,6 +57,7 @@ public final class CosmeticManager {
         if (event.phase != TickEvent.Phase.END) return;
         Minecraft mc = Minecraft.getMinecraft();
         ribbons.tick(mc,config());
+        auras.tick(mc,config());
         if (mc.theWorld == null || mc.thePlayer == null || mc.isGamePaused()) return;
         tick++;
         if ((tick & 3) != 0 || !config().enabled) return;
@@ -64,15 +69,17 @@ public final class CosmeticManager {
             CosmeticConfig.Accessory accessory = forPlayer(player);
             if (accessory == null || !accessory.enabled || player.isInvisibleToPlayer(mc.thePlayer) || !inRange(player)) continue;
             boolean moving = player.motionX * player.motionX + player.motionZ * player.motionZ > .0025;
-            if (accessory.aura || (accessory.trail && "Particles".equals(accessory.trailStyle) && moving)) {
+            boolean legacyAura=accessory.aura&&!accessory.auraDesign.enabled;
+            if (legacyAura || (accessory.trail && "Particles".equals(accessory.trailStyle) && moving)) {
                 double angle = tick * .09 + emitted;
-                double radius = accessory.aura ? .5 : .15;
-                double y = accessory.aura ? player.posY + .3 + .4 * Math.sin(angle) : player.posY + .1;
+                double radius = legacyAura ? .5 : .15;
+                double y = legacyAura ? player.posY + .3 + .4 * Math.sin(angle) : player.posY + .1;
                 int color = accessory.color;
                 mc.theWorld.spawnParticle(EnumParticleTypes.REDSTONE,
                         player.posX + Math.cos(angle) * radius, y, player.posZ + Math.sin(angle) * radius,
                         Math.max(.001, ((color >> 16) & 255) / 255d), ((color >> 8) & 255) / 255d, (color & 255) / 255d);
                 emitted++;
+                if(legacyAura)legacyAuraEmissions++;
             }
         }
     }
@@ -105,10 +112,10 @@ public final class CosmeticManager {
         @Override public void doRenderLayer(AbstractClientPlayer player, float limbSwing, float limbAmount,
                 float partialTicks, float age, float yaw, float pitch, float scale) {
             Minecraft mc = Minecraft.getMinecraft();
-            boolean preview = CosmeticStudioScreen.drawingPreview;
+            boolean preview = CosmeticStudioScreen.drawingPreview||dev.alien.client.cosmetic.aura.AuraStudioScreen.drawingPreview;
             if (!config().enabled || mc.thePlayer == null || player.isSpectator()
                     || player.isInvisibleToPlayer(mc.thePlayer) || (!preview && !inRange(player))) return;
-            CosmeticConfig.Accessory a = forPlayer(player);
+            CosmeticConfig.Accessory a = dev.alien.client.cosmetic.aura.AuraStudioScreen.drawingPreview?dev.alien.client.cosmetic.aura.AuraStudioScreen.previewAccessory:forPlayer(player);
             if (a == null || !a.enabled || (!preview && rendered >= AlienClient.get().performance().cosmeticBudget())) return;
             if (!preview) rendered++;
             boolean animated = a.animations && AlienClient.get().config().animations;
@@ -163,6 +170,7 @@ public final class CosmeticManager {
                         CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }
                 }
+                if(preview)auras.previewLayer(player,a);
             } finally {
                 GlStateManager.popMatrix(); GL11.glPopAttrib();
                 // Binding dynamic/imported textures changes MC's binding cache;

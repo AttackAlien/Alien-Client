@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.8.0-alpha.1'
+version = '0.9.0-alpha.1'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -70,6 +70,12 @@ sourceSets {
     combatSmoke {
         java.setSrcDirs(['src/combatSmoke/java'])
         resources.setSrcDirs(['src/combatSmoke/resources'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+    showcase {
+        java.setSrcDirs(['src/showcase/java'])
+        resources.setSrcDirs(['src/showcase/resources'])
         compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
         runtimeClasspath = output + compileClasspath
     }
@@ -183,6 +189,10 @@ afterEvaluate {
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.ultimate.smoke', 'true'
         systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/ultimate-smoke").absolutePath
+        if (project.hasProperty('auraOnly')) {
+            systemProperty 'alien.ultimate.auras.only', 'true'
+            systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/aura-smoke-local").absolutePath
+        }
         if (project.hasProperty('emoteOnly')) {
             systemProperty 'alien.ultimate.emotes.only', 'true'
             systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/emote-smoke-local").absolutePath
@@ -297,6 +307,33 @@ afterEvaluate {
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.studio.smoke','true'
         systemProperty 'alien.studio.smoke.output',file("${buildDir}/studio-smoke").absolutePath
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+// Isolated, test-only actual-game film; excluded from every shipping JAR.
+task runShowcaseClient(type: JavaExec, dependsOn: ['classes', 'showcaseClasses', 'makeStart']) {
+    group = 'verification'
+    description = 'Record actual customization and Full-module chapters in a disposable world'
+}
+afterEvaluate {
+    runShowcaseClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter {
+            it.canonicalFile != jar.archivePath.canonicalFile
+        } + sourceSets.showcase.output
+        workingDir = file("${buildDir}/showcase-runtime")
+        def showcaseArgs = new ArrayList(runClient.args)
+        def gameDirIndex = showcaseArgs.indexOf('--gameDir')
+        if (gameDirIndex >= 0 && gameDirIndex + 1 < showcaseArgs.size()) {
+            showcaseArgs[gameDirIndex + 1] = workingDir.absolutePath
+        }
+        args = showcaseArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.showcase', 'true'
+        systemProperty 'alien.showcase.output', file("${buildDir}/showcase").absolutePath
+        systemProperty 'alien.showcase.source', project.findProperty('showcaseSource') ?: 'uncommitted'
+        systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }
 }

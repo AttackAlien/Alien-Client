@@ -86,7 +86,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         previewWidth = left + panelWidth - 8 - previewX;
         bodyTop = top + 35; bodyBottom = height - 27; controlTop = bodyTop + 13;
         rowStep = Math.min(24, Math.max(18, (bodyBottom - controlTop - 2) / 7)); buttonHeight = rowStep - 3;
-        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks", "Emotes"};
+        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks", "Emotes", "Auras"};
         int navStep = Math.min(34, (bodyBottom - bodyTop - 15) / tabs.length);
         for (int i = 0; i < tabs.length; i++) buttonList.add(new StudioButton(2 + i,
                 railX, bodyTop + 8 + i * navStep, railWidth, navStep - 4, tabs[i]).selected(page == i));
@@ -155,6 +155,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         CosmeticConfig.Accessory a = current();
         if (button.id == 0) { AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
+        if (button.id == 9) { mc.displayGuiScreen(new dev.alien.client.cosmetic.aura.AuraStudioScreen(this,this::current)); return; }
         if (button.id == 8) { mc.displayGuiScreen(new dev.alien.client.emote.EmoteStudioScreen(this)); return; }
         if (button.id >= 2 && button.id <= 7) { page = button.id - 2; initGui(); return; }
         switch (button.id) {
@@ -434,11 +435,11 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             hovered = x >= xPosition && y >= yPosition && x < xPosition + width && y < yPosition + height;
             boolean animated = AlienClient.get().config().animations && !Ui.theme().reducedMotion;
             hoverAmount += ((hovered && enabled ? 1 : 0) - hoverAmount) * (animated ? .22f : 1);
-            if (id >= 2 && id <= 8) {
+            if (id >= 2 && id <= 9) {
                 int fill = selected ? Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), .28f)
                         : Ui.mix(Ui.theme().surfaceRaised, Ui.accent(), hoverAmount * .1f);
                 Ui.rounded(xPosition + 1, yPosition, width - 2, height, 5, fill);
-                String icon = new String[]{"cosmetics", "settings", "player", "import", "effects", "folder", "player"}[id - 2];
+                String icon = new String[]{"cosmetics", "settings", "player", "import", "effects", "folder", "player", "spark"}[id - 2];
                 if (height >= 24) Ui.icon(icon, xPosition + width / 2f - 4, yPosition + 3, 8,
                         selected ? Ui.accent() : Ui.theme().muted);
                 String label = Ui.font().trimStringToWidth(displayString, width - 3);
