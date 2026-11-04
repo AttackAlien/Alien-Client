@@ -1,12 +1,12 @@
 ALIEN CLIENT UNIFIED - VALIDACAO DA COMPILACAO
-GitHub Actions run: 41842322972
-Git commit: 93dcd285cfba8aac9b7e5023f4fc1689ed42cb11
-JUnit: 216 testes, nenhum erro ou falha
+GitHub Actions run: 41850500847
+Git commit: a66a68da0fe525c3389688bedeb84668770ebbf7
+JUnit: 223 testes, nenhum erro ou falha
 Minecraft 1.8.9 (Linux/display virtual/Mesa): PASS 24 checks
 JAR, classes, recursos, fontes e JUnit verificados pela mesma janela de validacao.
-SHA256 dos fontes/build: 212430b140b823710bfcd1b05ad6555ac41cb3af29ab5209b43136a82b770034
-SHA256 das classes/recursos: 7dcddc309320023700d981d76f939b2896bc10e52c6ab5f61134ec1307d9cb65
-SHA256 dos relatorios JUnit: 97bc6a3ec980cd629ffe625e3b91e4125bcf25e1423cc81fb0860044b52c5d88
+SHA256 dos fontes/build: 5a1d4c4aee057da8bb3fa6dc8c18844f87f959be6af4f5efeeeb978fd5dab42f
+SHA256 das classes/recursos: d305a9b2932c93e7bfc9657dc2f1c90e5ec3da22ceb46fdff39f0b16d380ba52
+SHA256 dos relatorios JUnit: 8a3ecd13be87beb37d76f081f48a618779e219d2a86408620ef67e90b04ec945
 Forge real: Combat Studio, perfis, JSON, dummy local e framebuffer
 Nao representa teste Windows/OptiFine/GPU real/servidor externo.
-SHA256: 2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036  AlienClient-Unified-1.8.9.jar
+SHA256: e8a12308278af4048b9ac3d1d103014409c51fd293386d761ccb007eb8fe4b6e  AlienClient-Unified-1.8.9.jar
