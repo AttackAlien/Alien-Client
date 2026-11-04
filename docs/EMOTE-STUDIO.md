@@ -18,4 +18,4 @@ Animações de corpo inteiro precisam da visão em terceira pessoa. O modelo van
 
 Não há áudio, sincronização por rede ou mod de servidor. Outros jogadores não veem sua dança somente por você instalar o Alien. Os nomes identificam a inspiração; não há vínculo oficial com Fortnite ou Epic Games. O client permanece em Minecraft Java 1.8.9 / Forge 11.15.1.2318.
 
-[Capturas reais atuais](../captures/README.md) · [Resultados e limites dos testes](EMOTE-STUDIO-VALIDATION.md).
+[Capturas reais atuais](https://github.com/AttackAlien/Alien-Client/blob/8c11c2fecdd864a458d46e7e2ce950edde8a9140/captures/README.md) · [Resultados e limites dos testes](EMOTE-STUDIO-VALIDATION.md).

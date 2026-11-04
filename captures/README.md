@@ -1,38 +1,32 @@
-# Capturas atuais — Emote Studio / Unified 0.8.0-alpha.1
+# Capturas atuais — auras reativas / Unified 0.9.0-alpha.1
 
-**251 PNGs novos e originais**, obtidos em 04/11/2026 executando Minecraft Forge 1.8.9 / Java 8u472 / Linux Xorg dummy / Mesa por software. Fonte `8725dd2826050689506e404cf6f1b0e7a3647fa0`, [CI aprovado 41828928551](https://github.com/AttackAlien/Alien-Client/actions/runs/41828928551). Uma imagem é a janela X11; as demais são capturas originais do framebuffer. Sem geração de imagem, montagem ou retoques.
+**290 PNGs novos do jogo** e **seis capturas novas do launcher**, todos obtidos executando os programas reais em 04/11/2026. As imagens anteriores da galeria atual foram substituídas. Uma foto do jogo vem da janela X11; as demais são originais do framebuffer, copiadas sem retoque do CI.
 
-**Todas as fotos anteriores da pasta atual foram substituídas.** Capas, trilhas e os demais estúdios também foram capturados novamente. Os GIFs usam somente os frames desta rodada, sem interpolação.
+**216 JUnit, 742 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `93dcd285cfba8aac9b7e5023f4fc1689ed42cb11`, [CI 41842322972](https://github.com/AttackAlien/Alien-Client/actions/runs/41842322972). Esses checks incluem estados, controles e imagens; não são um benchmark ou golden images.
 
-**204 JUnit, 680 verificações gráficas e 12 testes de empacotamento aprovados.** Sessões: geral 161, céu 37, combate 24, HUD/Full/cosméticos/trilhas/emotes 245, Scene Studio 71 e Interactive Studio 142. Os checks incluem estados, controles e capturas; não são um benchmark ou 680 golden images.
+[Vídeo contínuo — customizações e Full](video-atual/README.md) · [Guia das auras](../docs/REACTIVE-AURAS.md) · [Resultados e limites](../docs/REACTIVE-AURAS-VALIDATION.md) · [Client](../downloads/v0.9.0-alpha.1/README.md) · [Launcher](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #24](https://github.com/AttackAlien/Alien-Client/pull/24), sem merge.
 
-[Como usar](../docs/EMOTE-STUDIO.md) · [Validação e limites](../docs/EMOTE-STUDIO-VALIDATION.md) · [JAR/ZIP](../downloads/v0.8.0-alpha.1/README.md) · [Launcher atualizado](launcher-atual/README.md) · [Origem e hashes](atual/unified/validation.json) · [PR #23](https://github.com/AttackAlien/Alien-Client/pull/23), sem merge.
+## Aura Studio real
 
-## Emote Studio no jogo real
+![Aura Studio executado no Forge](atual/unified/164-aura-studio.png)
 
-![Emote Studio com o jogador real](atual/unified/148-emote-studio-floss.png)
+[HSV/HEX](atual/unified/165-aura-color-picker.png) · [Reações independentes](atual/unified/166-aura-reactions.png) · [Layout compacto](atual/unified/167-aura-studio-compact.png).
 
-[Floss](atual/unified/148-emote-studio-floss.png) · [Orange Justice](atual/unified/149-emote-studio-orange-justice.png) · [Take the L](atual/unified/150-emote-studio-take-the-l.png) · [Slots](atual/unified/151-emote-slot-assignment.png) · [Preferências](atual/unified/152-emote-settings.png) · [Layout compacto](atual/unified/153-emote-studio-compact.png).
+## Reagindo a eventos reais
 
-## Três clássicos em movimento
+![Aura reagindo ao emote Floss](atual/unified/159-aura-emote-floss.png)
 
-**48 frames reais, 15.49 segundos**, na ordem Floss → Orange Justice → Take the L. Intervalos de captura registrados; não há quadros inventados.
+[Movimento por teclado X11](atual/unified/158-aura-arcane-moving.png) · [Meia-noite real do mundo](atual/unified/160-aura-night.png) · [Reação Night desligada](atual/unified/161-aura-night-reaction-off.png) · [GIF novo das auras](atual/unified/auras-em-movimento.gif).
 
-![GIF real dos três emotes](atual/unified/emotes-em-movimento.gif)
+## Três estilos
 
-## Roda aberta pela tecla B
+[Arcane / runas](atual/unified/157-aura-arcane-idle.png) · [Neon / órbitas](atual/unified/162-aura-neon-world.png) · [Celestial / halos](atual/unified/163-aura-celestial-world.png) · [Classic preservado](atual/unified/156-aura-classic-preserved.png) · [Orçamento zero](atual/unified/168-aura-zero-budget.png) · [OFF](atual/unified/169-aura-off.png) · [Perfil restaurado](atual/unified/170-aura-profile-restored.png).
 
-![Roda de emotes no Minecraft real](atual/unified/144b-emote-wheel-selected.png)
+## Emotes, trilhas e capas recapturados
 
-[Floss no mundo com armadura real](atual/unified/145-floss-world.png) · [Orange Justice no mundo](atual/unified/146-orange-justice-world.png) · [Take the L no mundo](atual/unified/147-take-the-l-world.png) · [Compatibilidade Glass](atual/unified/154-emote-glass-world.png) · [Compatibilidade Skeleton](atual/unified/155-emote-skeleton-world.png).
+[Emote Studio](atual/unified/148-emote-studio-floss.png) · [Roda B](atual/unified/144b-emote-wheel-selected.png) · [GIF dos três emotes](atual/unified/emotes-em-movimento.gif) · [Trail Studio](atual/unified/128-trail-studio-overview.png) · [GIF das trilhas](atual/unified/trilha-em-movimento.gif) · [GIF da capa](atual/unified/capa-em-movimento.gif).
 
-As danças são adaptações próprias para o modelo rígido do Minecraft. **Não há áudio nem sincronização pela rede.** Outros jogadores não veem a dança somente por você instalar o Alien.
-
-## Trilhas e capas recapturadas
-
-[Trail Studio](atual/unified/128-trail-studio-overview.png) · [Nebula](atual/unified/136-trail-nebula-world.png) · [Ember](atual/unified/137-trail-ember-world.png) · [Glacier](atual/unified/138-trail-glacier-world.png) · [GIF novo das trilhas](atual/unified/trilha-em-movimento.gif) · [GIF novo da capa](atual/unified/capa-em-movimento.gif).
-
-Os PNGs usados para testar importação são entradas de teste renderizadas no jogo. [Ocorrências conhecidas dos logs](atual/unified/known-log-errors.txt); logs completos no artifact do CI. As demais fotos abaixo também pertencem à nova rodada.
+Os GIFs usam somente PNGs novos desta rodada, sem quadros interpolados. Os arquivos de importação usados nos testes são entradas de teste realmente renderizadas pelo jogo. [Ocorrências conhecidas dos logs](atual/unified/known-log-errors.txt); logs completos no artifact do CI. As imagens abaixo também foram recapturadas.
 
 | Recurso novo | Captura real |
 | --- | --- |

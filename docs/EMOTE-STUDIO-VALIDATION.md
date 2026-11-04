@@ -36,7 +36,7 @@ Client: fonte `8725dd2826050689506e404cf6f1b0e7a3647fa0`, [CI 41828928551](https
 
 Launcher: fonte `e080fbf144df1e1f1b40adbd854b795b7cde9ca9`, [CI 41830735294](https://github.com/AttackAlien/Alien-Client/actions/runs/41830735294), SHA-256 do ZIP `d3c13c13f9b4149d3c84c370af4eb1ae68b30395bf90382d20b110baf382d254` (70,758,597 bytes).
 
-Os **251 PNGs atuais do jogo** foram copiados sem alterações do CI aprovado; um vem da janela X11 e os demais do framebuffer. Os seis PNGs do launcher vêm da janela WinForms executada no Windows Server 2022, com métodos e horários no [manifesto](../captures/launcher-atual/manifest.json). O layout e o emblema aprovados foram preservados.
+Os **251 PNGs atuais do jogo** foram copiados sem alterações do CI aprovado; um vem da janela X11 e os demais do framebuffer. Os seis PNGs do launcher vêm da janela WinForms executada no Windows Server 2022, com métodos e horários no [manifesto](https://github.com/AttackAlien/Alien-Client/blob/8c11c2fecdd864a458d46e7e2ce950edde8a9140/captures/launcher-atual/manifest.json). O layout e o emblema aprovados foram preservados.
 
 As fotos anteriores saíram das pastas atuais. Relatórios históricos continuam vinculados às suas versões e commits. O GIF de emotes usa 48 frames originais, **15.49 segundos**, na ordem Floss → Orange Justice → Take the L, com intervalos registrados. Trilhas: vinte frames novos com intervalos registrados. Capa: doze frames novos, conversão a 100 ms. Não há frames gerados ou interpolados, nem nova gravação contínua longa.
 
@@ -64,9 +64,9 @@ Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472, Linux Xorg dummy e OpenGL Mes
 
 Os emotes são adaptações procedurais próprias para braços/pernas rígidos, sem cotovelos, joelhos, dedos ou assets extraídos do Fortnite. **Não há música nem sincronização pela rede.** Outros jogadores não veem a dança somente por você instalar o client.
 
-O runner não tem áudio funcional. Os logs ainda registram tarefas de chunks após descarregar mundos nos fixtures General/Scene: 81 e 78 ocorrências dessa pilha nesta rodada. Não são contagens de quedas do jogo. Todas as seis sessões concluíram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos no artifact do CI.
+O runner não tem áudio funcional. Os logs ainda registram tarefas de chunks após descarregar mundos nos fixtures General/Scene: 81 e 78 ocorrências dessa pilha nesta rodada. Não são contagens de quedas do jogo. Todas as seis sessões concluíram com PASS. [Ocorrências selecionadas](https://github.com/AttackAlien/Alien-Client/blob/8c11c2fecdd864a458d46e7e2ce950edde8a9140/captures/atual/unified/known-log-errors.txt); logs completos no artifact do CI.
 
-[Download do client](../downloads/v0.8.0-alpha.1/README.md) · [Launcher Windows](../downloads/launcher/v0.3.0-alpha.5/README.md) · [Fotos e GIF reais](../captures/README.md).
+[Download do client](../downloads/v0.8.0-alpha.1/README.md) · [Launcher Windows](../downloads/launcher/v0.3.0-alpha.5/README.md) · [Fotos e GIF reais](https://github.com/AttackAlien/Alien-Client/blob/8c11c2fecdd864a458d46e7e2ce950edde8a9140/captures/README.md).
 
 ## Acesso público verificado
 

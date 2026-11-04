@@ -1,4 +1,4 @@
-PASS 245 checks
+PASS 307 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -236,7 +236,7 @@ PASS Real framebuffer capture emote-motion-45
 PASS Real framebuffer capture emote-motion-46
 PASS Real framebuffer capture emote-motion-47
 PASS Actual previews and all three classic movies restore clean OpenGL and render scope
-PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1112 before=1064 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
+PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1338 before=1278 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
 PASS Real framebuffer capture 154-emote-glass-world
 PASS Skeleton material and skeleton overlay keep using the animated body rig
 PASS Real framebuffer capture 155-emote-skeleton-world
@@ -247,3 +247,65 @@ PASS Playback starts before profile context change
 PASS Changing the actual Unified profile clears playback and restores the owned camera
 PASS Disabled emotes reject playback instead of reporting a fictional active dance
 PASS Material, damage, menu and profile interruption checks leave clean GL state
+PASS Classic aura still emits the original real vanilla particles
+PASS Real framebuffer capture 156-aura-classic-preserved
+PASS Reactive aura generates actual depth-tested world geometry for the player
+PASS Reactive renderer replaces legacy aura particles while preserving the Classic option
+PASS Real framebuffer capture 157-aura-arcane-idle
+PASS Native movement raises the real smoothed movement channel and aura energy
+PASS Real framebuffer capture 158-aura-arcane-moving
+PASS Stopping native movement smoothly releases its aura reaction
+PASS Actual Floss playback feeds the real aura emote channel
+PASS Real framebuffer capture 159-aura-emote-floss
+PASS Actual integrated-server midnight activates the night aura channel
+PASS Real framebuffer capture 160-aura-night
+PASS Real Night toggle disables only the night reaction
+PASS Disabling Night through the actual editor releases night energy while the world remains at midnight
+PASS Real framebuffer capture 161-aura-night-reaction-off
+PASS Neon preset renders actual intersecting orbit bands
+PASS Real framebuffer capture 162-aura-neon-world
+PASS Celestial preset renders actual halos and orbiting crystals
+PASS Real framebuffer capture 163-aura-celestial-world
+PASS Aura Studio renders the actual configured aura on the live player preview
+PASS Real framebuffer capture 164-aura-studio
+PASS Aura HEX picker changes the real material color through its actual keyboard handler
+PASS Real framebuffer capture 165-aura-color-picker
+PASS Movement and emote toggles edit independent profile-backed reaction flags
+PASS Real framebuffer capture 166-aura-reactions
+PASS Actual Unified profile reload restores custom aura colors and reactions
+PASS Aura look snapshots preserve existing saved emotes and remain independent
+PASS Native mouse-wheel scrolling exposes all aura appearance sliders in compact scaled layout
+PASS Real framebuffer capture 167-aura-studio-compact
+PASS Zero particle budget clears reactive aura states and rendered geometry
+PASS Real framebuffer capture 168-aura-zero-budget
+PASS Actual Aura OFF control clears transient reactions and rendering
+PASS Real framebuffer capture 169-aura-off
+PASS Loading a saved aura profile restores its appearance without stale simulation
+PASS Real framebuffer capture 170-aura-profile-restored
+PASS Aura renderer obeys hard shared geometry and player-state budgets
+PASS Aura movie begins from a real active emote rather than a simulated trigger
+PASS Real framebuffer capture aura-motion-00
+PASS Real framebuffer capture aura-motion-01
+PASS Real framebuffer capture aura-motion-02
+PASS Real framebuffer capture aura-motion-03
+PASS Real framebuffer capture aura-motion-04
+PASS Real framebuffer capture aura-motion-05
+PASS Real framebuffer capture aura-motion-06
+PASS Real framebuffer capture aura-motion-07
+PASS Real framebuffer capture aura-motion-08
+PASS Real framebuffer capture aura-motion-09
+PASS Real framebuffer capture aura-motion-10
+PASS Real framebuffer capture aura-motion-11
+PASS Real framebuffer capture aura-motion-12
+PASS Real framebuffer capture aura-motion-13
+PASS Real framebuffer capture aura-motion-14
+PASS Real framebuffer capture aura-motion-15
+PASS Real framebuffer capture aura-motion-16
+PASS Real framebuffer capture aura-motion-17
+PASS Real framebuffer capture aura-motion-18
+PASS Real framebuffer capture aura-motion-19
+PASS Real framebuffer capture aura-motion-20
+PASS Real framebuffer capture aura-motion-21
+PASS Real framebuffer capture aura-motion-22
+PASS Real framebuffer capture aura-motion-23
+PASS Reactive auras, previews and emotes leave clean OpenGL state and balanced render scopes

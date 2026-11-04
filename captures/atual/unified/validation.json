@@ -1,32 +1,32 @@
 {
-  "ci_completed_utc": "2026-11-04T12:35:03Z",
-  "code_revision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
-  "validation_revision": "8725dd2826050689506e404cf6f1b0e7a3647fa0",
-  "version": "0.8.0-alpha.1",
-  "workflow_run": "41828928551",
+  "ci_completed_utc": "2026-11-04T14:03:44Z",
+  "code_revision": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
+  "validation_revision": "93dcd285cfba8aac9b7e5023f4fc1689ed42cb11",
+  "version": "0.9.0-alpha.1",
+  "workflow_run": "41842322972",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 245 checks",
+    "ultimate": "PASS 307 checks",
     "scene": "PASS 71 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 204,
+      "tests": 216,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "9d5a7caefc731aa69a3cbc2536e3b0ae827a84b789b9db00fecd7d29491d8a0c",
-    "junit_sha256": "cbd1f595134e3df32c92d37bf63307df436b898ba747d1031f8d286cec976624",
-    "runtime_sha256": "6ebbce86e747062a9a9d913bb3c060b5622109f99d8fde0311ad63f5438274a5",
-    "source_sha256": "9ec29a00239649f967e4986c33ef224ba4042c1547f2d9a50b7a689241516afb",
-    "started_ns": 1793795358807158936
+    "jar_sha256": "2ea2c0d4a786006863600cfd4f569660288014e47b6045692f7e50fc9084a036",
+    "junit_sha256": "97bc6a3ec980cd629ffe625e3b91e4125bcf25e1423cc81fb0860044b52c5d88",
+    "runtime_sha256": "7dcddc309320023700d981d76f939b2896bc10e52c6ab5f61134ec1307d9cb65",
+    "source_sha256": "212430b140b823710bfcd1b05ad6555ac41cb3af29ab5209b43136a82b770034",
+    "started_ns": 1793800723409425188
   },
   "screenshots": {
     "01-title.png": "general",
@@ -279,7 +279,46 @@
     "146-orange-justice-world.png": "ultimate",
     "145-floss-world.png": "ultimate",
     "144b-emote-wheel-selected.png": "ultimate",
-    "144-emote-wheel.png": "ultimate"
+    "144-emote-wheel.png": "ultimate",
+    "aura-motion-23.png": "ultimate",
+    "aura-motion-22.png": "ultimate",
+    "aura-motion-21.png": "ultimate",
+    "aura-motion-20.png": "ultimate",
+    "aura-motion-19.png": "ultimate",
+    "aura-motion-18.png": "ultimate",
+    "aura-motion-17.png": "ultimate",
+    "aura-motion-16.png": "ultimate",
+    "aura-motion-15.png": "ultimate",
+    "aura-motion-14.png": "ultimate",
+    "aura-motion-13.png": "ultimate",
+    "aura-motion-12.png": "ultimate",
+    "aura-motion-11.png": "ultimate",
+    "aura-motion-10.png": "ultimate",
+    "aura-motion-09.png": "ultimate",
+    "aura-motion-08.png": "ultimate",
+    "aura-motion-07.png": "ultimate",
+    "aura-motion-06.png": "ultimate",
+    "aura-motion-05.png": "ultimate",
+    "aura-motion-04.png": "ultimate",
+    "aura-motion-03.png": "ultimate",
+    "aura-motion-02.png": "ultimate",
+    "aura-motion-01.png": "ultimate",
+    "aura-motion-00.png": "ultimate",
+    "170-aura-profile-restored.png": "ultimate",
+    "169-aura-off.png": "ultimate",
+    "168-aura-zero-budget.png": "ultimate",
+    "167-aura-studio-compact.png": "ultimate",
+    "166-aura-reactions.png": "ultimate",
+    "165-aura-color-picker.png": "ultimate",
+    "164-aura-studio.png": "ultimate",
+    "163-aura-celestial-world.png": "ultimate",
+    "162-aura-neon-world.png": "ultimate",
+    "161-aura-night-reaction-off.png": "ultimate",
+    "160-aura-night.png": "ultimate",
+    "159-aura-emote-floss.png": "ultimate",
+    "158-aura-arcane-moving.png": "ultimate",
+    "157-aura-arcane-idle.png": "ultimate",
+    "156-aura-classic-preserved.png": "ultimate"
   },
   "movies": {
     "cape": {
@@ -292,22 +331,29 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 7630,
+      "milliseconds": 6460,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 15490,
+      "milliseconds": 14200,
       "sourcePrefix": "emote-motion",
+      "syntheticFrames": false
+    },
+    "auras": {
+      "frames": 24,
+      "encodedFrames": 24,
+      "milliseconds": 6530,
+      "sourcePrefix": "aura-motion",
       "syntheticFrames": false
     }
   },
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 48924,
+      "minimumChangedBodyPixels": 45385,
       "bodyRegion": [
         790,
         180,
@@ -317,7 +363,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 45862,
+      "minimumChangedBodyPixels": 49395,
       "bodyRegion": [
         790,
         180,
@@ -327,7 +373,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 25521,
+      "minimumChangedBodyPixels": 23693,
       "bodyRegion": [
         790,
         180,
@@ -337,22 +383,22 @@
     }
   },
   "notes": [
-    "251 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "290 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-04T12:23:58Z",
-    "end": "2026-11-04T12:35:03Z"
+    "start": "2026-11-04T13:54:01Z",
+    "end": "2026-11-04T14:03:44Z"
   },
   "known_test_teardown_chunk_exceptions": {
     "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 78,
+    "scene": 73,
     "studio": 0
   }
 }

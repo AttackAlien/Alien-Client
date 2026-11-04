@@ -1,6 +1,6 @@
 # Alien Launcher 0.3.0-alpha.5 — Emote Studio / Windows x64
 
-**[Baixar ZIP — 67.48 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/emote-studio-20261104/downloads/launcher/v0.3.0-alpha.5/AlienLauncher-Windows-x64-0.3.0-alpha.5.zip)** · [Fotos reais atuais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/EMOTE-STUDIO-VALIDATION.md) · [SHA-256](SHA256SUMS.txt) · [Origem do client](client-source.json).
+**[Baixar ZIP — 67.48 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/emote-studio-20261104/downloads/launcher/v0.3.0-alpha.5/AlienLauncher-Windows-x64-0.3.0-alpha.5.zip)** · [Fotos reais atuais](https://github.com/AttackAlien/Alien-Client/blob/8c11c2fecdd864a458d46e7e2ce950edde8a9140/captures/launcher-atual/README.md) · [Validação](../../../docs/EMOTE-STUDIO-VALIDATION.md) · [SHA-256](SHA256SUMS.txt) · [Origem do client](client-source.json).
 
 Inclui **Unified 0.8.0-alpha.1 / Forge 1.8.9 / Java 8**, com Emote Studio e todos os estúdios anteriores. Layout e emblema aprovados foram preservados.
 
