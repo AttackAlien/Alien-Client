@@ -28,5 +28,5 @@ public final class EmotePlayback {
         EmoteLibrary.sample(id,loop?(phase+extra*speed)%EmoteLibrary.duration(id):Math.min(EmoteLibrary.duration(id)-.000001,phase+extra*speed),raw);
         out.mix(previous,raw,smooth((age+extra)/.25));
     }
-    private static float smooth(double t){float f=(float)Math.max(0,Math.min(1,t));return f*f*(3-2*f);}
+    private static float smooth(double t){float f=(float)Math.max(0,Math.min(1,t));return f*f*f*(f*(f*6-15)+10);}
 }

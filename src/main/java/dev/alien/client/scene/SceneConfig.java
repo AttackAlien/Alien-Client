@@ -2,7 +2,9 @@ package dev.alien.client.scene;
 /** Optional local visuals. Saved with Unified profiles; no packets or world mutations. */
 public final class SceneConfig {
     public static final String[] MODES={"Natural","Cyberspace","Skeleton","Glass","Chroma"};
-    public static final String[] SKIES={"Off","Cosmic","BlackHole","Aurora","SnowClouds","Fire","Sunset","Ocean","Storm","Galaxy","Aether","Nocturne","Amethyst","Opaline","Rain","Snow"};
+    public static final String[] SKIES={"Off","Cosmic","BlackHole","Aurora","SnowClouds","Fire","Sunset","Ocean","Storm","Galaxy","Aether","Nocturne","Amethyst","Opaline","Rain","Snow","Realistic"};
+    public boolean skyPolish=true;
+    public float cloudCoverage=.55f,cloudSoftness=.7f,horizonHaze=.55f,starDensity=.6f;
     public boolean enabled=false,shockwave=false,cute=false;
     public boolean mist=false,afterglow=false,radiance=false,targetEsp=false,bokeh=false;
     public float skySpeed=1,skyLiveliness=.6f,skyBreathing=1,mistDensity=.35f,bokehStrength=.6f;
@@ -12,6 +14,7 @@ public final class SceneConfig {
     public int color=0xB48CFF;
     public float strength=.85f,radius=5,lifetime=1.8f,chromaRadius=4,chromaMemory=10,distance=32;
     public void normalize(){
+        cloudCoverage=bound(cloudCoverage,0,1,.55f);cloudSoftness=bound(cloudSoftness,0,1,.7f);horizonHaze=bound(horizonHaze,0,1,.55f);starDensity=bound(starDensity,0,1,.6f);
         palette=choice(palette,PALETTES);skySpeed=bound(skySpeed,0,3,1);skyLiveliness=bound(skyLiveliness,0,1,.6f);skyBreathing=bound(skyBreathing,0,3,1);mistDensity=bound(mistDensity,.05f,1,.35f);bokehStrength=bound(bokehStrength,0,1,.6f);
         mode=choice(mode,MODES);sky=choice(sky,SKIES);color&=0xffffff;
         strength=bound(strength,.1f,1,.85f);radius=bound(radius,1,12,5);lifetime=bound(lifetime,.4f,4,1.8f);

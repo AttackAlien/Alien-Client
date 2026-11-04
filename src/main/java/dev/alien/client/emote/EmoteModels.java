@@ -25,19 +25,32 @@ final class EmoteModels {
             return true;
         }catch(RuntimeException failure){AlienClient.LOG.warn("Emote pose hook unavailable",failure);return false;}
     }
+    static float bend(ModelRenderer part){return part instanceof ArticulatedLimb?((ArticulatedLimb)part).bend:0;}
+    static void hand(ModelBiped model,float scale){if(model.bipedRightArm instanceof ArticulatedLimb)((ArticulatedLimb)model.bipedRightArm).handTransform(scale);}
+    private static void wrap(ModelBiped m,boolean skin,boolean slim,float inflation){
+        m.bipedRightArm=new ArticulatedLimb(m,m.bipedRightArm,40,16,slim?-2:-3,true,slim?3:4,inflation);
+        m.bipedLeftArm=new ArticulatedLimb(m,m.bipedLeftArm,skin?32:40,skin?48:16,-1,true,slim?3:4,inflation);
+        m.bipedRightLeg=new ArticulatedLimb(m,m.bipedRightLeg,0,16,-2,false,4,inflation);
+        m.bipedLeftLeg=new ArticulatedLimb(m,m.bipedLeftLeg,skin?16:0,skin?48:16,-2,false,4,inflation);
+        if(skin){ModelPlayer p=(ModelPlayer)m;p.bipedRightArmwear=new ArticulatedLimb(p,p.bipedRightArmwear,40,32,slim?-2:-3,true,slim?3:4,.25f);
+            p.bipedLeftArmwear=new ArticulatedLimb(p,p.bipedLeftArmwear,48,48,-1,true,slim?3:4,.25f);
+            p.bipedRightLegwear=new ArticulatedLimb(p,p.bipedRightLegwear,0,32,-2,false,4,.25f);p.bipedLeftLegwear=new ArticulatedLimb(p,p.bipedLeftLegwear,0,48,-2,false,4,.25f);}
+    }
     private static final class Rig {
-        final ModelRenderer[] parts;final float[] points=new float[18];final EmotePose pose=new EmotePose();
-        Rig(ModelBiped model){parts=new ModelRenderer[]{model.bipedHead,model.bipedBody,model.bipedRightArm,model.bipedLeftArm,model.bipedRightLeg,model.bipedLeftLeg};for(int i=0;i<6;i++){points[i*3]=parts[i].rotationPointX;points[i*3+1]=parts[i].rotationPointY;points[i*3+2]=parts[i].rotationPointZ;}}
-        void reset(){for(int i=0;i<6;i++){ModelRenderer p=parts[i];p.rotateAngleX=p.rotateAngleY=p.rotateAngleZ=0;p.rotationPointX=points[i*3];p.rotationPointY=points[i*3+1];p.rotationPointZ=points[i*3+2];}}
+        final ModelRenderer[] parts,joints;final float[] points=new float[18];final EmotePose pose=new EmotePose();
+        Rig(ModelBiped model){parts=new ModelRenderer[]{model.bipedHead,model.bipedBody,model.bipedRightArm,model.bipedLeftArm,model.bipedRightLeg,model.bipedLeftLeg};joints=model instanceof ModelPlayer?new ModelRenderer[]{model.bipedRightArm,model.bipedLeftArm,model.bipedRightLeg,model.bipedLeftLeg,((ModelPlayer)model).bipedRightArmwear,((ModelPlayer)model).bipedLeftArmwear,((ModelPlayer)model).bipedRightLegwear,((ModelPlayer)model).bipedLeftLegwear}:new ModelRenderer[]{model.bipedRightArm,model.bipedLeftArm,model.bipedRightLeg,model.bipedLeftLeg};for(int i=0;i<6;i++){points[i*3]=parts[i].rotationPointX;points[i*3+1]=parts[i].rotationPointY;points[i*3+2]=parts[i].rotationPointZ;}}
+        void reset(){for(ModelRenderer joint:joints)((ArticulatedLimb)joint).bend=0;for(int i=0;i<6;i++){ModelRenderer p=parts[i];p.rotateAngleX=p.rotateAngleY=p.rotateAngleZ=0;p.rotationPointX=points[i*3];p.rotationPointY=points[i*3+1];p.rotationPointZ=points[i*3+2];}}
         void apply(Entity entity,float age,boolean armor){
             EmoteManager manager=AlienClient.get().emotes();if(manager==null||!manager.modelPose(entity,age,pose))return;
             for(int i=0;i<6;i++){parts[i].rotateAngleX+=pose.angles[i*3];parts[i].rotateAngleY+=pose.angles[i*3+1];parts[i].rotateAngleZ+=pose.angles[i*3+2];}
+            if(AlienClient.get().config().emotes.articulated)for(int i=0;i<joints.length;i++)((ArticulatedLimb)joints[i]).bend=pose.bends[i%4];
             manager.modelApplied(armor);
         }
     }
     private static final class PlayerModel extends ModelPlayer {
         final Rig rig;
-        PlayerModel(boolean slim){super(0,slim);rig=new Rig(this);}
+        PlayerModel(boolean slim){super(0,slim);wrap(this,true,slim,0);rig=new Rig(this);}
+        @Override public void postRenderArm(float scale){super.postRenderArm(scale);hand(this,scale);}
         @Override public void setRotationAngles(float a,float b,float age,float yaw,float pitch,float scale,Entity entity){
             rig.reset();super.setRotationAngles(a,b,age,yaw,pitch,scale,entity);rig.apply(entity,age,false);
             copyModelAngles(bipedHead,bipedHeadwear);copyModelAngles(bipedBody,bipedBodyWear);
@@ -47,7 +60,7 @@ final class EmoteModels {
     }
     private static final class ArmorModel extends ModelBiped {
         final Rig rig;
-        ArmorModel(float scale){super(scale);rig=new Rig(this);}
+        ArmorModel(float scale){super(scale);wrap(this,false,false,scale);rig=new Rig(this);}
         @Override public void setRotationAngles(float a,float b,float age,float yaw,float pitch,float scale,Entity entity){rig.reset();super.setRotationAngles(a,b,age,yaw,pitch,scale,entity);rig.apply(entity,age,true);copyModelAngles(bipedHead,bipedHeadwear);}
     }
     private static final class ArmorLayer extends LayerBipedArmor {

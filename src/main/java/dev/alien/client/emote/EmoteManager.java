@@ -20,7 +20,7 @@ public final class EmoteManager {
     private final EmotePose rootPose=new EmotePose();
     private final KeyBinding wheel;private int previousKey;
     private Object world,profile;private Entity player;
-    private float previousHealth=Float.NaN;
+    private float previousHealth=Float.NaN,renderPartial;
     private String pending="",status="Choose an emote";private int pendingTicks,oldCamera;private boolean ownsCamera;
     private String preview="";private double previewTime;private int previewDepth,depth;
     private final Object[] renderers=new Object[8],entities=new Object[8];
@@ -29,6 +29,9 @@ public final class EmoteManager {
     private EmoteConfig c(){return AlienClient.get().config().emotes;}
     public String status(){return status;}public boolean active(){return playback.active();}public String activeId(){return playback.id();}
     public long posedFrames(){return posedFrames;}public long armorFrames(){return armorFrames;}public int renderDepth(){return depth;}
+    public static long articulatedDraws(){return ArticulatedLimb.drawn;}
+    public static float jointBend(net.minecraft.client.model.ModelRenderer limb){return EmoteModels.bend(limb);}
+    public static void handBend(net.minecraft.client.model.ModelBiped model,float scale){EmoteModels.hand(model,scale);}
     public boolean keyHeld(){return wheel.getKeyCode()>0&&Keyboard.isKeyDown(wheel.getKeyCode());}
     private boolean conflict(){if(wheel.getKeyCode()==0)return false;for(KeyBinding key:Minecraft.getMinecraft().gameSettings.keyBindings)if(key!=wheel&&key.getKeyCode()==wheel.getKeyCode())return true;return false;}
     @SubscribeEvent(priority=EventPriority.HIGHEST) public void key(InputEvent.KeyInputEvent event){
@@ -69,6 +72,7 @@ public final class EmoteManager {
         playback.update(.05);if(!playback.active())restoreCamera();
     }
     @SubscribeEvent public void gui(GuiOpenEvent event){if(event.gui!=null&&!(event.gui instanceof EmoteWheelScreen))clear("Stopped for menu");}
+    @SubscribeEvent public void frame(TickEvent.RenderTickEvent event){if(event.phase==TickEvent.Phase.START)renderPartial=event.renderTickTime;}
     @SubscribeEvent(priority=EventPriority.HIGHEST) public void prepare(RenderPlayerEvent.Pre event){
         if(event.entityPlayer!=Minecraft.getMinecraft().thePlayer||(!active()&&previewDepth==0))return;
         if(!EmoteModels.prepare(event.renderer,(AbstractClientPlayer)event.entityPlayer))clear("Emote animation unavailable with this renderer");
@@ -84,7 +88,7 @@ public final class EmoteManager {
     public void preview(String id,double seconds,Runnable draw){String old=preview;double time=previewTime;preview=id;previewTime=seconds;previewDepth++;try{draw.run();}finally{previewDepth--;preview=old;previewTime=time;}}
     @SubscribeEvent(priority=EventPriority.LOWEST) public void root(RenderLivingEvent.Pre event){
         if(!(event.renderer instanceof RenderPlayer)||event.entity!=Minecraft.getMinecraft().thePlayer||depth>=8||(!active()&&previewDepth==0))return;
-        if(!pose(event.entity,0,rootPose))return;
+        if(!pose(event.entity,renderPartial*.05,rootPose))return;
         renderers[depth]=event.renderer;entities[depth]=event.entity;depth++;
         double yaw=Math.toRadians(event.entity.renderYawOffset);
         GlStateManager.pushMatrix();GlStateManager.translate(event.x+Math.cos(yaw)*rootPose.sway,event.y+rootPose.lift,event.z+Math.sin(yaw)*rootPose.sway);

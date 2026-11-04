@@ -2,6 +2,7 @@ package dev.alien.client.emote;
 
 /** Profile preferences only; active playback never persists across world/profile changes. */
 public final class EmoteConfig {
+    public boolean articulated=true;
     public boolean enabled=true,loop=true,autoThirdPerson=true,hideHeldItem=true;
     public int wheelKey=48;
     public float speed=1;

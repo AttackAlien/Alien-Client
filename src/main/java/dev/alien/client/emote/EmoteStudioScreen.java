@@ -34,12 +34,13 @@ public final class EmoteStudioScreen extends PremiumScreen {
             button(24,left+9,y+step*3,column-18,"Auto third person: "+(c().autoThirdPerson?"ON":"OFF"));
             button(25,left+9,y+step*4,column-18,captureKey?"Press key / Del clears":"Wheel key: "+(c().wheelKey==0?"Unbound":Keyboard.getKeyName(c().wheelKey)));
             button(26,left+9,y+step*5,column-18,"Hide held item: "+(c().hideHeldItem?"ON":"OFF"));
+            button(27,left+9,y+step*6,column-18,"Articulated limbs: "+(c().articulated?"ON":"OFF"));
         }
         int foot=(w-12)/3;button(1,left,height-30,foot,"Play in world");button(2,left+foot+6,height-30,foot,"Stop");button(3,left+2*(foot+6),height-30,w-2*(foot+6),paused?"Resume preview":"Pause preview");
         for(GuiButton b:buttonList)if(b.id==1)b.enabled=mc.thePlayer!=null&&c().enabled&&AlienClient.get().config().animations;
         last=System.nanoTime();
     }
-    private boolean scrolling(int id){return id>=100||id>=21&&id<=26;}
+    private boolean scrolling(int id){return id>=100||id>=21&&id<=27;}
     @Override public void drawContents(int mx,int my,float partial){
         long now=System.nanoTime();if(!paused&&AlienClient.get().config().animations&&!Ui.theme().reducedMotion)seconds+=Math.min(.1,(now-last)/1e9)*c().speed;last=now;
         Ui.background(width,height);Ui.text("ALIEN / EMOTE STUDIO",left,15,Ui.theme().text);
@@ -78,6 +79,7 @@ public final class EmoteStudioScreen extends PremiumScreen {
         else if(b.id==24)c().autoThirdPerson=!c().autoThirdPerson;
         else if(b.id==25)captureKey=true;
         else if(b.id==26)c().hideHeldItem=!c().hideHeldItem;
+        else if(b.id==27)c().articulated=!c().articulated;
         else if(b.id==31)c().slots[slot]=c().selected;
         else if(b.id==32)c().slots=new EmoteConfig().slots;
         else if(b.id==33){mc.displayGuiScreen(new EmoteWheelScreen(this,false));return;}
@@ -87,7 +89,7 @@ public final class EmoteStudioScreen extends PremiumScreen {
         for(GuiButton b:buttonList)if((!scrolling(b.id)||y>=top+21&&y<bottom)&&b.mousePressed(mc,x,y)){if(!(b instanceof Ui.Slider))actionPerformed(b);return;}
     }
     @Override protected void mouseReleased(int x,int y,int state){for(GuiButton b:buttonList)b.mouseReleased(x,y);}
-    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int d=Mouse.getEventDWheel();if(d!=0){int content=page==2?6*28:8*28;scroll=Math.max(0,Math.min(Math.max(0,content-(bottom-top-24)),scroll+(d<0?28:-28)));initGui();}}
+    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int d=Mouse.getEventDWheel();if(d!=0){int content=page==2?7*28:8*28;scroll=Math.max(0,Math.min(Math.max(0,content-(bottom-top-24)),scroll+(d<0?28:-28)));initGui();}}
     @Override protected void keyTyped(char ch,int key)throws IOException{
         if(captureKey){if(key!=Keyboard.KEY_ESCAPE)c().wheelKey=key==Keyboard.KEY_DELETE?0:key;captureKey=false;AlienClient.get().save();initGui();return;}
         if(key==Keyboard.KEY_ESCAPE)mc.displayGuiScreen(parent);

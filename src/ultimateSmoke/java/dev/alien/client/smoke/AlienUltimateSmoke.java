@@ -3,6 +3,7 @@ package dev.alien.client.smoke;
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
 import dev.alien.client.emote.*;
+import dev.alien.client.scene.*;
 import dev.alien.client.cosmetic.aura.*;
 import dev.alien.client.combat.*;
 import dev.alien.client.hud.*;
@@ -40,7 +41,7 @@ public final class AlienUltimateSmoke {
     private final List<String> checks=new ArrayList<String>();
     private EntityOtherPlayerMP dummy;private Robot robot;private long beforeFoods,beforePotions,beforeBlocks;
     private float emoteHealth,angleBefore,auraIdle;private long auraLegacyBefore;private int auraMovie;private final List<Long> auraTimes=new ArrayList<Long>();private int oldSlot;private float draggedX;
-    private long emoteModelsBefore,emoteArmorBefore;private double emoteX,emoteZ;private float emoteYaw;private int emoteMovie;private final List<Long> emoteTimes=new ArrayList<Long>();
+    private long emoteModelsBefore,emoteArmorBefore,jointsBefore,skyServerTime;private int[] clearSky;private net.minecraftforge.client.IRenderHandler cloudRendererBefore;private int cloudSettingBefore;private double emoteX,emoteZ;private float emoteYaw;private int emoteMovie;private final List<Long> emoteTimes=new ArrayList<Long>();
     private int[] trailPreviewPixels,trailPreviewBounds;private int trailMovieFrame;
     private final List<Long> trailMovieTimes=new ArrayList<Long>();
     private TrailDesign trail(){return c().cosmetics.self.trailDesign;}
@@ -54,7 +55,7 @@ public final class AlienUltimateSmoke {
     @SubscribeEvent public void render(TickEvent.RenderTickEvent e){
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
-            if(elapsed(start)>270000)throw new AssertionError("Deadline at stage "+stage);
+            if(elapsed(start)>300000)throw new AssertionError("Deadline at stage "+stage);
             long wait=stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
@@ -93,7 +94,8 @@ public final class AlienUltimateSmoke {
             dummy();c().hud.applyPreset("PvP");c().hud.theme="Cyan";c().hud.widgets.get("target").x=.58f;
             c().hud.widgets.get("target").y=.65f;c().hud.widgets.get("crosshair").customColor=true;c().hud.widgets.get("crosshair").color=0xff43d9ed;
             faceDummy(0);AlienClient.get().save();
-            if(Boolean.getBoolean("alien.ultimate.auras.only")){robot=new Robot();prepareAuras();stage=94;}
+            if(Boolean.getBoolean("alien.ultimate.polish.only")){robot=new Robot();prepareAuras();stage=116;}
+            else if(Boolean.getBoolean("alien.ultimate.auras.only")){robot=new Robot();prepareAuras();stage=94;}
             else if(Boolean.getBoolean("alien.ultimate.emotes.only")){robot=new Robot();robot.keyRelease(java.awt.event.KeyEvent.VK_B);prepareEmotes();stage=65;}
             next();return;
         case 2:
@@ -398,7 +400,7 @@ public final class AlienUltimateSmoke {
             capture("143-trail-particles-preserved");require(GL11.glGetError()==GL11.GL_NO_ERROR,"All designed trail world passes and editor screens leave clean OpenGL state");
             prepareEmotes();next();return;
         case 66:
-            emoteModelsBefore=AlienClient.get().emotes().posedFrames();emoteArmorBefore=AlienClient.get().emotes().armorFrames();
+            emoteModelsBefore=AlienClient.get().emotes().posedFrames();emoteArmorBefore=AlienClient.get().emotes().armorFrames();jointsBefore=EmoteManager.articulatedDraws();
             emoteX=m.thePlayer.posX;emoteZ=m.thePlayer.posZ;emoteYaw=m.thePlayer.rotationYaw;
             robot.keyPress(java.awt.event.KeyEvent.VK_B);next();return;
         case 67:{
@@ -415,7 +417,7 @@ public final class AlienUltimateSmoke {
             require(AlienClient.get().emotes().posedFrames()>emoteModelsBefore,"Emote poses reach the actual Minecraft player model renderer");
             require(AlienClient.get().emotes().armorFrames()>emoteArmorBefore,"Real server-synchronized armor uses animated emote pose hooks");
             require(Math.hypot(m.thePlayer.posX-emoteX,m.thePlayer.posZ-emoteZ)<.01&&Math.abs(m.thePlayer.rotationYaw-emoteYaw)<.01,"Dance root transforms leave actual world coordinates and camera yaw unchanged");
-            capture("145-floss-world");AlienClient.get().emotes().request("orange_justice");next();return;
+            require(EmoteManager.articulatedDraws()>jointsBefore,"Floss skin, wear and armor render articulated limbs in actual Forge");capture("145-floss-world");AlienClient.get().emotes().request("orange_justice");next();return;
         case 70:
             require("orange_justice".equals(AlienClient.get().emotes().activeId()),"Orange Justice replaces active playback without removing player layers");capture("146-orange-justice-world");AlienClient.get().emotes().request("take_the_l");next();return;
         case 71:
@@ -436,7 +438,7 @@ public final class AlienUltimateSmoke {
             require(AlienClient.get().store().loadProfile("emotes_smoke")&&"take_the_l".equals(c().emotes.slots[0]),"Unified profile reload restores emote slots alongside existing cosmetics and HUD");
             m.displayGuiScreen(new EmoteStudioScreen(null));click(12);next();return;
         case 76:
-            click(26);require(!c().emotes.hideHeldItem,"Hide held item preference has a real profile-backed control");click(26);capture("152-emote-settings");
+            click(26);require(!c().emotes.hideHeldItem,"Hide held item preference has a real profile-backed control");click(26);click(27);require(!c().emotes.articulated,"Actual settings control disables articulation without removing dances");click(27);require(c().emotes.articulated,"Actual settings control restores jointed limbs");capture("152-emote-settings");
             c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new EmoteStudioScreen(null));
             robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
         case 77:
@@ -551,6 +553,33 @@ public final class AlienUltimateSmoke {
             AlienClient.get().emotes().stop();next();return;
         case 117:
             require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Reactive auras, previews and emotes leave clean OpenGL state and balanced render scopes");c().cosmetics.self.aura=false;AlienClient.get().save();
+            cloudRendererBefore=m.theWorld.provider.getCloudRenderer();cloudSettingBefore=m.gameSettings.clouds;c().world.cloudMode="Vanilla";m.gameSettings.thirdPersonView=0;m.thePlayer.rotationPitch=-35;c().scenes=new SceneConfig();c().scenes.enabled=true;c().scenes.sky="Realistic";c().scenes.strength=1;c().scenes.skySpeed=0;
+            c().world.enabled=true;c().world.timeOverride=true;c().world.visualHour=12;skyServerTime=serverPlayer().worldObj.getWorldTime();next();return;
+        case 118:
+            if(m.theWorld.provider.getCloudRenderer()==cloudRendererBefore&&elapsed(since)<15000)return;
+            require(SceneShaders.status().startsWith("Ready")&&SceneShaders.frames()>0,"Realistic atmosphere compiles and renders on actual GLSL 1.20");require(m.theWorld.provider.getCloudRenderer()!=cloudRendererBefore&&m.gameSettings.clouds==cloudSettingBefore,"Realistic sky suppresses block clouds through an owned render hook without changing user video settings");capture("171-realistic-day-clouds");c().world.visualHour=18;next();return;
+        case 119:
+            require(serverPlayer().worldObj.getWorldTime()==skyServerTime,"Local sunset changes the real shader without mutating integrated-server time");capture("172-realistic-sunset");c().world.visualHour=0;next();return;
+        case 120:
+            capture("173-realistic-night");c().world.visualHour=12;c().scenes.cloudCoverage=0;next();return;
+        case 121:
+            capture("174-realistic-clear");clearSky=ImageIO.read(new File(out,"screenshots/174-realistic-clear.png")).getRGB(100,80,1000,200,null,0,1000);c().scenes.cloudCoverage=1;next();return;
+        case 122:{
+            capture("175-realistic-overcast");int[] sky=ImageIO.read(new File(out,"screenshots/175-realistic-overcast.png")).getRGB(100,80,1000,200,null,0,1000);int changed=0;for(int i=0;i<sky.length;i++)if(sky[i]!=clearSky[i])changed++;
+            require(changed>20000,"Coverage zero versus one changes actual sky framebuffer pixels with cloud motion frozen");m.displayGuiScreen(new SceneSkyScreen(null));click(7);next();return;}
+        case 123:
+            require(m.currentScreen instanceof SkyPolishScreen,"Sky gallery Details opens the actual atmosphere editor");capture("176-sky-atmosphere-editor");
+            {GuiButton slider=button(3);call("mouseClicked",new Class[]{int.class,int.class,int.class},slider.xPosition+slider.width/2,slider.yPosition+slider.height/2,0);call("mouseReleased",new Class[]{int.class,int.class,int.class},slider.xPosition+slider.width/2,slider.yPosition+slider.height/2,0);}
+            require(c().scenes.cloudCoverage>.4&&c().scenes.cloudCoverage<.6,"Actual coverage slider edits the live profile-backed shader parameter");
+            AlienClient.get().store().saveProfile("polished_sky");c().scenes.cloudCoverage=0;require(AlienClient.get().store().loadProfile("polished_sky")&&c().scenes.cloudCoverage>.4,"Unified profile reload restores actual atmosphere controls");
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new SkyPolishScreen(null));robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 124:
+            require(button(8).yPosition+button(8).height<=m.currentScreen.height-38,"Native scrolling exposes the final atmosphere control at compact GUI scale");capture("177-sky-atmosphere-compact");click(8);require(c().scenes.cloudCoverage==.55f&&c().scenes.skySpeed==1,"Actual Reset restores atmosphere defaults");
+            c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(null);c().world.enabled=false;c().scenes.enabled=false;
+            next();return;
+        case 125:
+            require(m.theWorld.provider.getCloudRenderer()==cloudRendererBefore&&m.gameSettings.clouds==cloudSettingBefore,"Disabling the realistic sky restores the exact previous cloud renderer and video preference");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Polished sky, compact editor and jointed emotes leave balanced OpenGL state");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");

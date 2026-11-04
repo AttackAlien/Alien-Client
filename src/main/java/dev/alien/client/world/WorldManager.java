@@ -95,7 +95,9 @@ public final class WorldManager {
         if (replaceWeather && provider.getWeatherRenderer() != weather) {
             previousWeather = provider.getWeatherRenderer(); provider.setWeatherRenderer(weather);
         } else if (!replaceWeather && provider.getWeatherRenderer() == weather) provider.setWeatherRenderer(previousWeather);
-        boolean hideClouds = surface && settings.enabled && "Hidden".equals(settings.cloudMode);
+        dev.alien.client.scene.SceneConfig scene = AlienClient.get().config().scenes;
+        boolean atmosphereClouds = scene.enabled && "Realistic".equals(scene.sky) && dev.alien.client.scene.SceneShaders.ready();
+        boolean hideClouds = surface && (settings.enabled && "Hidden".equals(settings.cloudMode) || atmosphereClouds);
         if (hideClouds && provider.getCloudRenderer() != hiddenClouds) {
             previousClouds = provider.getCloudRenderer(); provider.setCloudRenderer(hiddenClouds);
         } else if (!hideClouds && provider.getCloudRenderer() == hiddenClouds) provider.setCloudRenderer(previousClouds);

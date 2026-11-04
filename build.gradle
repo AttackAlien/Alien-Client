@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.9.0-alpha.1'
+version = '0.10.0-alpha.1'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -189,6 +189,10 @@ afterEvaluate {
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.ultimate.smoke', 'true'
         systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/ultimate-smoke").absolutePath
+        if (project.hasProperty('polishOnly')) {
+            systemProperty 'alien.ultimate.polish.only', 'true'
+            systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/polish-smoke-local").absolutePath
+        }
         if (project.hasProperty('auraOnly')) {
             systemProperty 'alien.ultimate.auras.only', 'true'
             systemProperty 'alien.ultimate.smoke.output', file("${buildDir}/aura-smoke-local").absolutePath

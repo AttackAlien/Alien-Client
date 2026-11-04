@@ -165,7 +165,7 @@ public final class CosmeticManager {
                 if (a.charm) {
                     GlStateManager.pushMatrix();
                     try {
-                        renderer.getMainModel().bipedRightArm.postRender(.0625f); transform(a);
+                        renderer.getMainModel().bipedRightArm.postRender(.0625f); dev.alien.client.emote.EmoteManager.handBend(renderer.getMainModel(),.0625f); transform(a);
                         if (animated) GlStateManager.rotate((float)Math.sin(phase*.08f)*9,0,0,1);
                         CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }

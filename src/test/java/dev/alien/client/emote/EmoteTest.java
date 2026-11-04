@@ -64,4 +64,25 @@ public class EmoteTest {
         assertEquals("take_the_l",store.config().emotes.slots[0]);assertEquals(.75f,store.config().emotes.speed,0);assertEquals(47,store.config().emotes.wheelKey);assertFalse(store.config().emotes.hideHeldItem);
         assertEquals("Nebula",store.config().cosmetics.self.trailDesign.preset);assertTrue(store.config().hud.widgets.get("crosshair").enabled);
     }
+
+    @Test public void articulatedClassicsHaveFiniteMovingElbowsAndKneesWithoutLoopJumps(){
+        for(String id:Arrays.copyOf(EmoteLibrary.IDS,3)){
+            EmotePose a=new EmotePose(),b=new EmotePose();float[] min={9,9,9,9},max={-9,-9,-9,-9};
+            for(int t=0;t<400;t++){EmoteLibrary.sample(id,t*.01,a);for(int j=0;j<4;j++){assertTrue(Math.abs(a.bends[j])<1.6);min[j]=Math.min(min[j],a.bends[j]);max[j]=Math.max(max[j],a.bends[j]);}}
+            assertTrue(max[1]-min[1]>.05);assertTrue(max[2]-min[2]>.05);assertTrue(max[3]-min[3]>.05);
+            EmoteLibrary.sample(id,3.99999,a);EmoteLibrary.sample(id,.00001,b);assertArrayEquals(a.angles,b.angles,.001f);assertArrayEquals(a.bends,b.bends,.001f);
+        }
+    }
+    @Test public void jointBlendsAndStoppingPreserveTheCurrentPose(){
+        EmotePlayback p=new EmotePlayback();EmotePose a=new EmotePose(),b=new EmotePose();p.play("orange_justice",1,true);p.update(.25);p.sample(0,a);
+        p.play("take_the_l",1,true);p.sample(0,b);assertArrayEquals(a.bends,b.bends,0);p.update(.25);p.sample(0,a);p.stop();p.sample(0,b);assertArrayEquals(a.bends,b.bends,0);
+        p.update(.1);p.sample(0,b);for(int i=0;i<4;i++)assertEquals(a.bends[i]*.5f,b.bends[i],1e-6);p.update(.1);p.sample(0,b);assertArrayEquals(new float[4],b.bends,0);
+    }
+    @Test public void copiedJointsAreIndependentAndParticipateInPoseValidation(){
+        EmotePose a=new EmotePose(),b=new EmotePose();a.bends[0]=1;b.copy(a);a.clear();assertFalse(a.visible());assertTrue(b.visible());assertEquals(1,b.bends[0],0);
+        b.bends[3]=Float.NaN;assertFalse(b.finite());b.clear();assertTrue(b.finite());
+    }
+    @Test public void articulationPreferenceSurvivesRealProfileRoundTrip()throws Exception{
+        ConfigStore store=new ConfigStore(temp.newFolder());store.load();assertTrue(store.config().emotes.articulated);store.config().emotes.articulated=false;store.saveProfile("rig");store.resetDefaults();assertTrue(store.loadProfile("rig"));assertFalse(store.config().emotes.articulated);
+    }
 }

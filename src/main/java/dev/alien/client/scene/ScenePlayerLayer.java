@@ -36,8 +36,8 @@ public final class ScenePlayerLayer implements LayerRenderer<AbstractClientPlaye
             });
             part(model.bipedBody,scale,()->{bone(0,.2,0,0,10,0,.26*width);for(int rib=0;rib<5;rib++)for(int side:new int[]{-1,1}){double y=1.7+rib*1.35;bone(0,y,-.2,side*2.6,y+.4,-.65,.16*width);bone(side*2.6,y+.4,-.65,side*2.3,y+1.15,.1,.16*width);}ball(0,10,0,2,.65,1);});
             for(int side:new int[]{-1,1}){ModelRenderer arm=side<0?model.bipedRightArm:model.bipedLeftArm,leg=side<0?model.bipedRightLeg:model.bipedLeftLeg;
-                part(arm,scale,()->{double x=side;bone(x,0,0,x,5.3,0,.26*width);ball(x,5.3,0,.5,.5,.5);bone(x,5.3,0,x,10.5,0,.22*width);ball(x,10.5,0,.52,.6,.38);});
-                part(leg,scale,()->{bone(0,0,0,0,5.4,0,.32*width);ball(0,5.4,0,.55,.55,.55);bone(0,5.4,0,0,10.8,0,.28*width);ball(0,11.0,-.5,.6,.4,1.1);});}
+                part(arm,scale,()->{double x=side,bend=dev.alien.client.emote.EmoteManager.jointBend(arm),joint=Math.abs(bend)>.0001?4:5.3,y=joint+Math.cos(bend)*(10.5-joint),z=Math.sin(bend)*(10.5-joint);bone(x,0,0,x,joint,0,.26*width);ball(x,joint,0,.5,.5,.5);bone(x,joint,0,x,y,z,.22*width);ball(x,y,z,.52,.6,.38);});
+                part(leg,scale,()->{double bend=dev.alien.client.emote.EmoteManager.jointBend(leg),joint=Math.abs(bend)>.0001?6:5.4,y=joint+Math.cos(bend)*(10.8-joint),z=Math.sin(bend)*(10.8-joint);bone(0,0,0,0,joint,0,.32*width);ball(0,joint,0,.55,.55,.55);bone(0,joint,0,0,y,z,.28*width);ball(0,y+.2,z-.5,.6,.4,1.1);});}
         }}
     private static void part(ModelRenderer part,float scale,Runnable draw){GL11.glPushMatrix();try{part.postRender(scale);GL11.glScalef(scale,scale,scale);draw.run();}finally{GL11.glPopMatrix();}}
     private static void ball(double x,double y,double z,double rx,double ry,double rz){GL11.glPushMatrix();GL11.glTranslated(x,y,z);GL11.glScaled(rx,ry,rz);GL11.glCallList(sphere);GL11.glPopMatrix();}

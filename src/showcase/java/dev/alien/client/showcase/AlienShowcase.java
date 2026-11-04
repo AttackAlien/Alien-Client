@@ -3,6 +3,7 @@ package dev.alien.client.showcase;
 import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
+import dev.alien.client.emote.EmoteManager;
 import dev.alien.client.combat.*;
 import dev.alien.client.config.ClientConfig;
 import dev.alien.client.cosmetic.*;
@@ -35,8 +36,8 @@ import org.lwjgl.opengl.*;
 /** Test-only continuous actual-game film. Never included in the shipping client JAR. */
 @Mod(modid="alien_showcase",name="Alien local showcase fixture",version="1",clientSideOnly=true,dependencies="required-after:alienclient")
 public final class AlienShowcase {
-    private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu personalizado","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge"};
-    private static final double[] LENGTHS={8,8,8,8,6,8,12,12,4,6,7,7,9};
+    private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu realista e nuvens suaves","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge"};
+    private static final double[] LENGTHS={8,8,8,8,8,8,12,12,4,6,7,7,9};
     private Minecraft m;private File out;private Robot robot;private long started,warm,filmStart,chapterStart,lastFrame;private int chapter=-2,change=-1;private boolean launched,prepared,ready,finished,previewPrepared;
     private CosmeticStudioScreen studio;private EntityOtherPlayerMP target;
     private final List<Double> frameTimes=new ArrayList<Double>();private final List<String> checks=new ArrayList<String>();private final List<Map<String,Object>> chapters=new ArrayList<Map<String,Object>>();
@@ -75,21 +76,21 @@ public final class AlienShowcase {
         m.displayGuiScreen(null);release();m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=60;m.gameSettings.enableVsync=false;m.gameSettings.renderDistanceChunks=2;m.gameSettings.fancyGraphics=false;m.gameSettings.ambientOcclusion=0;m.gameSettings.clouds=0;m.gameSettings.useVbo=true;m.gameSettings.showInventoryAchievementHint=false;m.guiAchievement.clearAchievements();m.renderGlobal.loadRenderers();
         c().ui.blur=0;c().ui.menuScale=1;c().hud.applyPreset("Cinematic");c().performance.adaptiveEnabled=false;c().performance.maxParticles=128;c().performance.maxCosmetics=4;c().performance.preset="Balanced";
         c().world.enabled=false;c().cosmetics.enabled=true;a().enabled=true;a().hat="SAKURA";a().face="NONE";a().back="CAPE";a().color=0xAF8BEB;a().secondaryColor=0x60DCD1;a().capePattern="MOON";a().detailLevel="Balanced";a().animations=true;
-        a().aura=true;a().auraDesign.applyPreset("Arcane");a().trail=true;a().trailDesign.applyPreset("Nebula");c().scenes.enabled=true;c().scenes.sky="Galaxy";
+        a().aura=true;a().auraDesign.applyPreset("Arcane");a().trail=true;a().trailDesign.applyPreset("Nebula");c().scenes.enabled=true;c().scenes.sky="Realistic";
         server(()->{EntityPlayerMP p=player();p.worldObj.getGameRules().setOrCreateGameRule("doMobSpawning","false");p.worldObj.getGameRules().setOrCreateGameRule("doDaylightCycle","false");p.worldObj.setWorldTime(6000);p.setPositionAndUpdate(.5,4,.5);p.setHealth(20);p.getFoodStats().setFoodLevel(20);p.inventory.mainInventory[4]=new ItemStack(Items.bread,8);p.inventory.mainInventory[5]=new ItemStack(Items.potionitem,2,8197);p.inventory.mainInventory[6]=new ItemStack(Blocks.stone,64);p.inventoryContainer.detectAndSendChanges();for(Object e:new ArrayList<Object>(p.worldObj.loadedEntityList))if(e instanceof net.minecraft.entity.EntityLiving)((net.minecraft.entity.EntityLiving)e).setDead();});
         m.gameSettings.thirdPersonView=2;yaw(0);m.thePlayer.rotationPitch=5;
     }
     private void release(){robot.keyRelease(KeyEvent.VK_W);robot.keyRelease(KeyEvent.VK_D);robot.keyRelease(KeyEvent.VK_SHIFT);robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);KeyBinding.unPressAllKeys();}
     private void yaw(float value){m.thePlayer.rotationYaw=m.thePlayer.prevRotationYaw=m.thePlayer.rotationYawHead=m.thePlayer.prevRotationYawHead=m.thePlayer.renderYawOffset=m.thePlayer.prevRenderYawOffset=value;}
     private void enter(int next)throws Exception{
-        release();AlienClient.get().emotes().stop();c().combat.applyPreset("OFF");m.displayGuiScreen(null);a().aura=a().trail=false;c().effects.enabled=false;c().scenes.enabled=false;c().hud.enabled=false;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=5;
+        release();AlienClient.get().emotes().stop();c().combat.applyPreset("OFF");m.displayGuiScreen(null);a().aura=a().trail=false;c().effects.enabled=false;c().scenes.enabled=false;c().world.enabled=false;c().hud.enabled=false;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=5;
         chapter=next;change=-1;chapterStart=System.nanoTime();if(filmStart!=0)chapters.add(map("title",TITLES[next],"startSeconds",seconds(filmStart),"plannedSeconds",LENGTHS[next]));System.out.println("ALIEN_SHOWCASE "+TITLES[next]);
         switch(next){
         case 0:a().hat="NONE";a().back="CAPE";studio=new CosmeticStudioScreen(null);m.displayGuiScreen(studio);studio.setPreviewYaw(160);studio.setPreviewZoom(1.12f);break;
         case 1:a().back="NONE";a().hat="SAKURA";studio=new CosmeticStudioScreen(null);m.displayGuiScreen(studio);studio.setPreviewZoom(1.2f);break;
         case 2:a().back="CAPE";a().hat="SAKURA";a().trail=true;a().trailStyle="Ribbon";a().trailDesign.applyPreset("Nebula");yaw(0);robot.keyPress(KeyEvent.VK_W);break;
         case 3:a().back="NONE";ParticlePresets.apply(c().effects,"Sakura");c().effects.budget=40;break;
-        case 4:c().scenes.enabled=true;c().scenes.sky="Galaxy";m.thePlayer.rotationPitch=-32;m.gameSettings.thirdPersonView=1;break;
+        case 4:c().world.enabled=true;c().world.timeOverride=true;c().world.visualHour=12;c().scenes.enabled=true;c().scenes.sky="Realistic";m.thePlayer.rotationPitch=-32;m.gameSettings.thirdPersonView=1;break;
         case 5:
             c().hud.applyPreset("PvP");c().hud.theme="Cyan";m.gameSettings.thirdPersonView=0;yaw(0);m.thePlayer.rotationPitch=0;dummy();
             server(()->{EntityPlayerMP p=player();p.inventory.armorInventory[3]=new ItemStack(Items.diamond_helmet,1,70);p.inventory.armorInventory[2]=new ItemStack(Items.diamond_chestplate,1,80);p.inventory.armorInventory[1]=new ItemStack(Items.diamond_leggings,1,150);p.inventory.armorInventory[0]=new ItemStack(Items.diamond_boots,1,100);p.inventoryContainer.detectAndSendChanges();});break;
@@ -116,7 +117,7 @@ public final class AlienShowcase {
         else if(chapter==1){studio.setPreviewYaw((float)(-35+t*8));int part=Math.min(2,(int)(t/2.7));if(part!=change){a().hat=new String[]{"SAKURA","CROWN","SAMURAI"}[part];change=part;}}
         else if(chapter==2)yaw((float)(t*32));
         else if(chapter==3)yaw((float)(-20+t*5));
-        else if(chapter==4){yaw((float)(t*8));m.thePlayer.rotationPitch=(float)(-28-t*4);}
+        else if(chapter==4){yaw((float)(t*8));m.thePlayer.rotationPitch=(float)(-28-t*3);}
         else if(chapter==5){if(t>2&&change<0){target.setHealth(8);change=0;}UltimateHud.observe(target);}
         else if(chapter==6){int part=Math.min(2,(int)(t/4));if(part!=change){AlienClient.get().emotes().request(new String[]{"floss","orange_justice","take_the_l"}[part]);change=part;}}
         else if(chapter==7){int part=Math.min(2,(int)(t/4));if(part!=change){if(part==1){release();a().auraDesign.applyPreset("Celestial");AlienClient.get().emotes().request("floss");}else if(part==2){AlienClient.get().emotes().stop();a().auraDesign.applyPreset("Arcane");server(()->player().worldObj.setWorldTime(18000));}change=part;}
@@ -128,7 +129,7 @@ public final class AlienShowcase {
     private float aimError(){float[] targetAngles=CombatMath.lookAt(m.thePlayer.posX,m.thePlayer.posY+m.thePlayer.getEyeHeight(),m.thePlayer.posZ,target.posX,target.posY+target.getEyeHeight(),target.posZ);return CombatMath.angularDistance(m.thePlayer.rotationYaw,m.thePlayer.rotationPitch,targetAngles[0],targetAngles[1]);}
     private void validateChapter(){
         if(chapter==2)check(CosmeticManager.texturedRibbonSegments()>0,"Actual native movement renders designed ribbon geometry");
-        if(chapter==6)check(AlienClient.get().emotes().posedFrames()>0,"Emotes reach actual body model rendering");
+        if(chapter==6)check(AlienClient.get().emotes().posedFrames()>0&&EmoteManager.articulatedDraws()>0,"Emotes reach actual articulated body model rendering");
         if(chapter==7){check(movementSeen&&emoteSeen&&nightSeen,"Aura film records actual movement, emote and midnight responses");check(ReactiveAuras.drawnUnits()>0,"Aura geometry reaches the actual world framebuffer");}
         if(chapter==9)check(aimStart>20&&aimSeen,"Aimbot actually moves the camera from an offset to the visible practice target");
         if(chapter==10)check(FullToolsManager.foodsStarted()>foods&&player().getFoodStats().getFoodLevel()>foodStart,"Auto Food uses real bread and increases integrated-server hunger");
