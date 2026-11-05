@@ -1,0 +1,13 @@
+{
+  "clientVersion": "0.13.0-alpha.1",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "repository": "AttackAlien/Alien-Client",
+  "sourceCommit": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "workflow": ".github/workflows/unified-client-ci.yml",
+  "runId": "42071260924",
+  "artifact": "alien-unified-42071260924",
+  "jar": "AlienClient-Unified-1.8.9.jar",
+  "sha256": "330507dcbfa4108e73e193b308a7a820e0202a63cdf160d827b87c28b067a3b3",
+  "status": "Ghost elimination animation stacked on PR #29; not merged into main"
+}

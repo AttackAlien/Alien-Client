@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+cd /workspace/Alien-Client-ghost
+rm -f build/unified/ghost-smoke/minecraft-console.log
+bash /tmp/alien-ghost-video-game.sh > /tmp/alien-ghost-video-game.txt 2>&1 &
+gamepid=$!
+for i in {1..450}; do
+ if rg -q 'ALIEN_GHOST_STAGE 2$' build/unified/ghost-smoke/minecraft-console.log 2>/dev/null; then break; fi
+ if ! kill -0 "$gamepid" 2>/dev/null; then wait "$gamepid"; exit 1; fi
+ sleep .2
+done
+ffmpeg -nostdin -y -loglevel warning -f x11grab -framerate 30 -video_size 960x540 -i :126.0+0,0 -an -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p /tmp/alien-ghost-world.mp4 > /tmp/alien-ghost-record-ffmpeg.txt 2>&1 &
+recordpid=$!
+trap 'kill -INT "$recordpid" 2>/dev/null || true' EXIT
+for i in {1..350}; do
+ if rg -q 'ALIEN_GHOST_STAGE 16$' build/unified/ghost-smoke/minecraft-console.log; then break; fi
+ if ! kill -0 "$gamepid" 2>/dev/null; then break; fi
+ sleep .2
+done
+kill -INT "$recordpid" 2>/dev/null || true
+wait "$recordpid" || true
+wait "$gamepid"

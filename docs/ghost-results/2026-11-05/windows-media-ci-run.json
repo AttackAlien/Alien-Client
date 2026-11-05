@@ -1,0 +1,8 @@
+{
+  "id": 42073487136,
+  "head_sha": "4c75d2ec052f8c3ec6f419cdbc66600db9e3edd3",
+  "html_url": "https://github.com/AttackAlien/Alien-Client/actions/runs/42073487136",
+  "status": "completed",
+  "conclusion": "success",
+  "path": ".github/workflows/now-playing-ci.yml"
+}

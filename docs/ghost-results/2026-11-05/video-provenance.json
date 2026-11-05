@@ -1,0 +1,19 @@
+{
+  "codeSource": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "transport": "Continuous original X11 video of actual Forge 1.8.9. Real sword kills of labeled integrated-server test zombies; studio previews are labeled.",
+  "sha256": "23e6fe213cc865fd5d6199944f3ab6212c638c47a2164c8537bfb7effc798a56",
+  "bytes": 443548,
+  "sourceObjects": {
+    "src/main": "7f8971be7f08fdb7ba26207faee7f7e5124a6de1",
+    "src/ghostSmoke": "abe4db0bdc98e9ffb239f75280b946a30f4bbaab",
+    "build.gradle": "f3171f09745574475911a21f79e9c388424411cb"
+  },
+  "commands": [
+    "bash /tmp/alien-ghost-video-game.sh",
+    "./gradlew --offline --no-daemon -Pedition=unified -PghostVideo runGhostSmokeClient",
+    "ffmpeg -f x11grab -framerate 30 -video_size 960x540 -i :126.0+0,0 -an -c:v libx264 -preset veryfast -crf 20 -pix_fmt yuv420p /tmp/alien-ghost-world.mp4"
+  ],
+  "noInterpolation": true,
+  "noAcceleration": true,
+  "noAudio": true
+}

@@ -26,19 +26,19 @@ O teste nativo passou em **Windows 11 ARM64, build 26200**, no runner público `
 
 ## Imagens e vídeo
 
-A [galeria atual](../captures/README.md) contém **379 PNGs novos do jogo**, que substituem os anteriores, e seis novas capturas nativas do launcher. São arquivos originais da execução aprovada. [Manifesto e limites](../captures/atual/unified/validation.json) · [Hashes do jogo](../captures/atual/unified/SHA256SUMS.txt) · [Manifesto do launcher](../captures/launcher-atual/manifest.json).
+A [galeria atual](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/README.md) contém **379 PNGs novos do jogo**, que substituem os anteriores, e seis novas capturas nativas do launcher. São arquivos originais da execução aprovada. [Manifesto e limites](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/atual/unified/validation.json) · [Hashes do jogo](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/atual/unified/SHA256SUMS.txt) · [Manifesto do launcher](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/launcher-atual/manifest.json).
 
 [Equivalência das árvores de código](now-playing-results/2026-11-05/source-equivalence.json). A publicação final acrescenta somente mídia, downloads e documentação às fontes testadas.
 
 As onze imagens de música foram renderizadas no Minecraft com uma **fonte sintética de metadados**, identificada no HUD. Elas comprovam a interface e o transporte local, sem representar uma sessão Spotify/YouTube. O teste Windows usa o publicador OS de diagnóstico separado, com [recibo](now-playing-results/2026-11-05/windows-media-result.txt) e [snapshot real recebido](now-playing-results/2026-11-05/windows-media-playing.json).
 
-O [vídeo atual](../captures/video-atual/README.md) é uma gravação contínua de 26,07s da janela real do Forge, com a mesma fonte sintética. Sem áudio, aceleração ou interpolação. [Proveniência](now-playing-results/2026-11-05/video-provenance.json), SHA-256 `97221a09612941fc695d0a42c4e7c7312171d37281a0d0605684a65030ad3778`. A mídia anterior foi retirada das pastas atuais e permanece no histórico Git.
+O [vídeo atual](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/video-atual/README.md) é uma gravação contínua de 26,07s da janela real do Forge, com a mesma fonte sintética. Sem áudio, aceleração ou interpolação. [Proveniência](now-playing-results/2026-11-05/video-provenance.json), SHA-256 `97221a09612941fc695d0a42c4e7c7312171d37281a0d0605684a65030ad3778`. A mídia anterior foi retirada das pastas atuais e permanece no histórico Git.
 
 ## Limites
 
 - Spotify desktop e YouTube no navegador **ainda não foram testados com esses aplicativos reais**. O suporte depende de o aplicativo publicar metadados ao Windows. Navegadores são identificados pelo nome do aplicativo, sem adivinhar o site da aba.
 - Não houve teste de gameplay em um Windows pessoal, GPU física, autenticação Microsoft interativa ou multiplayer externo. O launcher x64 foi testado nativamente em Windows Server; a ponte SMTC foi exercitada em Windows 11 ARM64. Não houve validação direta em Windows 10.
-- A execução gráfica é Linux/Xorg/Mesa por software, com mundo integrado descartável. Estes checks não são um benchmark de hardware pessoal. Os logs originais incluem exceções de tarefas de chunks em trocas/encerramento dos mundos dos testes; as contagens foram preservadas em [known-log-errors.txt](../captures/atual/unified/known-log-errors.txt), sem tratá-las como contagem de crashes.
+- A execução gráfica é Linux/Xorg/Mesa por software, com mundo integrado descartável. Estes checks não são um benchmark de hardware pessoal. Os logs originais incluem exceções de tarefas de chunks em trocas/encerramento dos mundos dos testes; as contagens foram preservadas em [known-log-errors.txt](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/atual/unified/known-log-errors.txt), sem tratá-las como contagem de crashes.
 - A funcionalidade desta rodada é um HUD de leitura e personalização. Controles de reprodução, letras e análise do áudio não fazem parte da implementação.
 
 ## Reproduzir

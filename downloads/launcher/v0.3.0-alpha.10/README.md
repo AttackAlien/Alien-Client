@@ -1,6 +1,7 @@
 # Launcher 0.3.0-alpha.10 — Now Playing
 
-**[Baixar Windows x64 — 75.29 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/now-playing-hud-20261105/downloads/launcher/v0.3.0-alpha.10/AlienLauncher-Windows-x64-0.3.0-alpha.10.zip)** · [Capturas reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/NOW-PLAYING-VALIDATION.md) · [Hashes](SHA256SUMS.txt).
+Candidato anterior ao Fantasma Neon. Use o [launcher 0.3.0-alpha.11](../v0.3.0-alpha.11/README.md) para o efeito de eliminação.
+**[Baixar Windows x64 — 75.29 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/now-playing-hud-20261105/downloads/launcher/v0.3.0-alpha.10/AlienLauncher-Windows-x64-0.3.0-alpha.10.zip)** · [Capturas reais](https://github.com/AttackAlien/Alien-Client/blob/1d39ccde24ca84c168198d5ffc1dfca3d63b1c9b/captures/launcher-atual/README.md) · [Validação](../../../docs/NOW-PLAYING-VALIDATION.md) · [Hashes](SHA256SUMS.txt).
 
 Inclui Unified 0.12.0-alpha.1 e a ponte local de metadados do Windows. Extraia o ZIP inteiro e mantenha `payload` ao lado de `AlienLauncher.exe`. Em Windows 10 1809+/11 x64, instale/repare o perfil Alien 1.8.9 e conecte sua conta Microsoft com Minecraft Java.
 

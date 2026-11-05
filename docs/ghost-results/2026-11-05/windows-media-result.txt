@@ -1,0 +1,11 @@
+PASS 9 checks
+Microsoft Windows 10.0.26200; real OS SMTC diagnostic publisher. No Spotify or YouTube account tested.
+PASS Actual native bridge reads metadata from a real local Windows SMTC publisher
+PASS Diagnostic publisher is never identified as Spotify
+PASS Actual OS artwork arrives with matching checksum
+PASS Actual OS diagnostic timeline supplies duration
+PASS Unavailable OS timeline does not invent zero elapsed time or progress
+PASS Paused native timeline stays fixed between bridge polls
+PASS Stopped OS session clears listening metadata
+PASS Bridge exits when the game owner process ends
+PASS Owner exit removes temporary listening metadata

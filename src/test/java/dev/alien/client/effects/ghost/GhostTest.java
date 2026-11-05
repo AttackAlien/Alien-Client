@@ -1,0 +1,26 @@
+package dev.alien.client.effects.ghost;
+import com.google.gson.Gson;
+import dev.alien.client.config.*;
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
+import java.util.UUID;
+import static org.junit.Assert.*;
+public class GhostTest {
+ @Rule public TemporaryFolder temp=new TemporaryFolder();
+ @Test public void oldProfilesLeaveGhostOffAndPreserveMusic(){ClientConfig c=new Gson().fromJson("{\"killEffects\":null,\"hud\":{\"music\":{\"style\":\"Card\"}}}",ClientConfig.class);c.normalize();assertFalse(c.killEffects.enabled);assertEquals("Card",c.hud.music.style);assertEquals(16,c.hud.widgets.size());}
+ @Test public void invalidImportedGeometryAndBudgetsAreBounded(){GhostConfig c=new GhostConfig();c.duration=Float.NaN;c.height=Float.POSITIVE_INFINITY;c.size=-1;c.maxGhosts=999;c.opacity=99;c.normalize();assertEquals(2.6f,c.duration,0);assertEquals(2.2f,c.height,0);assertEquals(.5f,c.size,0);assertEquals(6,c.maxGhosts);assertEquals(1,c.opacity,0);}
+ @Test public void captureIsAnIndependentDesignSnapshot(){GhostConfig c=new GhostConfig(),copy=c.copy();c.color=0;assertNotEquals(c.color,copy.color);assertEquals(c.duration,copy.duration,0);}
+ @Test public void profileRoundTripPreservesGhostMusicAndCosmetics()throws Exception{ConfigStore s=new ConfigStore(temp.newFolder());s.load();s.config().killEffects.enabled=true;s.config().killEffects.preset("Spectral");s.config().killEffects.duration=3.7f;s.config().hud.music.style="Transparent";s.config().cosmetics.self.hat="SAMURAI";s.saveProfile("ghost");s.resetDefaults();assertTrue(s.loadProfile("ghost"));assertTrue(s.config().killEffects.enabled);assertEquals(3.7f,s.config().killEffects.duration,0);assertEquals("Transparent",s.config().hud.music.style);assertEquals("SAMURAI",s.config().cosmetics.self.hat);}
+ @Test public void paletteOnlyChangesItsOwnVisualFields(){GhostConfig c=new GhostConfig();c.duration=4;c.enabled=false;c.preset("Rose");assertEquals(0xEC91D8,c.color);assertEquals(4,c.duration,0);assertFalse(c.enabled);}
+ @Test public void liftStartsAndStopsWithoutAPositionJump(){assertEquals(0,GhostMotion.lift(0,2),0);assertEquals(2,GhostMotion.lift(1,2),0);assertTrue(GhostMotion.lift(.081f,2)<.00001);assertTrue(2-GhostMotion.lift(.969f,2)<.00001);}
+ @Test public void animationIsIndependentOfFrameRate(){float a=0,b=0;for(int i=0;i<30;i++)a=(i+1)/30f;for(int i=0;i<144;i++)b=(i+1)/144f;assertEquals(GhostMotion.lift(a/2.6f,2.2f),GhostMotion.lift(b/2.6f,2.2f),0);assertEquals(GhostMotion.sway(a,a/2.6f,false),GhostMotion.sway(b,b/2.6f,false),0);}
+ @Test public void fadeIsZeroAtBothEndsAndDissolvesSmoothly(){assertEquals(0,GhostMotion.alpha(0),0);assertEquals(0,GhostMotion.alpha(1),0);assertEquals(0,GhostMotion.dissolve(.59f),0);assertEquals(1,GhostMotion.dissolve(1),0);assertTrue(GhostMotion.dissolve(.8f)>0);}
+ @Test public void allChoreographyValuesAreFiniteAndBounded(){for(int i=0;i<=1000;i++){float p=i/1000f,age=p*4.5f;assertTrue(Float.isFinite(GhostMotion.cloth(1,p,age,false)));assertTrue(Math.abs(GhostMotion.sway(age,p,false))<=.111);assertTrue(GhostMotion.alpha(p)>=0&&GhostMotion.alpha(p)<=1);}}
+ @Test public void calmModeActuallyReducesMotion(){float t=.7f,p=.4f;assertTrue(Math.abs(GhostMotion.sway(t,p,true))<Math.abs(GhostMotion.sway(t,p,false)));assertTrue(Math.abs(GhostMotion.roll(t,p,true))<Math.abs(GhostMotion.roll(t,p,false)));}
+ @Test public void attackSelfEnvironmentalAndOtherKillersDoNotQualify(){UUID local=UUID.randomUUID(),victim=UUID.randomUUID();assertTrue(GhostLedger.localKill(local,local,victim));assertFalse(GhostLedger.localKill(local,null,victim));assertFalse(GhostLedger.localKill(local,local,local));assertFalse(GhostLedger.localKill(local,UUID.randomUUID(),victim));}
+ @Test public void protocol189MobIdentityDoesNotRequireAnUnsynchronizedUuid(){UUID a=UUID.randomUUID(),b=UUID.randomUUID();assertTrue(GhostLedger.trackedIdentity(false,a,b,String.class,String.class));assertFalse(GhostLedger.trackedIdentity(true,a,b,String.class,String.class));assertTrue(GhostLedger.trackedIdentity(true,a,a,Object.class,String.class));assertFalse(GhostLedger.trackedIdentity(false,a,b,String.class,Integer.class));}
+ @Test public void duplicateConfirmationDoesNotCreateTwoSpirits(){GhostLedger l=new GhostLedger();UUID id=UUID.randomUUID();assertTrue(l.accept(id,1));assertFalse(l.accept(id,2));assertTrue(l.accept(id,202));}
+ @Test public void respawnWorldChangeCanReuseAnIdentity(){GhostLedger l=new GhostLedger();UUID id=UUID.randomUUID();assertTrue(l.accept(id,1));l.clear();assertTrue(l.accept(id,2));}
+ @Test public void onlyExactVanillaKillerArgumentsAreAccepted(){assertTrue(GhostLedger.deathTranslation("death.attack.player","§dAlice","Alice","[A] Alice"));assertTrue(GhostLedger.deathTranslation("death.attack.arrow.item","[A] Alice","Alice","[A] Alice"));assertFalse(GhostLedger.deathTranslation("death.attack.player","Alice2","Alice","[A] Alice"));}
+ @Test public void ordinaryPlayerChatAndUnknownServerFormatsAreNeverKillProof(){assertFalse(GhostLedger.deathTranslation("chat.type.text","Alice","Alice","Alice"));assertFalse(GhostLedger.deathTranslation("death.attack.unknownFake","Alice","Alice","Alice"));assertFalse(GhostLedger.deathTranslation("multiplayer.player.left","Alice","Alice","Alice"));}
+}

@@ -239,7 +239,7 @@ PASS Real framebuffer capture emote-motion-45
 PASS Real framebuffer capture emote-motion-46
 PASS Real framebuffer capture emote-motion-47
 PASS Actual previews and all three classic movies restore clean OpenGL and render scope
-PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1333 before=1276 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
+PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1336 before=1282 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
 PASS Real framebuffer capture 154-emote-glass-world
 PASS Skeleton material and skeleton overlay keep using the animated body rig
 PASS Real framebuffer capture 155-emote-skeleton-world

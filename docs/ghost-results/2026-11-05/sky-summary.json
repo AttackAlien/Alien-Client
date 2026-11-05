@@ -1,0 +1,24 @@
+{
+  "runId": "42071260948",
+  "source": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "results": {
+    "legit": {
+      "junit": {
+        "tests": 284,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "graphics": 37
+    },
+    "full": {
+      "junit": {
+        "tests": 284,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "graphics": 37
+    }
+  }
+}

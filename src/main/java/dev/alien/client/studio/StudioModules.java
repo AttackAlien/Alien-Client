@@ -5,6 +5,7 @@ public final class StudioModules {
     public static final class Entry {public final String id,title,category,description;private final BooleanSupplier get;private final Consumer<Boolean> set;Entry(String id,String title,String cat,String desc,BooleanSupplier g,Consumer<Boolean> s){this.id=id;this.title=title;category=cat;description=desc;get=g;set=s;}public boolean enabled(){return get.getAsBoolean();}public void toggle(){set.accept(!enabled());}}
     private static void add(List<Entry> l,String id,String title,String cat,String d,BooleanSupplier g,Consumer<Boolean> s){l.add(new Entry(id,title,cat,d,g,s));}
     public static List<Entry> entries(ClientConfig c,ModuleManager manager){List<Entry> l=new ArrayList<Entry>();if(manager!=null)for(ModuleDescriptor m:manager.modules())add(l,m.id(),m.name(),m.category()==ModuleCategory.COMBAT?"Combat":"Render",m.description(),m::enabled,m::setEnabled);
+        add(l,"ghost_elimination","Ghost Elimination","Render","Rounded neon spirit on confirmed eliminations; configurable local animation.",()->c.killEffects.enabled,v->c.killEffects.enabled=v);
         SceneConfig s=c.scenes;
         add(l,"scene_sky","Living Sky","Render","Animated procedural skies and palettes.",()->s.enabled&&s.skyIndex()>0,v->{s.sky=v?"Galaxy":"Off";if(v)s.enabled=true;});
         add(l,"ambience","Ambience","Render","Existing bounded ambient particles.",()->c.effects.enabled&&c.effects.ambient,v->{c.effects.ambient=v;if(v)c.effects.enabled=true;});

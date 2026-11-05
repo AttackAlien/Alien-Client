@@ -1,8 +1,6 @@
-# Launcher atual — 0.3.0-alpha.10 / Unified 0.12
+# Launcher atual — 0.3.0-alpha.11 / Unified 0.13
 
-Seis imagens novas da janela real do launcher no Windows x64 substituem as anteriores. [CI aprovado 42053831389](https://github.com/AttackAlien/Alien-Client/actions/runs/42053831389). Captura por CopyFromScreen/PrintWindow, conforme [registro original](windows-captures.json), com [manifesto e hashes](manifest.json).
-
-[Baixar o candidato](../../downloads/launcher/v0.3.0-alpha.10/README.md) · [Guia de música](../../docs/NOW-PLAYING.md) · [Resultados e limites](../../docs/NOW-PLAYING-VALIDATION.md).
+Seis imagens novas da janela real no Windows x64 substituem as anteriores. [CI 42073487220](https://github.com/AttackAlien/Alien-Client/actions/runs/42073487220) aprovado. [Registro original de captura](windows-captures.json) · [Manifesto e hashes](manifest.json) · [Baixar candidato](../../downloads/launcher/v0.3.0-alpha.11/README.md).
 
 ![Janela nativa / 05-launcher-restored-vanilla.png](05-launcher-restored-vanilla.png)
 

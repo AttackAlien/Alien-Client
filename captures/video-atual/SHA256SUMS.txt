@@ -1,2 +1,2 @@
-97221a09612941fc695d0a42c4e7c7312171d37281a0d0605684a65030ad3778  Alien-Client-0.12-now-playing-fixture.mp4
-574af22fb34d4f305c3d83a41a1fcbd440fdd8776f9a33ed14dcdddc8fcf994a  preview-do-video.png
+23e6fe213cc865fd5d6199944f3ab6212c638c47a2164c8537bfb7effc798a56  Alien-Client-0.13-fantasma-eliminacao.mp4
+beb2ed6bc9b9c83a995de0eb8aab76e65b3559ed237b4b54a4c295aa4c7b31ae  preview-do-video.png

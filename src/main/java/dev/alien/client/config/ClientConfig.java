@@ -16,6 +16,7 @@ import dev.alien.client.gui.InterfacePreferences;
 public final class ClientConfig {
     public dev.alien.client.emote.EmoteConfig emotes = new dev.alien.client.emote.EmoteConfig();
     public dev.alien.client.studio.StudioConfig studio = new dev.alien.client.studio.StudioConfig();
+    public dev.alien.client.effects.ghost.GhostConfig killEffects = new dev.alien.client.effects.ghost.GhostConfig();
     public int version = 1;
     public boolean menuReplacement = true;
     public boolean animations = true;
@@ -40,6 +41,7 @@ public final class ClientConfig {
     public dev.alien.client.scene.SceneConfig scenes = new dev.alien.client.scene.SceneConfig();
 
     public void normalize() {
+        if(killEffects==null)killEffects=new dev.alien.client.effects.ghost.GhostConfig();killEffects.normalize();
         if (emotes == null) emotes = new dev.alien.client.emote.EmoteConfig();
         emotes.normalize();
         if (version != 1) throw new IllegalArgumentException("Unsupported config version: " + version);

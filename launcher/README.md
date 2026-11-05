@@ -1,12 +1,12 @@
-# Alien Launcher 0.3.0-alpha.10 — Windows x64
+# Alien Launcher 0.3.0-alpha.11 — Windows x64
 
-Launcher experimental para **Alien Client Unified 0.12.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Adiciona Now Playing do PR #29 e inclui Mascot Studio do PR #28 com os modelos prontos Alien (Quaternius, CC0) e Tung Tung Sahur (CalinnHotCake, CC BY 3.0), preservando danças articuladas, céu Realistic e os recursos Unified. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
+Launcher experimental para **Alien Client Unified 0.13.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Adiciona Now Playing do PR #29 e inclui Mascot Studio do PR #28 com os modelos prontos Alien (Quaternius, CC0) e Tung Tung Sahur (CalinnHotCake, CC BY 3.0), preservando danças articuladas, céu Realistic e os recursos Unified. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
 
 Interface 0.3: navegação lateral, painel visual com cenário real do client, seletor de perfis escuro, configurações separadas e controle de RAM por mouse/teclado. O núcleo de instalação e autenticação foi preservado.
 
 ## Usar
 
-1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.10.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
+1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.11.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
 2. Abra `AlienLauncher.exe` em Windows 10 1809+/11 x64. O .NET está incluído no pacote.
 3. Escolha Alien ou um perfil Vanilla. **Instalar / Reparar** baixa/verifica arquivos oficiais; não requer mover JAR manualmente.
 4. Use **Entrar com Microsoft** e uma conta que possua Minecraft Java. A senha é inserida somente na janela Microsoft. O login requer Microsoft Edge WebView2 Runtime.
@@ -17,7 +17,7 @@ Interface 0.3: navegação lateral, painel visual com cenário real do client, s
 
 - Instâncias, contas e configurações ficam em `%LOCALAPPDATA%\AlienLauncher`. A `.minecraft` original não é usada para o cache de contas.
 - Alien usa `instances/unified-1.8.9`; Vanilla usa `instances/vanilla-<versão>`. Não há injeção do JAR Alien em versões modernas.
-- O pacote fixa o JAR do CI aprovado **42051508518**, fonte **28053d5**, client **0.12.0-alpha.1**, SHA-256 `d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf`. O manifesto local não pode escolher outro hash arbitrário.
+- O pacote fixa o JAR do CI aprovado **42071260924**, fonte **116ed2b**, client **0.13.0-alpha.1**, SHA-256 `330507dcbfa4108e73e193b308a7a820e0202a63cdf160d827b87c28b067a3b3`. O manifesto local não pode escolher outro hash arbitrário.
 - A cópia exata desse JAR, seu checksum e o recibo original do CI ficam em `launcher/payload`, para reconstruir o launcher mesmo depois que o artifact temporário do GitHub expirar. `dotnet publish` copia o payload para o diretório final.
 - Atualizar preserva saves, configurações e outros mods. JARs antigos que declaram o modid `alienclient` são movidos para `alien-backups`, incluindo cópias em `mods/1.8.9`; a cópia nova é validada antes de substituir. Falhas restauram arquivos já movidos.
 - Java é instalado pela biblioteca e **sua versão real é consultada antes de executar**. Alien exige Java 8; versões Vanilla usam o requisito do metadado oficial. O seletor de Java 8 permite escolher outro executável compatível, sem afetar os perfis Java 17/21.
@@ -64,6 +64,12 @@ Modelos e créditos: [Alien / Quaternius / CC0](https://poly.pizza/m/HYUUkdugoP)
 
 ## Now Playing no HUD
 
-O launcher candidato 0.3.0-alpha.10 oferece uma ponte local de metadados para o HUD de música do Unified 0.12. Abra **HUD Studio Ultimate → Now Playing → Toggle**, entre em um mundo e reproduza mídia no Spotify ou em um navegador compatível. **Options** permite escolher Compact/Card/Transparent, capa, artista, tempo, progresso e fonte. Posição, escala, opacidade e destaque usam o editor existente.
+O launcher candidato 0.3.0-alpha.11 oferece uma ponte local de metadados para o HUD de música do Unified 0.12. Abra **HUD Studio Ultimate → Now Playing → Toggle**, entre em um mundo e reproduza mídia no Spotify ou em um navegador compatível. **Options** permite escolher Compact/Card/Transparent, capa, artista, tempo, progresso e fonte. Posição, escala, opacidade e destaque usam o editor existente.
 
 A ponte requer Windows 10 1809+/11. Inicia somente ao ativar/pré-visualizar o widget e encerra ao desligá-lo ou fechar o jogo. Consulta Windows SMTC, sem login de Spotify, captura de áudio ou transmissão de metadados. Não identifica automaticamente o site de uma aba: o HUD mantém nomes como Chrome ou Edge. [Guia e limites](../docs/NOW-PLAYING.md) · [Validação](../docs/NOW-PLAYING-VALIDATION.md).
+
+## Fantasma de eliminação
+
+O candidato Unified 0.13 inclui **Ghost Elimination**, uma animação 3D original com desprendimento, subida suave, tecido ondulante, olhos, rastros e dissolução. Abra **Effects Studio → Ghost Elimination** para ativar, escolher cores e ajustar duração, altura, tamanho, opacidade, brilho, partículas e movimento suave. As preferências ficam nos perfis Unified.
+
+A prévia é identificada e não conta como kill. Em mundo integrado, a autoria vem do servidor local; em multiplayer, depende das mensagens de morte vanilla reconhecidas. Feeds personalizados em texto não são interpretados. [Guia](../docs/GHOST-ELIMINATION.md).

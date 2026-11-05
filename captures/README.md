@@ -1,8 +1,24 @@
-# Capturas atuais — Now Playing / Unified 0.12.0-alpha.1
+# Capturas atuais — Fantasma Neon / Unified 0.13.0-alpha.1
 
-**379 PNGs novos do jogo e seis do launcher** substituem a galeria anterior. Arquivos originais da execução real de Minecraft Forge 1.8.9 e da janela nativa do launcher, sem retoques. **268 JUnit, 923 checks gráficos e 13 testes de empacotamento aprovados.** [CI 42051508518](https://github.com/AttackAlien/Alien-Client/actions/runs/42051508518).
+**407 PNGs do jogo e seis imagens nativas do launcher** capturados novamente, substituindo a galeria anterior. Arquivos originais do Forge e do aplicativo Windows, sem retoques. **284 JUnit, 1000 checks gráficos e 14 testes de empacotamento aprovados.** [CI 42071260924](https://github.com/AttackAlien/Alien-Client/actions/runs/42071260924).
 
-[Guia de música](../docs/NOW-PLAYING.md) · [Resultados e limites](../docs/NOW-PLAYING-VALIDATION.md) · [Vídeo atual](video-atual/README.md) · [Client 0.12](../downloads/v0.12.0-alpha.1/README.md) · [Launcher 0.3 alpha.10](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #29](https://github.com/AttackAlien/Alien-Client/pull/29).
+[Como usar](../docs/GHOST-ELIMINATION.md) · [Resultados e limites](../docs/GHOST-ELIMINATION-VALIDATION.md) · [Vídeo atual](video-atual/README.md) · [Launcher candidato](../downloads/launcher/v0.3.0-alpha.11/README.md) · [PR #30](https://github.com/AttackAlien/Alien-Client/pull/30).
+
+## Fantasma após uma eliminação real
+
+![Fantasma surgindo após um golpe real de espada no alvo de teste](atual/unified/ghost/03-ghost-ascending.png)
+
+O alvo é um zumbi identificado de teste, morto de fato no servidor integrado. [Antes da morte](atual/unified/ghost/01-ghost-target-alive.png) · [Desprendimento](atual/unified/ghost/02-ghost-detaching.png) · [Flutuação](atual/unified/ghost/04-ghost-floating.png) · [Dissolução](atual/unified/ghost/05-ghost-dissolving.png) · [Brilhos finais](atual/unified/ghost/06-ghost-final-sparks.png) · [Estado limpo](atual/unified/ghost/07-ghost-clean-after-effect.png).
+
+[GIF da animação real](atual/unified/ghost/fantasma-em-movimento.gif) — quadros do vídeo atual, apenas conversão de formato, sem interpolação.
+
+## Ghost Studio — prévia identificada
+
+![Ghost Studio real com prévia 3D](atual/unified/ghost/08-ghost-studio-neon.png)
+
+[Spectral](atual/unified/ghost/09-ghost-studio-spectral.png) · [Rose](atual/unified/ghost/10-ghost-studio-rose.png) · [Rose suave no mundo](atual/unified/ghost/11-ghost-rose-calm-world.png) · [Resultado](atual/unified/result-ghost.txt).
+
+## Recursos anteriores — capturados novamente no 0.13
 
 ## Now Playing — Card
 

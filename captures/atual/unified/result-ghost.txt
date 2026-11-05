@@ -1,0 +1,79 @@
+PASS 77 checks
+Actual Forge 1.8.9 / Linux software OpenGL / real integrated-server kills of labeled test zombies. Studio shots are labeled live previews. No external multiplayer test.
+PASS Old profiles keep the new effect disabled
+PASS Original Forge framebuffer 01-ghost-target-alive
+PASS No GL error after 01-ghost-target-alive
+PASS A living target never creates an elimination ghost
+PASS Actual integrated-server target is tracked by the client
+PASS Original Forge framebuffer ghost-motion-00
+PASS No GL error after ghost-motion-00
+PASS Original Forge framebuffer ghost-motion-01
+PASS No GL error after ghost-motion-01
+PASS Original Forge framebuffer 02-ghost-detaching
+PASS No GL error after 02-ghost-detaching
+PASS Original Forge framebuffer ghost-motion-02
+PASS No GL error after ghost-motion-02
+PASS Original Forge framebuffer ghost-motion-03
+PASS No GL error after ghost-motion-03
+PASS Original Forge framebuffer ghost-motion-04
+PASS No GL error after ghost-motion-04
+PASS Original Forge framebuffer 03-ghost-ascending
+PASS No GL error after 03-ghost-ascending
+PASS Original Forge framebuffer ghost-motion-05
+PASS No GL error after ghost-motion-05
+PASS Original Forge framebuffer ghost-motion-06
+PASS No GL error after ghost-motion-06
+PASS Original Forge framebuffer ghost-motion-07
+PASS No GL error after ghost-motion-07
+PASS Original Forge framebuffer 04-ghost-floating
+PASS No GL error after 04-ghost-floating
+PASS Original Forge framebuffer ghost-motion-08
+PASS No GL error after ghost-motion-08
+PASS Original Forge framebuffer ghost-motion-09
+PASS No GL error after ghost-motion-09
+PASS Original Forge framebuffer ghost-motion-10
+PASS No GL error after ghost-motion-10
+PASS Original Forge framebuffer ghost-motion-11
+PASS No GL error after ghost-motion-11
+PASS Original Forge framebuffer 05-ghost-dissolving
+PASS No GL error after 05-ghost-dissolving
+PASS Original Forge framebuffer ghost-motion-12
+PASS No GL error after ghost-motion-12
+PASS Original Forge framebuffer ghost-motion-13
+PASS No GL error after ghost-motion-13
+PASS Original Forge framebuffer ghost-motion-14
+PASS No GL error after ghost-motion-14
+PASS Original Forge framebuffer 06-ghost-final-sparks
+PASS No GL error after 06-ghost-final-sparks
+PASS Original Forge framebuffer ghost-motion-15
+PASS No GL error after ghost-motion-15
+PASS Original Forge framebuffer ghost-motion-16
+PASS No GL error after ghost-motion-16
+PASS A real vanilla sword action causes exactly one confirmed elimination effect
+PASS Ghost geometry reaches actual world rendering
+PASS Detach, ascent and dissolution produce multiple actual motion frames
+PASS Ghost expires and releases its transient state
+PASS Original Forge framebuffer 07-ghost-clean-after-effect
+PASS No GL error after 07-ghost-clean-after-effect
+PASS Environmental death does not create a player elimination effect
+PASS Actual integrated-server target is tracked by the client
+PASS Mob filter rejects an otherwise real own kill
+PASS Actual integrated-server target is tracked by the client
+PASS Disabled effect does not record or render an elimination
+PASS Original Forge framebuffer 08-ghost-studio-neon
+PASS No GL error after 08-ghost-studio-neon
+PASS Palette button changes real ghost colors
+PASS Original Forge framebuffer 09-ghost-studio-spectral
+PASS No GL error after 09-ghost-studio-spectral
+PASS Calm control changes the real motion design
+PASS Original Forge framebuffer 10-ghost-studio-rose
+PASS No GL error after 10-ghost-studio-rose
+PASS Unified ghost profile reload succeeds
+PASS Ghost palette, enabled state and calm motion persist together
+PASS Animated studio preview never counts as a real elimination
+PASS Actual integrated-server target is tracked by the client
+PASS A new real kill works after returning from profile and editor
+PASS Original Forge framebuffer 11-ghost-rose-calm-world
+PASS No GL error after 11-ghost-rose-calm-world
+PASS Turning the effect off clears active geometry immediately
+PASS Leaving the world clears all pending and active effects
