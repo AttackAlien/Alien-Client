@@ -44,6 +44,15 @@ public final class AlienMediaSmoke {
     }
     private int texture()throws Exception{java.lang.reflect.Field f=NowPlayingHud.class.getDeclaredField("texture");f.setAccessible(true);Object value=f.get(null);return value==null?0:m.getTextureManager().getTexture((net.minecraft.util.ResourceLocation)value).getGlTextureId();}
     private void click(int id)throws Exception{java.lang.reflect.Field field=GuiScreen.class.getDeclaredField("buttonList");field.setAccessible(true);for(Object value:(List<?>)field.get(m.currentScreen)){GuiButton b=(GuiButton)value;if(b.id==id){java.lang.reflect.Method method=m.currentScreen.getClass().getDeclaredMethod("actionPerformed",GuiButton.class);method.setAccessible(true);method.invoke(m.currentScreen,b);return;}}throw new AssertionError("Missing button "+id);}
+    private void validateState(){
+        net.minecraft.client.renderer.GlStateManager.disableBlend();net.minecraft.client.renderer.GlStateManager.disableAlpha();net.minecraft.client.renderer.GlStateManager.disableTexture2D();net.minecraft.client.renderer.GlStateManager.tryBlendFuncSeparate(1,0,1,0);
+        NowPlayingHud.render(widget(),640,360,false);
+        require(!GL11.glIsEnabled(GL11.GL_BLEND)&&!GL11.glIsEnabled(GL11.GL_ALPHA_TEST)&&!GL11.glIsEnabled(GL11.GL_TEXTURE_2D),"Media renderer restores incoming GL blend, alpha and texture flags");
+        require(GL11.glGetInteger(GL14.GL_BLEND_SRC_RGB)==1&&GL11.glGetInteger(GL14.GL_BLEND_DST_RGB)==0,"Media renderer restores incoming blend factors");
+        net.minecraft.client.renderer.GlStateManager.enableBlend();net.minecraft.client.renderer.GlStateManager.enableAlpha();net.minecraft.client.renderer.GlStateManager.enableTexture2D();
+        require(GL11.glIsEnabled(GL11.GL_BLEND)&&GL11.glIsEnabled(GL11.GL_ALPHA_TEST)&&GL11.glIsEnabled(GL11.GL_TEXTURE_2D),"Minecraft GL state cache still enables blending, alpha and textures after music rendering");
+        net.minecraft.client.renderer.GlStateManager.tryBlendFuncSeparate(770,771,1,0);
+    }
     private void step()throws Exception {
         switch(stage){
         case 0:
@@ -54,7 +63,7 @@ public final class AlienMediaSmoke {
             if(m.thePlayer==null||m.thePlayer.ticksExisted<40)return;m.displayGuiScreen(null);for(HudConfig.Widget w:c().hud.widgets.values())if(w!=null)w.enabled=false;c().hud.widgets.get("brand").enabled=true;c().hud.background=true;widget().enabled=true;widget().x=.035f;widget().y=.70f;m.thePlayer.rotationYaw=25;m.thePlayer.rotationPitch=-8;m.getIntegratedServer().addScheduledTask(()->{m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doDaylightCycle","false");m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doMobSpawning","false");m.getIntegratedServer().worldServers[0].setWorldTime(6000);}).get();next();return;
         case 2:
             if(!waitFor(state().active(System.currentTimeMillis())&&state().cover!=null,"Fixture bridge must publish real transport files"))return;
-            require(state().title.startsWith("MÍDIA DE TESTE")&&state().source.equals("Diagnostic fixture"),"Synthetic provider is explicitly labeled; no Spotify or YouTube claim");require(texture()!=0,"Artwork is uploaded as an actual Minecraft texture");texture=texture();java.lang.reflect.Field texField=NowPlayingHud.class.getDeclaredField("texture");texField.setAccessible(true);textureObject=m.getTextureManager().getTexture((net.minecraft.util.ResourceLocation)texField.get(null));oldHash=state().artwork;capture("01-music-compact-fixture");c().hud.music.style="Card";c().hud.music.time=true;c().hud.music.sourceLabel=true;next();return;
+            require(state().title.startsWith("MÍDIA DE TESTE")&&state().source.equals("Diagnostic fixture"),"Synthetic provider is explicitly labeled; no Spotify or YouTube claim");require(texture()!=0,"Artwork is uploaded as an actual Minecraft texture");texture=texture();java.lang.reflect.Field texField=NowPlayingHud.class.getDeclaredField("texture");texField.setAccessible(true);textureObject=m.getTextureManager().getTexture((net.minecraft.util.ResourceLocation)texField.get(null));oldHash=state().artwork;validateState();capture("01-music-compact-fixture");c().hud.music.style="Card";c().hud.music.time=true;c().hud.music.sourceLabel=true;next();return;
         case 3:
             require(texture()==texture,"Unchanged artwork reuses the same GPU texture");capture("02-music-card-fixture");feed("\"status\":\"paused\",\"positionMs\":51000,\"durationMs\":200000");next();return;
         case 4:

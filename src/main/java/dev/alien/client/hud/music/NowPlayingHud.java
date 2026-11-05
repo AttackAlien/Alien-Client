@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 import java.nio.IntBuffer;
 
 /** No file reads/decoding here. The artwork cache is bounded to one render-thread texture. */
@@ -25,9 +26,12 @@ public final class NowPlayingHud {
     public static void render(HudConfig.Widget widget,int sw,int sh,boolean preview){
         Minecraft mc=Minecraft.getMinecraft();NowPlayingState state=NowPlayingService.get().snapshot();if(!visible(state,preview))return;
         NowPlayingConfig c=cfg().music;long now=System.currentTimeMillis();boolean active=state.active(now);int[] b=HudManager.bounds("music",widget,sw,sh);
-        int oldTexture=GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);GlStateManager.pushMatrix();
+        int oldTexture=GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
+        boolean oldBlend=GL11.glIsEnabled(GL11.GL_BLEND),oldAlpha=GL11.glIsEnabled(GL11.GL_ALPHA_TEST),oldTexturing=GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
+        int oldSrc=GL11.glGetInteger(GL14.GL_BLEND_SRC_RGB),oldDst=GL11.glGetInteger(GL14.GL_BLEND_DST_RGB),oldSrcAlpha=GL11.glGetInteger(GL14.GL_BLEND_SRC_ALPHA),oldDstAlpha=GL11.glGetInteger(GL14.GL_BLEND_DST_ALPHA);
+        GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);GlStateManager.pushMatrix();
         try{
-            GlStateManager.translate(b[0],b[1],0);GlStateManager.scale(widget.scale,widget.scale,1);GlStateManager.enableBlend();GlStateManager.tryBlendFuncSeparate(770,771,1,0);
+            GlStateManager.translate(b[0],b[1],0);GlStateManager.scale(widget.scale,widget.scale,1);GlStateManager.enableTexture2D();GlStateManager.enableAlpha();GlStateManager.enableBlend();GlStateManager.tryBlendFuncSeparate(770,771,1,0);
             int w=b[4],h=b[5],accent=widget.customColor?widget.color:UltimateHud.themeAccent();float alpha=cfg().opacity*widget.opacity;
             if(!"Transparent".equals(c.style)&&cfg().background){
                 if(cfg().shadows)Ui.shadow(0,0,w,h,7,.22f*widget.opacity);
@@ -70,7 +74,15 @@ public final class NowPlayingHud {
                 if("paused".equals(state.status))footer+=(footer.isEmpty()?"":" / ")+"pausado";
                 line(font,footer,tx,h-21,available,Ui.alpha(UltimateHud.muted(),widget.opacity*.8f),false,b,widget.scale,sw,sh);
             }
-        }finally{GlStateManager.popMatrix();GL11.glPopAttrib();GlStateManager.bindTexture(oldTexture);GlStateManager.color(1,1,1,1);}
+        }finally{
+            GlStateManager.popMatrix();GL11.glPopAttrib();GlStateManager.bindTexture(oldTexture);
+            // Restore Minecraft's cache as well as actual GL state after the attribute pop.
+            GlStateManager.tryBlendFuncSeparate(oldSrc,oldDst,oldSrcAlpha,oldDstAlpha);
+            if(oldBlend)GlStateManager.enableBlend();else GlStateManager.disableBlend();
+            if(oldAlpha)GlStateManager.enableAlpha();else GlStateManager.disableAlpha();
+            if(oldTexturing)GlStateManager.enableTexture2D();else GlStateManager.disableTexture2D();
+            GlStateManager.resetColor();
+        }
     }
     private static void line(FontRenderer font,String value,int x,int y,int width,int color,boolean scroll,int[] bounds,float scale,int sw,int sh){
         if(width<=0)return;int textWidth=font.getStringWidth(value);if(textWidth<=width){font.drawString(value,x,y,color);return;}
