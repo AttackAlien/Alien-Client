@@ -57,7 +57,7 @@ public final class AlienUltimateSmoke {
         if(done||e.phase!=TickEvent.Phase.END)return;
         try{
             if(elapsed(start)>360000)throw new AssertionError("Deadline at stage "+stage);
-            long wait=stage==142?9000:stage==147?180:stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
+            long wait=stage==142?9000:stage==147||stage==159?180:stage==116?180:stage==99||stage==101||stage==102||stage==103?1800:stage==85?180:stage==60?180:stage==56||stage==64?1400:stage==4?110:stage==5?1600:stage==34||stage==35?3500:stage==45?2600:stage==43?1400:stage==15||stage==17?2500:700;
             if(elapsed(since)<wait)return;step();
         }catch(Throwable failure){
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
@@ -640,6 +640,39 @@ public final class AlienUltimateSmoke {
             require(PetManager.sourceModelVertices()==7642&&PetManager.sourceModelTriangles()==3774,"The real renderer uses the imported Quaternius mesh rather than reconstructed primitive shapes");
             require(PetManager.sourceModelClips()==14,"All fourteen original authored animation clips load from the bundled model");
             require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Mascot world rendering, large preview and compact editor restore clean OpenGL state");
+            m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(15);next();return;
+        case 150:
+            require(c().cosmetics.self.pet.tung()&&"Tung Tung Sahur".equals(PetManager.lastRenderedModel())&&PetManager.drawnCount()==1&&PetManager.previewCount()>0,"Actual model selector renders the imported Sahur in both world and live studio");
+            require(PetManager.tungModelVertices()==1792&&PetManager.tungModelTriangles()==872,"Sahur uses the credited original mesh with all six materials");capture("193-tung-studio-original");
+            c().cosmetics.saveLook(2,c().cosmetics.self);AlienClient.get().store().saveProfile("tung_smoke");click(1);petOwnerZ=m.thePlayer.posZ;robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+        case 151:
+            require(PetManager.selfMovement()>.5&&m.thePlayer.posZ>petOwnerZ+.2&&"Tung Tung Sahur".equals(PetManager.lastRenderedModel()),"Native movement drives actual Sahur following and whole-model lean");capture("194-tung-follow-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);
+            m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(11);click(5);next();return;
+        case 152:
+            require("Shoulder".equals(c().cosmetics.self.pet.mode)&&Math.abs(PetManager.selfY()-m.thePlayer.posY-1.6)<.02,"Sahur shoulder mode retains the actual configured anchor");capture("195-tung-shoulder-preview");click(11);click(1);next();return;
+        case 153:
+            petOrbitX=PetManager.selfX();petOrbitZ=PetManager.selfZ();next();return;
+        case 154:
+            require(Math.hypot(PetManager.selfX()-petOrbitX,PetManager.selfZ()-petOrbitZ)>.15&&"Tung Tung Sahur".equals(PetManager.lastRenderedModel()),"Orbit moves the actual imported Sahur around the owner");capture("196-tung-orbit-world");m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(3);click(30);next();return;
+        case 155:
+            require(!c().cosmetics.self.pet.animate&&PetManager.drawnCount()==1,"Sahur remains visible with whole-model animation disabled");capture("197-tung-animation-off");click(30);click(2);click(15);next();return;
+        case 156:
+            require("Alien".equals(c().cosmetics.self.pet.model)&&"Alien".equals(PetManager.lastRenderedModel()),"Actual selector returns to Quaternius without losing its renderer");capture("198-alien-after-tung");AlienClient.get().store().loadProfile("tung_smoke");next();return;
+        case 157:
+            require(c().cosmetics.self.pet.tung()&&"Follow".equals(c().cosmetics.self.pet.mode)&&c().cosmetics.self.pet.color==0xCE832F,"Unified profile restores the saved Sahur model, mode and original colors");
+            require(c().cosmetics.loadLook(2).pet.tung()&&!c().cosmetics.loadLook(3).pet.tung(),"Cosmetic look slots retain independent original and Sahur model choices");capture("199-tung-profile-restored");
+            c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
+        case 158:
+            require(button(23).yPosition+button(23).height<=m.currentScreen.height-42,"Native scrolling reaches the last control with the new model selector at compact scale");capture("200-tung-studio-compact");
+            c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));petMovie=0;petTimes.clear();next();return;
+        case 159:
+            capture(String.format(Locale.ROOT,"tung-motion-%02d",petMovie));petTimes.add(System.currentTimeMillis());if(++petMovie<24){since=System.nanoTime();return;}
+            try(PrintWriter times=new PrintWriter(new File(out,"tung-motion-times.txt"),"UTF-8")){for(Long time:petTimes)times.println(time);}click(1);c().performance.maxCosmetics=0;next();return;
+        case 160:
+            require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Zero budget clears the Sahur simulation and its real geometry");c().performance.maxCosmetics=4;next();return;
+        case 161:
+            require(PetManager.activeCount()==1&&"Tung Tung Sahur".equals(PetManager.lastRenderedModel()),"Restoring budget recreates the selected Sahur without switching models");
+            require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Both imported model renderers and editor previews leave clean OpenGL and emote scopes");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");
                 w.println("Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server");

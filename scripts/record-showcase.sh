@@ -53,7 +53,7 @@ from pathlib import Path
 import hashlib,json,sys
 from fractions import Fraction
 p=Path(sys.argv[1]);r=json.loads((p/'result.json').read_text());probe=json.loads((p/'ffprobe.json').read_text());video=next(s for s in probe['streams'] if s['codec_type']=='video')
-assert r['status']=='PASS' and len(r['chapters'])==14
+assert r['status']=='PASS' and len(r['chapters'])==15
 encoded_fps=float(Fraction(video['avg_frame_rate']))
 assert video['codec_name']=='h264' and 29.9<=encoded_fps<=30.1 and video['pix_fmt']=='yuv420p'
 assert float(probe['format']['duration'])>=100

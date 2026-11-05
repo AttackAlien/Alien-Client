@@ -10,10 +10,50 @@ import argparse, gzip, hashlib, json, math, struct
 import numpy as np
 
 
+def rigid(doc, accessor, raw, output, yaw):
+    """Faithful static mesh import for the credited Sahur model, without invented rig clips."""
+    assert not doc.get("skins") and not doc.get("animations") and len(doc["nodes"])==2
+    node=next(n for n in doc["nodes"] if n.get("mesh")==0)
+    x,y,z,w=node.get("rotation",[0,0,0,1]);scale=np.array(node.get("scale",[1,1,1]))
+    rotation=np.array([[1-2*(y*y+z*z),2*(x*y-z*w),2*(x*z+y*w)],
+                       [2*(x*y+z*w),1-2*(x*x+z*z),2*(y*z-x*w)],
+                       [2*(x*z-y*w),2*(y*z+x*w),1-2*(x*x+y*y)]])
+    a=math.radians(yaw);turn=np.array([[math.cos(a),0,math.sin(a)],[0,1,0],[-math.sin(a),0,math.cos(a)]])
+    transform=turn@rotation@np.diag(scale);normal=np.linalg.inv(transform).T
+    positions=[];normals=[];materials=[];indices=[];offset=0
+    for primitive in doc["meshes"][0]["primitives"]:
+        assert primitive.get("mode",4)==4
+        p=accessor(primitive["attributes"]["POSITION"])@transform.T
+        n=accessor(primitive["attributes"]["NORMAL"])@normal.T
+        n/=np.linalg.norm(n,axis=1,keepdims=True)
+        positions.append(p);normals.append(n);materials.extend([primitive["material"]]*len(p))
+        tri=accessor(primitive["indices"]).flatten();assert len(tri)%3==0 and tri.max()<len(p)
+        indices.extend((tri+offset).tolist());offset+=len(p)
+    positions=np.concatenate(positions);normals=np.concatenate(normals)
+    low,high=positions.min(axis=0),positions.max(axis=0);factor=.72/(high[1]-low[1])
+    positions=(positions-(low+high)/2)*factor+np.array([0,.14,0])
+    colors=[]
+    for m in doc["materials"]:
+        linear=np.array(m["pbrMetallicRoughness"]["baseColorFactor"][:3]);srgb=np.where(linear<=.0031308,linear*12.92,1.055*np.power(linear,1/2.4)-.055)
+        rgb=np.rint(np.clip(srgb,0,1)*255).astype(int);colors.append((int(rgb[0])<<16)|(int(rgb[1])<<8)|int(rgb[2]))
+    data=bytearray(struct.pack(">6I",0x414c5231,1,len(positions),len(indices),len(colors),0))
+    for color in colors:data.extend(struct.pack(">I",color))
+    for p,n,m in zip(positions,normals,materials):data.extend(np.asarray(np.r_[p,n],dtype=">f4").tobytes());data.append(m)
+    data.extend(np.asarray(indices,dtype=">i4").tobytes());output.parent.mkdir(parents=True,exist_ok=True)
+    output.write_bytes(gzip.compress(bytes(data),compresslevel=9,mtime=0))
+    report=dict(author="CalinnHotCake",license="CC-BY-3.0",model="Tung Tung Tung Sahur",sourceUrl="https://poly.pizza/m/Q6SvoDhhwA",
+                sourceSha256=hashlib.sha256(raw).hexdigest(),outputSha256=hashlib.sha256(output.read_bytes()).hexdigest(),
+                vertices=len(positions),triangles=len(indices)//3,materials=[f"#{c:06X}" for c in colors],
+                authoredAnimations=0,joints=0,normalizationScale=factor,orientationYaw=yaw,compressedBytes=output.stat().st_size)
+    output.with_suffix(".json").write_text(json.dumps(report,indent=2)+"\n");print(json.dumps(report,indent=2))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path)
     parser.add_argument("output", type=Path)
+    parser.add_argument("--rigid", action="store_true")
+    parser.add_argument("--yaw", type=float, default=0)
     args = parser.parse_args()
     raw = args.source.read_bytes()
     assert raw[:4] == b"glTF" and struct.unpack_from("<II", raw, 4) == (2, len(raw))
@@ -23,7 +63,7 @@ def main():
     length, kind = struct.unpack_from("<II", raw, 20+size)
     assert kind == 0x004e4942
     binary = raw[28+size:28+size+length]
-    assert not doc.get("images") and len(doc["meshes"]) == len(doc["skins"]) == 1
+    assert not doc.get("images") and len(doc["meshes"]) == 1
     types = {5121: "u1", 5123: "<u2", 5125: "<u4", 5126: "<f4"}
     widths = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4, "MAT4": 16}
 
@@ -39,6 +79,10 @@ def main():
         return np.ndarray((a["count"], width), dtype=dtype, buffer=binary,
                           offset=offset, strides=(stride, dtype.itemsize)).copy()
 
+    if args.rigid:
+        rigid(doc,accessor,raw,args.output,args.yaw)
+        return
+    assert len(doc["skins"])==1
     nodes = doc["nodes"]; parents = [-1]*len(nodes)
     for i, n in enumerate(nodes):
         assert "matrix" not in n

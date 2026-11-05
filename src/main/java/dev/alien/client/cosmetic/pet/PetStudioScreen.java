@@ -27,15 +27,17 @@ public final class PetStudioScreen extends PremiumScreen {
         buttonList.add(new Ui.Button(5,left+212,35,Math.max(42,w-212),22,focus?"Player view":"Mascot view"));
         buttonList.add(new Ui.Button(0,left+w-54,8,54,22,"Done"));buttonList.add(new Ui.Button(1,left,height-30,(w-8)/2,22,"Back to world"));
         GuiButton emote=new Ui.Button(4,left+(w+8)/2,height-30,(w-8)/2,22,"Play selected emote");emote.enabled=mc.thePlayer!=null&&AlienClient.get().config().animations&&AlienClient.get().config().emotes.enabled;buttonList.add(emote);
-        if(page==0){button(10,0,"Mascot: "+(d().enabled?"ON":"OFF"));button(11,1,"Mode / "+d().mode);button(12,2,"Palette / "+d().preset);button(13,3,"Body / #"+String.format("%06X",d().color));button(14,4,"Accent / #"+String.format("%06X",d().accent));
-            slider(20,5,"Size",.5f,1.5f,d().size,v->d().size=v);slider(21,6,"Distance",.65f,2,d().distance,v->d().distance=v);slider(22,7,"Height",.65f,1.8f,d().height,v->d().height=v);slider(23,8,"Animation speed",.4f,1.8f,d().speed,v->d().speed=v);
+        if(page==0){button(10,0,"Mascot: "+(d().enabled?"ON":"OFF"));button(15,1,"Model / "+d().model);button(11,2,"Mode / "+d().mode);button(12,3,"Palette / "+d().preset);button(13,4,"Body / #"+String.format("%06X",d().color));button(14,5,"Accent / #"+String.format("%06X",d().accent));
+            slider(20,6,"Size",.5f,1.5f,d().size,v->d().size=v);slider(21,7,"Distance",.65f,2,d().distance,v->d().distance=v);slider(22,8,"Height",.65f,1.8f,d().height,v->d().height=v);slider(23,9,"Animation speed",.4f,1.8f,d().speed,v->d().speed=v);
             if("Shoulder".equals(d().mode))for(GuiButton b:buttonList)if(b.id==21||b.id==22)b.enabled=false;
         }else{button(30,0,"Animation: "+(d().animate?"ON":"OFF"));button(31,1,"React to emotes: "+(d().reactEmotes?"ON":"OFF"));button(32,2,"Rest when idle: "+(d().sleep?"ON":"OFF"));button(33,3,"Side / "+(d().right?"Right":"Left"));button(34,4,"Reset mascot preferences");}
     }
     @Override public void drawContents(int x,int y,float partial){Ui.background(width,height);Ui.text("ALIEN / MASCOT STUDIO",left,15,Ui.theme().text);Ui.card(left,top,column,bottom-top);Ui.card(right,top,column,bottom-top);Ui.text(page==0?"YOUR ALIEN COMPANION":"REAL OWNER REACTIONS",left+10,top+9,Ui.theme().muted);
         for(GuiButton b:buttonList)if(b.id<10)b.drawButton(mc,x,y);float scale=framebufferScale();GL11.glPushAttrib(GL11.GL_SCISSOR_BIT|GL11.GL_ENABLE_BIT);
         try{GL11.glEnable(GL11.GL_SCISSOR_TEST);GL11.glScissor(Math.round(left*scale),mc.displayHeight-Math.round(bottom*scale),Math.round(column*scale),Math.round((bottom-top-24)*scale));for(GuiButton b:buttonList)if(b.id>=10)b.drawButton(mc,x,y);}finally{GL11.glPopAttrib();}
-        Ui.text(focus?"QUATERNIUS / ALIEN":"LIVE PLAYER + MASCOT",right+10,top+9,Ui.accent());if(focus)focusPreview(partial);else preview();
+        Ui.text(focus?(d().tung()?"TUNG TUNG SAHUR":"QUATERNIUS / ALIEN"):"LIVE PLAYER + MASCOT",right+10,top+9,Ui.accent());
+        if(d().tung()){Ui.text("CalinnHotCake / CC BY 3.0",right+10,top+21,Ui.theme().muted);Ui.text("poly.pizza/m/Q6SvoDhhwA",right+10,top+33,Ui.theme().muted);}
+        if(focus)focusPreview(partial);else preview();
         String status=!AlienClient.get().config().cosmetics.enabled?"Cosmetics master is OFF":!a().enabled?"Selected look is hidden":!d().enabled?"Enable your mascot":!d().animate||!a().animations||!AlienClient.get().config().animations?"Animations are OFF":focus?"Player view shows size and position":"Local companion / "+d().mode;
         Ui.centered(fontRendererObj.trimStringToWidth(status,column-16),right+column/2,bottom-17,Ui.theme().muted);
     }
@@ -57,13 +59,14 @@ public final class PetStudioScreen extends PremiumScreen {
         else if(b.id==11)d().mode=PetDesign.MODES[(Arrays.asList(PetDesign.MODES).indexOf(d().mode)+1)%PetDesign.MODES.length];
         else if(b.id==12)d().applyPreset(PetDesign.PRESETS[(Arrays.asList(PetDesign.PRESETS).indexOf(d().preset)+1)%PetDesign.PRESETS.length]);
         else if(b.id==13||b.id==14){final boolean body=b.id==13;mc.displayGuiScreen(new ColorPickerScreen(this,body?"Mascot body":"Mascot accent",(body?d().color:d().accent)|0xff000000,false,color->{if(body)d().color=color&0xffffff;else d().accent=color&0xffffff;d().preset="Custom";AlienClient.get().save();}));return;}
+        else if(b.id==15)d().setModel(PetDesign.MODELS[(Arrays.asList(PetDesign.MODELS).indexOf(d().model)+1)%PetDesign.MODELS.length]);
         else if(b.id==30)d().animate=!d().animate;else if(b.id==31)d().reactEmotes=!d().reactEmotes;else if(b.id==32)d().sleep=!d().sleep;else if(b.id==33)d().right=!d().right;
         else if(b.id==34){boolean enabled=d().enabled;a().pet=new PetDesign();a().pet.enabled=enabled;}
         AlienClient.get().save();initGui();
     }
     @Override protected void mouseClicked(int x,int y,int button)throws IOException{if(button!=0)return;for(GuiButton b:buttonList)if((b.id<10||y>=top+24&&y<bottom)&&b.mousePressed(mc,x,y)){if(!(b instanceof Ui.Slider))actionPerformed(b);return;}}
     @Override protected void mouseReleased(int x,int y,int state){for(GuiButton b:buttonList)b.mouseReleased(x,y);}
-    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int delta=Mouse.getEventDWheel();if(delta!=0){int total=(page==0?9:5)*29;scroll=Math.max(0,Math.min(Math.max(0,total-(bottom-top-27)),scroll+(delta<0?29:-29)));initGui();}}
+    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int delta=Mouse.getEventDWheel();if(delta!=0){int total=(page==0?10:5)*29;scroll=Math.max(0,Math.min(Math.max(0,total-(bottom-top-27)),scroll+(delta<0?29:-29)));initGui();}}
     @Override protected void keyTyped(char ch,int key)throws IOException{if(key==Keyboard.KEY_ESCAPE)mc.displayGuiScreen(parent);}
     @Override public void onGuiClosed(){AlienClient.get().save();}
     @Override public boolean doesGuiPauseGame(){return false;}
