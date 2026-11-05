@@ -13,9 +13,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CLIENT_RUN: "41874722323"
-  CLIENT_SHA: "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa"
-  CLIENT_JAR_SHA256: "8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43"
+  CLIENT_RUN: "42027857579"
+  CLIENT_SHA: "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f"
+  CLIENT_JAR_SHA256: "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a"
 
 jobs:
   core-tests:
@@ -120,7 +120,7 @@ jobs:
           if ($exe[0] -ne 77 -or $exe[1] -ne 90) { throw 'EXE is not a Windows PE binary' }
           $sourceHash = (Get-FileHash launcher-dist/payload/AlienClient-Unified-1.8.9.jar -Algorithm SHA256).Hash.ToLowerInvariant()
           if ($sourceHash -ne $env:CLIENT_JAR_SHA256) { throw 'Payload changed during packaging' }
-          $zip = 'AlienLauncher-Windows-x64-0.3.0-alpha.8.zip'
+          $zip = 'AlienLauncher-Windows-x64-0.3.0-alpha.9.zip'
           Compress-Archive -Path 'launcher-dist/*' -DestinationPath $zip -Force
           $digest = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
           "$digest  $zip" | Out-File ALIEN-LAUNCHER-SHA256SUMS.txt -Encoding ascii
@@ -133,6 +133,6 @@ jobs:
           retention-days: 14
           if-no-files-found: warn
           path: |
-            AlienLauncher-Windows-x64-0.3.0-alpha.8.zip
+            AlienLauncher-Windows-x64-0.3.0-alpha.9.zip
             ALIEN-LAUNCHER-SHA256SUMS.txt
             launcher-test-results/

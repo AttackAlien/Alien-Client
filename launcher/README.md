@@ -1,12 +1,12 @@
-# Alien Launcher 0.3.0-alpha.8 — Windows x64
+# Alien Launcher 0.3.0-alpha.9 — Windows x64
 
-Launcher experimental para **Alien Client Unified 0.11.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Inclui Mascot Studio do PR #28, com mini alien animado, preservando danças articuladas, céu Realistic e os recursos Unified. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
+Launcher experimental para **Alien Client Unified 0.11.0-alpha.1 / Minecraft Java 1.8.9 / Forge 11.15.1.2318**. Inclui Mascot Studio do PR #28 com os modelos prontos Alien (Quaternius, CC0) e Tung Tung Sahur (CalinnHotCake, CC BY 3.0), preservando danças articuladas, céu Realistic e os recursos Unified. O mod continua exclusivamente em Forge 1.8.9; outras versões do seletor são Minecraft Vanilla em instâncias independentes.
 
 Interface 0.3: navegação lateral, painel visual com cenário real do client, seletor de perfis escuro, configurações separadas e controle de RAM por mouse/teclado. O núcleo de instalação e autenticação foi preservado.
 
 ## Usar
 
-1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.8.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
+1. Extraia o ZIP inteiro `AlienLauncher-Windows-x64-0.3.0-alpha.9.zip`. Mantenha a pasta `payload` junto de `AlienLauncher.exe`.
 2. Abra `AlienLauncher.exe` em Windows 10/11 x64. O .NET está incluído no pacote.
 3. Escolha Alien ou um perfil Vanilla. **Instalar / Reparar** baixa/verifica arquivos oficiais; não requer mover JAR manualmente.
 4. Use **Entrar com Microsoft** e uma conta que possua Minecraft Java. A senha é inserida somente na janela Microsoft. O login requer Microsoft Edge WebView2 Runtime.
@@ -17,7 +17,7 @@ Interface 0.3: navegação lateral, painel visual com cenário real do client, s
 
 - Instâncias, contas e configurações ficam em `%LOCALAPPDATA%\AlienLauncher`. A `.minecraft` original não é usada para o cache de contas.
 - Alien usa `instances/unified-1.8.9`; Vanilla usa `instances/vanilla-<versão>`. Não há injeção do JAR Alien em versões modernas.
-- O pacote fixa o JAR do CI aprovado **41874722323**, fonte **5e5621e**, client **0.11.0-alpha.1**, SHA-256 `8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43`. O manifesto local não pode escolher outro hash arbitrário.
+- O pacote fixa o JAR do CI aprovado **42027857579**, fonte **1568db3**, client **0.11.0-alpha.1**, SHA-256 `0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a`. O manifesto local não pode escolher outro hash arbitrário.
 - A cópia exata desse JAR, seu checksum e o recibo original do CI ficam em `launcher/payload`, para reconstruir o launcher mesmo depois que o artifact temporário do GitHub expirar. `dotnet publish` copia o payload para o diretório final.
 - Atualizar preserva saves, configurações e outros mods. JARs antigos que declaram o modid `alienclient` são movidos para `alien-backups`, incluindo cópias em `mods/1.8.9`; a cópia nova é validada antes de substituir. Falhas restauram arquivos já movidos.
 - Java é instalado pela biblioteca e **sua versão real é consultada antes de executar**. Alien exige Java 8; versões Vanilla usam o requisito do metadado oficial. O seletor de Java 8 permite escolher outro executável compatível, sem afetar os perfis Java 17/21.
@@ -58,4 +58,6 @@ Emote Studio usa cotovelos e joelhos articulados; Scene Studio → Sky → Reali
 
 ## Mascote animado
 
-Abra Cosmetic Studio → Pet para o mini alien. Follow, Shoulder e Orbit, cores e reações ficam nos perfis/looks. [Guia](../docs/ANIMATED-MASCOT.md). Esta versão é candidata do PR #28; o release público 0.10 permanece disponível.
+Abra Cosmetic Studio → Pet → Model para escolher Alien ou Tung Tung Sahur. Follow, Shoulder e Orbit, cores, modelo e reações ficam nos perfis/looks. O alien usa as animações originais de Quaternius; o Tung usa o modelo estático de CalinnHotCake com flutuação/inclinação do conjunto. [Guia](../docs/ANIMATED-MASCOT.md). Esta versão é candidata do PR #28; o release público 0.10 permanece disponível.
+
+Modelos e créditos: [Alien / Quaternius / CC0](https://poly.pizza/m/HYUUkdugoP) e [Tung Tung Tung Sahur / CalinnHotCake / CC BY 3.0](https://poly.pizza/m/Q6SvoDhhwA). Fontes originais, licenças e alterações de conversão estão em [third_party](../third_party/); o JAR inclui as atribuições.
