@@ -19,6 +19,7 @@ try
         using(var g=System.Drawing.Graphics.FromImage(bitmap)) {g.Clear(System.Drawing.Color.MediumPurple);g.FillEllipse(System.Drawing.Brushes.Black,30,30,68,68);}
         bitmap.Save(cover,System.Drawing.Imaging.ImageFormat.Png);
     }
+    DiagnosticPublisher.SetAppId("AlienClient.NowPlaying.Diagnostic");
     var ready = new TaskCompletionSource<nint>(TaskCreationOptions.RunContinuationsAsynchronously);
     var ui = new Thread(() => {using var form=new System.Windows.Forms.Form {Text="Alien diagnostic OS media publisher",Width=500,Height=180};
         form.Shown+=(_,_)=>ready.TrySetResult(form.Handle);System.Windows.Forms.Application.Run(form);});
@@ -32,6 +33,7 @@ try
     controls.DisplayUpdater.MusicProperties.AlbumTitle="SMTC integration test";
     controls.DisplayUpdater.Thumbnail=RandomAccessStreamReference.CreateFromFile(await StorageFile.GetFileFromPathAsync(cover));
     controls.DisplayUpdater.Update();
+    controls.ButtonPressed+=(_,_)=>{};
     void Timeline(int position) => controls.UpdateTimelineProperties(new SystemMediaTransportControlsTimelineProperties {
         StartTime=TimeSpan.Zero,MinSeekTime=TimeSpan.Zero,Position=TimeSpan.FromSeconds(position),EndTime=TimeSpan.FromSeconds(180),MaxSeekTime=TimeSpan.FromSeconds(180)});
     controls.PlaybackStatus=MediaPlaybackStatus.Playing;Timeline(20);
@@ -52,6 +54,9 @@ try
         }
         throw new InvalidOperationException("OS session was not received. Last bridge state: "+last);
     }
+    var manager=await Windows.Media.Control.GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+    await Task.Delay(1000);
+    await File.WriteAllTextAsync(Path.Combine(output,"os-session-diagnostics.json"),JsonSerializer.Serialize(new {os=System.Runtime.InteropServices.RuntimeInformation.OSDescription,interactive=Environment.UserInteractive,processSession=Process.GetCurrentProcess().SessionId,enabled=controls.IsEnabled,publisherStatus=controls.PlaybackStatus.ToString(),sessionCount=manager.GetSessions().Count}));
     JsonElement first=await WaitFor(s=>s.GetProperty("status").GetString()=="playing" && s.GetProperty("title").GetString()!.StartsWith("ALIEN MEDIA TEST"));
     await File.WriteAllTextAsync(Path.Combine(output,"playing.json"),first.GetRawText());
     Check(first.GetProperty("artist").GetString()=="Local diagnostic publisher","Actual native bridge reads metadata from a real local Windows SMTC publisher");
@@ -81,6 +86,8 @@ finally {if(helper is {HasExited:false})helper.Kill();if(owner is {HasExited:fal
 
 internal static class DiagnosticPublisher
 {
+    [System.Runtime.InteropServices.DllImport("shell32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode, EntryPoint="SetCurrentProcessExplicitAppUserModelID")]
+    public static extern int SetAppId(string appId);
     [System.Runtime.InteropServices.DllImport("combase.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode)]
     private static extern int WindowsCreateString(string text,int length,out nint value);
     [System.Runtime.InteropServices.DllImport("combase.dll")]
