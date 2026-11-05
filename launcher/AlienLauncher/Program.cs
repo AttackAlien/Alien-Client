@@ -15,8 +15,9 @@ namespace AlienLauncher;
 internal static class Program
 {
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
+        if (args.Length > 0 && args[0] == "--media-bridge") { Environment.ExitCode = Media.WindowsNowPlayingBridge.RunAsync(args).GetAwaiter().GetResult(); return; }
         ApplicationConfiguration.Initialize();
         Application.Run(new LauncherWindow());
     }
@@ -323,6 +324,7 @@ internal sealed class LauncherWindow : Form
         var installed = await InstallCoreAsync(selected);
         var process = await InstanceInstaller.BuildAsync(installed, session, (int)memory.Value, operation!.Token);
         process.StartInfo.UseShellExecute = false; process.StartInfo.RedirectStandardOutput = true; process.StartInfo.RedirectStandardError = true;
+        if (selected.Alien && Environment.ProcessPath is string host) process.StartInfo.Environment["ALIEN_MEDIA_BRIDGE_EXE"] = host;
         alienLoaded = false; string? token = session.AccessToken;
         void Line(string? line)
         {

@@ -73,7 +73,7 @@ public final class AlienUltimateSmoke {
         switch(stage){
         case 0:
             if(m.currentScreen==null)return;
-            require(c().hud.widgets.size()==15,"All 12 existing widgets and three new widgets are registered");
+            require(c().hud.widgets.size()==16,"All fifteen existing widgets and the optional Now Playing widget are registered");
             require(AlienClient.get().modules().modules().size()==17,"Unified registers nine visuals and eight real gameplay switches");
             require(!c().combat.enabled&&!c().combat.tools.autoFood&&!c().combat.tools.bridge,"New gameplay functions are off on fresh profiles");
             resize(1280,720);m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=30;m.gameSettings.pauseOnLostFocus=false;

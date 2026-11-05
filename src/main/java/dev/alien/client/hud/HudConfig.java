@@ -18,6 +18,7 @@ public final class HudConfig {
     public boolean shadows = true;
     public String preset="Custom",theme="Inherit";
     public CrosshairConfig crosshair=new CrosshairConfig();
+    public dev.alien.client.hud.music.NowPlayingConfig music=new dev.alien.client.hud.music.NowPlayingConfig();
     public float targetHold=3,targetSmoothing=10,targetRange=32;
     public boolean targetAvatar=true,mouseKeys=true,sprintKey=true;
     public boolean cpsLeft=true,cpsRight=true,armorPercent=true;
@@ -46,6 +47,8 @@ public final class HudConfig {
         add("target", false, .62f, .58f);
         add("crosshair", false, .5f, .5f);
         add("indicators", false, .02f, .70f);
+        add("music", false, .02f, .88f);
+        if(music==null)music=new dev.alien.client.hud.music.NowPlayingConfig();music.normalize();
         if(crosshair==null)crosshair=new CrosshairConfig();crosshair.normalize();
         targetHold=HudMath.clamp(targetHold,.5f,8,3);
         targetSmoothing=HudMath.clamp(targetSmoothing,.1f,30,10);
@@ -101,6 +104,7 @@ public final class HudConfig {
     }
 
     public static String label(String id) {
+        if ("music".equals(id)) return "Now Playing";
         if ("target".equals(id)) return "Target HUD";
         if ("crosshair".equals(id)) return "Custom Crosshair";
         if ("indicators".equals(id)) return "Indicators";

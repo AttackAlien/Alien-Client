@@ -1,0 +1,41 @@
+name: Now Playing | native Windows media
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['launcher/**', '.github/workflows/now-playing-ci.yml']
+permissions:
+  contents: read
+jobs:
+  windows-media:
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false, ref: '${{ github.event.pull_request.head.sha || github.sha }}'}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.427'}
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '8'}
+      - name: Core tests including media transport
+        shell: pwsh
+        run: |
+          $env:ALIEN_TEST_PAYLOAD = (Resolve-Path launcher/payload).Path
+          $env:ALIEN_TEST_JAVA8 = Join-Path $env:JAVA_HOME 'bin/java.exe'
+          dotnet test launcher/AlienLauncher.Tests -c Release --logger 'trx;LogFileName=windows.trx' --results-directory media-results
+          if ($LASTEXITCODE -ne 0) { throw 'Core tests failed' }
+      - name: Build native launcher and test-only Windows SMTC publisher
+        shell: pwsh
+        run: |
+          dotnet build launcher/AlienLauncher.MediaProbe -c Release -o media-probe
+          if ($LASTEXITCODE -ne 0) { throw 'Native media build failed' }
+      - name: Exercise actual OS metadata, artwork, pause, stop and process cleanup
+        shell: pwsh
+        run: |
+          ./media-probe/AlienLauncher.MediaProbe.exe media-results/smtc ./media-probe/AlienLauncher.exe
+          if ($LASTEXITCODE -ne 0) { Get-Content media-results/smtc/result.txt; throw 'OS SMTC integration failed' }
+          Get-Content media-results/smtc/result.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: alien-native-media-${{ github.run_id }}
+          path: media-results/

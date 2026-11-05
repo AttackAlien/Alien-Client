@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net8.0-windows7.0": {
+    "net8.0-windows10.0.19041": {
       "CmlLib.Core.Auth.Microsoft": {
         "type": "Direct",
         "requested": "[3.4.0, )",
@@ -126,7 +126,7 @@
         }
       }
     },
-    "net8.0-windows7.0/win-x64": {
+    "net8.0-windows10.0.19041/win-x64": {
       "Microsoft.Web.WebView2": {
         "type": "Transitive",
         "resolved": "1.0.1823.32",

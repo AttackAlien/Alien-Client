@@ -24,7 +24,7 @@ buildDir = file("build/${selectedEdition}")
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply from: 'scripts/https-assets.gradle'
 
-version = '0.11.0-alpha.1'
+version = '0.12.0-alpha.1'
 group = 'dev.alien.client'
 archivesBaseName = selectedEdition == 'unified' ? 'AlienClient-Unified-1.8.9' :
         selectedEdition == 'legit' ? 'AlienClient-Legit-1.8.9' : 'AlienClient-Full-1.8.9'
@@ -342,6 +342,33 @@ afterEvaluate {
         systemProperty 'alien.showcase.output', file("${buildDir}/showcase").absolutePath
         systemProperty 'alien.showcase.source', project.findProperty('showcaseSource') ?: 'uncommitted'
         systemProperty 'java.net.preferIPv4Stack', 'true'
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+// Test-only media publisher/runner is excluded from the distributable JAR.
+sourceSets {
+    mediaSmoke {
+        java.setSrcDirs(['src/mediaSmoke/java'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+task runMediaSmokeClient(type: JavaExec, dependsOn: ['classes','mediaSmokeClasses','makeStart']) { group = 'verification' }
+afterEvaluate {
+    runMediaSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter { it.canonicalFile != jar.archivePath.canonicalFile } + sourceSets.mediaSmoke.output
+        workingDir = file("${buildDir}/media-smoke-runtime")
+        def gameArgs = new ArrayList(runClient.args)
+        def idx = gameArgs.indexOf('--gameDir')
+        if (idx >= 0 && idx + 1 < gameArgs.size()) gameArgs[idx+1] = workingDir.absolutePath
+        args = gameArgs
+        jvmArgs = runClient.jvmArgs
+        environment 'ALIEN_MEDIA_BRIDGE_EXE',file('scripts/media-fixture.py').absolutePath
+        environment 'ALIEN_MEDIA_FIXTURE_CONTROL',file("${buildDir}/media-smoke/control.json").absolutePath
+        systemProperty 'alien.media.smoke','true'
+        systemProperty 'alien.media.smoke.output',file("${buildDir}/media-smoke").absolutePath
         doFirst { workingDir.mkdirs() }
     }
 }
