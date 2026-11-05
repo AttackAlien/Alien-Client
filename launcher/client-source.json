@@ -1,13 +1,13 @@
 {
-  "clientVersion": "0.12.0-alpha.1",
+  "clientVersion": "0.13.0-alpha.1",
   "minecraft": "1.8.9",
   "forge": "11.15.1.2318",
   "repository": "AttackAlien/Alien-Client",
-  "sourceCommit": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "sourceCommit": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
   "workflow": ".github/workflows/unified-client-ci.yml",
-  "runId": "42051508518",
-  "artifact": "alien-unified-42051508518",
+  "runId": "42071260924",
+  "artifact": "alien-unified-42071260924",
   "jar": "AlienClient-Unified-1.8.9.jar",
-  "sha256": "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf",
-  "status": "Now Playing HUD from PR #29 stacked on PR #28; not merged into main"
+  "sha256": "330507dcbfa4108e73e193b308a7a820e0202a63cdf160d827b87c28b067a3b3",
+  "status": "Ghost elimination animation stacked on PR #29; not merged into main"
 }
