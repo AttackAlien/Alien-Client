@@ -45,13 +45,13 @@ O **Alien Client Unified** reúne personalização visual e ferramentas configur
 
 **[BAIXAR RELEASE 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)** · [Launcher Windows x64](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienLauncher-Windows-x64-0.3.0-alpha.7.zip) · [JAR para Forge](https://github.com/AttackAlien/Alien-Client/releases/download/v0.10.0-alpha.1/AlienClient-Unified-1.8.9.jar)
 
-**Novo nesta branch — 0.12.0-alpha.1:** Now Playing no HUD Studio, com capa, artista, progresso real, três layouts, escala, opacidade e perfis. Ponte local de mídia para Windows 10 1809+/11. Inclui os dois mascotes e os recursos anteriores. [Guia](docs/NOW-PLAYING.md) · [Testes e limites](docs/NOW-PLAYING-VALIDATION.md) · [PR #29](https://github.com/AttackAlien/Alien-Client/pull/29).
+**Novo nesta branch — 0.13.0-alpha.1:** Fantasma Neon de eliminação, com desprendimento, subida suave, tecido ondulante, paletas e dissolução. Mantém Now Playing, os mascotes e os recursos Unified. [Guia](docs/GHOST-ELIMINATION.md) · [Testes e limites](docs/GHOST-ELIMINATION-VALIDATION.md) · [PR #30](https://github.com/AttackAlien/Alien-Client/pull/30).
 
-**[TESTAR NOW PLAYING — launcher Windows](downloads/launcher/v0.3.0-alpha.10/README.md)** · [JAR candidato para Forge](downloads/v0.12.0-alpha.1/README.md)
+**[TESTAR O FANTASMA — launcher Windows](downloads/launcher/v0.3.0-alpha.11/README.md)** · [JAR candidato para Forge](downloads/v0.13.0-alpha.1/README.md)
 
 A **0.10.0-alpha.1** traz danças articuladas, com cotovelos e joelhos flexíveis, e o céu **Realistic**, com nuvens suaves, horizonte natural e iluminação por horário. [Como usar](docs/ANIMATION-SKY-POLISH.md) · [Integração e validação do release](docs/releases/v0.10.0-alpha.1/README.md) · [Release alpha 0.10](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1).
 
-**[Vídeo real atualizado: Now Playing e personalização](captures/video-atual/README.md)** — 26,07s da janela do Forge com fonte sintética explicitamente identificada. A ponte foi testada separadamente com uma sessão real de diagnóstico do Windows 11; Spotify/YouTube reais ainda aguardam validação. **Minecraft continua 1.8.9.**
+**[Vídeo real atualizado: Fantasma Neon e Ghost Studio](captures/video-atual/README.md)** — 13.60s da janela real do Forge, com eliminações de alvos de teste no servidor integrado e prévias identificadas. **Minecraft continua 1.8.9.**
 
 A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por módulo, perfis salvos e uma interface pensada para ser prática durante o jogo.
 
@@ -75,6 +75,10 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 [Ver as capturas reais atuais](captures/README.md) · [GIF real dos três clássicos](captures/atual/unified/emotes-em-movimento.gif) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
 
 <table>
+  <tr>
+    <td width="50%" align="center"><a href="captures/atual/unified/ghost/03-ghost-ascending.png"><img alt="Fantasma após eliminação real de alvo de teste no Forge" src="captures/atual/unified/ghost/03-ghost-ascending.png"></a><br><b>Fantasma de eliminação</b></td>
+    <td width="50%" align="center"><a href="captures/atual/unified/ghost/08-ghost-studio-neon.png"><img alt="Ghost Studio com prévia real identificada" src="captures/atual/unified/ghost/08-ghost-studio-neon.png"></a><br><b>Cores, movimento e perfis</b></td>
+  </tr>
   <tr>
     <td width="50%" align="center"><a href="captures/atual/unified/music/02-music-card-fixture.png"><img alt="Now Playing no Forge com metadados de teste identificados" src="captures/atual/unified/music/02-music-card-fixture.png"></a><br><b>Now Playing / fonte de teste</b></td>
     <td width="50%" align="center"><a href="captures/atual/unified/music/05-music-hud-studio-fixture.png"><img alt="HUD Studio com o widget de música real" src="captures/atual/unified/music/05-music-hud-studio-fixture.png"></a><br><b>Posição, escala, cor e perfis</b></td>

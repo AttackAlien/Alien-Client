@@ -1,71 +1,71 @@
 {
-  "launcherVersion": "0.3.0-alpha.10",
-  "launcherSource": "721fa8cd5bae384efc62a9b68d0c3957b1c45756",
-  "workflowRun": "42053831389",
+  "launcherVersion": "0.3.0-alpha.11",
+  "launcherSource": "4c75d2ec052f8c3ec6f419cdbc66600db9e3edd3",
+  "workflowRun": "42073487220",
   "client": {
-    "clientVersion": "0.12.0-alpha.1",
+    "clientVersion": "0.13.0-alpha.1",
     "minecraft": "1.8.9",
     "forge": "11.15.1.2318",
     "repository": "AttackAlien/Alien-Client",
-    "sourceCommit": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+    "sourceCommit": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
     "workflow": ".github/workflows/unified-client-ci.yml",
-    "runId": "42051508518",
-    "artifact": "alien-unified-42051508518",
+    "runId": "42071260924",
+    "artifact": "alien-unified-42071260924",
     "jar": "AlienClient-Unified-1.8.9.jar",
-    "sha256": "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf",
-    "status": "Now Playing HUD from PR #29 stacked on PR #28; not merged into main"
+    "sha256": "330507dcbfa4108e73e193b308a7a820e0202a63cdf160d827b87c28b067a3b3",
+    "status": "Ghost elimination animation stacked on PR #29; not merged into main"
   },
   "captures": [
     {
       "file": "05-launcher-restored-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:29.4560646+00:00",
+      "utc": "2026-11-05T17:22:34.3282185+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "06-launcher-settings-recovery.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:29.7290517+00:00",
+      "utc": "2026-11-05T17:22:34.6017753+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "01-launcher-alien.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:31.0007692+00:00",
+      "utc": "2026-11-05T17:22:36.0512792+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "02-launcher-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:31.7430566+00:00",
+      "utc": "2026-11-05T17:22:36.8070551+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "03-launcher-settings.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:32.5400594+00:00",
+      "utc": "2026-11-05T17:22:37.5756699+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "04-launcher-diagnostics.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-05T15:22:33.3879925+00:00",
+      "utc": "2026-11-05T17:22:38.4363741+00:00",
       "width": 840,
       "height": 470
     }
   ],
   "sha256": {
-    "05-launcher-restored-vanilla.png": "870402306fa09d36e982c26ff073ccb07332992a40b314588c970bd1f50c8bcb",
-    "06-launcher-settings-recovery.png": "b86f19e750914c60028aae58b71ba6dd2843008c6e6afbaa41a063a1528bfa4f",
-    "01-launcher-alien.png": "95ae9b90e002d6d941ea5bcbf9ecc3b52345eb6b9a5e854565a6e378de72012b",
-    "02-launcher-vanilla.png": "47faeed29f0dc6ad0adf198cf2fca95e3e8201c21eb2d36837141e60fd2fa40d",
-    "03-launcher-settings.png": "59642f0ed9d695ca6013e7b6901af32153f07805a6b0d0e1f197f8e69fca9b02",
-    "04-launcher-diagnostics.png": "61cad3d3c7f523e870d759e7cc5ff508312d3458446d566815a47bc14430cdb0"
+    "05-launcher-restored-vanilla.png": "6fb3a68a93b65fb0525b635cf909ed37db7291807c0452513d57cda300675243",
+    "06-launcher-settings-recovery.png": "1870353ec8be9e6fa6b8c6b1d76a1de473c778d3db2d537965af219cfde5c6e8",
+    "01-launcher-alien.png": "8927d740f5a35bad443bc4ed3eca84689fb7166cdcbd181697e300044f3ffb0a",
+    "02-launcher-vanilla.png": "cd645abc63b76b9651880de7b04c6a219e4009c358ee139bf72bd613b0db8d57",
+    "03-launcher-settings.png": "e63cf1c0afddfc2ee707512a67b6c293bd9377339ab7082d07aa82ff30c98e47",
+    "04-launcher-diagnostics.png": "232d4a0de202c1c1c66818a952a1f6a187230d7200f6096795a5806659f09d62"
   },
   "emblem": {
     "file": "launcher/AlienLauncher/Assets/alien-mark.png",

@@ -1,28 +1,29 @@
-Source: 28053d5fae099f7654d0ce47fea6d4b68e6566bb
-Run: 42051508518
+Source: 116ed2bebc22a9ee5b8deb80f28542d578d65d0b
+Run: 42071260924
 Queued chunk task stack occurrences in original console logs:
-general: 81
+general: 72
 sky: 0
 combat: 0
 ultimate: 0
-scene: 76
+scene: 77
 studio: 78
 media: 0
+ghost: 25
 These are not game crash counts. Full logs remain in the CI artifact.
 
 [general]
-[15:09:19] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:09:19] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:09:05] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:09:05] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:09:23] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:09:23] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:09:23] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:09:23] [Thread-7/WARN]: ERROR MESSAGE:
-[15:09:23] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:09:26] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:09:26] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:09:26] [Thread-11/WARN]: ERROR MESSAGE:
-[15:09:26] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:09:09] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:09:09] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:09:09] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:09:09] [Thread-7/WARN]: ERROR MESSAGE:
+[17:09:09] [Sound Library Loader/WARN]: ERROR MESSAGE:
+ALSA lib pcm.c:2664:(snd_pcm_open_noupdate) [17:09:11] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:09:11] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:09:11] [Thread-11/WARN]: ERROR MESSAGE:
+[17:09:12] [Sound Library Loader/WARN]: ERROR MESSAGE:
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
@@ -52,57 +53,57 @@ Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 [sky]
-[15:10:32] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:10:32] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:10:18] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:10:18] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:10:35] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:10:36] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:10:36] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:10:36] [Thread-7/WARN]: ERROR MESSAGE:
-[15:10:36] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:10:38] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:10:38] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:10:38] [Thread-11/WARN]: ERROR MESSAGE:
-[15:10:38] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:10:22] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:10:22] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:10:22] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:10:22] [Thread-7/WARN]: ERROR MESSAGE:
+[17:10:22] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:10:24] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:10:24] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:10:24] [Thread-11/WARN]: ERROR MESSAGE:
+[17:10:25] [Sound Library Loader/WARN]: ERROR MESSAGE:
 [combat]
-[15:11:10] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:11:10] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:11:01] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:11:01] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:11:14] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:11:14] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:11:14] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:11:14] [Thread-7/WARN]: ERROR MESSAGE:
-[15:11:14] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:11:16] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:11:16] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:11:16] [Thread-11/WARN]: ERROR MESSAGE:
-[15:11:16] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:11:04] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:11:04] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:11:04] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:11:04] [Thread-7/WARN]: ERROR MESSAGE:
+[17:11:05] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:11:07] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:11:07] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:11:07] [Thread-11/WARN]: ERROR MESSAGE:
+[17:11:07] [Sound Library Loader/WARN]: ERROR MESSAGE:
 [ultimate]
-[15:11:36] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:11:37] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:11:26] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:11:27] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:11:40] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:11:41] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:11:41] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:11:41] [Thread-7/WARN]: ERROR MESSAGE:
-[15:11:41] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:11:43] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:11:43] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:11:43] [Thread-11/WARN]: ERROR MESSAGE:
-[15:11:43] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:11:30] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:11:30] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:11:30] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:11:30] [Thread-7/WARN]: ERROR MESSAGE:
+[17:11:31] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:11:32] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:11:32] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:11:32] [Thread-11/WARN]: ERROR MESSAGE:
+[17:11:33] [Sound Library Loader/WARN]: ERROR MESSAGE:
 [scene]
-[15:15:10] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:15:10] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:15:00] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:15:00] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:15:14] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:15:14] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:15:14] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:15:14] [Thread-7/WARN]: ERROR MESSAGE:
-[15:15:15] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:15:17] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:15:17] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:15:17] [Thread-11/WARN]: ERROR MESSAGE:
-[15:15:17] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:15:04] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:15:04] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:15:04] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:15:04] [Thread-7/WARN]: ERROR MESSAGE:
+[17:15:04] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:15:07] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:15:07] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:15:07] [Thread-11/WARN]: ERROR MESSAGE:
+[17:15:07] [Sound Library Loader/WARN]: ERROR MESSAGE:
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
@@ -132,18 +133,18 @@ Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 [studio]
-[15:15:54] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:15:54] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:15:49] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:15:50] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:15:58] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:15:58] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:15:58] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:15:58] [Thread-7/WARN]: ERROR MESSAGE:
-[15:15:58] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:16:00] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:16:00] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:16:00] [Thread-11/WARN]: ERROR MESSAGE:
-[15:16:01] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:15:53] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:15:53] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:15:53] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:15:53] [Thread-7/WARN]: ERROR MESSAGE:
+[17:15:53] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:15:55] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:15:55] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:15:55] [Thread-11/WARN]: ERROR MESSAGE:
+[17:15:56] [Sound Library Loader/WARN]: ERROR MESSAGE:
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
@@ -173,15 +174,56 @@ Caused by: java.lang.NullPointerException
 java.util.concurrent.ExecutionException: java.lang.NullPointerException
 Caused by: java.lang.NullPointerException
 [media]
-[15:17:03] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
-[15:17:03] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+[17:17:01] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:17:01] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
 This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
-[15:17:07] [Client thread/ERROR]: Couldn't initialize twitch stream
-[15:17:07] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:17:07] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:17:07] [Thread-7/WARN]: ERROR MESSAGE:
-[15:17:07] [Sound Library Loader/WARN]: ERROR MESSAGE:
-[15:17:09] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
-[15:17:09] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
-[15:17:09] [Thread-11/WARN]: ERROR MESSAGE:
-[15:17:10] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:17:04] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:17:04] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:17:04] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:17:04] [Thread-7/WARN]: ERROR MESSAGE:
+[17:17:05] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:17:07] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:17:07] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:17:07] [Thread-11/WARN]: ERROR MESSAGE:
+[17:17:07] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[ghost]
+[17:17:47] [main/ERROR] [FML]: The binary patch set is missing. Either you are in a development environment, or things are not going to work!
+[17:17:47] [main/ERROR] [FML]: FML appears to be missing any signature data. This is not a good thing
+This is just a prompt for computer specs to be printed. THIS IS NOT A ERROR
+[17:17:50] [Client thread/ERROR]: Couldn't initialize twitch stream
+[17:17:50] [Thread-7/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:17:50] [Thread-7/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:17:50] [Thread-7/WARN]: ERROR MESSAGE:
+[17:17:51] [Sound Library Loader/WARN]: ERROR MESSAGE:
+[17:17:53] [Thread-11/ERROR]: Error in class 'LibraryLWJGLOpenAL'
+[17:17:53] [Thread-11/ERROR]: Unable to initialize OpenAL.  Probable cause: OpenAL not supported.
+[17:17:53] [Thread-11/WARN]: ERROR MESSAGE:
+[17:17:53] [Sound Library Loader/WARN]: ERROR MESSAGE:
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+Caused by: java.lang.NullPointerException

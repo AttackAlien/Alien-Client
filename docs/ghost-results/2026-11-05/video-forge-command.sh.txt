@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+cd /workspace/Alien-Client-ghost
+out=$PWD/build/unified/ghost-smoke
+mkdir -p "$out"
+Xorg :126 -config "$PWD/scripts/ci-combat-xorg.conf" -noreset -nolisten tcp -ac -logfile "$out/xorg.log" > "$out/xorg.stdout.log" 2>&1 &
+xpid=$!
+trap 'kill "$xpid" 2>/dev/null || true' EXIT
+export DISPLAY=:126 LIBGL_ALWAYS_SOFTWARE=1 ALIEN_TOOLS_DIR=/workspace/.alien-tools GRADLE_USER_HOME=/workspace/Alien-Client/.gradle-user
+for i in {1..40}; do if xdpyinfo -display :126 > "$out/xdpyinfo.txt" 2>/dev/null; then break; fi; sleep .2; done
+timeout --signal=QUIT --kill-after=15s 270s ./gradlew --offline --no-daemon -Pedition=unified -PghostVideo runGhostSmokeClient > "$out/minecraft-console.log" 2>&1
+head -n 2 "$out/result.txt"

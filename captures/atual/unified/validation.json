@@ -1,9 +1,9 @@
 {
-  "ci_completed_utc": "2026-11-05T15:18:00Z",
-  "code_revision": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
-  "validation_revision": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
-  "version": "0.12.0-alpha.1",
-  "workflow_run": "42051508518",
+  "ci_completed_utc": "2026-11-05T17:18:35Z",
+  "code_revision": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "validation_revision": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "version": "0.13.0-alpha.1",
+  "workflow_run": "42071260924",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
@@ -12,22 +12,23 @@
     "ultimate": "PASS 437 checks",
     "scene": "PASS 71 checks",
     "studio": "PASS 142 checks",
-    "media": "PASS 51 checks"
+    "media": "PASS 51 checks",
+    "ghost": "PASS 77 checks"
   },
   "junit": {
     "unified": {
-      "tests": 268,
+      "tests": 284,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf",
-    "junit_sha256": "2a2cfe5339e0497a2521b0ecef045d67611e2276eaa23bef4672f26fa75f8c26",
-    "runtime_sha256": "b09b88685e9be70a2011eca46ac960acca24abb58195cdaecadefb309fbbcab8",
-    "source_sha256": "58abcbe84f0c31b72992134d807a17e709b7d7a7877c7034d3fd0d306b5dce86",
-    "started_ns": 1793891465049378499
+    "jar_sha256": "330507dcbfa4108e73e193b308a7a820e0202a63cdf160d827b87c28b067a3b3",
+    "junit_sha256": "d1913f941f43d026cff431b1638130a2af421687575f2c8e1c28d1f4fd7c0d4d",
+    "runtime_sha256": "6d3f72409fb95eb9f2dfe889cc592c1e9b61a635a64bd7261ebaeff77a7ba4dd",
+    "source_sha256": "84139ac77c7cbc9cd313c48b26d7fc5f596baadef5e582da8bc0da7678db7acd",
+    "started_ns": 1793898655637133764
   },
   "screenshots": {
     "01-title.png": "general",
@@ -408,7 +409,35 @@
     "music/04-music-transparent-fixture.png": "media",
     "music/03-music-paused-fixture.png": "media",
     "music/02-music-card-fixture.png": "media",
-    "music/01-music-compact-fixture.png": "media"
+    "music/01-music-compact-fixture.png": "media",
+    "ghost/ghost-motion-16.png": "ghost",
+    "ghost/ghost-motion-13.png": "ghost",
+    "ghost/ghost-motion-15.png": "ghost",
+    "ghost/ghost-motion-14.png": "ghost",
+    "ghost/ghost-motion-12.png": "ghost",
+    "ghost/ghost-motion-11.png": "ghost",
+    "ghost/ghost-motion-10.png": "ghost",
+    "ghost/ghost-motion-09.png": "ghost",
+    "ghost/ghost-motion-08.png": "ghost",
+    "ghost/ghost-motion-07.png": "ghost",
+    "ghost/ghost-motion-06.png": "ghost",
+    "ghost/ghost-motion-05.png": "ghost",
+    "ghost/ghost-motion-04.png": "ghost",
+    "ghost/ghost-motion-03.png": "ghost",
+    "ghost/ghost-motion-02.png": "ghost",
+    "ghost/ghost-motion-01.png": "ghost",
+    "ghost/ghost-motion-00.png": "ghost",
+    "ghost/11-ghost-rose-calm-world.png": "ghost",
+    "ghost/10-ghost-studio-rose.png": "ghost",
+    "ghost/09-ghost-studio-spectral.png": "ghost",
+    "ghost/08-ghost-studio-neon.png": "ghost",
+    "ghost/07-ghost-clean-after-effect.png": "ghost",
+    "ghost/06-ghost-final-sparks.png": "ghost",
+    "ghost/05-ghost-dissolving.png": "ghost",
+    "ghost/04-ghost-floating.png": "ghost",
+    "ghost/03-ghost-ascending.png": "ghost",
+    "ghost/02-ghost-detaching.png": "ghost",
+    "ghost/01-ghost-target-alive.png": "ghost"
   },
   "movies": {
     "cape": {
@@ -421,36 +450,46 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 6440,
+      "milliseconds": 6410,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 13930,
+      "milliseconds": 14130,
       "sourcePrefix": "emote-motion",
       "syntheticFrames": false
     },
     "auras": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 6490,
+      "milliseconds": 6540,
       "sourcePrefix": "aura-motion",
       "syntheticFrames": false
     },
     "mascot": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 7590,
+      "milliseconds": 7700,
       "sourcePrefix": "mascot-motion",
       "syntheticFrames": false
     },
     "tung": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 7790,
+      "milliseconds": 7670,
       "sourcePrefix": "tung-motion",
+      "syntheticFrames": false
+    },
+    "ghost": {
+      "source": "captures/video-atual/Alien-Client-0.13-fantasma-eliminacao.mp4",
+      "sourceSha256": "23e6fe213cc865fd5d6199944f3ab6212c638c47a2164c8537bfb7effc798a56",
+      "intervalSeconds": [
+        0.4,
+        3.4
+      ],
+      "paletteConversionOnly": true,
       "syntheticFrames": false
     }
   },
@@ -574,7 +613,7 @@
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 47037,
+      "minimumChangedBodyPixels": 48124,
       "bodyRegion": [
         790,
         180,
@@ -584,7 +623,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 45531,
+      "minimumChangedBodyPixels": 44955,
       "bodyRegion": [
         790,
         180,
@@ -594,7 +633,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 22360,
+      "minimumChangedBodyPixels": 21050,
       "bodyRegion": [
         790,
         180,
@@ -605,7 +644,7 @@
   },
   "mascotMotionPixelChecks": {
     "uniqueBodyRegions": 24,
-    "medianChangedBodyPixels": 23277,
+    "medianChangedBodyPixels": 20366,
     "bodyRegion": [
       820,
       180,
@@ -614,23 +653,25 @@
     ]
   },
   "notes": [
-    "379 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "407 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-05T15:06:03Z",
-    "end": "2026-11-05T15:18:00Z"
+    "start": "2026-11-05T17:06:08Z",
+    "end": "2026-11-05T17:18:35Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 81,
+    "general": 72,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 76,
+    "scene": 77,
     "studio": 78,
-    "media": 0
-  }
+    "media": 0,
+    "ghost": 25
+  },
+  "ghostNote": "Original procedural neon spirit; world Ghost images show actual sword kills of labeled integrated-server test zombies. Studio previews are labeled. No external multiplayer test."
 }

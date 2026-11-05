@@ -1,0 +1,20 @@
+{
+  "clientSource": "116ed2bebc22a9ee5b8deb80f28542d578d65d0b",
+  "clientRun": "42071260924",
+  "launcherSource": "4c75d2ec052f8c3ec6f419cdbc66600db9e3edd3",
+  "launcherRun": "42073487220",
+  "clientObjects": {
+    "src": "c81287d912ca6c13534996cafc0950f075f2214f",
+    "scripts": "d3cd2adc32a3ce7d67813cf3f9c572c4f6caba01",
+    "build.gradle": "f3171f09745574475911a21f79e9c388424411cb",
+    "gradle.properties": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a",
+    "gradlew": "cf866ec02c3d6071a5eeba482661da9c626824a2",
+    ".github/workflows/unified-client-ci.yml": "e1d6d596b2e236a8c011f26ae7c2c08eb3f8ec48"
+  },
+  "launcherObjects": {
+    "launcher": "7bcc443f43d7fa175bcc505545cd78e18e117263",
+    ".github/workflows/alien-launcher.yml": "407bd16e5ba3f5639f36ebcd5cade8b1ed646f2b",
+    ".github/workflows/now-playing-ci.yml": "0042688069af8c462006e43f2a7011c2b0efd040"
+  },
+  "note": "Publication adds only docs, screenshots, video and downloads. Source/build trees match the exact successful CI inputs."
+}

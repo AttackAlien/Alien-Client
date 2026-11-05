@@ -1,0 +1,39 @@
+PASS 37 checks
+Actual Forge 1.8.9 full; sampled cubemap Up/South/North faces, orientation and brightness in live framebuffer
+PASS Valid edition was selected
+PASS Production mod has expected ID
+PASS Overworld loaded in actual Minecraft/Forge
+PASS Disposable six-face 3x2 atlas generated
+PASS Skybox atlas decoded and uploaded through the real texture manager
+PASS Real framebuffer screenshot sky-cube-up
+PASS sky-cube-up matches atlas face: actual #3678e5 expected #3678e5
+PASS OpenGL error-free cubemap render
+PASS Real framebuffer screenshot sky-cube-south
+PASS sky-cube-south matches atlas face: actual #c43bc9 expected #c43bc9
+PASS Real framebuffer screenshot sky-cube-north
+PASS sky-cube-north matches atlas face: actual #35c5ce expected #35c5ce
+PASS Real framebuffer screenshot sky-cube-yaw180
+PASS sky-cube-yaw180 matches atlas face: actual #c43bc9 expected #c43bc9
+PASS 180 degree skybox yaw visibly changes the actual framebuffer
+PASS Real framebuffer screenshot sky-cube-dimmed
+PASS Skybox brightness darkens the real PNG framebuffer
+PASS New Sky Studio options persist after the actual config reload
+PASS Redesigned World Studio Imports opens preserved Skybox Options
+PASS Skybox Options screen opens and renders in the live world
+PASS Real framebuffer screenshot sky-options-live-world
+PASS Twinkling stars button changes live setting
+PASS Reset skybox options restores defaults without clearing selected PNG
+PASS Skybox remains selected after options reset
+PASS Redesigned World Studio Imports opens the new local Skybox Gallery
+PASS New skybox gallery renders in the actual Minecraft GUI
+PASS Real framebuffer screenshot sky-gallery-with-cubemap-preview
+PASS Skybox Gallery shows the decoded atlas texture in its real preview framebuffer
+PASS Gallery favorite button saves the selected PNG basename
+PASS Gallery Apply selects a valid atlas for the live sky
+PASS Gallery Procedural action returns to built-in sky without changing game time
+PASS Removing filename releases atlas and restores procedural sky
+PASS Real framebuffer screenshot sky-procedural-restored
+PASS Disabling custom sky restores vanilla renderer
+PASS Final game render has no OpenGL errors
+PASS No config persistence errors during graphical smoke
+PASS Real framebuffer screenshot sky-vanilla-restored
