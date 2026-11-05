@@ -11,35 +11,45 @@ import org.lwjgl.opengl.GL11;
 final class CosmeticMeshRenderer {
     private static final int CACHE_LIMIT = 48;
     private static final Map<Key, Integer> LISTS = new LinkedHashMap<Key, Integer>(64, .75f, true);
+    private static final Map<Key, Integer> MASCOT_LISTS = new LinkedHashMap<Key, Integer>(64, .75f, true);
     private CosmeticMeshRenderer() { }
 
     static void draw(Mesh mesh, int primary, int secondary) {
+        draw(mesh, primary, secondary, LISTS, false);
+    }
+
+    /** Mascots use positive Y up; their palettes cannot evict player accessories. */
+    static void drawMascot(Mesh mesh, int primary, int secondary) {
+        draw(mesh, primary, secondary, MASCOT_LISTS, true);
+    }
+
+    private static void draw(Mesh mesh, int primary, int secondary, Map<Key, Integer> lists, boolean mascot) {
         if (mesh.vertexCount() == 0) return;
         Key key = new Key(mesh, primary, secondary);
-        Integer list = LISTS.get(key);
+        Integer list = lists.get(key);
         if (list == null) {
-            if (LISTS.size() >= CACHE_LIMIT) {
-                Iterator<Map.Entry<Key, Integer>> entries = LISTS.entrySet().iterator();
+            if (lists.size() >= CACHE_LIMIT) {
+                Iterator<Map.Entry<Key, Integer>> entries = lists.entrySet().iterator();
                 Map.Entry<Key, Integer> oldest = entries.next();
                 GL11.glDeleteLists(oldest.getValue(), 1); entries.remove();
             }
             int generated = GL11.glGenLists(1);
-            if (generated == 0) { drawStream(mesh, primary, secondary); return; }
+            if (generated == 0) { drawStream(mesh, primary, secondary, mascot); return; }
             GL11.glNewList(generated, GL11.GL_COMPILE);
-            drawStream(mesh, primary, secondary);
-            GL11.glEndList(); LISTS.put(key, generated); list = generated;
+            drawStream(mesh, primary, secondary, mascot);
+            GL11.glEndList(); lists.put(key, generated); list = generated;
         }
         GL11.glCallList(list);
     }
 
-    private static void drawStream(MeshView mesh, int primary, int secondary) {
+    private static void drawStream(MeshView mesh, int primary, int secondary, boolean mascot) {
         GL11.glBegin(GL11.GL_TRIANGLES);
         for (int i = 0; i < mesh.vertexCount(); i++) {
             int material = mesh.material(i);
             int color = material == Mesh.ACCENT ? secondary : material == Mesh.HIGHLIGHT ? mix(primary, secondary, .65f) : primary;
-            float light = mesh.shade(i) * (material == Mesh.SHADOW ? .64f : 1f);
+            float light = (mascot ? Math.max(.48f,Math.min(1.06f,.76f-mesh.nx(i)*.14f+mesh.ny(i)*.22f+mesh.nz(i)*.20f)) : mesh.shade(i)) * (material == Mesh.SHADOW ? .64f : 1f);
             float specular=(material==Mesh.ACCENT||material==Mesh.HIGHLIGHT)
-                    ?(float)Math.pow(Math.max(0,-mesh.nx(i)*.31f-mesh.ny(i)*.79f-mesh.nz(i)*.53f),18)*.28f:0;
+                    ?(float)Math.pow(Math.max(0,-mesh.nx(i)*.31f+(mascot?1:-1)*(mesh.ny(i)*.79f+mesh.nz(i)*.53f)),18)*.28f:0;
             GL11.glColor4f(Math.min(1,((color >> 16) & 255) / 255f * light+specular), Math.min(1,((color >> 8) & 255) / 255f * light+specular), Math.min(1,(color & 255) / 255f * light+specular), 1);
             GL11.glNormal3f(mesh.nx(i), mesh.ny(i), mesh.nz(i));
             GL11.glVertex3f(mesh.x(i) / 16f, mesh.y(i) / 16f, mesh.z(i) / 16f);

@@ -2,6 +2,8 @@
 
 Abra **Cosmetic Studio → Pet** e ative **Mascot**. O mini alien usa um modelo original arredondado, com olhos que piscam, antenas flexíveis, braços e pés animados. O botão Player view alterna entre a prévia ampliada do mascote e a vista junto ao jogador.
 
+O polimento mantém a identidade e as preferências anteriores: cabeça com contorno mais suave, lentes rasas com íris e reflexos, sorriso discreto, gola e acabamentos do traje. A iluminação acompanha o eixo vertical do modelo. Respiração sutil, olhar em movimento, cotovelos, pulso e antenas articuladas deixam o repouso e o aceno menos rígidos. Desligar Animation também neutraliza essas novas articulações.
+
 - **Follow:** acompanha o dono com movimento amortecido; distância, altura e lado são ajustáveis.
 - **Shoulder:** fica junto ao ombro, com proporção reduzida. Distância e altura ficam fixas nesse modo e seus sliders são desabilitados.
 - **Orbit:** circula o dono; distância controla o raio e Animation speed altera a velocidade.
