@@ -1,0 +1,1 @@
+ce5cf621ae30404cfe8aa3fd87541675b061b7cd7d10e3985f4950747029a1a6  AlienLauncher-Windows-x64-0.3.0-alpha.9.zip

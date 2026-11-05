@@ -1,0 +1,7 @@
+{
+  "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "workflowRun": "42027857579",
+  "tests": 12,
+  "status": "PASS",
+  "originalStep": "Unified JAR  Java 8/17_Validate packaging and stale-evidence rejection against real built artifacts.txt"
+}

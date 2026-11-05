@@ -1,71 +1,71 @@
 {
-  "launcherVersion": "0.3.0-alpha.8",
-  "launcherSource": "abcbf57908af259fbf89e67ae8f471c0cc47db12",
-  "workflowRun": "41877291508",
+  "launcherVersion": "0.3.0-alpha.9",
+  "launcherSource": "df953f1ae927bdf03051e1f58965dcae272d3a68",
+  "workflowRun": "42030955347",
   "client": {
     "clientVersion": "0.11.0-alpha.1",
     "minecraft": "1.8.9",
     "forge": "11.15.1.2318",
     "repository": "AttackAlien/Alien-Client",
-    "sourceCommit": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+    "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
     "workflow": ".github/workflows/unified-client-ci.yml",
-    "runId": "41874722323",
-    "artifact": "alien-unified-41874722323",
+    "runId": "42027857579",
+    "artifact": "alien-unified-42027857579",
     "jar": "AlienClient-Unified-1.8.9.jar",
-    "sha256": "8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43",
-    "status": "Animated Mascot Studio from PR #28; not merged into main"
+    "sha256": "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a",
+    "status": "Quaternius + Tung Tung Sahur models from PR #28; not merged into main"
   },
   "captures": [
     {
       "file": "05-launcher-restored-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:14.8007317+00:00",
+      "utc": "2026-11-05T12:56:29.4989423+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "06-launcher-settings-recovery.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:15.029518+00:00",
+      "utc": "2026-11-05T12:56:29.6973024+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "01-launcher-alien.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:16.3765912+00:00",
+      "utc": "2026-11-05T12:56:31.3442634+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "02-launcher-vanilla.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:17.1186077+00:00",
+      "utc": "2026-11-05T12:56:32.0713199+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "03-launcher-settings.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:17.9317227+00:00",
+      "utc": "2026-11-05T12:56:32.9441443+00:00",
       "width": 1000,
       "height": 680
     },
     {
       "file": "04-launcher-diagnostics.png",
       "method": "CopyFromScreen / actual Windows desktop",
-      "utc": "2026-11-04T17:28:18.7774515+00:00",
+      "utc": "2026-11-05T12:56:33.7787691+00:00",
       "width": 840,
       "height": 470
     }
   ],
   "sha256": {
-    "05-launcher-restored-vanilla.png": "30e4c0a7fd838356a31ba72353f0fbfc58f86c70a299ff5e72205adaa6a92095",
-    "06-launcher-settings-recovery.png": "7c0569d9eef84a3c218940ffe1c6623ef455a2f644ec097a6a6f1d4d0a714e97",
-    "01-launcher-alien.png": "6ab818c5a1e043f20e6114ee95987f1a7e81f71bfe28342f746ceaf72e9d52ab",
-    "02-launcher-vanilla.png": "513cfc4de9aa0b059244d3bf2f10e5d3e3446f7965e51bf5d006d3818d9f9f7c",
-    "03-launcher-settings.png": "d3a7d6b8c1d8ef9b7574387ab4317195de40d446da723ef93920e4c61d47ddce",
-    "04-launcher-diagnostics.png": "d0563e0af2b80d7d86310552423f8646704062a716ff493728581f4d9801e0e0"
+    "05-launcher-restored-vanilla.png": "e0c25ded603bf9531b5a338f607bc2fcb77e08bda20508d04d1f9e125c6c449b",
+    "06-launcher-settings-recovery.png": "8c86cd903d903c2f4b651d71b0514cefb97b5d91faf4baf0b1edaa1a88568555",
+    "01-launcher-alien.png": "33692f1a0454ec979844bf68ea03a328c9b58aeeb5a10c61bf1b630bcd491c5d",
+    "02-launcher-vanilla.png": "a42d0f3d30cb120431a68b873ef4b4d5569f2b936f156236568eeb4e27718471",
+    "03-launcher-settings.png": "645c83731b722b9b7b870f3fbdc27992df735dd1bb88ff32925135f91554e1d4",
+    "04-launcher-diagnostics.png": "4bba79cab58fd7fef18b2c494f48e56e7151d4f4551f3a15f3b13c0467a52756"
   },
   "emblem": {
     "file": "launcher/AlienLauncher/Assets/alien-mark.png",

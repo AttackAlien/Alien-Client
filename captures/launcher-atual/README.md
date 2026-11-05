@@ -1,10 +1,10 @@
-# Launcher 0.3.0-alpha.8 — capturas atuais
+# Launcher 0.3.0-alpha.9 — capturas atuais
 
-Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 04/11/2026. As fotos anteriores desta pasta foram substituídas. Layout e emblema aprovados foram mantidos; o client incluído agora é **Unified 0.11.0-alpha.1**.
+Seis PNGs originais da janela WinForms executada no Windows Server 2022 em 05/11/2026, substituindo as imagens anteriores desta pasta. Layout/emblema preservados; o payload agora é o **Unified 0.11.0-alpha.1 com Alien e Tung Tung Sahur**.
 
-Os artifacts contêm 31 testes Windows, 31 Linux, 46 checks da janela e instalação aprovados. A API do GitHub ainda informa o workflow como `queued`, sem conclusão; os relatórios originais e os hashes foram conferidos independentemente. [Registro da inconsistência](../../docs/ANIMATED-MASCOT-VALIDATION.md#estado-do-workflow-do-launcher).
+31 testes Linux, 31 Windows, 46 checks da janela e instalação isolada aprovados; [workflow 42030955347](https://github.com/AttackAlien/Alien-Client/actions/runs/42030955347) concluído com sucesso.
 
-[Baixar launcher atualizado](../../downloads/launcher/v0.3.0-alpha.8/README.md) · [Resultados e limites](../../docs/ANIMATED-MASCOT-VALIDATION.md) · [CI 41877291508](https://github.com/AttackAlien/Alien-Client/actions/runs/41877291508) · [Métodos, horários e hashes](manifest.json) · [336 fotos novas do Minecraft](../README.md).
+[Baixar launcher candidato](../../downloads/launcher/v0.3.0-alpha.9/README.md) · [Resultados e limites](../../docs/ANIMATED-MASCOT-VALIDATION.md) · [Métodos/horários/hashes](manifest.json) · [368 fotos novas do Minecraft](../README.md).
 
 ## Tela inicial
 

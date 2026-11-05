@@ -1,10 +1,10 @@
-# Vídeo atual — mascote animado, customizações e Full
+# Vídeo atual — Quaternius, Tung Tung Sahur, customizações e Full
 
-**[Assistir / baixar MP4](Alien-Client-0.11-customizacoes-full.mp4)** — 123.69s, 960×540, H.264, 29.97 FPS nativos (`30000/1001`), sem áudio. Gravação contínua do Minecraft Forge 1.8.9 em execução, sem sequência de fotos, aceleração, frames gerados ou interpolação.
+**[Assistir / baixar MP4](Alien-Client-0.11-customizacoes-full.mp4)** — 141.73s, 960×540, H.264/YUV420p, sem áudio. Gravação contínua original de Minecraft Forge 1.8.9 por FFmpeg x11grab, sem sequência de fotos, aceleração, reedição ou interpolação posterior.
 
-Mediana medida no jogo: **57.9 FPS**, P95 **28.6 ms/frame** em Linux/Mesa por software. O arquivo é a saída original do FFmpeg, sem reedição. A taxa solicitada foi 30 FPS; o encoder registrou 29,97 e esse valor foi preservado.
+Captura solicitada a **30 FPS**; taxa média codificada preservada: **29.986 FPS** (`31875/1063`). Mediana medida no jogo: **57.0 FPS**, P95 **30.1 ms/frame**, em Linux/Mesa por software. Não é uma promessa de desempenho em outra máquina.
 
-[![Frame real do mascote no ombro, extraído aos 114s](preview-do-video.png)](Alien-Client-0.11-customizacoes-full.mp4)
+[![Frame real do Tung no ombro, extraído aos 132s](preview-do-video.png)](Alien-Client-0.11-customizacoes-full.mp4)
 
 ## Capítulos aproximados
 
@@ -21,10 +21,11 @@ Mediana medida no jogo: **57.9 FPS**, P95 **28.6 ms/frame** em Linux/Mesa por so
 - 01:22 — Auto Food
 - 01:29 — Auto Potion
 - 01:36 — AutoBridge
-- 01:45 — Mascote alien animado
+- 01:45 — Mascote alien Quaternius
+- 02:03 — Tung Tung Sahur
 
-As legendas identificam uma demonstração automatizada em mundo local descartável. O mascote aparece no último capítulo, a partir de 01:45, acompanhando movimento real, acenando durante Floss e mudando entre Follow, Shoulder e Orbit. O filme também confirma ações reais dos módulos Full em condições preparadas pelo servidor integrado; AutoBridge foi ativado separadamente para seu capítulo.
+O alien aparece por volta de 01:45; o Tung, de 02:03. Ambos passam por Follow, Shoulder e Orbit com movimento nativo e reações reais aos emotes. O alien usa os clips do autor; o Tung é uma malha estática com movimento do conjunto. Os módulos Full continuam realizando ações reais em condições preparadas no servidor integrado. As legendas identificam a demonstração automatizada em mundo local descartável.
 
-Fonte `2eef9a5227cff07830300d8d05a6d0b01aacc4a0`. [Recibos e medições](../../docs/mascot-results/2026-11-04/video/) · [SHA-256](SHA256SUMS.txt) · [Guia do mascote](../../docs/ANIMATED-MASCOT.md) · [Resultados](../../docs/ANIMATED-MASCOT-VALIDATION.md).
+Fonte `1568db3f9cd76edc4c48fb3cc73961ca5a776f1f`. [Recibos e medições](../../docs/mascot-results/2026-11-05/video/) · [SHA-256](SHA256SUMS.txt) · [Guia](../../docs/ANIMATED-MASCOT.md) · [Resultados](../../docs/ANIMATED-MASCOT-VALIDATION.md).
 
-O filme anterior saiu da pasta atual e permanece no histórico Git. Login Microsoft, multiplayer externo e gameplay em Windows físico não foram validados.
+Modelos: [Quaternius / CC0](https://poly.pizza/m/HYUUkdugoP) e [CalinnHotCake / CC BY 3.0](https://poly.pizza/m/Q6SvoDhhwA). O filme anterior saiu da pasta atual e permanece no histórico Git. Login Microsoft, multiplayer externo, GPU física e gameplay em Windows pessoal não foram validados.

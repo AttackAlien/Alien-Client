@@ -1,32 +1,32 @@
 {
-  "ci_completed_utc": "2026-11-04T17:21:27Z",
-  "code_revision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
-  "validation_revision": "5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa",
+  "ci_completed_utc": "2026-11-05T12:44:16Z",
+  "code_revision": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "validation_revision": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
   "version": "0.11.0-alpha.1",
-  "workflow_run": "41874722323",
+  "workflow_run": "42027857579",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
     "sky": "PASS 37 checks",
     "combat": "PASS 24 checks",
-    "ultimate": "PASS 390 checks",
+    "ultimate": "PASS 437 checks",
     "scene": "PASS 71 checks",
     "studio": "PASS 142 checks"
   },
   "junit": {
     "unified": {
-      "tests": 237,
+      "tests": 253,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43",
-    "junit_sha256": "1ea96c127f8aa8147714446d9249be22bbe551bb33573676c76467b9a57580fe",
-    "runtime_sha256": "5752ed158a525978b3cfe912eece8311bc95f1127309da83d0596bd7e562e4a2",
-    "source_sha256": "ee3eb78ddf57e55688716739cff16cf5fa23c4c19d549e77ec042905b4f69f1b",
-    "started_ns": 1793812516151703514
+    "jar_sha256": "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a",
+    "junit_sha256": "4702d65892301bcdf6daf6564c15eef55e19e554c8461ae3c82c929b5d3d49b4",
+    "runtime_sha256": "2aaa6f8d127591442392948eec3c2ffc47098bfd9ad64c1eb1b332be6206bdd0",
+    "source_sha256": "27bac59fd59aedca0c06c751dc6def4cd28f4535bbcdebf0d12a123f1a3e82e3",
+    "started_ns": 1793882209637354061
   },
   "screenshots": {
     "01-title.png": "general",
@@ -359,12 +359,44 @@
     "186-mascot-studio-solar.png": "ultimate",
     "185-mascot-orbit-world.png": "ultimate",
     "184-mascot-shoulder-preview.png": "ultimate",
-    "182-mascot-emote-wave.png": "ultimate",
+    "182-mascot-emote-clapping.png": "ultimate",
     "183-mascot-emote-reaction-off.png": "ultimate",
     "181-mascot-follow-moving.png": "ultimate",
     "180-mascot-studio-mint.png": "ultimate",
     "179-mascot-studio-alien.png": "ultimate",
-    "178-mascot-studio-off.png": "ultimate"
+    "178-mascot-studio-off.png": "ultimate",
+    "tung-motion-23.png": "ultimate",
+    "tung-motion-22.png": "ultimate",
+    "tung-motion-21.png": "ultimate",
+    "tung-motion-20.png": "ultimate",
+    "tung-motion-19.png": "ultimate",
+    "tung-motion-18.png": "ultimate",
+    "tung-motion-17.png": "ultimate",
+    "tung-motion-16.png": "ultimate",
+    "tung-motion-15.png": "ultimate",
+    "tung-motion-14.png": "ultimate",
+    "tung-motion-12.png": "ultimate",
+    "tung-motion-13.png": "ultimate",
+    "tung-motion-11.png": "ultimate",
+    "tung-motion-10.png": "ultimate",
+    "tung-motion-09.png": "ultimate",
+    "tung-motion-08.png": "ultimate",
+    "tung-motion-07.png": "ultimate",
+    "tung-motion-06.png": "ultimate",
+    "tung-motion-05.png": "ultimate",
+    "tung-motion-04.png": "ultimate",
+    "tung-motion-03.png": "ultimate",
+    "tung-motion-02.png": "ultimate",
+    "tung-motion-01.png": "ultimate",
+    "tung-motion-00.png": "ultimate",
+    "200-tung-studio-compact.png": "ultimate",
+    "199-tung-profile-restored.png": "ultimate",
+    "198-alien-after-tung.png": "ultimate",
+    "197-tung-animation-off.png": "ultimate",
+    "196-tung-orbit-world.png": "ultimate",
+    "195-tung-shoulder-preview.png": "ultimate",
+    "194-tung-follow-moving.png": "ultimate",
+    "193-tung-studio-original.png": "ultimate"
   },
   "movies": {
     "cape": {
@@ -377,36 +409,159 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 6730,
+      "milliseconds": 7470,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 14920,
+      "milliseconds": 16120,
       "sourcePrefix": "emote-motion",
       "syntheticFrames": false
     },
     "auras": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 6730,
+      "milliseconds": 7370,
       "sourcePrefix": "aura-motion",
       "syntheticFrames": false
     },
     "mascot": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 8140,
+      "milliseconds": 8890,
       "sourcePrefix": "mascot-motion",
       "syntheticFrames": false
+    },
+    "tung": {
+      "frames": 24,
+      "encodedFrames": 24,
+      "milliseconds": 9350,
+      "sourcePrefix": "tung-motion",
+      "syntheticFrames": false
+    }
+  },
+  "sourceModels": {
+    "alien": {
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "model": "Alien (Quaternius)",
+      "sourceUrl": "https://poly.pizza/m/HYUUkdugoP",
+      "sourceSha256": "f55d091cd3914977724f4a7887e1866e73c2f2045df391e83c787b6736552ddb",
+      "outputSha256": "7749328ce94dde8566947e1e9e4f94879eb4573bc47961b35a0b915b6cbe2ac7",
+      "vertices": 7642,
+      "triangles": 3774,
+      "joints": 45,
+      "clips": [
+        {
+          "name": "Clapping",
+          "duration": 2.0833332538604736,
+          "frames": 51
+        },
+        {
+          "name": "Death",
+          "duration": 2.2916667461395264,
+          "frames": 56
+        },
+        {
+          "name": "Idle",
+          "duration": 4.166666507720947,
+          "frames": 101
+        },
+        {
+          "name": "IdleHold",
+          "duration": 4.166666507720947,
+          "frames": 101
+        },
+        {
+          "name": "Jump",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        },
+        {
+          "name": "Punch",
+          "duration": 0.9166666865348816,
+          "frames": 23
+        },
+        {
+          "name": "Run",
+          "duration": 0.875,
+          "frames": 22
+        },
+        {
+          "name": "RunHold",
+          "duration": 0.875,
+          "frames": 22
+        },
+        {
+          "name": "RunningJump",
+          "duration": 1.25,
+          "frames": 31
+        },
+        {
+          "name": "Sitting",
+          "duration": 1.0833333730697632,
+          "frames": 27
+        },
+        {
+          "name": "Standing",
+          "duration": 0.625,
+          "frames": 16
+        },
+        {
+          "name": "Swimming",
+          "duration": 1.3333333730697632,
+          "frames": 33
+        },
+        {
+          "name": "SwordSlash",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        },
+        {
+          "name": "Walk",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        }
+      ],
+      "normalizationScale": 0.24823745088847263,
+      "normalizationCenter": [
+        -0.02506265177166933,
+        1.4456089157974825,
+        0.1169781511195429
+      ],
+      "packedBytes": 2510014,
+      "compressedBytes": 1443622
+    },
+    "tung": {
+      "author": "CalinnHotCake",
+      "license": "CC-BY-3.0",
+      "model": "Tung Tung Tung Sahur",
+      "sourceUrl": "https://poly.pizza/m/Q6SvoDhhwA",
+      "sourceSha256": "ee51070ee71acf12f88ddd551a70411f1f390447baf8568d352d39b7da464575",
+      "outputSha256": "cf833d95cef907d969458747f99eea7ef671b176b8353bc7de3fa6f98a795dd8",
+      "vertices": 1792,
+      "triangles": 872,
+      "materials": [
+        "#FFAC20",
+        "#AA6C27",
+        "#CE832F",
+        "#FFFFFF",
+        "#141414",
+        "#51330F"
+      ],
+      "authoredAnimations": 0,
+      "joints": 0,
+      "normalizationScale": 0.7201099027772754,
+      "orientationYaw": -90.0,
+      "compressedBytes": 20650
     }
   },
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 48770,
+      "minimumChangedBodyPixels": 47577,
       "bodyRegion": [
         790,
         180,
@@ -416,7 +571,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 45423,
+      "minimumChangedBodyPixels": 46043,
       "bodyRegion": [
         790,
         180,
@@ -426,7 +581,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 20453,
+      "minimumChangedBodyPixels": 37314,
       "bodyRegion": [
         790,
         180,
@@ -437,7 +592,7 @@
   },
   "mascotMotionPixelChecks": {
     "uniqueBodyRegions": 24,
-    "medianChangedBodyPixels": 25454,
+    "medianChangedBodyPixels": 18842,
     "bodyRegion": [
       820,
       180,
@@ -446,22 +601,22 @@
     ]
   },
   "notes": [
-    "336 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "368 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-04T17:09:07Z",
-    "end": "2026-11-04T17:21:27Z"
+    "start": "2026-11-05T12:31:27Z",
+    "end": "2026-11-05T12:44:16Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 81,
+    "general": 72,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 75,
-    "studio": 78
+    "scene": 77,
+    "studio": 79
   }
 }

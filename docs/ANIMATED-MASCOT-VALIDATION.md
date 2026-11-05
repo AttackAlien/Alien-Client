@@ -1,81 +1,70 @@
-# Validação — Mascot Studio / Unified 0.11.0-alpha.1
+# Validação — dois modelos prontos / Unified 0.11.0-alpha.1
 
-[PR #28](https://github.com/AttackAlien/Alien-Client/pull/28), branch `feature/animated-mascot-20261104`, baseada na main integrada. Sem merge ou novo release desta implementação; o release público 0.10 foi preservado. [Guia](ANIMATED-MASCOT.md).
+[PR #28](https://github.com/AttackAlien/Alien-Client/pull/28), branch `feature/animated-mascot-20261104`. Sem merge ou novo release; o release público 0.10 foi preservado. [Como usar](ANIMATED-MASCOT.md).
 
-## Resultados de 04/11/2026
+## Resultados de 05/11/2026
 
-**237 JUnit**, sem falhas/erros/ignorados; **825 checks gráficos** em seis sessões Forge 1.8.9; **12 testes de empacotamento** incluindo rejeição de evidência obsoleta.
+**253 JUnit, 872 checks gráficos e 12 testes de empacotamento aprovados**, sem testes JUnit falhando, ignorados ou com erro.
 
-| Sessão | Resultado |
+| Sessão Forge | Resultado |
 | --- | --- |
 | general | PASS 161 checks |
 | sky | PASS 37 checks |
 | combat | PASS 24 checks |
-| ultimate | PASS 390 checks |
+| ultimate | PASS 437 checks |
 | scene | PASS 71 checks |
 | studio | PASS 142 checks |
 
-Legit/Full: 237 JUnit + 155 checks gráficos por composição. Sky Studio: 237 + 37 por composição. Launcher: 31 testes Linux, 31 Windows, 46 checks da janela nativa, seis capturas e instalação isolada Java 8/Forge/JAR 0.11 aprovados. ZIPs com CRC completo e EXE AMD64 verificados.
+Legit/Full: 253 JUnit + 155 checks gráficos por composição. Sky Studio: 253 + 37 por composição. Rodada local direcionada: **112 checks**. Launcher: **31 testes Linux + 31 Windows, 46 checks da janela nativa, seis PNGs e instalação Java 8/Forge/JAR aprovados**, workflow concluído com sucesso. CRC do ZIP, arquitetura AMD64 e payload exato conferidos.
 
-A rodada local direcionada passou **65 checks** do mascote. Os checks incluem estados, controles e capturas; não representam centenas de golden images ou um benchmark. [Recibos originais, XMLs e metadados](mascot-results/2026-11-04/).
+Os checks gráficos incluem estados, controles e capturas; não são centenas de golden images ou um benchmark. [Recibos originais, XMLs, TRX, metadados e etapa dos 12 testes](mascot-results/2026-11-05/).
 
-### Estado do workflow do launcher
+## Modelos e comportamento exercitados
 
-A API autenticada e a API pública ainda retornam `status: queued` e `conclusion: null` para o workflow 41877291508, fonte `abcbf57908af259fbf89e67ae8f471c0cc47db12`. O workflow completo **não é declarado concluído**. Entretanto, o GitHub já disponibiliza seus dois artifacts, produzidos entre 17:25 e 17:29 UTC, com os relatórios originais: 31 testes Linux e 31 Windows aprovados, 46 checks da janela nativa, seis PNGs e `INSTALL_PASS` para Java 8/Forge/JAR 0.11. Os metadados dos artifacts apontam para a mesma execução e revisão.
+| Modelo pronto | Autor/licença | Dados originais | Comportamento ligado ao jogo |
+| --- | --- | --- | --- |
+| [Alien](https://poly.pizza/m/HYUUkdugoP) | Quaternius / CC0 | 7.642 vértices, 3.774 triângulos, 45 juntas, 14 clips | Idle, Walk, Clapping, Sitting, com transições graduais |
+| [Tung Tung Tung Sahur](https://poly.pizza/m/Q6SvoDhhwA) | CalinnHotCake / CC BY 3.0 | 1.792 vértices, 872 triângulos, seis materiais, sem rig/clips | Flutuação, inclinação e balanço do conjunto; Follow/Shoulder/Orbit |
 
-Esses recibos, os hashes das seis imagens, o CRC integral do ZIP, a arquitetura AMD64 do EXE e a identidade exata do JAR/payload foram verificados independentemente. O pacote é entregue como candidato do PR, sem merge ou novo release. [Resposta do workflow](mascot-results/2026-11-04/launcher-ci-run.json) · [Consulta pública](mascot-results/2026-11-04/launcher-public-run.json) · [Metadados dos artifacts](mascot-results/2026-11-04/launcher-artifacts.json) · [Resumo das verificações](mascot-results/2026-11-04/launcher-summary.json).
+Os GLBs são os arquivos baixados dos modelos, preservados com hashes, licenças e atribuição em [third_party](../third_party/). A conversão normaliza coordenadas e escala; não reconstrói personagens com primitivas. O alien conserva os 14 clips nos dados, dos quais quatro estão ligados ao comportamento. O Tung não tem dança articulada, animação facial nativa ou áudio. Os materiais dos olhos/reflexos permanecem protegidos das paletas; o preset Original restaura as cores base. A iluminação do Forge não reproduz o renderizador PBR do site.
 
-## Exercitado no jogo real
+O seletor Model foi acionado no editor real: o renderer alternou entre os dois meshes e voltou ao alien. Movimento nativo X11 ativou acompanhamento, inclinação e os canais reais de animação; Floss do jogador ativou a reação. Os modos de ombro e órbita alteraram as posições reais. Animação desligada manteve os modelos visíveis; orçamento zero removeu estados/geometria e restaurar orçamento recriou o modelo escolhido.
 
-A navegação Pet abriu o editor sem remover os estúdios existentes. O renderer desenhou o mesmo mascote na prévia ampliada e no mundo; as paletas Alien/Mint/Solar chegaram aos materiais reais. O seletor HEX foi editado pelo handler de teclado e o valor foi persistido. Perfil Unified e slots de looks restauraram configurações independentes.
+Perfis Unified e looks restauraram modelo, cores e modo, mantendo slots independentes. O editor compacto continuou rolando até o último slider após adicionar o seletor. Teleporte real, inatividade, movimento para despertar, HSV/HEX e master de cosméticos foram exercitados. Os passes terminaram com escopos de emotes equilibrados e sem erros OpenGL.
 
-Movimento nativo X11 elevou a resposta de movimento e deslocou o dono real. Ao parar, o seguidor estabilizou perto dele. Floss real ativou o aceno; desligar React to emotes liberou a reação enquanto o emote continuava. Shoulder colocou o mascote à altura do ombro; Orbit moveu sua posição X/Z enquanto o dono continuava parado.
+JUnit cobre hashes do GLB/recurso, dados e clips reais, skinning finito, normais, deformações distintas, continuidade, independência da quantidade de frames, rejeição de dados corrompidos, migração de perfis sem model, cópias/persistência e orientação do rosto do Tung. A conferência visual pegou a orientação inicial virada para trás; ela foi corrigida e recebeu um teste de geometria. O primeiro ensaio do conversor detectou índices de juntas gravados com largura incompatível, corrigidos antes da rodada aprovada.
 
-Animation OFF manteve uma figura estática visível. Um teleporte real do servidor reposicionou o seguidor perto do dono. Aguardar a inatividade colocou o mascote em repouso; movimento nativo o despertou. Rolagem X11 expôs o último slider no layout compacto. Orçamento zero e Mascot OFF limparam estados e geometria; restaurar orçamento ou carregar perfil recriou o companheiro. Os passes e editores terminaram sem erros OpenGL e com escopos de emotes equilibrados.
+O renderer reutiliza malha, clips, matrizes e buffers e envia um batch por mascote. O limite continua sendo quatro estados visuais, com prioridade do dono e orçamento de cosméticos. Troca de mundo/perfil, morte, invisibilidade, distância e desligamento limpam os estados. Não são criadas entidades nem enviados comandos pelo sistema de mascotes.
 
-Os testes JUnit cobrem migração com opt-in desligado, normalização de importações corrompidas, presets, cópias independentes em looks/perfis, persistência junto de emotes/auras, acompanhamento amortecido, teleporte sem interpolação longa, modos distintos, repouso/despertar, gatilho de emotes, independência da quantidade de frames e da subdivisão do tick, entradas inválidas, animação desligada, piscada/aceno e geometria finita/limitada.
+## Capturas e vídeo novos
 
-A geometria original usa partes arredondadas compartilhadas e o cache limitado de meshes existente. O renderer suporta até quatro estados locais e prioriza o dono ao reduzir o orçamento. O mascote é visual; não cria entidades, pacotes, inventário ou navegação física no servidor.
+**368 PNGs do jogo, seis do launcher e seis GIFs** substituem a galeria atual. Uma imagem do jogo é da janela X11; as demais são originais do framebuffer, copiadas byte a byte do CI aprovado. As seis do launcher são capturas da janela Windows real. Os GIFs usam somente os PNGs novos, sem quadros sintéticos; capa usa 100 ms/frame, os demais usam os horários registrados. [Manifesto/hashes](../captures/atual/unified/validation.json).
 
-## Vídeo e galeria atual
+**[MP4 contínuo original](../captures/video-atual/Alien-Client-0.11-customizacoes-full.mp4)**: 141.73s, 960×540, H.264/YUV420p, **29.986 FPS médios codificados** (`31875/1063`; solicitados 30 FPS), sem áudio. Mediana do jogo **57.0 FPS**, P95 **30.1 ms/frame**, nesta tomada Linux/Mesa por software. Quinze capítulos; alien por volta de 01:45 e Tung por volta de 02:03.
 
-**[Assistir / baixar MP4](../captures/video-atual/Alien-Client-0.11-customizacoes-full.mp4)** — 123.69s, 960×540, H.264/YUV420p, **29.97 FPS codificados** (`30000/1001`; captura solicitada a 30 FPS), sem áudio. Mediana de renderização **57.9 FPS**, P95 **28.6 ms/frame**, nesta tomada Linux/Mesa por software.
+Sem reedição, aceleração, interpolação posterior ou montagem com fotos. O arquivo é a saída original do FFmpeg x11grab. Os módulos Full continuam demonstrados com câmera, alimentação, cura por poção e blocos colocados em Survival; as legendas identificam o fixture automatizado em mundo local. Ele não é distribuído no JAR. A prévia do vídeo é um frame real extraído aos 132s. [Recibos do filme](mascot-results/2026-11-05/video/).
 
-MP4 original contínuo de ffmpeg x11grab, copiado byte a byte, sem reedição, aceleração, sequência de fotos ou interpolação. O validador foi ajustado para aceitar e registrar a taxa nativa 29,97/30; os argumentos de captura e os frames não foram alterados. [Recibo do ajuste](mascot-results/2026-11-04/video/recording-validator.json). Não é uma promessa de desempenho em outra máquina.
+## Revisões e pacotes
 
-Quatorze capítulos mostram as customizações anteriores e o mascote em Follow, Shoulder e Orbit. O trecho do mascote começa por volta de **01:45** e confirma respostas a movimento nativo e emote real. Os módulos Full continuam demonstrados com alinhamento da câmera, alimentação, cura por poção e colocação de blocos em Survival. As legendas identificam o fixture automatizado em mundo local; ele não é distribuído no JAR.
+Client `1568db3f9cd76edc4c48fb3cc73961ca5a776f1f`, [CI 42027857579](https://github.com/AttackAlien/Alien-Client/actions/runs/42027857579), JAR SHA-256 `0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a`. Filme capturado na mesma revisão. Launcher 0.3.0-alpha.9 `df953f1ae927bdf03051e1f58965dcae272d3a68`, [CI 42030955347](https://github.com/AttackAlien/Alien-Client/actions/runs/42030955347), ZIP SHA-256 `ce5cf621ae30404cfe8aa3fd87541675b061b7cd7d10e3985f4950747029a1a6`, 72,282,650 bytes.
 
-**336 PNGs novos do jogo e seis do launcher** substituem as imagens anteriores das pastas atuais. Uma captura é da janela X11; as demais são originais do framebuffer, copiadas sem alteração do CI. Os cinco GIFs usam somente os PNGs novos. Mascote, emotes, auras e trilhas usam intervalos registrados; capa usa 100 ms/frame na conversão. A imagem de prévia do filme é um frame extraído aos 114s. [Manifesto](../captures/atual/unified/validation.json) · [SHA-256 do MP4](../captures/video-atual/SHA256SUMS.txt).
+[Client candidato](../downloads/v0.11.0-alpha.1/README.md) · [Launcher candidato](../downloads/launcher/v0.3.0-alpha.9/README.md). A publicação de mídia/recibos usa `[skip ci]` e conserva os arquivos de execução validados. [Objetos Git comparados](mascot-results/2026-11-05/validated-source-trees.json).
 
-## Fontes e pacotes
-
-Client: `5e5621e73fbe05f3a1d948a5e5ee41f44b0067aa`, [CI 41874722323](https://github.com/AttackAlien/Alien-Client/actions/runs/41874722323), JAR SHA-256 `8a4e253baab54a04f9065d0d248f3d9d937cf5cf64a1aa81929e92e978193d43`.
-
-Vídeo: `2eef9a5227cff07830300d8d05a6d0b01aacc4a0`. Os objetos Git de src/main, src/unified e src/showcase coincidem com os do CI do client. A diferença posterior afeta apenas validação e o teardown do teste.
-
-Launcher 0.3.0-alpha.8: `abcbf57908af259fbf89e67ae8f471c0cc47db12`, [CI 41877291508](https://github.com/AttackAlien/Alien-Client/actions/runs/41877291508), ZIP SHA-256 `277675c6043c8f989d02615b896a602b4a89d41b958e2e053cb150c420bb3f45`, 70,813,134 bytes. Mantém o layout/emblema aprovados e inclui exatamente o JAR aprovado.
-
-[Client candidato](../downloads/v0.11.0-alpha.1/README.md) · [Launcher candidato](../downloads/launcher/v0.3.0-alpha.8/README.md). A publicação de mídia e downloads usa `[skip ci]` e conserva os arquivos de execução validados. Após a captura, mudaram o validador de taxa do gravador e o desligamento do mundo no fixture Studio; os fontes de produção e do filme continuam idênticos. A sintaxe do gravador e a leitura dos metadados reais passaram localmente. [Objetos Git comparados](mascot-results/2026-11-04/validated-source-trees.json).
-
-### Acesso público verificado
-
-Doze arquivos foram baixados novamente das URLs públicas, sem cabeçalho de autenticação: JAR, ZIP do launcher, MP4, imagens do jogo/launcher e GIFs. Todos retornaram HTTP 200 e SHA-256 idêntico ao arquivo local validado. [Recibo com URLs imutáveis e hashes](mascot-results/2026-11-04/public-download-check.json).
+A pendência de metadados do antigo launcher alpha.8 foi resolvida: a API agora confirma completed/success. O registro de 04/11 continua preservado; [consulta de 05/11](mascot-results/2026-11-05/prior-launcher-status-resolved.json). O launcher alpha.9 desta entrega também concluiu com sucesso.
 
 ## Comandos e limites
 
 ```bash
 export ALIEN_TOOLS_DIR=/workspace/.alien-tools
 export GRADLE_USER_HOME=/workspace/Alien-Client/.gradle-user
-./gradlew --offline --no-daemon -Pedition=unified test showcaseClasses
-DISPLAY=:117 LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=2 \
+./gradlew --offline --no-daemon -Pedition=unified test ultimateSmokeClasses showcaseClasses
+DISPLAY=:120 LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=2 \
   ./gradlew --offline --no-daemon -Pedition=unified -PpetOnly runUltimateSmokeClient
-ALIEN_SHOWCASE_DISPLAY=:118 bash scripts/record-showcase.sh
+ALIEN_SHOWCASE_DISPLAY=:121 bash scripts/record-showcase.sh
 ```
 
-Xorg :117 usa scripts/ci-combat-xorg.conf com `-noreset -nolisten tcp -ac`. O gravador iniciou seu próprio display :118, aguardou o cenário real aquecer e capturou a janela.
+Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. O display Xorg usa scripts/ci-combat-xorg.conf, `-noreset -nolisten tcp -ac`. O gravador aqueceu o cenário antes da captura contínua.
 
-Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. Sem validação de GPU física, gameplay em Windows pessoal, autenticação/licença Microsoft, multiplayer externo ou OptiFine. Emotes, auras e mascotes são locais; não há sincronização de danças/companheiros pela rede.
+GPU física, gameplay em Windows pessoal, autenticação/licença Microsoft interativas, multiplayer externo e OptiFine não foram validados. Emotes e mascotes continuam locais, sem sincronização de rede. Não há áudio funcional neste ambiente.
 
-O ambiente não tem áudio funcional. General/Scene ainda registram tarefas de chunks após descarregar mundos: 81 e 75 ocorrências de pilha nesta rodada; não são contagens de quedas do jogo. As seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt); logs completos nos artifacts.
-
-Nos ensaios preliminares, o limite do braço detectou sobreposição de caminhada/aceno e foi corrigido com blend; o teste de órbita passou a medir deslocamento planar X/Z, pois um único eixo pode momentaneamente não variar. O validador de vídeo inicialmente exigia exatamente 30/1; agora aceita a taxa nativa registrada, sem alterar a gravação. O primeiro CI travou ao encerrar o mundo no teste Studio: a conexão era fechada antes de loadWorld(null), permitindo ao servidor parar antes de processar a tarefa de shutdown. O fixture passou a deixar loadWorld realizar a sequência completa, mantendo todas as verificações. [Diagnóstico preservado](mascot-results/2026-11-04/first-ci-studio-timeout.json).
+As sessões General/Scene/Studio ainda registram tarefas de chunks ao descarregar mundos; contagens de pilhas nos logs desta rodada: `{"general": 72, "sky": 0, "combat": 0, "ultimate": 0, "scene": 77, "studio": 79}`. Não são contagens de quedas do jogo; todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt), logs completos nos artifacts do CI.
