@@ -1,10 +1,24 @@
-# Capturas atuais — Quaternius e Tung Tung Sahur / Unified 0.11.0-alpha.1
+# Capturas atuais — Now Playing / Unified 0.12.0-alpha.1
 
-**368 PNGs novos do jogo e seis do launcher** substituem a galeria anterior, obtidos nos programas reais em 05/11/2026. Uma imagem do jogo é da janela X11; as demais são originais do framebuffer. As seis do launcher vêm da janela nativa no Windows, com método/horário/hashes registrados. Nenhuma captura foi retocada.
+**379 PNGs novos do jogo e seis do launcher** substituem a galeria anterior. Arquivos originais da execução real de Minecraft Forge 1.8.9 e da janela nativa do launcher, sem retoques. **268 JUnit, 923 checks gráficos e 13 testes de empacotamento aprovados.** [CI 42051508518](https://github.com/AttackAlien/Alien-Client/actions/runs/42051508518).
 
-**253 JUnit, 872 checks gráficos e 12 testes de empacotamento aprovados.** Fonte `1568db3f9cd76edc4c48fb3cc73961ca5a776f1f`, [CI 42027857579](https://github.com/AttackAlien/Alien-Client/actions/runs/42027857579). Launcher: 31 testes Linux + 31 Windows, 46 checks nativos e instalação real aprovados.
+[Guia de música](../docs/NOW-PLAYING.md) · [Resultados e limites](../docs/NOW-PLAYING-VALIDATION.md) · [Vídeo atual](video-atual/README.md) · [Client 0.12](../downloads/v0.12.0-alpha.1/README.md) · [Launcher 0.3 alpha.10](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #29](https://github.com/AttackAlien/Alien-Client/pull/29).
 
-[Guia](../docs/ANIMATED-MASCOT.md) · [Resultados e limites](../docs/ANIMATED-MASCOT-VALIDATION.md) · [Vídeo novo](video-atual/README.md) · [Client candidato](../downloads/v0.11.0-alpha.1/README.md) · [Launcher candidato](launcher-atual/README.md) · [Proveniência](atual/unified/validation.json) · [PR #28](https://github.com/AttackAlien/Alien-Client/pull/28).
+## Now Playing — Card
+
+![HUD Card no Forge real, metadados sintéticos identificados](atual/unified/music/02-music-card-fixture.png)
+
+**As imagens de música usam uma fonte sintética identificada no próprio HUD.** Não representam Spotify ou YouTube conectados. A ponte nativa foi validada separadamente com uma sessão real de diagnóstico SMTC do Windows 11: [recibo](../docs/now-playing-results/2026-11-05/windows-media-result.txt).
+
+[Compact](atual/unified/music/01-music-compact-fixture.png) · [Pausado](atual/unified/music/03-music-paused-fixture.png) · [Transparent](atual/unified/music/04-music-transparent-fixture.png) · [Sem capa](atual/unified/music/08-music-no-art-fixture.png) · [Sem duração conhecida](atual/unified/music/09-music-unknown-duration-fixture.png) · [Desconectado](atual/unified/music/11-music-disconnected.png).
+
+## Editor e opções
+
+![Now Playing selecionado no HUD Studio real](atual/unified/music/05-music-hud-studio-fixture.png)
+
+[Controles](atual/unified/music/06-music-controls-fixture.png) · [Escala e opacidade](atual/unified/music/07-music-style-scale.png) · [Título longo recortado no editor](atual/unified/music/10-music-long-title-fixture.png).
+
+## Recursos anteriores — capturados novamente nesta versão
 
 ## Tung Tung Sahur real
 
@@ -228,4 +242,4 @@ As fotos `sky/sky-cube-*` registram o jogo renderizando um atlas técnico de tes
 
 [Resultado geral](atual/unified/result.txt) · [HUD/Full/cosméticos](atual/unified/result-ultimate.txt) · [Céu](atual/unified/result-sky.txt) · [Combate](atual/unified/result-combat.txt) · [Proveniência](atual/unified/validation.json) · [SHA-256](atual/unified/SHA256SUMS.txt)
 
-[Scene Studio — 70 checks](atual/unified/result-scene.txt)
+[Scene Studio — 71 checks](atual/unified/result-scene.txt)

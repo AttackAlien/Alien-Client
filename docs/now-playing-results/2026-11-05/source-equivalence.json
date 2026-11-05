@@ -1,0 +1,21 @@
+{
+  "clientSource": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "clientRun": "42051508518",
+  "launcherSource": "721fa8cd5bae384efc62a9b68d0c3957b1c45756",
+  "launcherRun": "42053831389",
+  "nativeRun": "42053831503",
+  "clientObjects": {
+    "src": "ba38a15a6888d614fa52d828fc51c54ed566cd52",
+    "scripts": "7f5537a3af2a739d60a5653f5a412f7daf2ea49b",
+    "build.gradle": "729d9eba6978f8ed21d0b5235c889e059bb7294b",
+    "gradle.properties": "3069339adf62068503ac0ad8cbcc8c7fb0e4120a",
+    "gradlew": "cf866ec02c3d6071a5eeba482661da9c626824a2",
+    ".github/workflows/unified-client-ci.yml": "9ea91fcd2d5ce7ddf8e216a6bbe5994cb7f727e0"
+  },
+  "launcherObjects": {
+    "launcher": "6fb091f2360cbccd0ec6afe5e7a0684b5515e986",
+    ".github/workflows/alien-launcher.yml": "623566fc55d26fd93eddb21165d6c275e3ebce7f",
+    ".github/workflows/now-playing-ci.yml": "0042688069af8c462006e43f2a7011c2b0efd040"
+  },
+  "note": "All client source/build/test trees match the passed Unified run. All launcher files and native workflows match the passed Windows/native runs. Final publication adds only downloads, captures and documentation."
+}

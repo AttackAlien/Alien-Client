@@ -1,0 +1,8 @@
+{
+  "id": 42051508429,
+  "head_sha": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "html_url": "https://github.com/AttackAlien/Alien-Client/actions/runs/42051508429",
+  "status": "completed",
+  "conclusion": "success",
+  "path": ".github/workflows/sky-studio-ci.yml"
+}

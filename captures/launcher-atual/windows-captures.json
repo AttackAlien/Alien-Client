@@ -2,42 +2,42 @@
   {
     "file": "05-launcher-restored-vanilla.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:29.4989423+00:00",
+    "utc": "2026-11-05T15:22:29.4560646+00:00",
     "width": 1000,
     "height": 680
   },
   {
     "file": "06-launcher-settings-recovery.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:29.6973024+00:00",
+    "utc": "2026-11-05T15:22:29.7290517+00:00",
     "width": 1000,
     "height": 680
   },
   {
     "file": "01-launcher-alien.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:31.3442634+00:00",
+    "utc": "2026-11-05T15:22:31.0007692+00:00",
     "width": 1000,
     "height": 680
   },
   {
     "file": "02-launcher-vanilla.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:32.0713199+00:00",
+    "utc": "2026-11-05T15:22:31.7430566+00:00",
     "width": 1000,
     "height": 680
   },
   {
     "file": "03-launcher-settings.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:32.9441443+00:00",
+    "utc": "2026-11-05T15:22:32.5400594+00:00",
     "width": 1000,
     "height": 680
   },
   {
     "file": "04-launcher-diagnostics.png",
     "method": "CopyFromScreen / actual Windows desktop",
-    "utc": "2026-11-05T12:56:33.7787691+00:00",
+    "utc": "2026-11-05T15:22:33.3879925+00:00",
     "width": 840,
     "height": 470
   }

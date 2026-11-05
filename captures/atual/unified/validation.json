@@ -1,9 +1,9 @@
 {
-  "ci_completed_utc": "2026-11-05T12:44:16Z",
-  "code_revision": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
-  "validation_revision": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
-  "version": "0.11.0-alpha.1",
-  "workflow_run": "42027857579",
+  "ci_completed_utc": "2026-11-05T15:18:00Z",
+  "code_revision": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "validation_revision": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "version": "0.12.0-alpha.1",
+  "workflow_run": "42051508518",
   "environment": "Minecraft Java 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Linux Xorg dummy / Mesa software OpenGL",
   "results": {
     "general": "PASS 161 checks",
@@ -11,22 +11,23 @@
     "combat": "PASS 24 checks",
     "ultimate": "PASS 437 checks",
     "scene": "PASS 71 checks",
-    "studio": "PASS 142 checks"
+    "studio": "PASS 142 checks",
+    "media": "PASS 51 checks"
   },
   "junit": {
     "unified": {
-      "tests": 253,
+      "tests": 268,
       "failures": 0,
       "errors": 0,
       "skipped": 0
     }
   },
   "inputs": {
-    "jar_sha256": "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a",
-    "junit_sha256": "4702d65892301bcdf6daf6564c15eef55e19e554c8461ae3c82c929b5d3d49b4",
-    "runtime_sha256": "2aaa6f8d127591442392948eec3c2ffc47098bfd9ad64c1eb1b332be6206bdd0",
-    "source_sha256": "27bac59fd59aedca0c06c751dc6def4cd28f4535bbcdebf0d12a123f1a3e82e3",
-    "started_ns": 1793882209637354061
+    "jar_sha256": "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf",
+    "junit_sha256": "2a2cfe5339e0497a2521b0ecef045d67611e2276eaa23bef4672f26fa75f8c26",
+    "runtime_sha256": "b09b88685e9be70a2011eca46ac960acca24abb58195cdaecadefb309fbbcab8",
+    "source_sha256": "58abcbe84f0c31b72992134d807a17e709b7d7a7877c7034d3fd0d306b5dce86",
+    "started_ns": 1793891465049378499
   },
   "screenshots": {
     "01-title.png": "general",
@@ -396,7 +397,18 @@
     "196-tung-orbit-world.png": "ultimate",
     "195-tung-shoulder-preview.png": "ultimate",
     "194-tung-follow-moving.png": "ultimate",
-    "193-tung-studio-original.png": "ultimate"
+    "193-tung-studio-original.png": "ultimate",
+    "music/11-music-disconnected.png": "media",
+    "music/10-music-long-title-fixture.png": "media",
+    "music/09-music-unknown-duration-fixture.png": "media",
+    "music/08-music-no-art-fixture.png": "media",
+    "music/07-music-style-scale.png": "media",
+    "music/06-music-controls-fixture.png": "media",
+    "music/05-music-hud-studio-fixture.png": "media",
+    "music/04-music-transparent-fixture.png": "media",
+    "music/03-music-paused-fixture.png": "media",
+    "music/02-music-card-fixture.png": "media",
+    "music/01-music-compact-fixture.png": "media"
   },
   "movies": {
     "cape": {
@@ -409,39 +421,40 @@
     "trail": {
       "frames": 20,
       "encodedFrames": 20,
-      "milliseconds": 7470,
+      "milliseconds": 6440,
       "sourcePrefix": "trail-motion",
       "syntheticFrames": false
     },
     "emotes": {
       "frames": 48,
       "encodedFrames": 48,
-      "milliseconds": 16120,
+      "milliseconds": 13930,
       "sourcePrefix": "emote-motion",
       "syntheticFrames": false
     },
     "auras": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 7370,
+      "milliseconds": 6490,
       "sourcePrefix": "aura-motion",
       "syntheticFrames": false
     },
     "mascot": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 8890,
+      "milliseconds": 7590,
       "sourcePrefix": "mascot-motion",
       "syntheticFrames": false
     },
     "tung": {
       "frames": 24,
       "encodedFrames": 24,
-      "milliseconds": 9350,
+      "milliseconds": 7790,
       "sourcePrefix": "tung-motion",
       "syntheticFrames": false
     }
   },
+  "mediaNote": "Music screenshot metadata comes from an explicitly synthetic process; Windows SMTC is validated separately. No Spotify/YouTube account tested.",
   "sourceModels": {
     "alien": {
       "author": "Quaternius",
@@ -561,7 +574,7 @@
   "emoteMotionPixelChecks": {
     "floss": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 47577,
+      "minimumChangedBodyPixels": 47037,
       "bodyRegion": [
         790,
         180,
@@ -571,7 +584,7 @@
     },
     "orange_justice": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 46043,
+      "minimumChangedBodyPixels": 45531,
       "bodyRegion": [
         790,
         180,
@@ -581,7 +594,7 @@
     },
     "take_the_l": {
       "uniqueBodyRegions": 16,
-      "minimumChangedBodyPixels": 37314,
+      "minimumChangedBodyPixels": 22360,
       "bodyRegion": [
         790,
         180,
@@ -592,7 +605,7 @@
   },
   "mascotMotionPixelChecks": {
     "uniqueBodyRegions": 24,
-    "medianChangedBodyPixels": 18842,
+    "medianChangedBodyPixels": 23277,
     "bodyRegion": [
       820,
       180,
@@ -601,22 +614,23 @@
     ]
   },
   "notes": [
-    "368 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
+    "379 fresh original PNGs copied verbatim from the passing CI run; 127-main-menu-actual-x11-window.png is an actual X11 window capture; others are original framebuffers.",
     "GIFs are format conversions of the new original PNGs, without synthetic/interpolated frames. Trail and emote intervals use capture timestamps.",
     "Cape GIF uses a 100 ms interval; it is not a performance measurement.",
     "No physical GPU, Windows gameplay, licensed Microsoft authentication or external multiplayer validation.",
     "Imported sky/trail fixtures are labeled test inputs rendered by the actual game."
   ],
   "workflow_utc_window": {
-    "start": "2026-11-05T12:31:27Z",
-    "end": "2026-11-05T12:44:16Z"
+    "start": "2026-11-05T15:06:03Z",
+    "end": "2026-11-05T15:18:00Z"
   },
   "known_test_teardown_chunk_exceptions": {
-    "general": 72,
+    "general": 81,
     "sky": 0,
     "combat": 0,
     "ultimate": 0,
-    "scene": 77,
-    "studio": 79
+    "scene": 76,
+    "studio": 78,
+    "media": 0
   }
 }
