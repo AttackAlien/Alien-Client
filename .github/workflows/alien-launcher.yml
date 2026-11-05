@@ -13,9 +13,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  CLIENT_RUN: "42027857579"
-  CLIENT_SHA: "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f"
-  CLIENT_JAR_SHA256: "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a"
+  CLIENT_RUN: "42047561050"
+  CLIENT_SHA: "54651a88b562f506688b418d95beac4aecefef3d"
+  CLIENT_JAR_SHA256: "fe30615393b7f95d059c941ae007c6da35d657ebb61879bd26936baa21fba013"
 
 jobs:
   core-tests:
