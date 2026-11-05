@@ -1,0 +1,16 @@
+Verificando Minecraft 1.8.9 e o Java gerenciado...
+Arquivos: 0/1 — com.mojang:netty:1.8.8
+Arquivos: 32/951 — com.google.guava:guava:17.0
+Arquivos: 245/951 — minecraft/sounds/mob/enderdragon/growl1.ogg
+Arquivos: 561/951 — minecraft/sounds/mob/zombiepig/zpighurt2.ogg
+Arquivos: 694/951 — realms/lang/en_CA.lang
+Arquivos: 840/951 — bin/splashscreen.dll
+Arquivos: 950/951 — lib/ext/jfxrt.jar
+Arquivos: 951/951 — lib/rt.jar
+Instalando/verificando Forge 11.15.1.2318 com Java 8...
+Arquivos: 0/1 — net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9
+Arquivos: 4/968 — org.scala-lang.plugins:scala-continuations-library_2.11:1.0.2
+Arquivos: 966/968 — org.scala-lang:scala-swing_2.11:1.0.1
+Arquivos: 968/968 — org.scala-lang:scala-compiler:2.11.1
+Instalação verificada. Java 8.
+INSTALL_PASS {"VersionId":"1.8.9-forge1.8.9-11.15.1.2318-1.8.9","JavaMajor":8,"Directory":"D:\\a\\_temp\\AlienLauncher-InstallProbe\\instances\\unified-1.8.9"}

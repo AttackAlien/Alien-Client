@@ -1,1 +1,2 @@
-fff9335aaf8237a849955c1bae8bbc453aa3ba7cae91e09d571adfdd4ad49047  Alien-Client-0.11-customizacoes-full.mp4
+97221a09612941fc695d0a42c4e7c7312171d37281a0d0605684a65030ad3778  Alien-Client-0.12-now-playing-fixture.mp4
+574af22fb34d4f305c3d83a41a1fcbd440fdd8776f9a33ed14dcdddc8fcf994a  preview-do-video.png

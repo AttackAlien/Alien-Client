@@ -9,6 +9,7 @@ public final class HudWidgetSettingsScreen extends PremiumScreen {
     private final GuiScreen parent;private final String widget;private boolean style;
     private int x,w,half;
     public HudWidgetSettingsScreen(GuiScreen parent,String widget){this.parent=parent;this.widget=widget;}
+    public boolean isMusic(){return "music".equals(widget);}
     private HudConfig c(){return AlienClient.get().config().hud;}
     private HudConfig.Widget item(){return c().widgets.get(widget);}
     private void button(int id,int col,int row,String text){buttonList.add(new Ui.Button(id,x+col*(half+8),76+row*28,half,21,text));}
@@ -17,6 +18,14 @@ public final class HudWidgetSettingsScreen extends PremiumScreen {
         buttonList.add(new Ui.Button(20,x,42,half,21,"Widget controls").selected(!style));buttonList.add(new Ui.Button(21,x+half+8,42,half,21,"Style / scale").selected(style));
         if(style){slider(1,0,"Opacity",.15f,1,.01f,item().opacity,v->item().opacity=v);slider(2,1,"Scale",.5f,3,.05f,item().scale,v->item().scale=v);
             button(3,1,0,"Choose accent");button(4,1,1,"Custom color: "+on(item().customColor));
+        }else if(isMusic()){
+            dev.alien.client.hud.music.NowPlayingConfig m=c().music;
+            button(170,0,0,"Layout / "+m.style);button(171,1,0,"Source / "+m.source);
+            button(172,0,1,"Artist: "+on(m.artist));button(173,1,1,"Artwork: "+on(m.artwork));
+            button(174,0,2,"Progress: "+on(m.progress));button(175,1,2,"Time: "+on(m.time));
+            button(176,0,3,"Source label: "+on(m.sourceLabel));button(177,1,3,"Hide paused: "+on(m.hidePaused));
+            button(178,0,4,"Hide inactive: "+on(m.hideInactive));button(179,1,4,"Scroll long titles: "+on(m.marquee));
+            slider(180,5,"Width",180,360,4,m.width,v->m.width=v);
         }else if("crosshair".equals(widget)){
             CrosshairConfig h=c().crosshair;
             slider(100,0,"Gap",0,12,.5f,h.gap,v->h.gap=v);slider(101,1,"Length",1,16,.5f,h.length,v->h.length=v);
@@ -46,9 +55,14 @@ public final class HudWidgetSettingsScreen extends PremiumScreen {
         if(id==123)c.targetAvatar=!c.targetAvatar;if(id==130)c.mouseKeys=!c.mouseKeys;if(id==131)c.sprintKey=!c.sprintKey;
         if(id==140)c.cpsLeft=!c.cpsLeft;if(id==141)c.cpsRight=!c.cpsRight;if(id==150)c.armorPercent=!c.armorPercent;
         if(id==160)c.indicatorHealth=!c.indicatorHealth;if(id==161)c.indicatorSpeed=!c.indicatorSpeed;if(id==162)c.indicatorEffects=!c.indicatorEffects;if(id==163)c.indicatorFacing=!c.indicatorFacing;
+        dev.alien.client.hud.music.NowPlayingConfig m=c.music;
+        if(id==170)m.style=next(dev.alien.client.hud.music.NowPlayingConfig.STYLES,m.style);if(id==171)m.source=next(dev.alien.client.hud.music.NowPlayingConfig.SOURCES,m.source);
+        if(id==172)m.artist=!m.artist;if(id==173)m.artwork=!m.artwork;if(id==174)m.progress=!m.progress;if(id==175)m.time=!m.time;
+        if(id==176)m.sourceLabel=!m.sourceLabel;if(id==177)m.hidePaused=!m.hidePaused;if(id==178)m.hideInactive=!m.hideInactive;if(id==179)m.marquee=!m.marquee;
         AlienClient.get().save();initGui();
     }
     @Override public void drawContents(int x,int y,float p){Ui.background(width,height);Ui.centered(HudConfig.label(widget)+" / OPTIONS",width/2,17,Ui.theme().text);super.drawContents(x,y,p);}
     @Override public void onGuiClosed(){AlienClient.get().save();}
     @Override public boolean doesGuiPauseGame(){return false;}
+    private static String next(String[] a,String value){return a[(java.util.Arrays.asList(a).indexOf(value)+1)%a.length];}
 }

@@ -38,9 +38,9 @@ O renderer reutiliza malha, clips, matrizes e buffers e envia um batch por masco
 
 ## Capturas e vídeo novos
 
-**368 PNGs do jogo, seis do launcher e seis GIFs** substituem a galeria atual. Uma imagem do jogo é da janela X11; as demais são originais do framebuffer, copiadas byte a byte do CI aprovado. As seis do launcher são capturas da janela Windows real. Os GIFs usam somente os PNGs novos, sem quadros sintéticos; capa usa 100 ms/frame, os demais usam os horários registrados. [Manifesto/hashes](../captures/atual/unified/validation.json).
+**368 PNGs do jogo, seis do launcher e seis GIFs** substituem a galeria atual. Uma imagem do jogo é da janela X11; as demais são originais do framebuffer, copiadas byte a byte do CI aprovado. As seis do launcher são capturas da janela Windows real. Os GIFs usam somente os PNGs novos, sem quadros sintéticos; capa usa 100 ms/frame, os demais usam os horários registrados. [Manifesto/hashes](https://github.com/AttackAlien/Alien-Client/blob/372c4b98ffe37d1d81032f154e8ebcb952069a39/captures/atual/unified/validation.json).
 
-**[MP4 contínuo original](../captures/video-atual/Alien-Client-0.11-customizacoes-full.mp4)**: 141.73s, 960×540, H.264/YUV420p, **29.986 FPS médios codificados** (`31875/1063`; solicitados 30 FPS), sem áudio. Mediana do jogo **57.0 FPS**, P95 **30.1 ms/frame**, nesta tomada Linux/Mesa por software. Quinze capítulos; alien por volta de 01:45 e Tung por volta de 02:03.
+**[MP4 contínuo original](https://github.com/AttackAlien/Alien-Client/blob/372c4b98ffe37d1d81032f154e8ebcb952069a39/captures/video-atual/Alien-Client-0.11-customizacoes-full.mp4)**: 141.73s, 960×540, H.264/YUV420p, **29.986 FPS médios codificados** (`31875/1063`; solicitados 30 FPS), sem áudio. Mediana do jogo **57.0 FPS**, P95 **30.1 ms/frame**, nesta tomada Linux/Mesa por software. Quinze capítulos; alien por volta de 01:45 e Tung por volta de 02:03.
 
 Sem reedição, aceleração, interpolação posterior ou montagem com fotos. O arquivo é a saída original do FFmpeg x11grab. Os módulos Full continuam demonstrados com câmera, alimentação, cura por poção e blocos colocados em Survival; as legendas identificam o fixture automatizado em mundo local. Ele não é distribuído no JAR. A prévia do vídeo é um frame real extraído aos 132s. [Recibos do filme](mascot-results/2026-11-05/video/).
 
@@ -67,7 +67,7 @@ Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. O display Xorg usa scripts/ci
 
 GPU física, gameplay em Windows pessoal, autenticação/licença Microsoft interativas, multiplayer externo e OptiFine não foram validados. Emotes e mascotes continuam locais, sem sincronização de rede. Não há áudio funcional neste ambiente.
 
-As sessões General/Scene/Studio ainda registram tarefas de chunks ao descarregar mundos; contagens de pilhas nos logs desta rodada: `{"general": 72, "sky": 0, "combat": 0, "ultimate": 0, "scene": 77, "studio": 79}`. Não são contagens de quedas do jogo; todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt), logs completos nos artifacts do CI.
+As sessões General/Scene/Studio ainda registram tarefas de chunks ao descarregar mundos; contagens de pilhas nos logs desta rodada: `{"general": 72, "sky": 0, "combat": 0, "ultimate": 0, "scene": 77, "studio": 79}`. Não são contagens de quedas do jogo; todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](https://github.com/AttackAlien/Alien-Client/blob/372c4b98ffe37d1d81032f154e8ebcb952069a39/captures/atual/unified/known-log-errors.txt), logs completos nos artifacts do CI.
 
 ## Acesso público conferido
 

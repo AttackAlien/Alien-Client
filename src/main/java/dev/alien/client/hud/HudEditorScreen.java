@@ -104,6 +104,7 @@ public final class HudEditorScreen extends dev.alien.client.gui.PremiumScreen {
     }
 
     public void selectWidget(String id){if(cfg().widgets.containsKey(id)&&HudManager.known(id)){selected=id;int n=ids.indexOf(id);if(n<scroll)scroll=n;else if(n>=scroll+rows)scroll=n-rows+1;scroll=Math.max(0,scroll);rebuildButtons();}}
+    public String selectedWidget(){return selected;}
 
     private static void outline(int x, int y, int right, int bottom, int color) {
         drawRect(x, y, right, y + 1, color); drawRect(x, bottom - 1, right, bottom, color);

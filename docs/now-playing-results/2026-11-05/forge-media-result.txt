@@ -1,0 +1,53 @@
+PASS 51 checks
+Actual Forge 1.8.9 Linux software OpenGL. Explicit SYNTHETIC metadata process; NOT Spotify/YouTube/Windows SMTC evidence.
+PASS All fifteen existing widgets remain; music is opt-in
+PASS Synthetic provider is explicitly labeled; no Spotify or YouTube claim
+PASS Artwork is uploaded as an actual Minecraft texture
+PASS Media renderer restores incoming GL blend, alpha and texture flags
+PASS Media renderer restores incoming blend factors
+PASS Minecraft GL state cache still enables blending, alpha and textures after music rendering
+PASS Actual Forge framebuffer 01-music-compact-fixture
+PASS No GL errors after 01-music-compact-fixture
+PASS Unchanged artwork reuses the same GPU texture
+PASS Actual Forge framebuffer 02-music-card-fixture
+PASS No GL errors after 02-music-card-fixture
+PASS Paused HUD elapsed time remains fixed across frames and polls
+PASS Actual Forge framebuffer 03-music-paused-fixture
+PASS No GL errors after 03-music-paused-fixture
+PASS Hide paused suppresses the actual overlay
+PASS Actual Forge framebuffer 04-music-transparent-fixture
+PASS No GL errors after 04-music-transparent-fixture
+PASS Now Playing is selectable in the existing HUD Studio
+PASS Existing scale control works for music
+PASS Drag changes the actual music widget position
+PASS Existing alignment centers the music widget
+PASS Actual Forge framebuffer 05-music-hud-studio-fixture
+PASS No GL errors after 05-music-hud-studio-fixture
+PASS Options opens the real media settings page
+PASS Layout control cycles three implemented styles
+PASS Artist toggle changes live configuration
+PASS Actual Forge framebuffer 06-music-controls-fixture
+PASS No GL errors after 06-music-controls-fixture
+PASS Actual Forge framebuffer 07-music-style-scale
+PASS No GL errors after 07-music-style-scale
+PASS Unified profile reload succeeds
+PASS Media style, color, transform and opacity persist in Unified profiles
+PASS Track change replaces the previous artwork texture object (GL may reuse numeric IDs)
+PASS Artwork always uses one fixed texture slot, without dynamic counter entries
+PASS Texture manager no longer retains the previous artwork object after a track change
+PASS Artwork opt-out releases the GPU texture
+PASS Actual Forge framebuffer 08-music-no-art-fixture
+PASS No GL errors after 08-music-no-art-fixture
+PASS Unknown live timeline has no fictitious progress or elapsed time
+PASS Actual Forge framebuffer 09-music-unknown-duration-fixture
+PASS No GL errors after 09-music-unknown-duration-fixture
+PASS Filtered out source is hidden instead of inventing a track
+PASS Scrolling long title preserves editor scissor and GL state
+PASS Actual Forge framebuffer 10-music-long-title-fixture
+PASS No GL errors after 10-music-long-title-fixture
+PASS A stopped publisher expires after six seconds
+PASS Disconnected track is hidden
+PASS Disconnect releases stale artwork texture
+PASS Actual Forge framebuffer 11-music-disconnected
+PASS No GL errors after 11-music-disconnected
+PASS Disabling widget removes temporary listening metadata and session directories

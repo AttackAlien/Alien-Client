@@ -1,0 +1,18 @@
+{
+  "codeSource": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
+  "transport": "Explicit synthetic metadata process; not Spotify/YouTube.",
+  "capture": "Continuous original X11 video from actual Forge 1.8.9, software OpenGL, no audio. Original frames; no interpolation or acceleration.",
+  "commands": [
+    "bash /tmp/alien-media-run-local.sh",
+    "XMoveWindow + XMapRaised on the owned Minecraft X11 window before recording",
+    "ffmpeg -f x11grab -framerate 30 -video_size 1280x720 -i :123.0+0,0 -an -c:v libx264 -preset veryfast -crf 21 -pix_fmt yuv420p /tmp/alien-now-playing-forge-current.mp4"
+  ],
+  "sha256": "97221a09612941fc695d0a42c4e7c7312171d37281a0d0605684a65030ad3778",
+  "bytes": 877543,
+  "sourceObjects": {
+    "src/main": "5711dde729177b27f045942b02d89a5a989c15d7",
+    "src/mediaSmoke": "831275e33c1bb8ecc48ff3847793522939fc1f24",
+    "scripts/media-fixture.py": "95c3e12eb93d0f26056cb7d8f1d98682f4867682",
+    "build.gradle": "729d9eba6978f8ed21d0b5235c889e059bb7294b"
+  }
+}

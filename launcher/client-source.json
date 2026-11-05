@@ -1,13 +1,13 @@
 {
-  "clientVersion": "0.11.0-alpha.1",
+  "clientVersion": "0.12.0-alpha.1",
   "minecraft": "1.8.9",
   "forge": "11.15.1.2318",
   "repository": "AttackAlien/Alien-Client",
-  "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "sourceCommit": "28053d5fae099f7654d0ce47fea6d4b68e6566bb",
   "workflow": ".github/workflows/unified-client-ci.yml",
-  "runId": "42027857579",
-  "artifact": "alien-unified-42027857579",
+  "runId": "42051508518",
+  "artifact": "alien-unified-42051508518",
   "jar": "AlienClient-Unified-1.8.9.jar",
-  "sha256": "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a",
-  "status": "Quaternius + Tung Tung Sahur models from PR #28; not merged into main"
+  "sha256": "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf",
+  "status": "Now Playing HUD from PR #29 stacked on PR #28; not merged into main"
 }

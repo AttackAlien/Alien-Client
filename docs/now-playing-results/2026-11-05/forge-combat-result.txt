@@ -1,0 +1,27 @@
+PASS 24 checks
+Forge 1.8.9 GUI/presets/JSON and real aiming against a disposable local dummy
+Attack timing with physical mouse input, anti-cheat and multiplayer NOT tested
+PASS Production Alien Client is loaded by Forge
+PASS One Unified edition is loaded
+PASS Old profiles gain safe combat defaults
+PASS Combat remains fully disabled by default
+PASS Minecraft integrated Overworld loaded in Forge 1.8.9
+PASS Actual Combat Studio GUI is open
+PASS Presets, master switch, and real combat modules have clickable controls
+PASS Screenshot combat-studio-off recorded in Forge
+PASS Screenshot combat-studio-off has valid framebuffer dimensions
+PASS Full preset enables real aim and attack-held click assistance
+PASS Changing a Full preset switch creates an independent Custom profile
+PASS Legit preset restores subtle manual-attack aim configuration
+PASS All four advanced combat sliders render in the actual GUI
+PASS Screenshot combat-studio-tuning recorded in Forge
+PASS Screenshot combat-studio-tuning has valid framebuffer dimensions
+PASS Unified combat configuration persists after real config reload
+PASS Disposable target is present in world player list
+PASS Aim controller starts visibly outside target direction
+PASS World is unpaused and has no gameplay-blocking GUI during aim test
+PASS Live combat tick gradually aims towards the visible local dummy
+PASS Combat Studio and in-world render have no OpenGL errors
+PASS Screenshot combat-target-tracking recorded in Forge
+PASS Screenshot combat-target-tracking has valid framebuffer dimensions
+PASS Combat master can be disabled during a world session

@@ -1,6 +1,7 @@
 # Launcher 0.3.0-alpha.9 — candidato com Alien e Tung Tung Sahur
 
-**[Baixar Windows x64 — 68.93 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/animated-mascot-20261104/downloads/launcher/v0.3.0-alpha.9/AlienLauncher-Windows-x64-0.3.0-alpha.9.zip)** · [Fotos reais](../../../captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATED-MASCOT-VALIDATION.md) · [Hashes](SHA256SUMS.txt).
+Candidato anterior ao Now Playing. Use o [launcher 0.3.0-alpha.10](../v0.3.0-alpha.10/README.md) para testar o HUD de música.
+**[Baixar Windows x64 — 68.93 MiB](https://github.com/AttackAlien/Alien-Client/raw/refs/heads/feature/animated-mascot-20261104/downloads/launcher/v0.3.0-alpha.9/AlienLauncher-Windows-x64-0.3.0-alpha.9.zip)** · [Fotos reais](https://github.com/AttackAlien/Alien-Client/blob/372c4b98ffe37d1d81032f154e8ebcb952069a39/captures/launcher-atual/README.md) · [Validação](../../../docs/ANIMATED-MASCOT-VALIDATION.md) · [Hashes](SHA256SUMS.txt).
 
 Inclui Unified 0.11.0-alpha.1 com os dois modelos prontos. Extraia o ZIP inteiro, mantenha payload ao lado de AlienLauncher.exe, instale/repare e conecte uma conta Microsoft com Minecraft Java. Dados em %LOCALAPPDATA%\AlienLauncher; instâncias Vanilla independentes.
 

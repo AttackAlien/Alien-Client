@@ -11,7 +11,7 @@ public class HudUltimateTest {
         HudConfig h=new Gson().fromJson("{\"widgets\":{\"fps\":{\"enabled\":true,\"x\":0.7,\"scale\":1.8}}}",HudConfig.class);h.ensureDefaults();
         assertEquals(.7f,h.widgets.get("fps").x,0);assertEquals(1.8f,h.widgets.get("fps").scale,0);
         assertFalse(h.widgets.get("target").enabled);assertFalse(h.widgets.get("crosshair").enabled);
-        assertNotNull(h.crosshair);assertEquals(15,h.widgets.size());
+        assertNotNull(h.crosshair);assertEquals(16,h.widgets.size());
     }
     @Test public void presetsAreHudOnlyAndKeepFutureWidgets(){
         ClientConfig c=new ClientConfig();c.combat.applyPreset("FULL");c.world.skyboxFile="night.cube.png";
@@ -19,7 +19,7 @@ public class HudUltimateTest {
         for(String name:new String[]{"PvP","Survival","Cinematic"}){
             c.hud.applyPreset(name);assertNotNull(c.hud.widgets.get("future"));assertTrue(c.combat.enabled);
             assertEquals("FULL",c.combat.preset);assertEquals("night.cube.png",c.world.skyboxFile);
-            assertEquals(16,c.hud.widgets.size());
+            assertEquals(17,c.hud.widgets.size());
         }
         assertFalse(c.hud.widgets.get("crosshair").enabled);assertFalse(c.hud.widgets.get("keys").enabled);
     }

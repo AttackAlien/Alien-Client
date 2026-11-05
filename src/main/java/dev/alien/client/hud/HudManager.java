@@ -64,7 +64,13 @@ public final class HudManager {
     }
 
     @SubscribeEvent public void tick(net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent e){
-        if(e.phase==net.minecraftforge.fml.common.gameevent.TickEvent.Phase.END)UltimateHud.tick();
+        if(e.phase==net.minecraftforge.fml.common.gameevent.TickEvent.Phase.END){
+            UltimateHud.tick();Minecraft m=Minecraft.getMinecraft();HudConfig c=config();
+            boolean preview=m.currentScreen instanceof HudEditorScreen&&"music".equals(((HudEditorScreen)m.currentScreen).selectedWidget())||m.currentScreen instanceof HudWidgetSettingsScreen&&((HudWidgetSettingsScreen)m.currentScreen).isMusic();
+            boolean wanted=preview||m.thePlayer!=null&&c.enabled&&c.widgets.get("music").enabled;
+            dev.alien.client.hud.music.NowPlayingService.get().request(wanted,c.music,AlienClient.get().store().directory());
+            dev.alien.client.hud.music.NowPlayingHud.maintenance(wanted);
+        }
     }
     @SubscribeEvent public void attack(net.minecraftforge.event.entity.player.AttackEntityEvent e){
         if(e.entityPlayer==Minecraft.getMinecraft().thePlayer && e.target instanceof net.minecraft.entity.EntityLivingBase)
@@ -76,7 +82,7 @@ public final class HudManager {
     public static int leftCps(){return count(LEFT);}
     public static int rightCps(){return count(RIGHT);}
     static boolean known(String id) {
-        return UltimateHud.handles(id) || "fps".equals(id) || "cps".equals(id) || "keys".equals(id) || "coordinates".equals(id)
+        return "music".equals(id) || UltimateHud.handles(id) || "fps".equals(id) || "cps".equals(id) || "keys".equals(id) || "coordinates".equals(id)
             || "ping".equals(id) || "clock".equals(id) || "inventory".equals(id) || "armor".equals(id)
             || "performance".equals(id) || "text".equals(id) || "brand".equals(id) || "modules".equals(id);
     }
@@ -89,7 +95,8 @@ public final class HudManager {
     public static int[] bounds(String id, HudConfig.Widget widget, int screenWidth, int screenHeight) {
         Minecraft mc = Minecraft.getMinecraft();
         int w = 96, h = 20;
-        if ("brand".equals(id)) { w = Math.max(124, font().getStringWidth("ALIEN  |  " + Minecraft.getDebugFPS() + " FPS") + 14); h = 22; }
+        if ("music".equals(id)) {w=Math.round(config().music.width);h=dev.alien.client.hud.music.NowPlayingHud.height();}
+        else if ("brand".equals(id)) { w = Math.max(124, font().getStringWidth("ALIEN  |  " + Minecraft.getDebugFPS() + " FPS") + 14); h = 22; }
         else if ("modules".equals(id)) {
             List<String> labels = moduleLabels();
             w = 84;
@@ -114,6 +121,7 @@ public final class HudManager {
     }
 
     public static void render(String id, HudConfig.Widget widget, int sw, int sh, boolean preview) {
+        if("music".equals(id)){dev.alien.client.hud.music.NowPlayingHud.render(widget,sw,sh,preview);return;}
         if(UltimateHud.handles(id)){UltimateHud.render(id,widget,sw,sh,preview);return;}
         Minecraft mc = Minecraft.getMinecraft();
         activeOpacity=widget.opacity;activeAccent=widget.customColor?widget.color:UltimateHud.themeAccent();
