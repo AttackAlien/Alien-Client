@@ -2,8 +2,6 @@ using System.Diagnostics;
 using System.Text.Json;
 using AlienLauncher.Core;
 using Windows.Media;
-using Windows.Media.Core;
-using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -16,19 +14,17 @@ void Check(bool condition,string text) { if(!condition) throw new InvalidOperati
 Process? helper=null,owner=null;
 try
 {
-    string audio=Path.Combine(output,"diagnostic-silence.wav"),cover=Path.Combine(output,"diagnostic-cover.png");
-    using(var file=File.Create(audio)) using(var w=new BinaryWriter(file)) {
-        int size=8000*180*2;w.Write("RIFF"u8);w.Write(size+36);w.Write("WAVEfmt "u8);w.Write(16);w.Write((short)1);w.Write((short)1);w.Write(8000);w.Write(16000);w.Write((short)2);w.Write((short)16);w.Write("data"u8);w.Write(size);w.Write(new byte[size]);
-    }
+    string cover=Path.Combine(output,"diagnostic-cover.png");
     using(var bitmap=new System.Drawing.Bitmap(128,128)) {
         using(var g=System.Drawing.Graphics.FromImage(bitmap)) {g.Clear(System.Drawing.Color.MediumPurple);g.FillEllipse(System.Drawing.Brushes.Black,30,30,68,68);}
         bitmap.Save(cover,System.Drawing.Imaging.ImageFormat.Png);
     }
-    using var player=new MediaPlayer {IsMuted=true,IsLoopingEnabled=true};
-    player.CommandManager.IsEnabled=false;
-    player.Source=MediaSource.CreateFromStorageFile(await StorageFile.GetFileFromPathAsync(audio));
-    player.Play();
-    var controls=player.SystemMediaTransportControls;
+    var ready = new TaskCompletionSource<nint>(TaskCreationOptions.RunContinuationsAsynchronously);
+    var ui = new Thread(() => {using var form=new System.Windows.Forms.Form {Text="Alien diagnostic OS media publisher",Width=500,Height=180};
+        form.Shown+=(_,_)=>ready.TrySetResult(form.Handle);System.Windows.Forms.Application.Run(form);});
+    ui.SetApartmentState(ApartmentState.STA);ui.IsBackground=true;ui.Start();
+    nint hwnd=await ready.Task.WaitAsync(TimeSpan.FromSeconds(10));
+    var controls=DiagnosticPublisher.ForWindow(hwnd);
     controls.IsEnabled=true;controls.IsPlayEnabled=true;controls.IsPauseEnabled=true;
     controls.DisplayUpdater.Type=MediaPlaybackType.Music;
     controls.DisplayUpdater.MusicProperties.Title="ALIEN MEDIA TEST — Windows OS session";
@@ -64,7 +60,7 @@ try
     string actual=Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(await File.ReadAllBytesAsync(Path.Combine(transport,"cover.png")))).ToLowerInvariant();
     Check(actual==art.GetProperty("artwork").GetString(),"Actual OS artwork arrives with matching checksum");
     Check(first.GetProperty("durationMs").GetInt64()==180000,"Actual OS diagnostic timeline supplies duration");
-    player.Pause();controls.PlaybackStatus=MediaPlaybackStatus.Paused;Timeline(55);
+    controls.PlaybackStatus=MediaPlaybackStatus.Paused;Timeline(55);
     JsonElement paused=await WaitFor(s=>s.GetProperty("status").GetString()=="paused");
     await File.WriteAllTextAsync(Path.Combine(output,"paused.json"),paused.GetRawText());
     await Task.Delay(1800);
@@ -82,3 +78,34 @@ try
 }
 catch(Exception failure) {await File.WriteAllTextAsync(Path.Combine(output,"result.txt"),"FAIL after "+checks.Count+" checks\n"+failure);return 1;}
 finally {if(helper is {HasExited:false})helper.Kill();if(owner is {HasExited:false})owner.Kill();helper?.Dispose();owner?.Dispose();}
+
+internal static class DiagnosticPublisher
+{
+    [System.Runtime.InteropServices.DllImport("combase.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode)]
+    private static extern int WindowsCreateString(string text,int length,out nint value);
+    [System.Runtime.InteropServices.DllImport("combase.dll")]
+    private static extern int WindowsDeleteString(nint value);
+    [System.Runtime.InteropServices.DllImport("combase.dll")]
+    private static extern int RoGetActivationFactory(nint name,in Guid iid,out nint factory);
+    // Official desktop HWND interop; unlike MediaPlayer it needs no audio endpoint on a hosted runner.
+    public static unsafe SystemMediaTransportControls ForWindow(nint window)
+    {
+        const string name="Windows.Media.SystemMediaTransportControls";
+        nint hstring=0,factory=0,result=0;
+        try
+        {
+            System.Runtime.InteropServices.Marshal.ThrowExceptionForHR(WindowsCreateString(name,name.Length,out hstring));
+            Guid interop=new("ddb0472d-c911-4a1f-86d9-dc3d71a95f5a"),smtc=new("99fa3ff4-1742-42a6-902e-087d41f965ec");
+            System.Runtime.InteropServices.Marshal.ThrowExceptionForHR(RoGetActivationFactory(hstring,interop,out factory));
+            var get=(delegate* unmanaged[Stdcall]<nint,nint,Guid*,nint*,int>)(*(nint**)factory)[6];
+            System.Runtime.InteropServices.Marshal.ThrowExceptionForHR(get(factory,window,&smtc,&result));
+            return WinRT.MarshalInterface<SystemMediaTransportControls>.FromAbi(result);
+        }
+        finally
+        {
+            if(result!=0)System.Runtime.InteropServices.Marshal.Release(result);
+            if(factory!=0)System.Runtime.InteropServices.Marshal.Release(factory);
+            if(hstring!=0)WindowsDeleteString(hstring);
+        }
+    }
+}

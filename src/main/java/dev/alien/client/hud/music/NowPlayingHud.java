@@ -15,7 +15,7 @@ import java.nio.IntBuffer;
 /** No file reads/decoding here. The artwork cache is bounded to one render-thread texture. */
 public final class NowPlayingHud {
     private static ResourceLocation texture;private static String coverHash="",track="";private static long trackAt;
-    private static final IntBuffer SCISSOR=BufferUtils.createIntBuffer(4);
+    private static final IntBuffer SCISSOR=BufferUtils.createIntBuffer(16);
     private NowPlayingHud(){}
     private static HudConfig cfg(){return AlienClient.get().config().hud;}
     public static int height(){return "Card".equals(cfg().music.style)?68:46+(cfg().music.sourceLabel||cfg().music.time?12:0);}

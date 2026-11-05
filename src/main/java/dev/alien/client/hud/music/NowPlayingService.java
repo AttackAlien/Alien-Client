@@ -26,7 +26,7 @@ public final class NowPlayingService {
                 String executable=System.getenv("ALIEN_MEDIA_BRIDGE_EXE"),next=source+"/"+art;
                 if(!wanted&&(child!=null||directory!=null||!"idle".equals(state.status))||child!=null&&(!next.equals(key)||!child.isAlive())){
                     if(child!=null){child.destroy();if(!child.waitFor(700,TimeUnit.MILLISECONDS))child.destroyForcibly();child=null;}
-                    clean(directory);directory=null;activeDirectory=null;runningChild=null;key="";state=NowPlayingState.empty(wanted?"connecting":"idle");
+                    clean(directory);directory=null;activeDirectory=null;runningChild=null;reader=new NowPlayingReader();key="";state=NowPlayingState.empty(wanted?"connecting":"idle");
                 }
                 if(wanted&&child==null&&System.nanoTime()>=retryAt){
                     if(executable==null||!new File(executable).isFile()){state=NowPlayingState.empty("launcher_required");retryAt=System.nanoTime()+2000000000L;}

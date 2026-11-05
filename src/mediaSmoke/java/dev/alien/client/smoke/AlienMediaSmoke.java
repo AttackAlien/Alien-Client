@@ -22,7 +22,7 @@ import org.lwjgl.opengl.*;
 
 @Mod(modid="alien_media_smoke",name="Now Playing graphical validation (synthetic source)",version="1",clientSideOnly=true,dependencies="required-after:alienclient")
 public final class AlienMediaSmoke {
-    private Minecraft m;private File out;private Path control;private int stage;private long since,start,pausedPosition;private boolean done;private String oldHash;private int texture;private final List<String> checks=new ArrayList<String>();
+    private Minecraft m;private File out;private Path control;private int stage;private long since,start,pausedPosition;private boolean done;private String oldHash;private int texture;private Object textureObject;private final List<String> checks=new ArrayList<String>();
     private ClientConfig c(){return AlienClient.get().config();}
     private HudConfig.Widget widget(){return c().hud.widgets.get("music");}
     private NowPlayingState state(){return NowPlayingService.get().snapshot();}
@@ -51,10 +51,10 @@ public final class AlienMediaSmoke {
             Display.setDisplayMode(new DisplayMode(1280,720));java.lang.reflect.Method resize=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);resize.setAccessible(true);resize.invoke(m,1280,720);m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=30;m.gameSettings.renderDistanceChunks=3;m.gameSettings.pauseOnLostFocus=false;
             feed("\"title\":\"MÍDIA DE TESTE / fonte sintética\"");m.launchIntegratedServer("AlienMedia-"+System.currentTimeMillis(),"Disposable media validation",new WorldSettings(42,WorldSettings.GameType.CREATIVE,false,false,WorldType.FLAT));next();return;
         case 1:
-            if(m.thePlayer==null||m.thePlayer.ticksExisted<40)return;m.displayGuiScreen(null);c().hud.background=true;widget().enabled=true;widget().x=.035f;widget().y=.76f;m.thePlayer.rotationYaw=25;m.thePlayer.rotationPitch=-8;m.getIntegratedServer().addScheduledTask(()->{m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doDaylightCycle","false");m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doMobSpawning","false");m.getIntegratedServer().worldServers[0].setWorldTime(6000);}).get();next();return;
+            if(m.thePlayer==null||m.thePlayer.ticksExisted<40)return;m.displayGuiScreen(null);for(HudConfig.Widget w:c().hud.widgets.values())if(w!=null)w.enabled=false;c().hud.widgets.get("brand").enabled=true;c().hud.background=true;widget().enabled=true;widget().x=.035f;widget().y=.70f;m.thePlayer.rotationYaw=25;m.thePlayer.rotationPitch=-8;m.getIntegratedServer().addScheduledTask(()->{m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doDaylightCycle","false");m.getIntegratedServer().worldServers[0].getGameRules().setOrCreateGameRule("doMobSpawning","false");m.getIntegratedServer().worldServers[0].setWorldTime(6000);}).get();next();return;
         case 2:
             if(!waitFor(state().active(System.currentTimeMillis())&&state().cover!=null,"Fixture bridge must publish real transport files"))return;
-            require(state().title.startsWith("MÍDIA DE TESTE")&&state().source.equals("Diagnostic fixture"),"Synthetic provider is explicitly labeled; no Spotify or YouTube claim");require(texture()!=0,"Artwork is uploaded as an actual Minecraft texture");texture=texture();oldHash=state().artwork;capture("01-music-compact-fixture");c().hud.music.style="Card";c().hud.music.time=true;c().hud.music.sourceLabel=true;next();return;
+            require(state().title.startsWith("MÍDIA DE TESTE")&&state().source.equals("Diagnostic fixture"),"Synthetic provider is explicitly labeled; no Spotify or YouTube claim");require(texture()!=0,"Artwork is uploaded as an actual Minecraft texture");texture=texture();java.lang.reflect.Field texField=NowPlayingHud.class.getDeclaredField("texture");texField.setAccessible(true);textureObject=m.getTextureManager().getTexture((net.minecraft.util.ResourceLocation)texField.get(null));oldHash=state().artwork;capture("01-music-compact-fixture");c().hud.music.style="Card";c().hud.music.time=true;c().hud.music.sourceLabel=true;next();return;
         case 3:
             require(texture()==texture,"Unchanged artwork reuses the same GPU texture");capture("02-music-card-fixture");feed("\"status\":\"paused\",\"positionMs\":51000,\"durationMs\":200000");next();return;
         case 4:
@@ -73,9 +73,9 @@ public final class AlienMediaSmoke {
         case 9:
             require(m.currentScreen instanceof HudWidgetSettingsScreen&&((HudWidgetSettingsScreen)m.currentScreen).isMusic(),"Options opens the real media settings page");click(170);require("Compact".equals(c().hud.music.style),"Layout control cycles three implemented styles");click(172);require(!c().hud.music.artist,"Artist toggle changes live configuration");click(172);capture("06-music-controls-fixture");click(21);next();return;
         case 10:
-            capture("07-music-style-scale");AlienClient.get().store().saveProfile("media-smoke");widget().opacity=1;c().hud.music.style="Card";require(AlienClient.get().store().loadProfile("media-smoke"),"Unified profile reload succeeds");require(widget().opacity==.78f&&"Compact".equals(c().hud.music.style),"Media style, color, transform and opacity persist in Unified profiles");m.displayGuiScreen(null);widget().x=.035f;widget().y=.76f;widget().scale=1;widget().opacity=1;feed("\"title\":\"MÍDIA DE TESTE / segunda faixa\",\"version\":2");next();return;
+            capture("07-music-style-scale");AlienClient.get().store().saveProfile("media-smoke");widget().opacity=1;c().hud.music.style="Card";require(AlienClient.get().store().loadProfile("media-smoke"),"Unified profile reload succeeds");require(widget().opacity==.78f&&"Compact".equals(c().hud.music.style),"Media style, color, transform and opacity persist in Unified profiles");m.displayGuiScreen(null);widget().x=.035f;widget().y=.70f;widget().scale=1;widget().opacity=1;feed("\"title\":\"MÍDIA DE TESTE / segunda faixa\",\"version\":2");next();return;
         case 11:
-            if(!waitFor(!state().artwork.equals(oldHash)&&state().cover!=null,"Track art update must reach client"))return;require(texture()!=texture,"Track change replaces the previous artwork texture");c().hud.music.artwork=false;next();return;
+            if(!waitFor(!state().artwork.equals(oldHash)&&state().cover!=null,"Track art update must reach client"))return;java.lang.reflect.Field currentTexture=NowPlayingHud.class.getDeclaredField("texture");currentTexture.setAccessible(true);require(texture()!=0&&m.getTextureManager().getTexture((net.minecraft.util.ResourceLocation)currentTexture.get(null))!=textureObject,"Track change replaces the previous artwork texture object (GL may reuse numeric IDs)");c().hud.music.artwork=false;next();return;
         case 12:
             if(!waitFor(state().cover==null,"Artwork opt-out must restart bridge without images"))return;require(texture()==0,"Artwork opt-out releases the GPU texture");capture("08-music-no-art-fixture");c().hud.music.artwork=true;feed("\"title\":\"MÍDIA DE TESTE / stream sem duração\",\"positionMs\":null,\"durationMs\":null,\"cover\":false");next();return;
         case 13:
@@ -85,7 +85,7 @@ public final class AlienMediaSmoke {
         case 15:
             if(!waitFor(state().title.contains("muito longo"),"Long title must reach client"))return;next();return;
         case 16:
-            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Scrolling long title preserves editor scissor and GL state");capture("10-music-long-title-fixture");m.displayGuiScreen(null);widget().x=.035f;widget().y=.76f;feed("\"disconnect\":true");next();return;
+            require(GL11.glGetError()==GL11.GL_NO_ERROR,"Scrolling long title preserves editor scissor and GL state");capture("10-music-long-title-fixture");m.displayGuiScreen(null);widget().x=.035f;widget().y=.70f;feed("\"disconnect\":true");next();return;
         case 17:
             if(elapsed(since)<7200)return;require(!state().active(System.currentTimeMillis()),"A stopped publisher expires after six seconds");require(!NowPlayingHud.visible(state(),false),"Disconnected track is hidden");c().hud.music.hideInactive=false;next();return;
         case 18:
