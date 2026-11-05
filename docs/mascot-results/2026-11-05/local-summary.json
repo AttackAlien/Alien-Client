@@ -1,14 +1,19 @@
 {
-  "sourceCommit": "64942cabeb3d5ba241e71a16d22a047c77fd12ef",
+  "sourceCommit": "4e16d96b752747dc2fe1a2fe484c3a2194dfda53",
   "junit": {
-    "tests": 241,
+    "tests": 247,
     "failures": 0,
     "errors": 0,
     "skipped": 0
   },
-  "graphics": "PASS 65 checks",
+  "graphics": "PASS 67 checks",
+  "model": "Alien (Quaternius)",
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "sourceUrl": "https://poly.pizza/m/HYUUkdugoP",
+  "sourceGlbSha256": "f55d091cd3914977724f4a7887e1866e73c2f2045df391e83c787b6736552ddb",
   "environment": "Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Xorg dummy / Mesa software",
-  "previewSha256": "a0a87aeeee0a1187ccb72fe530107366b3296babce8183a0b67d396fb94bce3a",
+  "previewSha256": "2c0ca485a8ce5c7a19f669fcd3e16e5531ad4c2afa7cb87c6014074a13d7dd93",
   "externalMultiplayerTested": false,
   "physicalWindowsGameplayTested": false
 }

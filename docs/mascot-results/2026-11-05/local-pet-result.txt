@@ -1,4 +1,4 @@
-PASS 65 checks
+PASS 67 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -17,8 +17,8 @@ PASS Saved cosmetic looks retain independent mascot preferences
 PASS Native movement feeds the mascot's actual smoothed movement response
 PASS Real framebuffer capture 181-mascot-follow-moving
 PASS The follower settles beside the actual owner after stopping native input
-PASS Real Floss playback makes the mascot wave
-PASS Real framebuffer capture 182-mascot-emote-wave
+PASS Real Floss playback triggers the imported Clapping animation
+PASS Real framebuffer capture 182-mascot-emote-clapping
 PASS The editor's Emotes OFF control releases the mascot reaction while real Floss continues
 PASS Real framebuffer capture 183-mascot-emote-reaction-off
 PASS Actual Shoulder mode positions the real mascot at the owner's shoulder height
@@ -31,9 +31,9 @@ PASS Animation OFF preserves a visible static mascot instead of hiding it
 PASS Real framebuffer capture 187-mascot-animation-off
 PASS An actual server teleport reanchors the mascot near its owner without a long interpolation streak
 PASS Real framebuffer capture 188-mascot-after-teleport
-PASS Actual owner inactivity smoothly puts the mascot to sleep
+PASS Actual owner inactivity feeds the imported Sitting rest animation
 PASS Real framebuffer capture 189-mascot-idle-sleep
-PASS Native movement wakes the sleeping mascot
+PASS Native movement releases rest and activates the original movement animation
 PASS Real framebuffer capture 190-mascot-awake-moving
 PASS Native scrolling exposes the final mascot appearance slider at compact GUI scale
 PASS Real framebuffer capture 191-mascot-studio-compact
@@ -66,4 +66,6 @@ PASS Real framebuffer capture mascot-motion-23
 PASS Actual mascot OFF control clears world state and geometry
 PASS Real framebuffer capture 192-mascot-off-world
 PASS Loading the real saved profile restores the mascot without stale positions
+PASS The real renderer uses the imported Quaternius mesh rather than reconstructed primitive shapes
+PASS All fourteen original authored animation clips load from the bundled model
 PASS Mascot world rendering, large preview and compact editor restore clean OpenGL state
