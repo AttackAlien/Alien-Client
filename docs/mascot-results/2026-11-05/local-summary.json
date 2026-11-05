@@ -1,0 +1,14 @@
+{
+  "sourceCommit": "64942cabeb3d5ba241e71a16d22a047c77fd12ef",
+  "junit": {
+    "tests": 241,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "graphics": "PASS 65 checks",
+  "environment": "Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Xorg dummy / Mesa software",
+  "previewSha256": "a0a87aeeee0a1187ccb72fe530107366b3296babce8183a0b67d396fb94bce3a",
+  "externalMultiplayerTested": false,
+  "physicalWindowsGameplayTested": false
+}
