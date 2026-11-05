@@ -68,3 +68,7 @@ Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472. O display Xorg usa scripts/ci
 GPU física, gameplay em Windows pessoal, autenticação/licença Microsoft interativas, multiplayer externo e OptiFine não foram validados. Emotes e mascotes continuam locais, sem sincronização de rede. Não há áudio funcional neste ambiente.
 
 As sessões General/Scene/Studio ainda registram tarefas de chunks ao descarregar mundos; contagens de pilhas nos logs desta rodada: `{"general": 72, "sky": 0, "combat": 0, "ultimate": 0, "scene": 77, "studio": 79}`. Não são contagens de quedas do jogo; todas as seis sessões terminaram com PASS. [Ocorrências selecionadas](../captures/atual/unified/known-log-errors.txt), logs completos nos artifacts do CI.
+
+## Acesso público conferido
+
+Quinze arquivos foram baixados novamente das URLs públicas, sem autenticação: MP4, ZIP do launcher, JAR, fotos e GIFs dos dois modelos. Todos retornaram HTTP 200 e SHA-256 idêntico ao arquivo validado. [URLs imutáveis e hashes](mascot-results/2026-11-05/public-download-check.json).
