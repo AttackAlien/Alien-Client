@@ -1,0 +1,123 @@
+{
+  "status": "PASS",
+  "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "minecraft": "1.8.9",
+  "forge": "11.15.1.2318",
+  "width": 960,
+  "height": 540,
+  "seconds": 141.173548324,
+  "renderedFrames": 7302,
+  "medianFrameMs": 17.557772,
+  "p95FrameMs": 30.117924,
+  "medianRenderedFps": 56.9548345883521,
+  "chapters": [
+    {
+      "title": "01 / Capa animada",
+      "startSeconds": 0.002338359,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "02 / Chapeus e acessorios",
+      "startSeconds": 8.018509349,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "03 / Trilhas desenhadas",
+      "startSeconds": 16.044292377,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "04 / Particulas Sakura",
+      "startSeconds": 24.048043917,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "05 / Ceu realista e nuvens suaves",
+      "startSeconds": 32.048722779,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "06 / HUD Ultimate",
+      "startSeconds": 40.051840378,
+      "plannedSeconds": 8.0
+    },
+    {
+      "title": "07 / Floss, Orange Justice, Take the L",
+      "startSeconds": 48.071363829,
+      "plannedSeconds": 12.0
+    },
+    {
+      "title": "08 / Auras reativas",
+      "startSeconds": 60.086468033,
+      "plannedSeconds": 12.0
+    },
+    {
+      "title": "09 / Modo FULL",
+      "startSeconds": 72.094277434,
+      "plannedSeconds": 4.0
+    },
+    {
+      "title": "10 / Aimbot - alvo de treino",
+      "startSeconds": 76.108824472,
+      "plannedSeconds": 6.0
+    },
+    {
+      "title": "11 / Auto Food",
+      "startSeconds": 82.116048626,
+      "plannedSeconds": 7.0
+    },
+    {
+      "title": "12 / Auto Potion",
+      "startSeconds": 89.126333029,
+      "plannedSeconds": 7.0
+    },
+    {
+      "title": "13 / AutoBridge",
+      "startSeconds": 96.130155351,
+      "plannedSeconds": 9.0
+    },
+    {
+      "title": "14 / Mascote alien Quaternius",
+      "startSeconds": 105.132468353,
+      "plannedSeconds": 18.0
+    },
+    {
+      "title": "15 / Tung Tung Sahur",
+      "startSeconds": 123.144842989,
+      "plannedSeconds": 18.0
+    }
+  ],
+  "checks": [
+    "Scene shader compiled before recording",
+    "Scene shader compiled before recording",
+    "Clean OpenGL after 01 / Capa animada",
+    "Clean OpenGL after 02 / Chapeus e acessorios",
+    "Actual native movement renders designed ribbon geometry",
+    "Clean OpenGL after 03 / Trilhas desenhadas",
+    "Clean OpenGL after 04 / Particulas Sakura",
+    "Clean OpenGL after 05 / Ceu realista e nuvens suaves",
+    "Clean OpenGL after 06 / HUD Ultimate",
+    "Emotes reach actual articulated body model rendering",
+    "Clean OpenGL after 07 / Floss, Orange Justice, Take the L",
+    "Aura film records actual movement, emote and midnight responses",
+    "Aura geometry reaches the actual world framebuffer",
+    "Clean OpenGL after 08 / Auras reativas",
+    "Clean OpenGL after 09 / Modo FULL",
+    "Aimbot actually moves the camera from an offset to the visible practice target",
+    "Clean OpenGL after 10 / Aimbot - alvo de treino",
+    "Auto Food uses real bread and increases integrated-server hunger",
+    "Clean OpenGL after 11 / Auto Food",
+    "Auto Potion actually heals the integrated-server player",
+    "Clean OpenGL after 12 / Auto Potion",
+    "AutoBridge places multiple real blocks while walking in Survival",
+    "Clean OpenGL after 13 / AutoBridge",
+    "Mascot footage records real native movement and actual emote reactions",
+    "Actual mascot world geometry renders in Follow, Shoulder and Orbit chapters",
+    "Clean OpenGL after 14 / Mascote alien Quaternius",
+    "Sahur footage records the actual imported mesh through Follow, Shoulder and Orbit",
+    "Clean OpenGL after 15 / Tung Tung Sahur"
+  ],
+  "capture": "Continuous native X11 recording; no generated or interpolated frames",
+  "environment": "Linux / software OpenGL / disposable integrated-server world",
+  "microsoftAuthenticationTested": false
+}

@@ -67,6 +67,7 @@ public final class CosmeticConfig {
         public String hat = "JAPANESE";
         public String face = "NONE";
         public String back = "NONE";
+        public dev.alien.client.cosmetic.pet.PetDesign pet = new dev.alien.client.cosmetic.pet.PetDesign();
         public boolean charm;
         public boolean aura;
         public dev.alien.client.cosmetic.aura.AuraDesign auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
@@ -90,6 +91,8 @@ public final class CosmeticConfig {
         public String textureFile = "";
 
         public void normalize() {
+            if (pet == null) pet = new dev.alien.client.cosmetic.pet.PetDesign();
+            pet.normalize();
             hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA");
             face = choice(face, "NONE", "KITSUNE", "FUTURE", "GLASSES");
             back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK");
@@ -117,6 +120,7 @@ public final class CosmeticConfig {
         public Accessory copy() {
             Accessory a = new Accessory();
             a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
+            a.pet = pet == null ? new dev.alien.client.cosmetic.pet.PetDesign() : pet.copy();
             a.charm = charm; a.aura = aura; a.trail = trail;
             a.auraDesign = auraDesign == null ? new dev.alien.client.cosmetic.aura.AuraDesign() : auraDesign.copy();
             a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;

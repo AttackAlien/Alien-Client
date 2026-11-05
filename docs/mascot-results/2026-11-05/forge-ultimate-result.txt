@@ -1,0 +1,441 @@
+PASS 437 checks
+Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
+Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
+Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
+PASS All 12 existing widgets and three new widgets are registered
+PASS Unified registers nine visuals and eight real gameplay switches
+PASS New gameplay functions are off on fresh profiles
+PASS Target HUD selects the real ray-traced practice entity
+PASS Real server inventory armor synchronizes to client
+PASS CPS counts actual automated X11 mouse events delivered to LWJGL
+PASS Real framebuffer capture 40-hud-ultimate-pvp-live
+PASS Custom cyan crosshair replaces vanilla white at the actual framebuffer center
+PASS Health bar visibly interpolates after entity damage
+PASS Real framebuffer capture 41-target-health-animation
+PASS Animated target health converges to the entity's real 8/20 health
+PASS Real framebuffer capture 42-target-damaged
+PASS Removed entities clear the target; no invented target remains
+PASS Actual HUD canvas drag changes the selected widget position
+PASS Actual resize handle scales the existing target widget
+PASS HUD Center alignment operates after dragging and resizing
+PASS Real framebuffer capture 43-hud-ultimate-editor
+PASS Selected widget opens the real HUD settings screen
+PASS Widget opacity slider changes the selected widget only
+PASS HUD presets are accessible from the preserved editor
+PASS Real framebuffer capture 44-hud-presets-themes
+PASS Survival preset enables live health, speed and potion indicators
+PASS Real framebuffer capture 45-hud-survival-live
+PASS Cinematic disables gameplay overlays without deleting their settings
+PASS Real framebuffer capture 46-hud-cinematic-live
+PASS Real framebuffer capture 47-crosshair-options
+PASS Crosshair shape control selects an implemented shape
+PASS Auto Food selects actual hotbar food in a hungry server world
+PASS Auto Food restores the original selected slot after eating
+PASS Auto Food actually increases server-side hunger through vanilla item use
+PASS Real framebuffer capture 48-auto-food-result
+PASS Auto Potion selects an actual healing potion from the hotbar
+PASS Auto Potion produces real server-side healing
+PASS Real framebuffer capture 49-auto-potion-result
+PASS Anti Aim spin changes the actual camera orientation
+PASS Aimbot actually aligns the camera with the visible practice player
+PASS Real framebuffer capture 50-aimbot-target-hud
+PASS Auto Bridge calls the vanilla placement controller
+PASS Auto Bridge places the block in the actual integrated server world
+PASS Real framebuffer capture 51-auto-bridge-server-block
+PASS Auto Sprint enables the actual sprint state while forward input is held
+PASS Real framebuffer capture 52-full-modules-unified
+PASS All six new modules have actual clickable controls
+PASS Full module GUI edits the registered Auto Food state
+PASS Unified profile reload succeeds with all new sections
+PASS HUD preferences and Full tool settings round-trip together without data loss
+PASS Real framebuffer capture 53-hud-ultimate-scaled
+PASS HUD/avatars/items/crosshair and Full screens preserve clean OpenGL state
+PASS Automation leaves no stuck use key after master OFF
+PASS Auto Potion splash mode heals through a real thrown potion on the integrated server
+PASS Splash potion owns its camera while Aimbot is enabled and restores the pitch
+PASS Real framebuffer capture 54-auto-splash-potion-result
+PASS Opening a GUI interrupts automation and releases its owned use key
+PASS Opening a GUI during food use restores the user's hotbar slot
+PASS Real framebuffer capture 55-full-input-cleanup
+PASS OFF disables all Full tool execution after in-world tests
+PASS Full preset is functionally distinct and enables the implemented Full tools
+PASS Real framebuffer capture 56-full-preset-enabled
+PASS Real framebuffer capture 57-hud-light-theme-live
+PASS Real framebuffer capture 58-full-combat-catalog
+PASS Light HUD theme and full module catalog render without OpenGL errors
+PASS Cinematic particles spawn through the actual bounded world emitter
+PASS Cinematic feathered orb particles reach the world renderer
+PASS Real framebuffer capture 59-particles-cinematic-live
+PASS Sakura petals render within their real 72-particle budget
+PASS Real framebuffer capture 60-particles-sakura-live
+PASS PvP preset keeps actual movement particles within 24 and disables glow and ambient spawning
+PASS Real framebuffer capture 61-particles-pvp-live
+PASS Particle Studio controls edit the active renderer configuration
+PASS Particle shape, opacity, glow, flow and lifetime persist in Unified profiles
+PASS Real framebuffer capture 62-particle-studio-controls
+PASS Effects OFF clears particle simulation and rendering
+PASS All particle meshes, glow passes and controls preserve clean OpenGL state
+PASS New sculpted Sakura headwear is active in the actual player renderer
+PASS Real framebuffer capture 63-sakura-wreath-world
+PASS Real framebuffer capture 64-cc0-fabric-cape-studio
+PASS Motion tab opens actual per-player ribbon controls
+PASS Real framebuffer capture 65-cosmetic-ribbon-controls
+PASS Classic particle option remains available and ribbon-only sliders are disabled
+PASS Wreath and ribbon preferences round-trip with Unified profiles
+PASS Real X11 player movement produces a rendered continuous ribbon
+PASS Ribbon geometry respects the shared performance segment limit
+PASS Actual player movement drives the cape's damped spring response
+PASS Real framebuffer capture 66-ribbon-trail-and-cape-moving
+PASS Ribbon remains rendered while turning in front third-person view
+PASS Real framebuffer capture 67-ribbon-curved-path
+PASS Stationary trail fully expires after its configured lifetime
+PASS Real framebuffer capture 68-cape-relaxed-after-motion
+PASS Real framebuffer capture 69-woven-kasa-world
+PASS Real framebuffer capture 70-sakura-cosmetic-studio
+PASS Reduced cosmetic animation leaves no active ribbon simulation
+PASS CC0 cape fabric, sculpted hats and ribbons restore clean OpenGL state
+PASS Real Trail Studio exposes opt-in designer and texture controls
+PASS Real framebuffer capture 128-trail-studio-overview
+PASS Preset button applies its actual material, gradient and curve values
+PASS Real framebuffer capture 129-trail-ember-preset
+PASS Dragging the real width canvas changes its middle stop
+PASS Real framebuffer capture 130-trail-width-curve
+PASS Width edit changes actual material-preview framebuffer pixels
+PASS Opacity curve independently edits the newest end of the ribbon
+PASS Real framebuffer capture 131-trail-opacity-curve
+PASS Opacity edit changes real preview pixels without changing the texture
+PASS Trail stop opens the existing real HSV and HEX picker
+PASS Typing HEX through the actual picker updates the selected stop
+PASS Real framebuffer capture 132-trail-color-picker
+PASS Actual Unified profile load restores custom trail stops
+PASS Saved cosmetic look includes an independent trail design
+PASS Reload and texture selector discover an actual local PNG
+PASS Real framebuffer capture 133-trail-png-material
+PASS Right-click curve opens precise numeric input
+PASS Typed curve value is applied through the actual numeric control
+PASS Real framebuffer capture 134-trail-exact-opacity
+PASS Real player movement renders the imported PNG on world-space ribbon geometry
+PASS Designed trails retain bounded shared geometry and player budgets
+PASS Real framebuffer capture 135-trail-custom-png-world
+PASS Nebula binds the actual Silk material in the world renderer
+PASS Real framebuffer capture 136-trail-nebula-world
+PASS Ember binds the actual segmented material in the world renderer
+PASS Real framebuffer capture 137-trail-ember-world
+PASS Glacier binds the actual woven material in the world renderer
+PASS Real framebuffer capture 138-trail-glacier-world
+PASS Real framebuffer capture trail-motion-00
+PASS Real framebuffer capture trail-motion-01
+PASS Real framebuffer capture trail-motion-02
+PASS Real framebuffer capture trail-motion-03
+PASS Real framebuffer capture trail-motion-04
+PASS Real framebuffer capture trail-motion-05
+PASS Real framebuffer capture trail-motion-06
+PASS Real framebuffer capture trail-motion-07
+PASS Real framebuffer capture trail-motion-08
+PASS Real framebuffer capture trail-motion-09
+PASS Real framebuffer capture trail-motion-10
+PASS Real framebuffer capture trail-motion-11
+PASS Real framebuffer capture trail-motion-12
+PASS Real framebuffer capture trail-motion-13
+PASS Real framebuffer capture trail-motion-14
+PASS Real framebuffer capture trail-motion-15
+PASS Real framebuffer capture trail-motion-16
+PASS Real framebuffer capture trail-motion-17
+PASS Real framebuffer capture trail-motion-18
+PASS Real framebuffer capture trail-motion-19
+PASS Actual mouse wheel exposes the full curve editor in compact scaled layout
+PASS Real framebuffer capture 139-trail-studio-compact
+PASS Real framebuffer capture 140-trail-invalid-png-fallback
+PASS Preview, graph and imported-texture fallback restore clean OpenGL state
+PASS Rejected PNG renders the truthful Soft fallback instead of pretending import success
+PASS Real framebuffer capture 141-trail-fallback-world
+PASS Actual OFF control clears designed trail simulation and rendering
+PASS Real framebuffer capture 142-trail-off-restored
+PASS Legacy particle choice remains selectable with designer-only controls disabled
+PASS Real framebuffer capture 143-trail-particles-preserved
+PASS All designed trail world passes and editor screens leave clean OpenGL state
+PASS Native B key opens the actual emote wheel
+PASS Real framebuffer capture 144-emote-wheel
+PASS Native mouse hovers the intended first wheel sector
+PASS Real framebuffer capture 144b-emote-wheel-selected
+PASS Native hover and release selects Floss and begins actual playback / Playing / Floss / floss / GUI null / ground true / input 0.0,0.0 / attack false / use false / swing false
+PASS First-person emote temporarily switches to the front third-person camera
+PASS Emote poses reach the actual Minecraft player model renderer
+PASS Real server-synchronized armor uses animated emote pose hooks
+PASS Dance root transforms leave actual world coordinates and camera yaw unchanged
+PASS Floss skin, wear and armor render articulated limbs in actual Forge
+PASS Real framebuffer capture 145-floss-world
+PASS Orange Justice replaces active playback without removing player layers
+PASS Real framebuffer capture 146-orange-justice-world
+PASS Take the L plays with a raised arm and alternating leg poses
+PASS Real framebuffer capture 147-take-the-l-world
+PASS Smooth stop ends playback and restores the owned first-person camera
+PASS Emote world and armor render passes balance their matrix stack without GL errors
+PASS Real framebuffer capture 148-emote-studio-floss
+PASS All three requested classics have real library controls
+PASS Real framebuffer capture 149-emote-studio-orange-justice
+PASS Library control changes the real animated player preview selection
+PASS Real framebuffer capture 150-emote-studio-take-the-l
+PASS Wheel slot assignment stores the selected classic through actual controls
+PASS Real framebuffer capture 151-emote-slot-assignment
+PASS Unified profile reload restores emote slots alongside existing cosmetics and HUD
+PASS Hide held item preference has a real profile-backed control
+PASS Actual settings control disables articulation without removing dances
+PASS Actual settings control restores jointed limbs
+PASS Real framebuffer capture 152-emote-settings
+PASS Actual wheel scrolling keeps the last emote reachable in compact scaled layouts
+PASS Real framebuffer capture 153-emote-studio-compact
+PASS Emote starts from the studio-selected profile in a neutral world state
+PASS Native forward movement cancels dancing and restores the camera
+PASS Neutral playback restarts after movement cancellation
+PASS Native attack input immediately cancels actual emote playback
+PASS Studio preview never starts world playback or persists an active dance
+PASS Real framebuffer capture emote-motion-00
+PASS Real framebuffer capture emote-motion-01
+PASS Real framebuffer capture emote-motion-02
+PASS Real framebuffer capture emote-motion-03
+PASS Real framebuffer capture emote-motion-04
+PASS Real framebuffer capture emote-motion-05
+PASS Real framebuffer capture emote-motion-06
+PASS Real framebuffer capture emote-motion-07
+PASS Real framebuffer capture emote-motion-08
+PASS Real framebuffer capture emote-motion-09
+PASS Real framebuffer capture emote-motion-10
+PASS Real framebuffer capture emote-motion-11
+PASS Real framebuffer capture emote-motion-12
+PASS Real framebuffer capture emote-motion-13
+PASS Real framebuffer capture emote-motion-14
+PASS Real framebuffer capture emote-motion-15
+PASS Real framebuffer capture emote-motion-16
+PASS Real framebuffer capture emote-motion-17
+PASS Real framebuffer capture emote-motion-18
+PASS Real framebuffer capture emote-motion-19
+PASS Real framebuffer capture emote-motion-20
+PASS Real framebuffer capture emote-motion-21
+PASS Real framebuffer capture emote-motion-22
+PASS Real framebuffer capture emote-motion-23
+PASS Real framebuffer capture emote-motion-24
+PASS Real framebuffer capture emote-motion-25
+PASS Real framebuffer capture emote-motion-26
+PASS Real framebuffer capture emote-motion-27
+PASS Real framebuffer capture emote-motion-28
+PASS Real framebuffer capture emote-motion-29
+PASS Real framebuffer capture emote-motion-30
+PASS Real framebuffer capture emote-motion-31
+PASS Real framebuffer capture emote-motion-32
+PASS Real framebuffer capture emote-motion-33
+PASS Real framebuffer capture emote-motion-34
+PASS Real framebuffer capture emote-motion-35
+PASS Real framebuffer capture emote-motion-36
+PASS Real framebuffer capture emote-motion-37
+PASS Real framebuffer capture emote-motion-38
+PASS Real framebuffer capture emote-motion-39
+PASS Real framebuffer capture emote-motion-40
+PASS Real framebuffer capture emote-motion-41
+PASS Real framebuffer capture emote-motion-42
+PASS Real framebuffer capture emote-motion-43
+PASS Real framebuffer capture emote-motion-44
+PASS Real framebuffer capture emote-motion-45
+PASS Real framebuffer capture emote-motion-46
+PASS Real framebuffer capture emote-motion-47
+PASS Actual previews and all three classic movies restore clean OpenGL and render scope
+PASS Emotes animate the existing Glass renderer without replacing its material layers / Playing / Floss active=floss models=1095 before=1050 ground=true moving=0.0,0.0 jump=false sneak=false water=false swing=false attack=false use=false,false gui=null
+PASS Real framebuffer capture 154-emote-glass-world
+PASS Skeleton material and skeleton overlay keep using the animated body rig
+PASS Real framebuffer capture 155-emote-skeleton-world
+PASS Opening an editor immediately cancels actual world playback
+PASS Playback starts before actual damage interruption test
+PASS Actual integrated-server damage decreases health and stops the emote
+PASS Playback starts before profile context change
+PASS Changing the actual Unified profile clears playback and restores the owned camera
+PASS Disabled emotes reject playback instead of reporting a fictional active dance
+PASS Material, damage, menu and profile interruption checks leave clean GL state
+PASS Classic aura still emits the original real vanilla particles
+PASS Real framebuffer capture 156-aura-classic-preserved
+PASS Reactive aura generates actual depth-tested world geometry for the player
+PASS Reactive renderer replaces legacy aura particles while preserving the Classic option
+PASS Real framebuffer capture 157-aura-arcane-idle
+PASS Native movement raises the real smoothed movement channel and aura energy
+PASS Real framebuffer capture 158-aura-arcane-moving
+PASS Stopping native movement smoothly releases its aura reaction
+PASS Actual Floss playback feeds the real aura emote channel
+PASS Real framebuffer capture 159-aura-emote-floss
+PASS Actual integrated-server midnight activates the night aura channel
+PASS Real framebuffer capture 160-aura-night
+PASS Real Night toggle disables only the night reaction
+PASS Disabling Night through the actual editor releases night energy while the world remains at midnight
+PASS Real framebuffer capture 161-aura-night-reaction-off
+PASS Neon preset renders actual intersecting orbit bands
+PASS Real framebuffer capture 162-aura-neon-world
+PASS Celestial preset renders actual halos and orbiting crystals
+PASS Real framebuffer capture 163-aura-celestial-world
+PASS Aura Studio renders the actual configured aura on the live player preview
+PASS Real framebuffer capture 164-aura-studio
+PASS Aura HEX picker changes the real material color through its actual keyboard handler
+PASS Real framebuffer capture 165-aura-color-picker
+PASS Movement and emote toggles edit independent profile-backed reaction flags
+PASS Real framebuffer capture 166-aura-reactions
+PASS Actual Unified profile reload restores custom aura colors and reactions
+PASS Aura look snapshots preserve existing saved emotes and remain independent
+PASS Native mouse-wheel scrolling exposes all aura appearance sliders in compact scaled layout
+PASS Real framebuffer capture 167-aura-studio-compact
+PASS Zero particle budget clears reactive aura states and rendered geometry
+PASS Real framebuffer capture 168-aura-zero-budget
+PASS Actual Aura OFF control clears transient reactions and rendering
+PASS Real framebuffer capture 169-aura-off
+PASS Loading a saved aura profile restores its appearance without stale simulation
+PASS Real framebuffer capture 170-aura-profile-restored
+PASS Aura renderer obeys hard shared geometry and player-state budgets
+PASS Aura movie begins from a real active emote rather than a simulated trigger
+PASS Real framebuffer capture aura-motion-00
+PASS Real framebuffer capture aura-motion-01
+PASS Real framebuffer capture aura-motion-02
+PASS Real framebuffer capture aura-motion-03
+PASS Real framebuffer capture aura-motion-04
+PASS Real framebuffer capture aura-motion-05
+PASS Real framebuffer capture aura-motion-06
+PASS Real framebuffer capture aura-motion-07
+PASS Real framebuffer capture aura-motion-08
+PASS Real framebuffer capture aura-motion-09
+PASS Real framebuffer capture aura-motion-10
+PASS Real framebuffer capture aura-motion-11
+PASS Real framebuffer capture aura-motion-12
+PASS Real framebuffer capture aura-motion-13
+PASS Real framebuffer capture aura-motion-14
+PASS Real framebuffer capture aura-motion-15
+PASS Real framebuffer capture aura-motion-16
+PASS Real framebuffer capture aura-motion-17
+PASS Real framebuffer capture aura-motion-18
+PASS Real framebuffer capture aura-motion-19
+PASS Real framebuffer capture aura-motion-20
+PASS Real framebuffer capture aura-motion-21
+PASS Real framebuffer capture aura-motion-22
+PASS Real framebuffer capture aura-motion-23
+PASS Reactive auras, previews and emotes leave clean OpenGL state and balanced render scopes
+PASS Realistic atmosphere compiles and renders on actual GLSL 1.20
+PASS Realistic sky suppresses block clouds through an owned render hook without changing user video settings
+PASS Real framebuffer capture 171-realistic-day-clouds
+PASS Local sunset changes the real shader without mutating integrated-server time
+PASS Real framebuffer capture 172-realistic-sunset
+PASS Real framebuffer capture 173-realistic-night
+PASS Real framebuffer capture 174-realistic-clear
+PASS Real framebuffer capture 175-realistic-overcast
+PASS Coverage zero versus one changes actual sky framebuffer pixels with cloud motion frozen
+PASS Sky gallery Details opens the actual atmosphere editor
+PASS Real framebuffer capture 176-sky-atmosphere-editor
+PASS Actual coverage slider edits the live profile-backed shader parameter
+PASS Unified profile reload restores actual atmosphere controls
+PASS Native scrolling exposes the final atmosphere control at compact GUI scale
+PASS Real framebuffer capture 177-sky-atmosphere-compact
+PASS Actual Reset restores atmosphere defaults
+PASS Disabling the realistic sky restores the exact previous cloud renderer and video preference
+PASS Polished sky, compact editor and jointed emotes leave balanced OpenGL state
+PASS Cosmetic Studio mascot navigation opens the real editor without replacing existing studios
+PASS Real framebuffer capture 178-mascot-studio-off
+PASS The enabled mascot reaches both real world geometry and the large live editor preview
+PASS Real framebuffer capture 179-mascot-studio-alien
+PASS Actual palette control applies Mint colors to the real mascot
+PASS Real framebuffer capture 180-mascot-studio-mint
+PASS Mascot HEX picker updates the material through the actual keyboard handler
+PASS Real Unified profile loading restores mascot appearance and activation
+PASS Saved cosmetic looks retain independent mascot preferences
+PASS Native movement feeds the mascot's actual smoothed movement response
+PASS Real framebuffer capture 181-mascot-follow-moving
+PASS The follower settles beside the actual owner after stopping native input
+PASS Real Floss playback triggers the imported Clapping animation
+PASS Real framebuffer capture 182-mascot-emote-clapping
+PASS The editor's Emotes OFF control releases the mascot reaction while real Floss continues
+PASS Real framebuffer capture 183-mascot-emote-reaction-off
+PASS Actual Shoulder mode positions the real mascot at the owner's shoulder height
+PASS Real framebuffer capture 184-mascot-shoulder-preview
+PASS Orbit moves the actual mascot around a stationary owner
+PASS Real framebuffer capture 185-mascot-orbit-world
+PASS Palette cycling reaches the actual Solar materials
+PASS Real framebuffer capture 186-mascot-studio-solar
+PASS Animation OFF preserves a visible static mascot instead of hiding it
+PASS Real framebuffer capture 187-mascot-animation-off
+PASS An actual server teleport reanchors the mascot near its owner without a long interpolation streak
+PASS Real framebuffer capture 188-mascot-after-teleport
+PASS Actual owner inactivity feeds the imported Sitting rest animation
+PASS Real framebuffer capture 189-mascot-idle-sleep
+PASS Native movement releases rest and activates the original movement animation
+PASS Real framebuffer capture 190-mascot-awake-moving
+PASS Native scrolling exposes the final mascot appearance slider at compact GUI scale
+PASS Real framebuffer capture 191-mascot-studio-compact
+PASS Zero cosmetic budget clears actual mascot simulation and rendering
+PASS Restoring the real cosmetic budget recreates the configured mascot
+PASS Real framebuffer capture mascot-motion-00
+PASS Real framebuffer capture mascot-motion-01
+PASS Real framebuffer capture mascot-motion-02
+PASS Real framebuffer capture mascot-motion-03
+PASS Real framebuffer capture mascot-motion-04
+PASS Real framebuffer capture mascot-motion-05
+PASS Real framebuffer capture mascot-motion-06
+PASS Real framebuffer capture mascot-motion-07
+PASS Real framebuffer capture mascot-motion-08
+PASS Real framebuffer capture mascot-motion-09
+PASS Real framebuffer capture mascot-motion-10
+PASS Real framebuffer capture mascot-motion-11
+PASS Real framebuffer capture mascot-motion-12
+PASS Real framebuffer capture mascot-motion-13
+PASS Real framebuffer capture mascot-motion-14
+PASS Real framebuffer capture mascot-motion-15
+PASS Real framebuffer capture mascot-motion-16
+PASS Real framebuffer capture mascot-motion-17
+PASS Real framebuffer capture mascot-motion-18
+PASS Real framebuffer capture mascot-motion-19
+PASS Real framebuffer capture mascot-motion-20
+PASS Real framebuffer capture mascot-motion-21
+PASS Real framebuffer capture mascot-motion-22
+PASS Real framebuffer capture mascot-motion-23
+PASS Actual mascot OFF control clears world state and geometry
+PASS Real framebuffer capture 192-mascot-off-world
+PASS Loading the real saved profile restores the mascot without stale positions
+PASS The real renderer uses the imported Quaternius mesh rather than reconstructed primitive shapes
+PASS All fourteen original authored animation clips load from the bundled model
+PASS Mascot world rendering, large preview and compact editor restore clean OpenGL state
+PASS Actual model selector renders the imported Sahur in both world and live studio
+PASS Sahur uses the credited original mesh with all six materials
+PASS Real framebuffer capture 193-tung-studio-original
+PASS Native movement drives actual Sahur following and whole-model lean
+PASS Real framebuffer capture 194-tung-follow-moving
+PASS Sahur shoulder mode retains the actual configured anchor
+PASS Real framebuffer capture 195-tung-shoulder-preview
+PASS Orbit moves the actual imported Sahur around the owner
+PASS Real framebuffer capture 196-tung-orbit-world
+PASS Sahur remains visible with whole-model animation disabled
+PASS Real framebuffer capture 197-tung-animation-off
+PASS Actual selector returns to Quaternius without losing its renderer
+PASS Real framebuffer capture 198-alien-after-tung
+PASS Unified profile restores the saved Sahur model, mode and original colors
+PASS Cosmetic look slots retain independent original and Sahur model choices
+PASS Real framebuffer capture 199-tung-profile-restored
+PASS Native scrolling reaches the last control with the new model selector at compact scale
+PASS Real framebuffer capture 200-tung-studio-compact
+PASS Real framebuffer capture tung-motion-00
+PASS Real framebuffer capture tung-motion-01
+PASS Real framebuffer capture tung-motion-02
+PASS Real framebuffer capture tung-motion-03
+PASS Real framebuffer capture tung-motion-04
+PASS Real framebuffer capture tung-motion-05
+PASS Real framebuffer capture tung-motion-06
+PASS Real framebuffer capture tung-motion-07
+PASS Real framebuffer capture tung-motion-08
+PASS Real framebuffer capture tung-motion-09
+PASS Real framebuffer capture tung-motion-10
+PASS Real framebuffer capture tung-motion-11
+PASS Real framebuffer capture tung-motion-12
+PASS Real framebuffer capture tung-motion-13
+PASS Real framebuffer capture tung-motion-14
+PASS Real framebuffer capture tung-motion-15
+PASS Real framebuffer capture tung-motion-16
+PASS Real framebuffer capture tung-motion-17
+PASS Real framebuffer capture tung-motion-18
+PASS Real framebuffer capture tung-motion-19
+PASS Real framebuffer capture tung-motion-20
+PASS Real framebuffer capture tung-motion-21
+PASS Real framebuffer capture tung-motion-22
+PASS Real framebuffer capture tung-motion-23
+PASS Zero budget clears the Sahur simulation and its real geometry
+PASS Restoring budget recreates the selected Sahur without switching models
+PASS Both imported model renderers and editor previews leave clean OpenGL and emote scopes

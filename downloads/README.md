@@ -1,3 +1,7 @@
+# Candidato com dois mascotes — Unified 0.11.0-alpha.1 / launcher 0.3.0-alpha.9
+
+[Client candidato](v0.11.0-alpha.1/README.md) · [Launcher candidato](launcher/v0.3.0-alpha.9/README.md) · [Testes e limites](../docs/ANIMATED-MASCOT-VALIDATION.md). Modelos prontos Alien/Quaternius e Tung Tung Sahur/CalinnHotCake incluídos, com fontes, licenças e atribuição. Pacotes copiados dos CIs concluídos com sucesso, hashes e recibos conferidos. [PR #28](https://github.com/AttackAlien/Alien-Client/pull/28), sem merge.
+
 **[Abrir release e baixar os arquivos](https://github.com/AttackAlien/Alien-Client/releases/tag/v0.10.0-alpha.1)**
 
 # Release alpha atual — Unified 0.10.0-alpha.1 / launcher 0.3.0-alpha.7

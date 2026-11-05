@@ -1,0 +1,21 @@
+{
+  "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "runId": "42027857579",
+  "version": "0.11.0-alpha.1",
+  "jarSha256": "0b3014421e5266088bba31d64fd04294713bcd1b14f2ba79e9de7e9c7eace41a",
+  "junit": {
+    "tests": 253,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "graphics": {
+    "general": "PASS 161 checks",
+    "sky": "PASS 37 checks",
+    "combat": "PASS 24 checks",
+    "ultimate": "PASS 437 checks",
+    "scene": "PASS 71 checks",
+    "studio": "PASS 142 checks"
+  },
+  "graphicsTotal": 872
+}

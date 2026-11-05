@@ -1,0 +1,133 @@
+{
+  "sourceCommit": "1568db3f9cd76edc4c48fb3cc73961ca5a776f1f",
+  "junit": {
+    "tests": 253,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "graphics": "PASS 112 checks",
+  "sourceModels": {
+    "alien": {
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "model": "Alien (Quaternius)",
+      "sourceUrl": "https://poly.pizza/m/HYUUkdugoP",
+      "sourceSha256": "f55d091cd3914977724f4a7887e1866e73c2f2045df391e83c787b6736552ddb",
+      "outputSha256": "7749328ce94dde8566947e1e9e4f94879eb4573bc47961b35a0b915b6cbe2ac7",
+      "vertices": 7642,
+      "triangles": 3774,
+      "joints": 45,
+      "clips": [
+        {
+          "name": "Clapping",
+          "duration": 2.0833332538604736,
+          "frames": 51
+        },
+        {
+          "name": "Death",
+          "duration": 2.2916667461395264,
+          "frames": 56
+        },
+        {
+          "name": "Idle",
+          "duration": 4.166666507720947,
+          "frames": 101
+        },
+        {
+          "name": "IdleHold",
+          "duration": 4.166666507720947,
+          "frames": 101
+        },
+        {
+          "name": "Jump",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        },
+        {
+          "name": "Punch",
+          "duration": 0.9166666865348816,
+          "frames": 23
+        },
+        {
+          "name": "Run",
+          "duration": 0.875,
+          "frames": 22
+        },
+        {
+          "name": "RunHold",
+          "duration": 0.875,
+          "frames": 22
+        },
+        {
+          "name": "RunningJump",
+          "duration": 1.25,
+          "frames": 31
+        },
+        {
+          "name": "Sitting",
+          "duration": 1.0833333730697632,
+          "frames": 27
+        },
+        {
+          "name": "Standing",
+          "duration": 0.625,
+          "frames": 16
+        },
+        {
+          "name": "Swimming",
+          "duration": 1.3333333730697632,
+          "frames": 33
+        },
+        {
+          "name": "SwordSlash",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        },
+        {
+          "name": "Walk",
+          "duration": 1.0416666269302368,
+          "frames": 26
+        }
+      ],
+      "normalizationScale": 0.24823745088847263,
+      "normalizationCenter": [
+        -0.02506265177166933,
+        1.4456089157974825,
+        0.1169781511195429
+      ],
+      "packedBytes": 2510014,
+      "compressedBytes": 1443622
+    },
+    "tung": {
+      "author": "CalinnHotCake",
+      "license": "CC-BY-3.0",
+      "model": "Tung Tung Tung Sahur",
+      "sourceUrl": "https://poly.pizza/m/Q6SvoDhhwA",
+      "sourceSha256": "ee51070ee71acf12f88ddd551a70411f1f390447baf8568d352d39b7da464575",
+      "outputSha256": "cf833d95cef907d969458747f99eea7ef671b176b8353bc7de3fa6f98a795dd8",
+      "vertices": 1792,
+      "triangles": 872,
+      "materials": [
+        "#FFAC20",
+        "#AA6C27",
+        "#CE832F",
+        "#FFFFFF",
+        "#141414",
+        "#51330F"
+      ],
+      "authoredAnimations": 0,
+      "joints": 0,
+      "normalizationScale": 0.7201099027772754,
+      "orientationYaw": -90.0,
+      "compressedBytes": 20650
+    }
+  },
+  "environment": "Minecraft 1.8.9 / Forge 11.15.1.2318 / Java 8u472 / Xorg dummy / Mesa software",
+  "previews": {
+    "local-mascot-preview.png": "4ddfcf7cbcbafb6b965238fee6d9c867cdb4fb76f8ebe39f78d47053759ff751",
+    "local-tung-preview.png": "acfbef716b351eca2d6503ed0c00ea26a0aa3e56b49e57811ccb8ee3882c10d5"
+  },
+  "externalMultiplayerTested": false,
+  "physicalWindowsGameplayTested": false
+}

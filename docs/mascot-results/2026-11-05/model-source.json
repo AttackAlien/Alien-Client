@@ -1,0 +1,91 @@
+{
+  "author": "Quaternius",
+  "license": "CC0-1.0",
+  "model": "Alien (Quaternius)",
+  "sourceUrl": "https://poly.pizza/m/HYUUkdugoP",
+  "sourceSha256": "f55d091cd3914977724f4a7887e1866e73c2f2045df391e83c787b6736552ddb",
+  "outputSha256": "7749328ce94dde8566947e1e9e4f94879eb4573bc47961b35a0b915b6cbe2ac7",
+  "vertices": 7642,
+  "triangles": 3774,
+  "joints": 45,
+  "clips": [
+    {
+      "name": "Clapping",
+      "duration": 2.0833332538604736,
+      "frames": 51
+    },
+    {
+      "name": "Death",
+      "duration": 2.2916667461395264,
+      "frames": 56
+    },
+    {
+      "name": "Idle",
+      "duration": 4.166666507720947,
+      "frames": 101
+    },
+    {
+      "name": "IdleHold",
+      "duration": 4.166666507720947,
+      "frames": 101
+    },
+    {
+      "name": "Jump",
+      "duration": 1.0416666269302368,
+      "frames": 26
+    },
+    {
+      "name": "Punch",
+      "duration": 0.9166666865348816,
+      "frames": 23
+    },
+    {
+      "name": "Run",
+      "duration": 0.875,
+      "frames": 22
+    },
+    {
+      "name": "RunHold",
+      "duration": 0.875,
+      "frames": 22
+    },
+    {
+      "name": "RunningJump",
+      "duration": 1.25,
+      "frames": 31
+    },
+    {
+      "name": "Sitting",
+      "duration": 1.0833333730697632,
+      "frames": 27
+    },
+    {
+      "name": "Standing",
+      "duration": 0.625,
+      "frames": 16
+    },
+    {
+      "name": "Swimming",
+      "duration": 1.3333333730697632,
+      "frames": 33
+    },
+    {
+      "name": "SwordSlash",
+      "duration": 1.0416666269302368,
+      "frames": 26
+    },
+    {
+      "name": "Walk",
+      "duration": 1.0416666269302368,
+      "frames": 26
+    }
+  ],
+  "normalizationScale": 0.24823745088847263,
+  "normalizationCenter": [
+    -0.02506265177166933,
+    1.4456089157974825,
+    0.1169781511195429
+  ],
+  "packedBytes": 2510014,
+  "compressedBytes": 1443622
+}
