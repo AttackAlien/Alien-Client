@@ -15,6 +15,8 @@ import java.nio.IntBuffer;
 
 /** No file reads/decoding here. The artwork cache is bounded to one render-thread texture. */
 public final class NowPlayingHud {
+    private static final ResourceLocation COVER_SLOT=new ResourceLocation("alienclient","dynamic/now_playing");
+    private static DynamicTexture uploaded;
     private static ResourceLocation texture;private static String coverHash="",track="";private static long trackAt;
     private static final IntBuffer SCISSOR=BufferUtils.createIntBuffer(16);
     private NowPlayingHud(){}
@@ -22,7 +24,10 @@ public final class NowPlayingHud {
     public static int height(){return "Card".equals(cfg().music.style)?68:46+(cfg().music.sourceLabel||cfg().music.time?12:0);}
     public static boolean visible(NowPlayingState state,boolean preview){return preview||(!cfg().music.hideInactive||state.active(System.currentTimeMillis()))&&(!cfg().music.hidePaused||!"paused".equals(state.status));}
     public static void maintenance(boolean wanted){NowPlayingState s=NowPlayingService.get().snapshot();if(!wanted||s.cover==null||!cfg().music.artwork)release();}
-    private static void release(){if(texture!=null){Minecraft.getMinecraft().getTextureManager().deleteTexture(texture);texture=null;coverHash="";}}
+    private static void release(){
+        if(uploaded!=null){uploaded.deleteGlTexture();java.util.Arrays.fill(uploaded.getTextureData(),0);uploaded=null;}
+        texture=null;coverHash="";
+    }
     public static void render(HudConfig.Widget widget,int sw,int sh,boolean preview){
         Minecraft mc=Minecraft.getMinecraft();NowPlayingState state=NowPlayingService.get().snapshot();if(!visible(state,preview))return;
         NowPlayingConfig c=cfg().music;long now=System.currentTimeMillis();boolean active=state.active(now);int[] b=HudManager.bounds("music",widget,sw,sh);
@@ -42,7 +47,7 @@ public final class NowPlayingHud {
             if(c.artwork){
                 Ui.rounded(8,artY,artSize,artSize,5,Ui.alpha(Ui.mix(UltimateHud.surface(),accent,.14f),widget.opacity));
                 if(active&&state.cover!=null){
-                    if(texture==null||!state.artwork.equals(coverHash)){release();texture=mc.getTextureManager().getDynamicTextureLocation("alien_current_media",new DynamicTexture(state.cover));coverHash=state.artwork;}
+                    if(texture==null||!state.artwork.equals(coverHash)){release();uploaded=new DynamicTexture(state.cover);texture=COVER_SLOT;mc.getTextureManager().loadTexture(texture,uploaded);coverHash=state.artwork;}
                     GlStateManager.color(1,1,1,widget.opacity);mc.getTextureManager().bindTexture(texture);
                     Gui.drawScaledCustomSizeModalRect(8,artY,0,0,state.cover.getWidth(),state.cover.getHeight(),artSize,artSize,state.cover.getWidth(),state.cover.getHeight());
                     GlStateManager.color(1,1,1,1);
