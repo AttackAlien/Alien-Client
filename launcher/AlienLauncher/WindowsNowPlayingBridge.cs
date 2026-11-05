@@ -71,7 +71,9 @@ public sealed class WindowsMediaReader
         double rate = playback.PlaybackRate ?? 1;
         if (!double.IsFinite(rate) || rate is <= 0 or > 4) rate = 1;
         long? duration = timeline.EndTime > timeline.StartTime ? (long)(timeline.EndTime - timeline.StartTime).TotalMilliseconds : null;
-        long? position = timeline.Position >= timeline.StartTime ? (long)(timeline.Position - timeline.StartTime).TotalMilliseconds : null;
+        // A zero-length, zero-position timeline is the SMTC default for an unavailable timeline.
+        bool hasPosition = duration.HasValue || timeline.Position > timeline.StartTime;
+        long? position = hasPosition && timeline.Position >= timeline.StartTime ? (long)(timeline.Position - timeline.StartTime).TotalMilliseconds : null;
         now = DateTimeOffset.UtcNow;
         if (status == "playing" && position.HasValue && timeline.LastUpdatedTime <= now && timeline.LastUpdatedTime.Year >= 2020)
         {

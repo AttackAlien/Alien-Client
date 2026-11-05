@@ -65,6 +65,9 @@ try
     string actual=Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(await File.ReadAllBytesAsync(Path.Combine(transport,"cover.png")))).ToLowerInvariant();
     Check(actual==art.GetProperty("artwork").GetString(),"Actual OS artwork arrives with matching checksum");
     Check(first.GetProperty("durationMs").GetInt64()==180000,"Actual OS diagnostic timeline supplies duration");
+    controls.UpdateTimelineProperties(new SystemMediaTransportControlsTimelineProperties());
+    await WaitFor(s=>s.GetProperty("durationMs").ValueKind==JsonValueKind.Null && s.GetProperty("positionMs").ValueKind==JsonValueKind.Null);
+    Check(true,"Unavailable OS timeline does not invent zero elapsed time or progress");
     controls.PlaybackStatus=MediaPlaybackStatus.Paused;Timeline(55);
     JsonElement paused=await WaitFor(s=>s.GetProperty("status").GetString()=="paused");
     await File.WriteAllTextAsync(Path.Combine(output,"paused.json"),paused.GetRawText());

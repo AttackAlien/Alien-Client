@@ -25,6 +25,8 @@ public sealed class NowPlayingTests
     {
         Assert.Equal("Chrome",NowPlayingSnapshot.SourceName("chrome.exe"));
         Assert.Equal("Edge",NowPlayingSnapshot.SourceName("msedge.exe"));
+        Assert.Equal("Edge",NowPlayingSnapshot.SourceName("Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe!App"));
+        Assert.True(NowPlayingSnapshot.MatchesSource("Microsoft.MicrosoftEdge.Stable_8wekyb3d8bbwe!App","Browser"));
         Assert.True(NowPlayingSnapshot.MatchesSource("chrome.exe","Browser"));
         Assert.False(NowPlayingSnapshot.MatchesSource("chrome.exe","Spotify"));
         Assert.False(NowPlayingSnapshot.MatchesSource("Spotify.exe","Browser"));

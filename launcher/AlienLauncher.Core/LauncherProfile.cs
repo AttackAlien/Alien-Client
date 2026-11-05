@@ -12,9 +12,9 @@ public sealed record LauncherProfile(string Version, bool Alien)
     public const string MinecraftVersion = "1.8.9";
     public const string ForgeBuild = "11.15.1.2318";
     public const string JarName = "AlienClient-Unified-1.8.9.jar";
-    public const string ClientSource = "54651a88b562f506688b418d95beac4aecefef3d";
-    public const string ClientRun = "42047561050";
-    public const string ClientSha256 = "fe30615393b7f95d059c941ae007c6da35d657ebb61879bd26936baa21fba013";
+    public const string ClientSource = "28053d5fae099f7654d0ce47fea6d4b68e6566bb";
+    public const string ClientRun = "42051508518";
+    public const string ClientSha256 = "d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf";
     public string Label => Alien ? $"Alien {ClientVersion} / Forge {MinecraftVersion}" : $"Minecraft {Version} / Vanilla";
     public void Validate()
     {

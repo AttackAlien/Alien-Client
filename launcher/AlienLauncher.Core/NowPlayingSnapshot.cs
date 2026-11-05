@@ -29,7 +29,7 @@ public sealed record NowPlayingSnapshot
     }
     public static string Clean(string? text) => new string((text ?? "").Where(c => !char.IsControl(c) && c != '\u00a7').Take(512).ToArray()).Trim();
     public static string SourceName(string id) => id.Contains("spotify", StringComparison.OrdinalIgnoreCase) ? "Spotify" :
-        id.Contains("msedge", StringComparison.OrdinalIgnoreCase) ? "Edge" : id.Contains("chrome", StringComparison.OrdinalIgnoreCase) ? "Chrome" :
+        (id.Contains("msedge", StringComparison.OrdinalIgnoreCase) || id.Contains("microsoftedge", StringComparison.OrdinalIgnoreCase)) ? "Edge" : id.Contains("chrome", StringComparison.OrdinalIgnoreCase) ? "Chrome" :
         id.Contains("firefox", StringComparison.OrdinalIgnoreCase) ? "Firefox" : id.Contains("brave", StringComparison.OrdinalIgnoreCase) ? "Brave" : "Reprodutor";
     public static bool MatchesSource(string id, string preference) => preference switch
     {

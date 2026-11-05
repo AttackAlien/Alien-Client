@@ -17,7 +17,7 @@ Interface 0.3: navegação lateral, painel visual com cenário real do client, s
 
 - Instâncias, contas e configurações ficam em `%LOCALAPPDATA%\AlienLauncher`. A `.minecraft` original não é usada para o cache de contas.
 - Alien usa `instances/unified-1.8.9`; Vanilla usa `instances/vanilla-<versão>`. Não há injeção do JAR Alien em versões modernas.
-- O pacote fixa o JAR do CI aprovado **42047561050**, fonte **54651a8**, client **0.12.0-alpha.1**, SHA-256 `fe30615393b7f95d059c941ae007c6da35d657ebb61879bd26936baa21fba013`. O manifesto local não pode escolher outro hash arbitrário.
+- O pacote fixa o JAR do CI aprovado **42051508518**, fonte **28053d5**, client **0.12.0-alpha.1**, SHA-256 `d59f41b116011cf52cb7607f281e8e65218029e054162844f12f11911d43e5bf`. O manifesto local não pode escolher outro hash arbitrário.
 - A cópia exata desse JAR, seu checksum e o recibo original do CI ficam em `launcher/payload`, para reconstruir o launcher mesmo depois que o artifact temporário do GitHub expirar. `dotnet publish` copia o payload para o diretório final.
 - Atualizar preserva saves, configurações e outros mods. JARs antigos que declaram o modid `alienclient` são movidos para `alien-backups`, incluindo cópias em `mods/1.8.9`; a cópia nova é validada antes de substituir. Falhas restauram arquivos já movidos.
 - Java é instalado pela biblioteca e **sua versão real é consultada antes de executar**. Alien exige Java 8; versões Vanilla usam o requisito do metadado oficial. O seletor de Java 8 permite escolher outro executável compatível, sem afetar os perfis Java 17/21.
