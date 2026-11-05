@@ -78,7 +78,7 @@ try
     using var deadline=new CancellationTokenSource(TimeSpan.FromSeconds(12));await helper.WaitForExitAsync(deadline.Token);
     Check(helper.ExitCode==0,"Bridge exits when the game owner process ends");
     Check(!File.Exists(Path.Combine(transport,"now-playing.json")),"Owner exit removes temporary listening metadata");
-    await File.WriteAllLinesAsync(Path.Combine(output,"result.txt"),new[]{"PASS "+checks.Count+" checks","Windows 2022 hosted runner; real OS SMTC diagnostic publisher. No Spotify or YouTube account tested."}.Concat(checks.Select(c=>"PASS "+c)));
+    await File.WriteAllLinesAsync(Path.Combine(output,"result.txt"),new[]{"PASS "+checks.Count+" checks",System.Runtime.InteropServices.RuntimeInformation.OSDescription+"; real OS SMTC diagnostic publisher. No Spotify or YouTube account tested."}.Concat(checks.Select(c=>"PASS "+c)));
     return 0;
 }
 catch(Exception failure) {await File.WriteAllTextAsync(Path.Combine(output,"result.txt"),"FAIL after "+checks.Count+" checks\n"+failure);return 1;}
