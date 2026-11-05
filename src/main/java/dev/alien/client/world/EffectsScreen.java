@@ -21,6 +21,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
     @Override public void initGui() {
         fontRendererObj=Ui.font();
         Keyboard.enableRepeatEvents(true); buttonList.clear();
+        buttonList.add(new Ui.Button(12,10,7,115,21,"Ghost Elimination"));
         buttonList.add(new Ui.Button(11,width-108,7,98,21,"Scene Studio"));
         int w=Math.min(300,width-30), x=(width-w)/2, y=34;
         final EffectsConfig c=settings();
@@ -63,6 +64,7 @@ public final class EffectsScreen extends dev.alien.client.gui.PremiumScreen {
             case 6:applyColor();break;
             case 7:AlienClient.get().config().effects=new EffectsConfig();break;
             case 8:applyColor();mc.displayGuiScreen(new VisualStyleScreen(this));return;
+            case 12:applyColor();mc.displayGuiScreen(new dev.alien.client.effects.ghost.GhostStudioScreen(this));return;
             case 11:applyColor();mc.displayGuiScreen(new dev.alien.client.scene.SceneStudioScreen(this));return;
             case 10:applyColor();mc.displayGuiScreen(new ParticleStudioScreen(this));return;
             case 9:applyColor();mc.displayGuiScreen(new AtmospherePresetScreen(this));return;
