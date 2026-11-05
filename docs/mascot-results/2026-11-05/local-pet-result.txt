@@ -1,4 +1,4 @@
-PASS 67 checks
+PASS 112 checks
 Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world
 Practice targets are client-only entities; hunger, potion healing and bridge block are checked on server
 Automated X11 mouse/keyboard, software OpenGL; external servers / physical input / Windows not tested
@@ -69,3 +69,48 @@ PASS Loading the real saved profile restores the mascot without stale positions
 PASS The real renderer uses the imported Quaternius mesh rather than reconstructed primitive shapes
 PASS All fourteen original authored animation clips load from the bundled model
 PASS Mascot world rendering, large preview and compact editor restore clean OpenGL state
+PASS Actual model selector renders the imported Sahur in both world and live studio
+PASS Sahur uses the credited original mesh with all six materials
+PASS Real framebuffer capture 193-tung-studio-original
+PASS Native movement drives actual Sahur following and whole-model lean
+PASS Real framebuffer capture 194-tung-follow-moving
+PASS Sahur shoulder mode retains the actual configured anchor
+PASS Real framebuffer capture 195-tung-shoulder-preview
+PASS Orbit moves the actual imported Sahur around the owner
+PASS Real framebuffer capture 196-tung-orbit-world
+PASS Sahur remains visible with whole-model animation disabled
+PASS Real framebuffer capture 197-tung-animation-off
+PASS Actual selector returns to Quaternius without losing its renderer
+PASS Real framebuffer capture 198-alien-after-tung
+PASS Unified profile restores the saved Sahur model, mode and original colors
+PASS Cosmetic look slots retain independent original and Sahur model choices
+PASS Real framebuffer capture 199-tung-profile-restored
+PASS Native scrolling reaches the last control with the new model selector at compact scale
+PASS Real framebuffer capture 200-tung-studio-compact
+PASS Real framebuffer capture tung-motion-00
+PASS Real framebuffer capture tung-motion-01
+PASS Real framebuffer capture tung-motion-02
+PASS Real framebuffer capture tung-motion-03
+PASS Real framebuffer capture tung-motion-04
+PASS Real framebuffer capture tung-motion-05
+PASS Real framebuffer capture tung-motion-06
+PASS Real framebuffer capture tung-motion-07
+PASS Real framebuffer capture tung-motion-08
+PASS Real framebuffer capture tung-motion-09
+PASS Real framebuffer capture tung-motion-10
+PASS Real framebuffer capture tung-motion-11
+PASS Real framebuffer capture tung-motion-12
+PASS Real framebuffer capture tung-motion-13
+PASS Real framebuffer capture tung-motion-14
+PASS Real framebuffer capture tung-motion-15
+PASS Real framebuffer capture tung-motion-16
+PASS Real framebuffer capture tung-motion-17
+PASS Real framebuffer capture tung-motion-18
+PASS Real framebuffer capture tung-motion-19
+PASS Real framebuffer capture tung-motion-20
+PASS Real framebuffer capture tung-motion-21
+PASS Real framebuffer capture tung-motion-22
+PASS Real framebuffer capture tung-motion-23
+PASS Zero budget clears the Sahur simulation and its real geometry
+PASS Restoring budget recreates the selected Sahur without switching models
+PASS Both imported model renderers and editor previews leave clean OpenGL and emote scopes

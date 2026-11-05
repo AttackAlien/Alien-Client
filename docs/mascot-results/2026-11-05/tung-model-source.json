@@ -1,0 +1,23 @@
+{
+  "author": "CalinnHotCake",
+  "license": "CC-BY-3.0",
+  "model": "Tung Tung Tung Sahur",
+  "sourceUrl": "https://poly.pizza/m/Q6SvoDhhwA",
+  "sourceSha256": "ee51070ee71acf12f88ddd551a70411f1f390447baf8568d352d39b7da464575",
+  "outputSha256": "cf833d95cef907d969458747f99eea7ef671b176b8353bc7de3fa6f98a795dd8",
+  "vertices": 1792,
+  "triangles": 872,
+  "materials": [
+    "#FFAC20",
+    "#AA6C27",
+    "#CE832F",
+    "#FFFFFF",
+    "#141414",
+    "#51330F"
+  ],
+  "authoredAnimations": 0,
+  "joints": 0,
+  "normalizationScale": 0.7201099027772754,
+  "orientationYaw": -90.0,
+  "compressedBytes": 20650
+}
