@@ -586,7 +586,7 @@ public final class AlienUltimateSmoke {
         case 126:
             m.displayGuiScreen(new CosmeticStudioScreen(null));click(150);require(m.currentScreen instanceof PetStudioScreen,"Cosmetic Studio mascot navigation opens the real editor without replacing existing studios");capture("178-mascot-studio-off");click(10);next();return;
         case 127:
-            require(PetManager.activeCount()==1&&PetManager.drawnCount()==1&&PetManager.previewCount()>0,"The enabled mascot reaches both real world geometry and the large live editor preview");capture("179-mascot-studio-alien");click(12);next();return;
+            require(PetManager.activeCount()==1&&PetManager.drawnCount()==1&&PetManager.previewCount()>0,"The enabled mascot reaches both real world geometry and the large live editor preview");capture("179-mascot-studio-alien");click(12);click(12);next();return;
         case 128:
             require("Mint".equals(c().cosmetics.self.pet.preset),"Actual palette control applies Mint colors to the real mascot");capture("180-mascot-studio-mint");click(13);next();return;
         case 129:{
@@ -599,7 +599,7 @@ public final class AlienUltimateSmoke {
         case 131:
             require(PetManager.selfMovement()<.1&&Math.hypot(PetManager.selfX()-m.thePlayer.posX,PetManager.selfZ()-m.thePlayer.posZ)<2,"The follower settles beside the actual owner after stopping native input");AlienClient.get().emotes().request("floss");next();return;
         case 132:
-            require(AlienClient.get().emotes().active()&&PetManager.selfDance()>.9,"Real Floss playback makes the mascot wave");capture("182-mascot-emote-wave");AlienClient.get().emotes().stop();m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(3);click(31);click(1);AlienClient.get().emotes().request("floss");next();return;
+            require(AlienClient.get().emotes().active()&&PetManager.selfDance()>.9,"Real Floss playback triggers the imported Clapping animation");capture("182-mascot-emote-clapping");AlienClient.get().emotes().stop();m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(3);click(31);click(1);AlienClient.get().emotes().request("floss");next();return;
         case 133:
             require(AlienClient.get().emotes().active()&&PetManager.selfDance()<.05,"The editor's Emotes OFF control releases the mascot reaction while real Floss continues");capture("183-mascot-emote-reaction-off");AlienClient.get().emotes().stop();m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));click(11);click(5);next();return;
         case 134:
@@ -619,15 +619,15 @@ public final class AlienUltimateSmoke {
         case 141:
             next();return;
         case 142:
-            require(PetManager.selfSleep()>.9,"Actual owner inactivity smoothly puts the mascot to sleep");capture("189-mascot-idle-sleep");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
+            require(PetManager.selfSleep()>.9,"Actual owner inactivity feeds the imported Sitting rest animation");capture("189-mascot-idle-sleep");robot.keyPress(java.awt.event.KeyEvent.VK_W);next();return;
         case 143:
-            require(PetManager.selfSleep()<.05&&PetManager.selfMovement()>.5,"Native movement wakes the sleeping mascot");capture("190-mascot-awake-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);
+            require(PetManager.selfSleep()<.05&&PetManager.selfMovement()>.5,"Native movement releases rest and activates the original movement animation");capture("190-mascot-awake-moving");robot.keyRelease(java.awt.event.KeyEvent.VK_W);
             c().ui.menuScale=1.25f;m.gameSettings.guiScale=0;resize(800,600);m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));robot.mouseMove(Display.getX()+200,Display.getY()+300);robot.mouseWheel(30);next();return;
         case 144:
             require(button(23).yPosition+button(23).height<=m.currentScreen.height-42,"Native scrolling exposes the final mascot appearance slider at compact GUI scale");capture("191-mascot-studio-compact");
             c().ui.menuScale=1;m.gameSettings.guiScale=2;resize(1280,720);m.displayGuiScreen(null);net.minecraft.client.settings.KeyBinding.unPressAllKeys();c().performance.maxCosmetics=0;next();return;
         case 145:
-            require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Zero cosmetic budget clears actual mascot simulation and rendering");c().performance.maxCosmetics=4;c().cosmetics.self.pet.applyPreset("Alien");next();return;
+            require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Zero cosmetic budget clears actual mascot simulation and rendering");c().performance.maxCosmetics=4;c().cosmetics.self.pet.applyPreset("Original");next();return;
         case 146:
             require(PetManager.activeCount()==1&&PetManager.drawnCount()==1,"Restoring the real cosmetic budget recreates the configured mascot");m.displayGuiScreen(new PetStudioScreen(null,()->c().cosmetics.self));next();return;
         case 147:
@@ -637,6 +637,8 @@ public final class AlienUltimateSmoke {
             require(PetManager.activeCount()==0&&PetManager.drawnCount()==0,"Actual mascot OFF control clears world state and geometry");capture("192-mascot-off-world");AlienClient.get().store().loadProfile("mascot_smoke");next();return;
         case 149:
             require(PetManager.activeCount()==1&&PetManager.drawnCount()==1,"Loading the real saved profile restores the mascot without stale positions");
+            require(PetManager.sourceModelVertices()==7642&&PetManager.sourceModelTriangles()==3774,"The real renderer uses the imported Quaternius mesh rather than reconstructed primitive shapes");
+            require(PetManager.sourceModelClips()==14,"All fourteen original authored animation clips load from the bundled model");
             require(GL11.glGetError()==GL11.GL_NO_ERROR&&AlienClient.get().emotes().renderDepth()==0,"Mascot world rendering, large preview and compact editor restore clean OpenGL state");
             done=true;try(PrintWriter w=new PrintWriter(new File(out,"result.txt"),"UTF-8")){
                 w.println("PASS "+checks.size()+" checks");w.println("Actual Minecraft 1.8.9 / Forge 11.15.1.2318; disposable integrated server world");

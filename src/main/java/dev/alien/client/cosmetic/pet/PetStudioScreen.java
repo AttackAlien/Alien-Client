@@ -30,12 +30,12 @@ public final class PetStudioScreen extends PremiumScreen {
         if(page==0){button(10,0,"Mascot: "+(d().enabled?"ON":"OFF"));button(11,1,"Mode / "+d().mode);button(12,2,"Palette / "+d().preset);button(13,3,"Body / #"+String.format("%06X",d().color));button(14,4,"Accent / #"+String.format("%06X",d().accent));
             slider(20,5,"Size",.5f,1.5f,d().size,v->d().size=v);slider(21,6,"Distance",.65f,2,d().distance,v->d().distance=v);slider(22,7,"Height",.65f,1.8f,d().height,v->d().height=v);slider(23,8,"Animation speed",.4f,1.8f,d().speed,v->d().speed=v);
             if("Shoulder".equals(d().mode))for(GuiButton b:buttonList)if(b.id==21||b.id==22)b.enabled=false;
-        }else{button(30,0,"Animation: "+(d().animate?"ON":"OFF"));button(31,1,"React to emotes: "+(d().reactEmotes?"ON":"OFF"));button(32,2,"Sleep when idle: "+(d().sleep?"ON":"OFF"));button(33,3,"Side / "+(d().right?"Right":"Left"));button(34,4,"Reset mascot preferences");}
+        }else{button(30,0,"Animation: "+(d().animate?"ON":"OFF"));button(31,1,"React to emotes: "+(d().reactEmotes?"ON":"OFF"));button(32,2,"Rest when idle: "+(d().sleep?"ON":"OFF"));button(33,3,"Side / "+(d().right?"Right":"Left"));button(34,4,"Reset mascot preferences");}
     }
     @Override public void drawContents(int x,int y,float partial){Ui.background(width,height);Ui.text("ALIEN / MASCOT STUDIO",left,15,Ui.theme().text);Ui.card(left,top,column,bottom-top);Ui.card(right,top,column,bottom-top);Ui.text(page==0?"YOUR ALIEN COMPANION":"REAL OWNER REACTIONS",left+10,top+9,Ui.theme().muted);
         for(GuiButton b:buttonList)if(b.id<10)b.drawButton(mc,x,y);float scale=framebufferScale();GL11.glPushAttrib(GL11.GL_SCISSOR_BIT|GL11.GL_ENABLE_BIT);
         try{GL11.glEnable(GL11.GL_SCISSOR_TEST);GL11.glScissor(Math.round(left*scale),mc.displayHeight-Math.round(bottom*scale),Math.round(column*scale),Math.round((bottom-top-24)*scale));for(GuiButton b:buttonList)if(b.id>=10)b.drawButton(mc,x,y);}finally{GL11.glPopAttrib();}
-        Ui.text(focus?"ALIEN / AUTO FIT PREVIEW":"LIVE PLAYER + MASCOT",right+10,top+9,Ui.accent());if(focus)focusPreview(partial);else preview();
+        Ui.text(focus?"QUATERNIUS / ALIEN":"LIVE PLAYER + MASCOT",right+10,top+9,Ui.accent());if(focus)focusPreview(partial);else preview();
         String status=!AlienClient.get().config().cosmetics.enabled?"Cosmetics master is OFF":!a().enabled?"Selected look is hidden":!d().enabled?"Enable your mascot":!d().animate||!a().animations||!AlienClient.get().config().animations?"Animations are OFF":focus?"Player view shows size and position":"Local companion / "+d().mode;
         Ui.centered(fontRendererObj.trimStringToWidth(status,column-16),right+column/2,bottom-17,Ui.theme().muted);
     }

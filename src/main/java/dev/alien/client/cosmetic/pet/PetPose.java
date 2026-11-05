@@ -4,11 +4,13 @@ package dev.alien.client.cosmetic.pet;
 public final class PetPose {
     public float bob,tilt,headYaw,headTilt,headPitch,rightArm,leftArm,rightElbow,leftElbow,wrist,feet,antenna,gazeX,gazeY;
     public float eyes=1,breath=1;
+    public double animationTime;public float movement,rest,reaction;
     public void sample(double time,float movement,float sleeping,float dancing,boolean animated){
         bob=tilt=headYaw=headTilt=headPitch=rightArm=leftArm=rightElbow=leftElbow=wrist=feet=antenna=gazeX=gazeY=0;
-        eyes=breath=1;if(!animated)return;
+        eyes=breath=1;animationTime=0;this.movement=rest=reaction=0;if(!animated)return;
         double t=Double.isFinite(time)?time:0;
         float m=unit(movement),s=unit(sleeping),d=unit(dancing),awake=1-s;
+        animationTime=t;this.movement=m;rest=s;reaction=d;
         double idle=Math.sin(t*2.1),wave=Math.sin(t*5.2);
         bob=(float)(idle*.026+Math.sin(t*4.6)*.009*m)*(1-s*.7f);
         breath=1+(float)Math.sin(t*2.1-.5)*.018f*(1-m*.5f);

@@ -17,6 +17,7 @@ public final class PetManager {
     private final PetPose previewPose=new PetPose();private static final PetPose studioPose=new PetPose();
     public static int activeCount(){return active;}public static int drawnCount(){return drawn;}public static int previewCount(){return previewDrawn;}
     public static float selfMovement(){return movement;}public static float selfSleep(){return sleeping;}public static float selfDance(){return dancing;}
+    public static int sourceModelVertices(){return PetRenderer.vertices();}public static int sourceModelTriangles(){return PetRenderer.triangles();}public static int sourceModelClips(){return PetRenderer.clips();}
     public static double selfX(){return selfX;}public static double selfY(){return selfY;}public static double selfZ(){return selfZ;}
     public void beginFrame(){drawn=previewDrawn=0;}
     private void clear(){entries.clear();Arrays.fill(ordered,null);active=drawn=previewDrawn=0;movement=sleeping=dancing=0;selfX=selfY=selfZ=0;}

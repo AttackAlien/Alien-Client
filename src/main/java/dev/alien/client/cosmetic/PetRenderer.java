@@ -1,74 +1,37 @@
 package dev.alien.client.cosmetic;
 
-import dev.alien.client.cosmetic.mesh.*;
 import dev.alien.client.cosmetic.pet.*;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
-/** Shared smooth geometry and a bounded material cache; animation changes transforms only. */
+/** Actual imported Quaternius mesh and original rig clips, rendered in one batch. */
 final class PetRenderer {
-    private static final int INK=0x111A30,SUIT=0xE3E9F4,BOOT=0x444F6B;
+    private static final SkinnedPetModel MODEL=load();
+    private static final SkinnedPetModel.Pose POSE=MODEL.createPose();
+    private static final int[] COLORS=new int[MODEL.vertexCount()];
     private PetRenderer(){}
-    private static void mesh(Mesh mesh,int color){CosmeticMeshRenderer.drawMascot(mesh,color,color);}
-    private static void part(Mesh mesh,double x,double y,double z,double sx,double sy,double sz,int color){
-        GL11.glPushMatrix();try{GL11.glTranslated(x/16,y/16,z/16);GL11.glScaled(sx,sy,sz);mesh(mesh,color);}finally{GL11.glPopMatrix();}
-    }
+    private static SkinnedPetModel load(){try{return SkinnedPetModel.load();}catch(java.io.IOException e){throw new IllegalStateException("Cannot load bundled Quaternius alien",e);}}
+    static int vertices(){return MODEL.vertexCount();}static int triangles(){return MODEL.triangleCount();}static int clips(){return MODEL.animationNames().size();}
     static void draw(PetDesign c,PetPose p){
+        MODEL.sample(p.animationTime,p.movement,p.rest,p.reaction,POSE);
+        for(int i=0;i<MODEL.vertexCount();i++){
+            int material=MODEL.material(i),base=material==0?c.accent:material==1?c.color:material==2?0x3A2F2F:material==3?0x272727:0xD3D3D3;
+            int n=i*3;float nx=POSE.normals[n],ny=POSE.normals[n+1],nz=POSE.normals[n+2];
+            float light=Math.max(.48f,Math.min(1.06f,.76f-nx*.14f+ny*.22f+nz*.20f));
+            float shine=material==3?(float)Math.pow(Math.max(0,-nx*.31f+ny*.79f+nz*.53f),22)*.20f:0;
+            int r=Math.min(255,Math.round(((base>>16)&255)*light+shine*255)),g=Math.min(255,Math.round(((base>>8)&255)*light+shine*255)),b=Math.min(255,Math.round((base&255)*light+shine*255));
+            COLORS[i]=(r<<16)|(g<<8)|b;
+        }
         GL11.glPushMatrix();try{
-            double size=c.size*("Shoulder".equals(c.mode)?.65:1);
-            GL11.glScaled(size,size,size);GL11.glTranslated(0,p.bob,0);GL11.glRotated(p.tilt,1,0,0);
-            part(PetMeshes.BODY,0,0,0,1,p.breath,1,SUIT);
-            part(PetMeshes.COLLAR,0,1.4,0,1,1,1,c.accent);
-            part(PetMeshes.COLLAR,0,-.85,0,1.33,.6,1.33,BOOT);
-            part(PetMeshes.DOT,0,.7,1.29,1,1,.28,c.accent);
-            for(int side=-1;side<=1;side+=2){
-                arm(side,c,p);
-                GL11.glPushMatrix();try{
-                    GL11.glTranslated(side*.8/16,-2.5/16,.2/16);GL11.glRotated(side*p.feet,1,0,0);
-                    mesh(PetMeshes.FOOT,BOOT);part(PetMeshes.COLLAR,0,.55,0,.5,.55,.7,c.accent);
-                }finally{GL11.glPopMatrix();}
+            double size=c.size*("Shoulder".equals(c.mode)?.65:1);GL11.glScaled(size,size,size);GL11.glTranslated(0,p.bob,0);
+            Tessellator tess=Tessellator.getInstance();WorldRenderer buffer=tess.getWorldRenderer();buffer.begin(GL11.GL_TRIANGLES,DefaultVertexFormats.POSITION_COLOR);
+            for(int i=0;i<MODEL.indexCount();i++){
+                int v=MODEL.index(i),n=v*3,color=COLORS[v];
+                buffer.pos(POSE.positions[n],POSE.positions[n+1],POSE.positions[n+2]).color((color>>16)&255,(color>>8)&255,color&255,255).endVertex();
             }
-            GL11.glPushMatrix();try{
-                GL11.glTranslated(0,4.0/16,0);GL11.glRotated(p.headYaw,0,1,0);
-                GL11.glRotated(p.headPitch,1,0,0);GL11.glRotated(p.headTilt,0,0,1);mesh(PetMeshes.HEAD,c.color);
-                mesh(PetMeshes.SMILE,INK);
-                for(int side=-1;side<=1;side+=2){
-                    eye(side,c,p);
-                    GL11.glPushMatrix();try{
-                        GL11.glTranslated(side*1.05/16,2.5/16,0);GL11.glRotated(-side*(16+p.antenna),0,0,1);
-                        part(PetMeshes.STEM,0,.7,0,1,1,1,c.color);
-                        GL11.glTranslated(0,1.1/16,0);GL11.glRotated(-side*p.antenna*.65,0,0,1);
-                        part(PetMeshes.STEM,0,.28,0,.85,.55,.85,c.color);
-                        part(PetMeshes.TIP,0,.83,0,1,1,1,c.accent);
-                    }finally{GL11.glPopMatrix();}
-                }
-            }finally{GL11.glPopMatrix();}
-            part(PetMeshes.RING,0,-3.75,0,1,1,1,c.accent);
+            tess.draw();
         }finally{GL11.glPopMatrix();}
     }
-    private static void arm(int side,PetDesign c,PetPose p){
-        GL11.glPushMatrix();try{
-            GL11.glTranslated(side*1.8/16,.9/16,0);
-            GL11.glRotated(side<0?p.rightArm:p.leftArm,0,0,1);
-            part(PetMeshes.ARM,0,-.55,0,.9,.55,.9,c.color);
-            GL11.glTranslated(0,-1.05/16,0);
-            GL11.glRotated(side*(side<0?p.rightElbow:p.leftElbow),0,0,1);
-            part(PetMeshes.ARM,0,-.48,0,.82,.5,.82,c.color);
-            GL11.glTranslated(0,-1.05/16,0);GL11.glRotated(side<0?p.wrist:0,0,0,1);
-            part(PetMeshes.TIP,0,0,0,1.1,1.1,1.1,c.accent);
-        }finally{GL11.glPopMatrix();}
-    }
-    private static void eye(int side,PetDesign c,PetPose p){
-        GL11.glPushMatrix();try{
-            GL11.glTranslated(side*1.05/16,.12/16,1.97/16);
-            GL11.glRotated(-side*20,0,0,1);GL11.glScaled(1,p.eyes,1);
-            // A shallow rim and inset lens replace the old protruding stacks of spheres.
-            part(PetMeshes.EYE,0,0,0,1.1,1.08,.72,lighten(c.color));
-            part(PetMeshes.EYE,0,0,.08,1,1,.70,INK);
-            part(PetMeshes.DOT,p.gazeX,p.gazeY,.29,1,1.55,.16,c.accent);
-            part(PetMeshes.DOT,p.gazeX,p.gazeY,.33,.52,.95,.09,INK);
-            part(PetMeshes.DOT,-.18+p.gazeX,.35+p.gazeY,.30,.46,.46,.14,0xF5FFFF);
-            part(PetMeshes.DOT,.13+p.gazeX,-.20+p.gazeY,.30,.19,.19,.10,0xF5FFFF);
-        }finally{GL11.glPopMatrix();}
-    }
-    private static int lighten(int c){return (((((c>>16)&255)*4+255)/5)<<16)|(((((c>>8)&255)*4+255)/5)<<8)|(((c&255)*4+255)/5);}
 }

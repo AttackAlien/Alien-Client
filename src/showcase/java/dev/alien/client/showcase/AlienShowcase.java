@@ -111,7 +111,7 @@ public final class AlienShowcase {
             server(()->{EntityPlayerMP p=player();p.setHealth(20);p.getFoodStats().setFoodLevel(20);p.worldObj.setBlockState(new BlockPos(0,12,0),Blocks.stone.getDefaultState());p.setPositionAndUpdate(.5,13,.5);p.inventory.mainInventory[6]=new ItemStack(Blocks.stone,64);p.inventoryContainer.detectAndSendChanges();});
             c().combat.applyPreset("FULL");c().combat.tools.bridge=true;yaw(0);m.thePlayer.rotationPitch=77;break;
         case 13:
-            a().pet.applyPreset("Alien");a().pet.mode="Follow";a().pet.reactEmotes=true;a().back="NONE";c().hud.applyPreset("Cinematic");yaw(0);m.thePlayer.rotationPitch=5;
+            a().pet.applyPreset("Original");a().pet.mode="Follow";a().pet.reactEmotes=true;a().back="NONE";c().hud.applyPreset("Cinematic");yaw(0);m.thePlayer.rotationPitch=5;
             server(()->player().setPositionAndUpdate(.5,4,.5));break;
         default:throw new AssertionError(next);
         }
