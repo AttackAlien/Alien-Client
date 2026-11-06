@@ -72,6 +72,8 @@ A proposta é simples: **deixar o Minecraft com a sua cara**, com controles por 
 
 ## ✦ Galeria
 
+**Capturas atualizadas de 06/11/2026:** [neon, asas e três modelos no Forge](docs/capturas-atuais-2026-11-06.md) · [vídeo real de 21 capítulos (3 min)](captures/atual/unified/alien-client-showcase-2026-11-06.mp4).
+
 [Ver as capturas reais atuais](captures/README.md) · [GIF real dos três clássicos](captures/atual/unified/emotes-em-movimento.gif) · [GIF da capa com frames desta rodada](captures/atual/unified/capa-em-movimento.gif).
 
 <table>
