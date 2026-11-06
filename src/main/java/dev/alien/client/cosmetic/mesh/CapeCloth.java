@@ -11,7 +11,7 @@ public final class CapeCloth implements MeshView {
     private final int[] vertices;
     private final boolean[] reverse;
 
-    public CapeCloth() { this(14, 6); }
+    public CapeCloth() { this(20, 10); }
     /** Resolution order is longitudinal rows, then horizontal columns. */
     public CapeCloth(int rows, int columns) {
         if (rows < 4 || rows > 40 || columns < 2 || columns > 24) throw new IllegalArgumentException("Cape grid must be 4..40 rows by 2..24 columns");
@@ -37,22 +37,22 @@ public final class CapeCloth implements MeshView {
     }
 
     public void update(float ageTicks,float movement,float flutter,float bend,float lateral) {
-        double age=Float.isFinite(ageTicks)?ageTicks%20000f:0;
+        double age=Float.isFinite(ageTicks)?ageTicks:0;
         double speed=finiteClamp(movement,0,2),wind=finiteClamp(flutter,0,2);
-        double sway=Math.sin(age*.055)*wind*.35;
+        double sway=Math.sin(age*.043)*wind*.24;
         for(int row=0;row<=rows;row++) {
             double t=row/(double)rows,t2=t*t;
-            double half=4.65+.65*Math.sin(t*Math.PI)-.85*t;
+            double half=4.65+.52*Math.sin(t*Math.PI)-.74*t;
             for(int col=0;col<=columns;col++) {
                 double s=col/(double)columns*2-1;
-                double phase=age*.14-t*4+s*1.5;
+                double phase=age*.11-t*4.8+s*.8;
                 int at=index(row,col)*3;
-                positions[at]=(float)(s*half+sway*t2+finiteClamp(lateral,-2,2)*t2);
+                positions[at]=(float)(s*half+sway*t2+finiteClamp(lateral,-2,2)*(t2*(3-2*t)));
                 positions[at+1]=(float)(1+16*t-.65*Math.pow(Math.abs(s),5)*Math.pow(t,7)
                         +.18*Math.pow(Math.sin(s*Math.PI*3),2)*Math.pow(t,8));
                 positions[at+2]=(float)(3.15+t*.35+t2*(.75+speed*.9)
-                        +finiteClamp(bend,0,5)*t2+wind*.65*t2*Math.sin(phase)+wind*.20*t2*Math.sin(age*.095+s*4)
-                        +wind*.12*Math.sin(s*Math.PI*5)*t2);
+                        +finiteClamp(bend,0,5)*t2+wind*.54*t2*Math.sin(phase)+wind*.17*t2*Math.sin(age*.071-t*3.1+s*3.2)
+                        +wind*.085*Math.sin(s*Math.PI*3-age*.055)*t2);
             }
         }
         // Smooth vertex normals from adjacent grid tangents, rather than flat rectangular panels.

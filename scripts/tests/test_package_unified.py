@@ -41,7 +41,7 @@ class UnifiedPackagerRegressionTest(unittest.TestCase):
         shutil.copyfile(packager.CONTEXT, self.context)
         for directory in ("classes/main", "resources/main"):
             shutil.copytree(packager.BUILT / directory, built / directory)
-        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke", "src/studioSmoke", "src/mediaSmoke", "src/ghostSmoke"):
+        for directory in ("src/main", "src/unified", "src/test", "src/unifiedTest", "src/combatSmoke", "src/ultimateSmoke", "src/sceneSmoke", "src/studioSmoke", "src/mediaSmoke", "src/ghostSmoke", "src/motionSmoke", "src/neonSmoke"):
             if (packager.ROOT / directory).is_dir():
                 shutil.copytree(packager.ROOT / directory, root / directory)
         for name in ("build.gradle", "scripts/verify-edition-artifact.py"):
@@ -76,6 +76,20 @@ class UnifiedPackagerRegressionTest(unittest.TestCase):
             self.assertIn("Minecraft 1.8.9", summary)
             self.assertIn("SHA256: " + expected, summary)
         self.assertEqual((self.dist / packager.FILENAME).read_bytes(), self.jar.read_bytes())
+
+    def test_refuses_neon_runner_edit_after_validation_began(self):
+        source = packager.ROOT / "src/neonSmoke/java/dev/alien/client/smoke/AlienNeonSmoke.java"
+        source.write_text(source.read_text(encoding="utf-8") + "\n// Changed after validation\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "source_sha256"):
+            packager.produce()
+        self.assertFalse(self.dist.exists())
+
+    def test_refuses_motion_runner_edit_after_validation_began(self):
+        source = packager.ROOT / "src/motionSmoke/java/dev/alien/client/smoke/AlienMotionSmoke.java"
+        source.write_text(source.read_text(encoding="utf-8") + "\n// Changed after validation\n", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "source_sha256"):
+            packager.produce()
+        self.assertFalse(self.dist.exists())
 
     def test_refuses_ghost_runner_edit_after_validation_began(self):
         source = packager.ROOT / "src/ghostSmoke/java/dev/alien/client/smoke/AlienGhostSmoke.java"

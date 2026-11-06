@@ -30,7 +30,7 @@ public final class PetStudioScreen extends PremiumScreen {
         if(page==0){button(10,0,"Mascot: "+(d().enabled?"ON":"OFF"));button(15,1,"Model / "+d().model);button(11,2,"Mode / "+d().mode);button(12,3,"Palette / "+d().preset);button(13,4,"Body / #"+String.format("%06X",d().color));button(14,5,"Accent / #"+String.format("%06X",d().accent));
             slider(20,6,"Size",.5f,1.5f,d().size,v->d().size=v);slider(21,7,"Distance",.65f,2,d().distance,v->d().distance=v);slider(22,8,"Height",.65f,1.8f,d().height,v->d().height=v);slider(23,9,"Animation speed",.4f,1.8f,d().speed,v->d().speed=v);
             if("Shoulder".equals(d().mode))for(GuiButton b:buttonList)if(b.id==21||b.id==22)b.enabled=false;
-        }else{button(30,0,"Animation: "+(d().animate?"ON":"OFF"));button(31,1,"React to emotes: "+(d().reactEmotes?"ON":"OFF"));button(32,2,"Rest when idle: "+(d().sleep?"ON":"OFF"));button(33,3,"Side / "+(d().right?"Right":"Left"));button(34,4,"Reset mascot preferences");}
+        }else{button(30,0,"Animation: "+(d().animate?"ON":"OFF"));button(31,1,"React to emotes: "+(d().reactEmotes?"ON":"OFF"));button(32,2,"Rest when idle: "+(d().sleep?"ON":"OFF"));button(33,3,"Side / "+(d().right?"Right":"Left"));button(34,4,"Reset mascot preferences");button(35,5,"Neon material: "+(a().neon.enabled?"ON":"OFF"));slider(24,6,"Neon intensity",0,1.5f,a().neon.intensity,v->a().neon.intensity=v);button(36,7,"Neon glow color");button(37,8,"Neon palette / "+a().neon.preset);}
     }
     @Override public void drawContents(int x,int y,float partial){Ui.background(width,height);Ui.text("ALIEN / MASCOT STUDIO",left,15,Ui.theme().text);Ui.card(left,top,column,bottom-top);Ui.card(right,top,column,bottom-top);Ui.text(page==0?"YOUR ALIEN COMPANION":"REAL OWNER REACTIONS",left+10,top+9,Ui.theme().muted);
         for(GuiButton b:buttonList)if(b.id<10)b.drawButton(mc,x,y);float scale=framebufferScale();GL11.glPushAttrib(GL11.GL_SCISSOR_BIT|GL11.GL_ENABLE_BIT);
@@ -60,13 +60,14 @@ public final class PetStudioScreen extends PremiumScreen {
         else if(b.id==12)d().applyPreset(PetDesign.PRESETS[(Arrays.asList(PetDesign.PRESETS).indexOf(d().preset)+1)%PetDesign.PRESETS.length]);
         else if(b.id==13||b.id==14){final boolean body=b.id==13;mc.displayGuiScreen(new ColorPickerScreen(this,body?"Mascot body":"Mascot accent",(body?d().color:d().accent)|0xff000000,false,color->{if(body)d().color=color&0xffffff;else d().accent=color&0xffffff;d().preset="Custom";AlienClient.get().save();}));return;}
         else if(b.id==15)d().setModel(PetDesign.MODELS[(Arrays.asList(PetDesign.MODELS).indexOf(d().model)+1)%PetDesign.MODELS.length]);
+        else if(b.id==35)a().neon.enabled=!a().neon.enabled;else if(b.id==36){mc.displayGuiScreen(new ColorPickerScreen(this,"Mascot neon",a().neon.color|0xff000000,false,rgb->{a().neon.color=rgb&0xffffff;a().neon.preset="Custom";}));return;}else if(b.id==37)a().neon.preset("Cyber".equals(a().neon.preset)?"Crimson":"Crimson".equals(a().neon.preset)?"Violet":"Cyber");
         else if(b.id==30)d().animate=!d().animate;else if(b.id==31)d().reactEmotes=!d().reactEmotes;else if(b.id==32)d().sleep=!d().sleep;else if(b.id==33)d().right=!d().right;
         else if(b.id==34){boolean enabled=d().enabled;a().pet=new PetDesign();a().pet.enabled=enabled;}
         AlienClient.get().save();initGui();
     }
     @Override protected void mouseClicked(int x,int y,int button)throws IOException{if(button!=0)return;for(GuiButton b:buttonList)if((b.id<10||y>=top+24&&y<bottom)&&b.mousePressed(mc,x,y)){if(!(b instanceof Ui.Slider))actionPerformed(b);return;}}
     @Override protected void mouseReleased(int x,int y,int state){for(GuiButton b:buttonList)b.mouseReleased(x,y);}
-    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int delta=Mouse.getEventDWheel();if(delta!=0){int total=(page==0?10:5)*29;scroll=Math.max(0,Math.min(Math.max(0,total-(bottom-top-27)),scroll+(delta<0?29:-29)));initGui();}}
+    @Override public void handleMouseInput()throws IOException{super.handleMouseInput();int delta=Mouse.getEventDWheel();if(delta!=0){int total=(page==0?10:9)*29;scroll=Math.max(0,Math.min(Math.max(0,total-(bottom-top-27)),scroll+(delta<0?29:-29)));initGui();}}
     @Override protected void keyTyped(char ch,int key)throws IOException{if(key==Keyboard.KEY_ESCAPE)mc.displayGuiScreen(parent);}
     @Override public void onGuiClosed(){AlienClient.get().save();}
     @Override public boolean doesGuiPauseGame(){return false;}

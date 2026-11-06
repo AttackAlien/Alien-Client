@@ -1,53 +1,122 @@
 package dev.alien.client.effects.ghost;
 
-import org.lwjgl.opengl.GL11;
+import dev.alien.client.animation.Motion;
+import org.lwjgl.opengl.*;
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import net.minecraft.client.renderer.OpenGlHelper;
 
-/** Original rounded spirit geometry. No entity, skin, texture registry or display-list allocation. */
+/** One reusable indexed cloth mesh, tubular arms and a continuous body-to-constellation finale. */
 public final class GhostRenderer {
-    private static final int SIDES=40,RINGS=32;
-    private static final double[] SIN=new double[SIDES+1],COS=new double[SIDES+1];
-    private static final FloatBuffer SURFACE=BufferUtils.createFloatBuffer(RINGS*(SIDES+1)*2*7);
-    private static final float[] VERTICES=new float[(RINGS+1)*(SIDES+1)*3];
-    static {for(int i=0;i<=SIDES;i++){SIN[i]=Math.sin(i*Math.PI*2/SIDES);COS[i]=Math.cos(i*Math.PI*2/SIDES);}}
+    private static final GhostMesh MESH=new GhostMesh();
+    private static final int VERTEX_COUNT=(GhostMesh.RINGS+1)*(GhostMesh.SIDES+1),STRIDE=12*4;
+    private static final FloatBuffer SURFACE=BufferUtils.createFloatBuffer(VERTEX_COUNT*12);
+    private static final IntBuffer INDICES=BufferUtils.createIntBuffer(GhostMesh.RINGS*GhostMesh.SIDES*6);
+    private static final double[] P=new double[3],Q=new double[3],A=new double[3],B=new double[3];
+    private static long surfaces,finales;
+    static{for(int r=0;r<GhostMesh.RINGS;r++)for(int i=0;i<GhostMesh.SIDES;i++){int a=r*(GhostMesh.SIDES+1)+i,b=a+GhostMesh.SIDES+1;INDICES.put(a).put(b).put(a+1).put(a+1).put(b).put(b+1);}INDICES.flip();}
     private GhostRenderer(){}
+    public static long surfaces(){return surfaces;}public static long finales(){return finales;}
     public static void draw(float age,GhostConfig c,boolean animate,int particleBudget){
-        float p=GhostMotion.phase(age,c.duration);if(p<=0||p>=1)return;
+        if(!Float.isFinite(age)||age<=0||age>=c.totalDuration())return;
+        dev.alien.client.cosmetic.neon.NeonPipeline.ghost(c.glow,()->drawInternal(age,c,animate,particleBudget));
+    }
+    private static void drawInternal(float age,GhostConfig c,boolean animate,int particleBudget){
+        if(!Float.isFinite(age)||age<=0||age>=c.totalDuration())return;
+        float p=GhostMotion.phase(age,c.duration),cut=GhostMotion.dissolve(p),alpha=GhostMotion.alpha(p)*c.opacity;
+        int activeTexture=GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE),clientTexture=GL11.glGetInteger(GL13.GL_CLIENT_ACTIVE_TEXTURE);GL13.glActiveTexture(GL13.GL_TEXTURE0);GL13.glClientActiveTexture(GL13.GL_TEXTURE0);
+        int program=OpenGlHelper.shadersSupported?GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM):0;
+        int array=OpenGlHelper.vboSupported?GL11.glGetInteger(GL15.GL_ARRAY_BUFFER_BINDING):0,element=OpenGlHelper.vboSupported?GL11.glGetInteger(GL15.GL_ELEMENT_ARRAY_BUFFER_BINDING):0;
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);GL11.glPushClientAttrib(GL11.GL_CLIENT_VERTEX_ARRAY_BIT);GL11.glPushMatrix();
-        int oldArray=OpenGlHelper.vboSupported?GL11.glGetInteger(34964):0;
-        if(OpenGlHelper.vboSupported)OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER,0);
+        if(OpenGlHelper.vboSupported){OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER,0);OpenGlHelper.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER,0);}
         try{
-            GL11.glDisable(GL11.GL_TEXTURE_2D);GL11.glDisable(GL11.GL_LIGHTING);GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glEnable(GL11.GL_BLEND);GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);GL11.glDepthMask(false);GL11.glShadeModel(GL11.GL_SMOOTH);
-            float lift=animate?GhostMotion.lift(p,c.height):0,sway=animate?GhostMotion.sway(age,p,c.calm):0;
-            GL11.glTranslatef(sway,lift,0);GL11.glRotatef(animate?GhostMotion.roll(age,p,c.calm):0,0,0,1);GL11.glRotatef(animate?(float)Math.sin(age*1.6)*8*(c.calm?.3f:1):0,0,1,0);GL11.glScalef(c.size,c.size,c.size);
-            fill(animate?age:0,c.calm);
-            float dissolve=GhostMotion.dissolve(p),alpha=GhostMotion.alpha(p)*c.opacity;
-            // Back faces first, then front faces, with depth testing retained from the world pass.
-            if(c.glow>0){GL11.glPushMatrix();GL11.glScalef(1.075f,1.02f,1.075f);GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);surface(c,dissolve,alpha*c.glow*.11f);GL11.glPopMatrix();GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);}
-            surface(c,dissolve,alpha*.60f);
-            if(c.echoes&&animate&&!c.calm){for(int echo=2;echo>=1;echo--){GL11.glPushMatrix();GL11.glTranslatef((float)Math.sin(age*2-echo*.35)*.025f,-echo*.105f,echo*.055f);GL11.glScalef(1+echo*.018f,1,1+echo*.018f);surface(c,Math.min(1,dissolve+.05f),alpha*.065f/echo);GL11.glPopMatrix();}}
-            face(c,alpha*(1-GhostMotion.smooth(.66f,.86f,dissolve)),animate?age:0);
-            arms(c,animate?age:0,dissolve,alpha);
-            if(c.particles&&animate&&particleBudget>0)motes(c,age,p,Math.min(c.calm?12:48,particleBudget));
-        }finally{GL11.glPopMatrix();GL11.glPopClientAttrib();if(OpenGlHelper.vboSupported)OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER,oldArray);GL11.glPopAttrib();}
-    }
-    private static void fill(float age,boolean calm){int n=0;for(int r=0;r<=RINGS;r++){float t=r/(float)RINGS;double cap=t>.66?(t-.66)/.34*Math.PI/2:0,bodyY=t>.66?(.66+.34*Math.sin(cap))*1.72:t*1.72;double radius=t>.66?.345*Math.cos(cap):.27+.075*Math.sin(t/.66*Math.PI/2);for(int i=0;i<=SIDES;i++){double angle=i*Math.PI*2/SIDES,w=GhostMotion.cloth((float)angle,t,age,calm);VERTICES[n++]=(float)((radius+w)*COS[i]+Math.sin(age*2-t*4)*.025*(1-t));VERTICES[n++]=(float)(bodyY+Math.sin(angle*3+age*2.1)*.095*Math.pow(1-t,6));VERTICES[n++]=(float)((radius+w)*SIN[i]+Math.sin(age*1.7-t*3)*.018*(1-t));}}}
-    private static void surface(GhostConfig c,float cut,float alpha){
-        SURFACE.clear();
-        for(int r=0;r<RINGS;r++)for(int i=0;i<=SIDES;i++)for(int k=1;k>=0;k--){
-            float t=(r+k)/(float)RINGS,a=GhostMotion.smooth(cut-.025f,cut+.13f,t)*alpha;int color=mix(c.color,c.secondaryColor,.18f+t*.52f),n=((r+k)*(SIDES+1)+i)*3;
-            SURFACE.put((color>>16&255)/255f).put((color>>8&255)/255f).put((color&255)/255f).put(a).put(VERTICES[n]).put(VERTICES[n+1]).put(VERTICES[n+2]);
+            if(OpenGlHelper.shadersSupported)GL20.glUseProgram(0);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);GL11.glDisable(GL11.GL_LIGHTING);GL11.glDisable(GL11.GL_CULL_FACE);GL11.glDisable(GL11.GL_ALPHA_TEST);GL11.glEnable(GL11.GL_BLEND);GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);GL11.glDepthMask(false);GL11.glShadeModel(GL11.GL_SMOOTH);
+            float time=animate?age:0;float lift=animate?GhostMotion.lift(p,c.height):0;
+            GL11.glTranslatef(animate?GhostMotion.sway(age,p,c.calm):0,lift,0);
+            GL11.glRotatef(animate?GhostMotion.roll(age,p,c.calm):0,0,0,1);
+            GL11.glRotatef(animate?(float)Math.sin(age*1.25)*5*(c.calm?.25f:1):0,0,1,0);GL11.glScalef(c.size,c.size,c.size);
+            float release=animate?(float)Math.sin(Motion.window(0,.24,p)*Math.PI)*.065f:0;
+            GL11.glScalef(1-release*.5f,1+release,1-release*.5f);
+            if(alpha>.001){MESH.update(time,c.calm);surface(c,time,cut,alpha);
+                arms(c,time,cut,alpha);face(c,alpha*(1-GhostMotion.smooth(.58f,.9f,cut)),time);
+                if(c.echoes&&animate)ribbons(c,time,p,alpha);
+                surfaces++;
+            }
+            if(c.constellation){constellation(c,age,animate,Math.max(0,particleBudget));if(GhostFinale.opacity(age,c)>.01)finales++;}
+            else if(c.particles&&animate&&particleBudget>0)looseMotes(c,age,p,Math.min(24,particleBudget));
+        }finally{
+            if(OpenGlHelper.shadersSupported)GL20.glUseProgram(program);
+            GL11.glPopMatrix();GL11.glPopClientAttrib();
+            if(OpenGlHelper.vboSupported){OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER,array);OpenGlHelper.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER,element);}
+            GL11.glPopAttrib();GL13.glActiveTexture(activeTexture);GL13.glClientActiveTexture(clientTexture);
         }
-        SURFACE.flip();SURFACE.position(4);GL11.glVertexPointer(3,28,SURFACE);SURFACE.position(0);GL11.glColorPointer(4,28,SURFACE);GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);GL11.glEnable(GL11.GL_CULL_FACE);
-        for(int pass=0;pass<2;pass++){GL11.glCullFace(pass==0?GL11.GL_FRONT:GL11.GL_BACK);for(int r=0;r<RINGS;r++)GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP,r*(SIDES+1)*2,(SIDES+1)*2);}
-        GL11.glDisable(GL11.GL_CULL_FACE);GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
     }
-    private static void face(GhostConfig c,float alpha,float age){if(alpha<=0)return;float blink=1-.88f*GhostMotion.smooth(.0f,.055f,(age%2.4f)-1.15f)*(1-GhostMotion.smooth(.07f,.13f,(age%2.4f)-1.15f));for(int s:new int[]{-1,1}){oval(s*.125f,1.35f,-.333f,.072f,.112f*blink,c.secondaryColor,alpha*.22f);oval(s*.125f,1.35f,-.34f,.049f,.086f*blink,0x101425,alpha*.93f);oval(s*.125f-.014f,1.38f,-.346f,.013f,.022f*blink,0xe1fff7,alpha*.86f);}oval(0,1.16f,-.335f,.027f,.038f,0x14182B,alpha*.65f);}
-    private static void oval(float x,float y,float z,float w,float h,int color,float alpha){rgba(color,alpha);GL11.glBegin(GL11.GL_TRIANGLE_FAN);GL11.glVertex3f(x,y,z);for(int i=0;i<=SIDES;i++)GL11.glVertex3d(x+COS[i]*w,y+SIN[i]*h,z);GL11.glEnd();}
-    private static void arms(GhostConfig c,float age,float cut,float alpha){if(cut>.72)return;for(int side:new int[]{-1,1}){GL11.glBegin(GL11.GL_TRIANGLE_STRIP);for(int j=0;j<=16;j++){float t=j/16f;double x=side*(.29+t*.22),y=.92-t*.42+Math.sin(age*2.1-t*2.4-side*.35)*.055,z=-.015+Math.sin(age*1.8-t*2)*.055,width=.09*Math.sin(Math.PI*(.15+t*.85))*(1-t*.8);rgba(mix(c.color,c.secondaryColor,t*.8f),alpha*.65f*(1-t*.3f)*(1-GhostMotion.smooth(.38f,.72f,cut)));GL11.glVertex3d(x,y+width,z-.035);GL11.glVertex3d(x,y-width,z+.035);}GL11.glEnd();}}
-    private static void motes(GhostConfig c,float age,float p,int count){GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);for(int i=0;i<count;i++){float start=.12f+(i%17)/17f*.73f,q=(p-start)/.27f;if(q<=0||q>=1)continue;double a=i*2.399963,rad=.24+q*.28,x=Math.cos(a+q*.45)*rad,y=(i%13)/13f*1.55+q*.42,z=Math.sin(a+q*.45)*rad;float size=(.012f+(i%3)*.004f)*(float)Math.sin(Math.PI*q);rgba(mix(c.color,c.secondaryColor,q),c.opacity*.6f*(float)Math.sin(Math.PI*q));GL11.glBegin(GL11.GL_TRIANGLE_FAN);GL11.glVertex3d(x,y,z);for(int j=0;j<=8;j++){GL11.glColor4f(0,0,0,0);double b=j*Math.PI/4;GL11.glVertex3d(x+Math.cos(b)*size,y+Math.sin(b)*size,z);}GL11.glEnd();}GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);}
+    private static void surface(GhostConfig c,float time,float cut,float alpha){
+        boolean shader=GhostMaterial.begin(time,cut,alpha,c.glow);SURFACE.clear();
+        for(int r=0;r<=GhostMesh.RINGS;r++)for(int i=0;i<=GhostMesh.SIDES;i++){
+            float t=r/(float)GhostMesh.RINGS;int n=(r*(GhostMesh.SIDES+1)+i)*6,color=mix(c.color,c.secondaryColor,.12f+t*.56f);
+            float nx=MESH.vertices[n+3],ny=MESH.vertices[n+4],nz=MESH.vertices[n+5];
+            float light=shader?1:.52f+.37f*Math.max(0,nx*-.5f+ny*.65f-nz*.55f)+.18f*(1-Math.abs(nz));
+            float mask=shader?1:GhostMotion.smooth(cut-.025f,cut+.085f,t)*alpha;
+            SURFACE.put(MESH.vertices,n,6).put(((color>>16&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(((color>>8&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(((color&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(mask).put(t).put(i/(float)GhostMesh.SIDES);
+        }
+        SURFACE.flip();SURFACE.position(0);GL11.glVertexPointer(3,STRIDE,SURFACE);SURFACE.position(3);GL11.glNormalPointer(STRIDE,SURFACE);SURFACE.position(6);GL11.glColorPointer(4,STRIDE,SURFACE);SURFACE.position(10);GL11.glTexCoordPointer(2,STRIDE,SURFACE);
+        GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);GL11.glEnable(GL11.GL_CULL_FACE);
+        for(int pass=0;pass<2;pass++){GL11.glCullFace(pass==0?GL11.GL_FRONT:GL11.GL_BACK);INDICES.position(0);GL11.glDrawElements(GL11.GL_TRIANGLES,INDICES);}
+        GL11.glDisable(GL11.GL_CULL_FACE);GL11.glDisableClientState(GL11.GL_TEXTURE_COORD_ARRAY);GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);if(shader)GL20.glUseProgram(0);
+    }
+    private static void arms(GhostConfig c,float age,float cut,float alpha){
+        float opacity=alpha*(1-GhostMotion.smooth(.29f,.73f,cut));if(opacity<.001)return;
+        boolean shader=GhostMaterial.begin(age,cut,opacity*.9f,c.glow);
+        for(int side=-1;side<=1;side+=2)for(int j=0;j<24;j++){
+            GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+            for(int i=0;i<=12;i++)for(int k=1;k>=0;k--){double t=(j+k)/24.0,a=i*Math.PI/6,r=.094*Math.pow(1-t,.45)+.005;
+                GhostMesh.arm(t,side,age,c.calm,P);GhostMesh.arm(Math.max(0,t-.001),side,age,c.calm,A);GhostMesh.arm(Math.min(1,t+.001),side,age,c.calm,B);
+                double tx=B[0]-A[0],ty=B[1]-A[1],len=Math.sqrt(tx*tx+ty*ty),nx=-ty/len,ny=tx/len;
+                int color=mix(c.color,c.secondaryColor,(float)(.12+P[1]/1.8*.56));float lighting=shader?1:(float)(.52+.37*Math.max(0,Math.cos(a)*ny*.65-Math.sin(a)*.55));
+                GL11.glColor4f(((color>>16&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,((color>>8&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,((color&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,shader?1:opacity*.75f);GL11.glNormal3d(nx*Math.cos(a),ny*Math.cos(a),Math.sin(a));GL11.glTexCoord2d(P[1]/1.8,t);
+                GL11.glVertex3d(P[0]+nx*Math.cos(a)*r,P[1]+ny*Math.cos(a)*r,P[2]+Math.sin(a)*r);
+            }GL11.glEnd();
+        }
+        if(shader)GL20.glUseProgram(0);
+    }
+    private static void face(GhostConfig c,float alpha,float age){if(alpha<.001)return;
+        float blink=1-.90f*GhostMotion.smooth(1.13f,1.20f,age%3.1f)*(1-GhostMotion.smooth(1.23f,1.33f,age%3.1f));
+        float x=(float)GhostMesh.leanX(.76,age,c.calm?.25:1);
+        for(int side=-1;side<=1;side+=2){oval(x+side*.127f,1.43f,-.325f,.062f,.088f*blink,0x101528,alpha*.95f);oval(x+side*.127f-.013f,1.456f,-.329f,.012f,.021f*blink,0xebfffc,alpha*.92f);}
+        oval(x,1.24f,-.354f,.022f,.031f,0x1c2039,alpha*.6f);
+    }
+    private static void ribbons(GhostConfig c,float age,float p,float alpha){
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);for(int side=-1;side<=1;side+=2){GL11.glBegin(GL11.GL_TRIANGLE_STRIP);
+            for(int i=0;i<=30;i++){double t=i/30.0,y=.1+t*.92,a=t*4.2-age*1.45,x=Math.sin(a)*(.31+.08*(1-t))*side,z=Math.cos(a)*.29;
+                float width=(float)(Math.sin(t*Math.PI)*.012),opacity=(float)(Math.sin(t*Math.PI)*alpha*c.glow*.28*(1-GhostMotion.dissolve(p)));
+                rgba(c.secondaryColor,opacity);GL11.glVertex3d(x-width,y,z);GL11.glVertex3d(x+width,y,z);
+            }GL11.glEnd();}GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+    }
+    private static void constellation(GhostConfig c,float age,boolean animated,int budget){
+        float opacity=(float)GhostFinale.opacity(age,c)*c.opacity;if(opacity<=.0001)return;
+        double formation=GhostFinale.formation(age,c);GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
+        // Growing, feathered strokes use geometry, independent of unsupported wide GL lines.
+        for(int i=0;i<GhostFinale.STARS;i++){
+            double progress=Motion.window(i*.038,.62+i*.038,formation);if(progress<=0)continue;
+            GhostFinale.star(i,animated?age:0,c.calm,P);GhostFinale.star((i+1)%GhostFinale.STARS,animated?age:0,c.calm,Q);
+            Q[0]=Motion.lerp(P[0],Q[0],progress);Q[1]=Motion.lerp(P[1],Q[1],progress);Q[2]=Motion.lerp(P[2],Q[2],progress);
+            stroke(P,Q,.006f,c.secondaryColor,opacity*.72f);
+            double twinkle=animated?.85+.15*Math.sin(age*3.4+i*2.4):1;
+            spark(P[0],P[1],P[2]-.006,(float)(.040*Motion.window(0,.65,formation)*twinkle),c.secondaryColor,opacity);
+        }
+        if(c.particles&&animated){int count=Math.min(c.calm?20:60,budget);for(int i=0;i<count;i++){
+            double t=Motion.window(c.duration*(.60+(i%7)*.018),c.duration+c.finaleDuration*.32,age);
+            if(t<=0||t>=1)continue;GhostFinale.mote(i,age,c,t,i*2.3999632297,.09+(i%19)/20.0,A,P);
+            spark(P[0],P[1],P[2],.020f,c.secondaryColor,opacity*(float)Math.sin(t*Math.PI));
+        }}GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+    }
+    private static void looseMotes(GhostConfig c,float age,float p,int count){GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);for(int i=0;i<count;i++){double q=(p-(.12+(i%17)/17.0*.73))/.27;if(q<=0||q>=1)continue;double a=i*2.399963;float fade=(float)Math.sin(q*Math.PI)*GhostMotion.alpha(p)*c.opacity;spark(Math.cos(a+q*.45)*(.24+q*.28),(i%13)/13.0*1.55+q*.42,Math.sin(a+q*.45)*(.24+q*.28),.022f,c.secondaryColor,fade);}GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);}
+    private static void stroke(double[] a,double[] b,float width,int color,float alpha){double dx=b[0]-a[0],dy=b[1]-a[1],len=Math.sqrt(dx*dx+dy*dy);if(len<1e-6)return;double nx=-dy/len*width,ny=dx/len*width;for(int band=-1;band<1;band++){GL11.glBegin(GL11.GL_TRIANGLE_STRIP);rgba(color,band==0?alpha:0);GL11.glVertex3d(a[0]+nx*band,a[1]+ny*band,a[2]);GL11.glVertex3d(b[0]+nx*band,b[1]+ny*band,b[2]);rgba(color,band==0?0:alpha);GL11.glVertex3d(a[0]+nx*(band+1),a[1]+ny*(band+1),a[2]);GL11.glVertex3d(b[0]+nx*(band+1),b[1]+ny*(band+1),b[2]);GL11.glEnd();}}
+    private static void spark(double x,double y,double z,float size,int color,float alpha){oval((float)x,(float)y,(float)z,size,size,color,alpha*.45f);rgba(color,0);GL11.glBegin(GL11.GL_TRIANGLE_FAN);rgba(color,alpha);GL11.glVertex3d(x,y,z-.002);for(int i=0;i<=16;i++){rgba(color,0);double a=i*Math.PI/8,r=i%4==0?size*2.6:size*.45;GL11.glVertex3d(x+Math.cos(a)*r,y+Math.sin(a)*r,z-.002);}GL11.glEnd();}
+    private static void oval(float x,float y,float z,float w,float h,int color,float alpha){GL11.glBegin(GL11.GL_TRIANGLE_FAN);rgba(color,alpha);GL11.glVertex3f(x,y,z);for(int i=0;i<=48;i++){double a=i*Math.PI/24;rgba(color,alpha*.90f);GL11.glVertex3d(x+Math.cos(a)*w,y+Math.sin(a)*h,z);}GL11.glEnd();}
     private static int mix(int a,int b,float t){return (Math.round((a>>16&255)*(1-t)+(b>>16&255)*t)<<16)|(Math.round((a>>8&255)*(1-t)+(b>>8&255)*t)<<8)|Math.round((a&255)*(1-t)+(b&255)*t);}
     private static void rgba(int rgb,float a){GL11.glColor4f((rgb>>16&255)/255f,(rgb>>8&255)/255f,(rgb&255)/255f,Math.max(0,Math.min(1,a)));}
 }

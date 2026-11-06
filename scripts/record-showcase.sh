@@ -20,7 +20,7 @@ Xorg "$display" -config "$repo_dir/scripts/ci-combat-xorg.conf" -noreset -nolist
 xorg_pid=$!
 for _ in {1..50}; do if xdpyinfo -display "$display" >/dev/null 2>&1; then break;fi;sleep .2;done
 xdpyinfo -display "$display" > "$out/xdpyinfo.txt"
-setsid env DISPLAY="$display" LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=2 MESA_SHADER_CACHE_DIR="$out/mesa-cache" ./gradlew --offline --no-daemon -Pedition=unified "-PshowcaseSource=$showcase_revision" runShowcaseClient > "$out/minecraft-console.txt" 2>&1 &
+setsid env DISPLAY="$display" LIBGL_ALWAYS_SOFTWARE=1 LP_NUM_THREADS=2 MESA_SHADER_CACHE_DIR="$out/mesa-cache" ./gradlew --offline --no-daemon -Pedition=unified "-PshowcaseSource=$showcase_revision" "-PshowcaseWidth=${ALIEN_SHOWCASE_WIDTH:-960}" "-PshowcaseHeight=${ALIEN_SHOWCASE_HEIGHT:-540}" "-PshowcaseFirst=${ALIEN_SHOWCASE_FIRST:-0}" "-PshowcaseLast=${ALIEN_SHOWCASE_LAST:-20}" runShowcaseClient > "$out/minecraft-console.txt" 2>&1 &
 game_pid=$!
 for _ in {1..900}; do
   if [[ -f "$out/ready.json" ]];then break;fi
@@ -53,11 +53,12 @@ from pathlib import Path
 import hashlib,json,sys
 from fractions import Fraction
 p=Path(sys.argv[1]);r=json.loads((p/'result.json').read_text());probe=json.loads((p/'ffprobe.json').read_text());video=next(s for s in probe['streams'] if s['codec_type']=='video')
-assert r['status']=='PASS' and len(r['chapters'])==15
+assert r['status']=='PASS' and len(r['chapters'])>=1
 encoded_fps=float(Fraction(video['avg_frame_rate']))
 assert video['codec_name']=='h264' and 29.9<=encoded_fps<=30.1 and video['pix_fmt']=='yuv420p'
-assert float(probe['format']['duration'])>=100
+assert float(probe['format']['duration'])>=sum(c['plannedSeconds'] for c in r['chapters'])-1
 assert r['medianRenderedFps']>=28,(r['medianRenderedFps'],r['p95FrameMs'])
-proof={'sourceCommit':r['sourceCommit'],'captureMethod':'Continuous native X11 / ffmpeg x11grab','generatedFrames':False,'interpolatedFrames':False,'requestedRecordingFps':30,'recordingFps':encoded_fps,'encodedRateRational':video['avg_frame_rate'],'medianRenderedFps':r['medianRenderedFps'],'p95FrameMs':r['p95FrameMs'],'duration':float(probe['format']['duration']),'width':video['width'],'height':video['height'],'sha256':hashlib.sha256((p/'showcase-original.mp4').read_bytes()).hexdigest(),'bytes':(p/'showcase-original.mp4').stat().st_size}
+assert all(c['medianRenderedFps']>=28 for c in r['chapters']),[(c['title'],c['medianRenderedFps']) for c in r['chapters'] if c['medianRenderedFps']<28]
+proof={'sourceCommit':r['sourceCommit'],'captureMethod':'Continuous native X11 / ffmpeg x11grab','generatedFrames':False,'interpolatedFrames':False,'requestedRecordingFps':30,'recordingFps':encoded_fps,'encodedRateRational':video['avg_frame_rate'],'medianRenderedFps':r['medianRenderedFps'],'p95FrameMs':r['p95FrameMs'],'minimumChapterMedianRenderedFps':min(c['medianRenderedFps'] for c in r['chapters']),'chapters':r['chapters'],'duration':float(probe['format']['duration']),'width':video['width'],'height':video['height'],'sha256':hashlib.sha256((p/'showcase-original.mp4').read_bytes()).hexdigest(),'bytes':(p/'showcase-original.mp4').stat().st_size}
 (p/'video-validation.json').write_text(json.dumps(proof,indent=2)+'\n');print(json.dumps(proof,indent=2))
 PY

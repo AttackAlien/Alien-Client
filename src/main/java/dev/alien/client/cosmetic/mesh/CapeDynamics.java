@@ -1,20 +1,18 @@
 package dev.alien.client.cosmetic.mesh;
 
-/** Original damped spring response to real movement; separate state for each player. */
+import dev.alien.client.animation.Spring;
+
+/** Per-player critically damped cloth inertia, with an exact rather than Euler spring step. */
 public final class CapeDynamics {
-    private float age=Float.NaN,bend,sway,bendVelocity,swayVelocity;
+    private float age=Float.NaN;private final Spring bend=new Spring(),sway=new Spring();
     public void update(float now,float speed,float lateral,float vertical,float yawDelta){
         if(!Float.isFinite(now)){reset();return;}
-        if(!Float.isFinite(age)||now<age||now-age>10){age=now;bend=sway=bendVelocity=swayVelocity=0;return;}
-        float dt=Math.min(.1f,(now-age)/20f);age=now;if(dt<=0)return;
-        float bendTarget=clamp(speed*1.15f+vertical*.32f,0,4.5f),swayTarget=clamp(lateral*.4f-yawDelta*.055f,-1.8f,1.8f);
-        int steps=Math.max(1,(int)Math.ceil(dt/.016f));float step=dt/steps;
-        for(int i=0;i<steps;i++){
-            bendVelocity+=(55*(bendTarget-bend)-13*bendVelocity)*step;bend=clamp(bend+bendVelocity*step,0,5);
-            swayVelocity+=(44*(swayTarget-sway)-12*swayVelocity)*step;sway=clamp(sway+swayVelocity*step,-2,2);
-        }
+        if(!Float.isFinite(age)||now<age||now-age>10){age=now;bend.snap(0);sway.snap(0);return;}
+        double dt=(now-age)/20d;age=now;if(dt<=0)return;
+        double b=clamp(speed*1.15f+vertical*.32f,0,4.5f),s=clamp(lateral*.4f-yawDelta*.055f,-1.8f,1.8f);
+        bend.advance(b,7.4,dt);sway.advance(s,6.6,dt);
     }
     private static float clamp(float n,float min,float max){return Float.isFinite(n)?Math.max(min,Math.min(max,n)):0;}
-    public void reset(){age=Float.NaN;bend=sway=bendVelocity=swayVelocity=0;}
-    public float bend(){return bend;}public float sway(){return sway;}
+    public void reset(){age=Float.NaN;bend.snap(0);sway.snap(0);}
+    public float bend(){return clamp((float)bend.value(),0,5);}public float sway(){return clamp((float)sway.value(),-2,2);}
 }

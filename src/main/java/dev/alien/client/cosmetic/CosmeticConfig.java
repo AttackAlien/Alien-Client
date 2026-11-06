@@ -67,10 +67,14 @@ public final class CosmeticConfig {
         public String hat = "JAPANESE";
         public String face = "NONE";
         public String back = "NONE";
+        public CharacterDesign character=new CharacterDesign();
+        public dev.alien.client.cosmetic.neon.NeonDesign neon = new dev.alien.client.cosmetic.neon.NeonDesign();
         public dev.alien.client.cosmetic.pet.PetDesign pet = new dev.alien.client.cosmetic.pet.PetDesign();
         public boolean charm;
         public boolean aura;
         public dev.alien.client.cosmetic.aura.AuraDesign auraDesign = new dev.alien.client.cosmetic.aura.AuraDesign();
+        /** Optional individual head, shoulder, tail and limb pieces. Missing on old profiles means OFF. */
+        public Map<String, AccessoryPartDesign> parts = defaultParts();
         public boolean trail;
         public String trailStyle = "Ribbon";
         public float trailWidth = .16f, trailLifetime = .9f, trailOpacity = .8f;
@@ -91,11 +95,20 @@ public final class CosmeticConfig {
         public String textureFile = "";
 
         public void normalize() {
+            if(character==null)character=new CharacterDesign();character.normalize();
+            if(neon==null)neon=new dev.alien.client.cosmetic.neon.NeonDesign();neon.normalize();
             if (pet == null) pet = new dev.alien.client.cosmetic.pet.PetDesign();
             pet.normalize();
-            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA");
+            if (parts == null) parts = defaultParts();
+            Map<String, AccessoryPartDesign> safeParts = defaultParts();
+            for (String slot : safeParts.keySet()) {
+                AccessoryPartDesign part = parts.get(slot);
+                if (part != null) { part.normalize(slot); safeParts.put(slot, part); }
+            }
+            parts = safeParts;
+            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA", "HALO");
             face = choice(face, "NONE", "KITSUNE", "FUTURE", "GLASSES");
-            back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK");
+            back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK", "DRAGON_WINGS");
             offsetX = clamp(offsetX, -16, 16); offsetY = clamp(offsetY, -16, 16);
             offsetZ = clamp(offsetZ, -16, 16);
             rotationX = clamp(rotationX, -180, 180); rotationY = clamp(rotationY, -180, 180);
@@ -119,8 +132,11 @@ public final class CosmeticConfig {
 
         public Accessory copy() {
             Accessory a = new Accessory();
-            a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
+            a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;a.character=character==null?new CharacterDesign():character.copy();a.neon=neon==null?new dev.alien.client.cosmetic.neon.NeonDesign():neon.copy();
             a.pet = pet == null ? new dev.alien.client.cosmetic.pet.PetDesign() : pet.copy();
+            a.parts = new LinkedHashMap<String, AccessoryPartDesign>();
+            if (parts != null) for (Map.Entry<String, AccessoryPartDesign> entry : parts.entrySet())
+                if (entry.getValue() != null) a.parts.put(entry.getKey(), entry.getValue().copy());
             a.charm = charm; a.aura = aura; a.trail = trail;
             a.auraDesign = auraDesign == null ? new dev.alien.client.cosmetic.aura.AuraDesign() : auraDesign.copy();
             a.trailStyle = trailStyle; a.trailWidth = trailWidth; a.trailLifetime = trailLifetime; a.trailOpacity = trailOpacity;
@@ -133,6 +149,13 @@ public final class CosmeticConfig {
             a.capePattern = capePattern;
             a.modelFile = modelFile; a.textureFile = textureFile;
             return a;
+        }
+
+        private static Map<String, AccessoryPartDesign> defaultParts() {
+            Map<String, AccessoryPartDesign> result = new LinkedHashMap<String, AccessoryPartDesign>();
+            for (String slot : new String[] {"HORNS", "MASK", "SHOULDERS", "TAIL", "ARMS", "LEGS"})
+                result.put(slot, new AccessoryPartDesign());
+            return result;
         }
     }
 

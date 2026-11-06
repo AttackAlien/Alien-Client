@@ -30,9 +30,13 @@ import org.lwjgl.opengl.GL11;
 
 /** A live fitting room: every control edits the selected local cosmetic preset. */
 public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScreen {
+    private static final String[] PART_SLOTS = {"HORNS", "MASK", "SHOULDERS", "TAIL", "ARMS", "LEGS"};
+    private static final String[][] PART_STYLES = {{"Classic", "Crescent"}, {"Oni", "Tech"},
+            {"Dragon", "Knight"}, {"Spade", "Crystal"}, {"Bracers", "Gauntlets"}, {"Greaves", "Boots"}};
     static boolean drawingPreview;
     private final GuiScreen parent;
     private int page;
+    private int partSlot;
     private String target;
     private int left, top, panelWidth, controlX, controlWidth, bodyTop, bodyBottom;
     private int previewX, previewWidth, rowStep, buttonHeight, controlTop, railX, railWidth;
@@ -86,9 +90,9 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         previewWidth = left + panelWidth - 8 - previewX;
         bodyTop = top + 35; bodyBottom = height - 27; controlTop = bodyTop + 13;
         rowStep = Math.min(24, Math.max(18, (bodyBottom - controlTop - 2) / 7)); buttonHeight = rowStep - 3;
-        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks", "Emotes", "Auras", "Pet"};
+        String[] tabs = {"Style", "Fit", "Players", "Assets", "Motion", "Looks", "Emotes", "Auras", "Pet", "Glow", "Body", "Parts"};
         int navStep = Math.min(34, (bodyBottom - bodyTop - 15) / tabs.length);
-        for (int i = 0; i < tabs.length; i++) buttonList.add(new StudioButton(i<8?2+i:150,
+        for (int i = 0; i < tabs.length; i++) buttonList.add(new StudioButton(i<8?2+i:i==8?150:i==9?151:i==10?152:153,
                 railX, bodyTop + 8 + i * navStep, railWidth, navStep - 4, tabs[i]).selected(page == i));
         buttonList.add(new StudioButton(0, left + panelWidth - 56, top + 8, 45, 18, "Done"));
         CosmeticConfig.Accessory a = current();
@@ -115,6 +119,23 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         } else if (page == 3) {
             row(60, 0, "Model: " + display(a.modelFile)); row(61, 1, "Texture: " + display(a.textureFile));
             row(62, 2, "Reload library"); row(63, 3, "Create example"); row(64, 4, "Clear imported model");
+        } else if(page==10){
+            row(170,0,"Body / "+a.character.model);buttonList.add(new Ui.Slider(171,controlX,controlTop+rowStep,controlWidth,buttonHeight,"Visual size",.75f,1.25f,.05f,a.character.size,v->{a.character.size=v;AlienClient.get().save();}));
+            row(172,2,"Body animation: "+on(a.character.animate));row(173,3,"Emote reactions: "+on(a.character.emotes));row(174,4,"Restore vanilla body");
+        } else if(page==9){
+            row(160,0,"Neon material: "+on(a.neon.enabled));row(161,1,"Bloom: "+on(a.neon.bloom));row(162,2,"Glow / #"+String.format("%06X",a.neon.color));
+            buttonList.add(new Ui.Slider(163,controlX,controlTop+rowStep*3,controlWidth,buttonHeight,"Intensity",0,1.5f,.05f,a.neon.intensity,v->{a.neon.intensity=v;AlienClient.get().save();}));
+            buttonList.add(new Ui.Slider(164,controlX,controlTop+rowStep*4,controlWidth,buttonHeight,"Glow radius",4,24,1,a.neon.radius,v->{a.neon.radius=v;AlienClient.get().save();}));
+            pairAt(165,"Cyber dragon",166,"Crimson dragon",controlTop+rowStep*5,buttonHeight);row(167,6,"Violet halo");
+        } else if (page == 11) {
+            AccessoryPartDesign part = selectedPart(a);
+            row(180,0,"Part / "+partTitle(PART_SLOTS[partSlot]));
+            row(181,1,"Enabled: "+on(part.enabled));
+            row(182,2,"Style / "+part.style);
+            buttonList.add(new Ui.Slider(183,controlX,controlTop+rowStep*3,controlWidth,buttonHeight,"Offset X",-8,8,.25f,part.x,v->{selectedPart(current()).x=v;AlienClient.get().save();}));
+            buttonList.add(new Ui.Slider(184,controlX,controlTop+rowStep*4,controlWidth,buttonHeight,"Offset Y",-8,8,.25f,part.y,v->{selectedPart(current()).y=v;AlienClient.get().save();}));
+            buttonList.add(new Ui.Slider(185,controlX,controlTop+rowStep*5,controlWidth,buttonHeight,"Offset Z",-8,8,.25f,part.z,v->{selectedPart(current()).z=v;AlienClient.get().save();}));
+            buttonList.add(new Ui.Slider(186,controlX,controlTop+rowStep*6,controlWidth,buttonHeight,"Size",.5f,2,.05f,part.scale,v->{selectedPart(current()).scale=v;AlienClient.get().save();}));
         } else if (page == 4) {
             row(80, 0, "Animate: " + on(a.animations));
             buttonList.add(new StudioSlider(81, controlX, controlTop + rowStep, controlWidth, buttonHeight, "Cape flutter", 7));
@@ -155,14 +176,17 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
     @Override protected void actionPerformed(GuiButton button) throws IOException {
         CosmeticConfig.Accessory a = current();
         if (button.id == 0) { AlienClient.get().save(); mc.displayGuiScreen(parent); return; }
+        if(button.id==152){page=10;initGui();return;}
+        if(button.id==153){page=11;initGui();return;}
+        if(button.id==151){page=9;initGui();return;}
         if (button.id == 150) { mc.displayGuiScreen(new dev.alien.client.cosmetic.pet.PetStudioScreen(this,this::current)); return; }
         if (button.id == 9) { mc.displayGuiScreen(new dev.alien.client.cosmetic.aura.AuraStudioScreen(this,this::current)); return; }
         if (button.id == 8) { mc.displayGuiScreen(new dev.alien.client.emote.EmoteStudioScreen(this)); return; }
         if (button.id >= 2 && button.id <= 7) { page = button.id - 2; initGui(); return; }
         switch (button.id) {
-            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA"); break;
+            case 10: a.hat = cycle(a.hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA", "HALO"); break;
             case 11: a.face = cycle(a.face, "NONE", "KITSUNE", "FUTURE", "GLASSES"); break;
-            case 12: a.back = cycle(a.back, "NONE", "CAPE", "WINGS", "BACKPACK"); break;
+            case 12: a.back = cycle(a.back, "NONE", "CAPE", "WINGS", "BACKPACK", "DRAGON_WINGS"); break;
             case 13: a.charm = !a.charm; break;
             case 14: a.aura = !a.aura; break;
             case 15: a.trail = !a.trail; break;
@@ -187,6 +211,17 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
             case 64: a.modelFile = ""; a.textureFile = ""; break;
             case 70: mc.displayGuiScreen(new ColorPickerScreen(this, "Fabric color", a.color | 0xff000000, false, rgb -> a.color = rgb & 0xffffff)); return;
             case 71: mc.displayGuiScreen(new ColorPickerScreen(this, "Accent color", a.secondaryColor | 0xff000000, false, rgb -> a.secondaryColor = rgb & 0xffffff)); return;
+            case 170:a.character.model=cycle(a.character.model,CharacterDesign.MODELS);break;
+            case 172:a.character.animate=!a.character.animate;break;
+            case 173:a.character.emotes=!a.character.emotes;break;
+            case 174:a.character.model="Vanilla";break;
+            case 180:partSlot=(partSlot+1)%PART_SLOTS.length;break;
+            case 181:selectedPart(a).enabled=!selectedPart(a).enabled;break;
+            case 182:{String[] styles=PART_STYLES[partSlot];AccessoryPartDesign part=selectedPart(a);part.style=cycle(part.style,styles);break;}
+            case 160:a.neon.enabled=!a.neon.enabled;break;
+            case 161:a.neon.bloom=!a.neon.bloom;break;
+            case 162:mc.displayGuiScreen(new ColorPickerScreen(this,"Neon glow",a.neon.color|0xff000000,false,rgb->{a.neon.color=rgb&0xffffff;a.neon.preset="Custom";}));return;
+            case 165:case 166:case 167:a.neon.preset(button.id==165?"Cyber":button.id==166?"Crimson":"Violet");a.back="DRAGON_WINGS";a.hat="HALO";a.color=button.id==166?0xB42B58:button.id==165?0x4991D8:0x9876F8;a.secondaryColor=a.neon.color;a.charm=true;break;
             case 80: a.animations = !a.animations; break;
             case 84: a.detailLevel = cycle(a.detailLevel, "Low", "Balanced", "High"); break;
             case 85: a.capeFlutter = a.capeLength = a.hatSize = 1; a.animations = true; a.detailLevel = "Balanced"; break;
@@ -247,7 +282,7 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         fontRendererObj.drawString(fontRendererObj.trimStringToWidth(name + " / local wardrobe", panelWidth - 110), left + 33, top + 21, Ui.theme().muted);
         Ui.rounded(railX - 2, bodyTop, railWidth + 4, bodyBottom - bodyTop, 7, Ui.alpha(Ui.theme().surfaceRaised, .64f));
         String[] sections = {"COLLECTION", "TRANSFORM", "PLAYER LOOKS", "LOCAL ASSETS", "ANIMATION", "SAVED LOOKS"};
-        fontRendererObj.drawString(sections[page], controlX + 2, bodyTop, Ui.theme().muted);
+        fontRendererObj.drawString(page==11?"ACCESSORY PARTS":page==10?"PLAYER MODEL":page==9?"NEON MATERIAL":sections[page], controlX + 2, bodyTop, Ui.theme().muted);
         drawStudioBackdrop();
         long now = System.nanoTime();
         float elapsed = Math.min(.1f, (now - previousFrame) / 1_000_000_000f); previousFrame = now;
@@ -259,6 +294,8 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
         if (player != null) drawPlayer(player);
         else drawCenteredString(fontRendererObj, "No player loaded", previewX + previewWidth / 2,
                     bodyTop + (bodyBottom - bodyTop) / 2, Ui.theme().muted);
+        if(page==10){Ui.text("Local 3rd-person appearance",controlX,controlTop+rowStep*5,Ui.theme().muted);Ui.text("Vanilla hitbox / equipment stats",controlX,controlTop+rowStep*6,Ui.theme().muted);}
+        if(page==11){Ui.text("Combines with your current look",controlX,controlTop+rowStep*7-2,Ui.theme().muted);}
         if (page == 3) {
             fontRendererObj.drawString(fontRendererObj.trimStringToWidth("config/" + dev.alien.client.edition.BuildEdition.CONFIG_DIRECTORY + "/cosmetics", controlWidth),
                     controlX + 1, controlTop + rowStep * 5 + 2, Ui.theme().muted);
@@ -410,6 +447,21 @@ public final class CosmeticStudioScreen extends dev.alien.client.gui.PremiumScre
     @Override public boolean doesGuiPauseGame() { return false; }
     private void message(String text) { status = text; statusUntil = System.currentTimeMillis() + 5000; }
     private static String on(boolean value) { return value ? "ON" : "OFF"; }
+    private AccessoryPartDesign selectedPart(CosmeticConfig.Accessory a) {
+        if (a.parts == null) a.parts = new java.util.LinkedHashMap<String, AccessoryPartDesign>();
+        String slot = PART_SLOTS[Math.max(0,Math.min(PART_SLOTS.length-1,partSlot))];
+        AccessoryPartDesign part = a.parts.get(slot);
+        if (part == null) { part = new AccessoryPartDesign(); a.parts.put(slot,part); }
+        return part;
+    }
+    private static String partTitle(String slot) {
+        if ("HORNS".equals(slot)) return "Horns";
+        if ("MASK".equals(slot)) return "Mask";
+        if ("SHOULDERS".equals(slot)) return "Shoulders";
+        if ("TAIL".equals(slot)) return "Tail";
+        if ("ARMS".equals(slot)) return "Arm guards";
+        return "Leg guards";
+    }
     private static String display(String value) { return value == null || value.isEmpty() ? "None" : value; }
     private static String title(String value) {
         if ("JAPANESE".equals(value)) return "Conical kasa";

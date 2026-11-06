@@ -25,10 +25,11 @@ public final class CosmeticMeshes {
         WING_LEFT=wing(1); WING_RIGHT=wing(-1); BACKPACK=backpack(); CHARM=crystalCharm();
     }
     private CosmeticMeshes() { }
-    public static Mesh hat(String name) { Mesh mesh=HATS.get(name); return mesh==null?Mesh.EMPTY:mesh; }
+    public static Mesh hat(String name) { if("HALO".equals(name))return NeonMeshes.HALO; Mesh mesh=HATS.get(name); return mesh==null?Mesh.EMPTY:mesh; }
     public static Mesh face(String name) { Mesh mesh=FACES.get(name); return mesh==null?Mesh.EMPTY:mesh; }
     public static Mesh back(String name,boolean left) {
         if ("WINGS".equals(name)) return left?WING_LEFT:WING_RIGHT;
+        if("DRAGON_WINGS".equals(name))return NeonMeshes.dragon(left,true);
         if ("BACKPACK".equals(name)) return BACKPACK;
         return Mesh.EMPTY; // CAPE uses the reusable CapeCloth stream instead.
     }
@@ -284,7 +285,7 @@ public final class CosmeticMeshes {
     private static float[] ellipsoidNormal(float[] v,float cx,float cy,float cz,float rx,float ry,float rz) {
         return normalized((v[0]-cx)/(rx*rx),(v[1]-cy)/(ry*ry),(v[2]-cz)/(rz*rz));
     }
-    private static void tube(MeshBuilder b,float[][] centers,float[] radii,int sides,int mat) {
+    static void tube(MeshBuilder b,float[][] centers,float[] radii,int sides,int mat) {
         float[][][] rings=tubeRings(centers,radii,sides);
         for(int row=0;row<centers.length-1;row++) {
             float[][] first=rings[row],second=rings[row+1];

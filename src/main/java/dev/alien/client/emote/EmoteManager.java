@@ -82,6 +82,7 @@ public final class EmoteManager {
         if(previewDepth>0){EmoteLibrary.sample(preview,previewTime,out);return out.visible();}
         playback.sample(partial,out);return out.visible();
     }
+    public boolean visualPose(Entity entity,float partial,EmotePose out){return pose(entity,Math.max(0,Math.min(1,partial))*.05,out);}
     boolean modelPose(Entity entity,float age,EmotePose out){if(depth==0){out.clear();return false;}float partial=age-(float)Math.floor(age);return pose(entity,partial*.05,out);}
     void modelApplied(boolean armor){if(armor)armorFrames++;else posedFrames++;}
     boolean hideItem(Entity entity){return entity==Minecraft.getMinecraft().thePlayer&&c().enabled&&c().hideHeldItem&&(active()||previewDepth>0);}

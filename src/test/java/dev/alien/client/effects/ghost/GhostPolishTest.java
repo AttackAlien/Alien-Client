@@ -1,0 +1,12 @@
+package dev.alien.client.effects.ghost;
+import com.google.gson.Gson;
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class GhostPolishTest {
+ @Test public void existingProfilesGainFinaleWithoutEnablingKillEffect(){GhostConfig c=new Gson().fromJson("{\"duration\":3}",GhostConfig.class);c.normalize();assertFalse(c.enabled);assertTrue(c.constellation);assertEquals(4.2,c.totalDuration(),.00001);c.constellation=false;assertEquals(3,c.totalDuration(),0);c.finaleDuration=Float.NaN;c.normalize();assertEquals(1.2,c.finaleDuration,.000001);}
+ @Test public void snapshotsPreserveIndependentFinalePreferences(){GhostConfig c=new GhostConfig();c.constellation=false;c.finaleDuration=1.8f;GhostConfig copy=c.copy();c.constellation=true;c.finaleDuration=.7f;assertFalse(copy.constellation);assertEquals(1.8,copy.finaleDuration,.000001);}
+ @Test public void bodyMeshIsClosedAcrossAngularSeamWithUnitOutwardNormals(){GhostMesh mesh=new GhostMesh();for(int frame=0;frame<5;frame++){mesh.update(frame*.4,false);for(int r=0;r<=GhostMesh.RINGS;r++){int a=r*(GhostMesh.SIDES+1)*6,b=a+GhostMesh.SIDES*6;for(int k=0;k<6;k++)assertEquals(mesh.vertices[a+k],mesh.vertices[b+k],.00001);for(int i=0;i<=GhostMesh.SIDES;i++){int n=a+i*6;float x=mesh.vertices[n+3],y=mesh.vertices[n+4],z=mesh.vertices[n+5];assertEquals(1,x*x+y*y+z*z,.00001);assertTrue(Float.isFinite(mesh.vertices[n]));if(r>4&&r<20)assertTrue(mesh.vertices[n]*x+mesh.vertices[n+2]*z>0);}}}}
+ @Test public void constellationSurvivesBodyAndThenFadesContinuously(){GhostConfig c=new GhostConfig();assertEquals(0,GhostFinale.opacity(0,c),0);assertEquals(1,GhostFinale.opacity(c.duration+.1f,c),.000001);assertEquals(1,GhostFinale.formation(c.duration+c.finaleDuration*.4f,c),.000001);assertEquals(0,GhostFinale.opacity(c.totalDuration(),c),0);c.constellation=false;assertEquals(0,GhostFinale.opacity(c.duration,c),0);}
+ @Test public void allMotesReachTheirRealStarWithoutEndpointJump(){GhostConfig c=new GhostConfig();double[] a=new double[3],b=new double[3];float end=c.duration+c.finaleDuration*.4f;for(int i=0;i<60;i++){GhostFinale.mote(i,end,c,a);GhostFinale.star(i,end,c.calm,b);assertArrayEquals(b,a,.000001);for(double v:a)assertTrue(Double.isFinite(v));}}
+ @Test public void armTipsHaveCurvedTrajectoryAndFollowThrough(){double[] a=new double[3],b=new double[3],c=new double[3];GhostMesh.arm(0,1,.5,false,a);GhostMesh.arm(.5,1,.5,false,b);GhostMesh.arm(1,1,.5,false,c);assertTrue(b[0]>(a[0]+c[0])*.5);double old=c[1];GhostMesh.arm(1,1,1.4,false,c);assertTrue(Math.abs(c[1]-old)>.03);}
+}

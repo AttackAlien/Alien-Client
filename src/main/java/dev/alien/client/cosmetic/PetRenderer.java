@@ -11,33 +11,44 @@ final class PetRenderer {
     private static final SkinnedPetModel MODEL=loadAlien();private static final RigidPetModel TUNG=loadTung();
     private static final SkinnedPetModel.Pose POSE=MODEL.createPose();
     private static final int[] COLORS=new int[Math.max(MODEL.vertexCount(),TUNG.vertexCount())];
+    private static final net.minecraft.client.renderer.vertex.VertexFormat FORMAT=format();
+    private static net.minecraft.client.renderer.vertex.VertexFormat format(){net.minecraft.client.renderer.vertex.VertexFormat f=new net.minecraft.client.renderer.vertex.VertexFormat();f.addElement(DefaultVertexFormats.POSITION_3F);f.addElement(DefaultVertexFormats.COLOR_4UB);f.addElement(DefaultVertexFormats.NORMAL_3B);f.addElement(DefaultVertexFormats.PADDING_1B);return f;}
+    private static final double[] ALIEN_BOUNDS=bounds(false),TUNG_BOUNDS=bounds(true);
+    static double modelHeight(boolean tung){double[] b=tung?TUNG_BOUNDS:ALIEN_BOUNDS;return b[1]-b[0];}
+    static double modelFloor(boolean tung){return (tung?TUNG_BOUNDS:ALIEN_BOUNDS)[0];}
+    private static double[] bounds(boolean tung){double lo=Double.MAX_VALUE,hi=-Double.MAX_VALUE;SkinnedPetModel.Pose rest=MODEL.createPose();if(!tung)MODEL.sample(0,0,0,0,rest);int n=tung?TUNG.vertexCount():MODEL.vertexCount();for(int i=0;i<n;i++){double y=tung?TUNG.position(i*3+1):rest.positions[i*3+1];lo=Math.min(lo,y);hi=Math.max(hi,y);}return new double[]{lo,hi};}
     private static String lastModel="";
     private PetRenderer(){}
     private static SkinnedPetModel loadAlien(){try{return SkinnedPetModel.load();}catch(java.io.IOException e){throw new IllegalStateException("Cannot load bundled Quaternius alien",e);}}
     private static RigidPetModel loadTung(){try{return RigidPetModel.load();}catch(java.io.IOException e){throw new IllegalStateException("Cannot load bundled CalinnHotCake Sahur",e);}}
     static int vertices(){return MODEL.vertexCount();}static int triangles(){return MODEL.triangleCount();}static int clips(){return MODEL.animationNames().size();}
     static int tungVertices(){return TUNG.vertexCount();}static int tungTriangles(){return TUNG.triangleCount();}static String lastModel(){return lastModel;}
-    static void draw(PetDesign c,PetPose p){
+    static void draw(PetDesign c,PetPose p,dev.alien.client.cosmetic.neon.NeonDesign neon){
         boolean tung=c.tung();int vertices=tung?TUNG.vertexCount():MODEL.vertexCount();
         if(!tung)MODEL.sample(p.animationTime,p.movement,p.rest,p.reaction,POSE);
         for(int i=0;i<vertices;i++){
             int material=tung?TUNG.material(i):MODEL.material(i),base=tung?tungColor(c,material):material==0?c.accent:material==1?c.color:material==2?0x3A2F2F:material==3?0x272727:0xD3D3D3;
             int n=i*3;float nx=tung?TUNG.normal(n):POSE.normals[n],ny=tung?TUNG.normal(n+1):POSE.normals[n+1],nz=tung?TUNG.normal(n+2):POSE.normals[n+2];
             float light=Math.max(.48f,Math.min(1.06f,.76f-nx*.14f+ny*.22f+nz*.20f));
+            if(neon.enabled&&neon.intensity>0)light=Math.max(.92f,light);
             boolean eye=tung?material==4:material==3;float shine=eye?(float)Math.pow(Math.max(0,-nx*.31f+ny*.79f+nz*.53f),22)*.20f:0;
             int r=Math.min(255,Math.round(((base>>16)&255)*light+shine*255)),g=Math.min(255,Math.round(((base>>8)&255)*light+shine*255)),b=Math.min(255,Math.round((base&255)*light+shine*255));
             COLORS[i]=(r<<16)|(g<<8)|b;
         }
+        dev.alien.client.cosmetic.neon.NeonPipeline.render(neon,()->drawMesh(c,p,tung));
+    }
+    private static void drawMesh(PetDesign c,PetPose p,boolean tung){
+        dev.alien.client.cosmetic.neon.NeonPipeline.texture(false);
         GL11.glPushMatrix();try{
             double size=c.size*("Shoulder".equals(c.mode)?.65:1);GL11.glScaled(size,size,size);GL11.glTranslated(0,p.bob,0);
             // Sahur has no authored rig: only honest whole-model hover/lean reactions.
             if(tung){GL11.glRotated(p.tilt,1,0,0);GL11.glRotated(Math.sin(p.animationTime*2.5)*p.reaction*8,0,1,0);}
-            Tessellator tess=Tessellator.getInstance();WorldRenderer buffer=tess.getWorldRenderer();buffer.begin(GL11.GL_TRIANGLES,DefaultVertexFormats.POSITION_COLOR);
+            Tessellator tess=Tessellator.getInstance();WorldRenderer buffer=tess.getWorldRenderer();buffer.begin(GL11.GL_TRIANGLES,FORMAT);
             int elements=tung?TUNG.indexCount():MODEL.indexCount();
             for(int i=0;i<elements;i++){
                 int v=tung?TUNG.index(i):MODEL.index(i),n=v*3,color=COLORS[v];
                 double x=tung?TUNG.position(n):POSE.positions[n],y=tung?TUNG.position(n+1):POSE.positions[n+1],z=tung?TUNG.position(n+2):POSE.positions[n+2];
-                buffer.pos(x,y,z).color((color>>16)&255,(color>>8)&255,color&255,255).endVertex();
+                buffer.pos(x,y,z).color((color>>16)&255,(color>>8)&255,color&255,255).normal(tung?TUNG.normal(n):POSE.normals[n],tung?TUNG.normal(n+1):POSE.normals[n+1],tung?TUNG.normal(n+2):POSE.normals[n+2]).endVertex();
             }
             tess.draw();lastModel=c.model;
         }finally{GL11.glPopMatrix();}

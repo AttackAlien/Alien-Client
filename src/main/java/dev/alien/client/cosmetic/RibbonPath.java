@@ -28,4 +28,11 @@ public final class RibbonPath {
         double a=coordinate(axis,segment-1),b=coordinate(axis,segment),c=coordinate(axis,segment+1),d=coordinate(axis,segment+2);
         return .5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);
     }
+    public int subdivisions(int segment){
+        double error=0,length=0;for(int axis=0;axis<3;axis++){
+            double start=sample(axis,segment,0),end=sample(axis,segment,1),mid=sample(axis,segment,.5);
+            double d=end-start,e=mid-(start+end)*.5;length+=d*d;error+=e*e;
+        }
+        return Math.max(2,Math.min(6,2+(int)Math.ceil(Math.sqrt(error)*24+Math.sqrt(length)*2)));
+    }
 }

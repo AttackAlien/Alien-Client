@@ -53,6 +53,7 @@ sudo -n Xorg "$display" -config "$repo_dir/scripts/ci-xorg-dummy.conf" -noreset 
 xorg_pid=$!
 export DISPLAY="$display"
 export LIBGL_ALWAYS_SOFTWARE=1
+export LP_NUM_THREADS="${LP_NUM_THREADS:-2}"
 
 ready=false
 for i in {1..60}; do

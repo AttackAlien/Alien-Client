@@ -1,6 +1,10 @@
 package dev.alien.client.gui;
 
-import com.lukflug.panelstudio.base.SettingsAnimation;
+import dev.alien.client.animation.ControlMotion;
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.LinkedHashMap;
+import net.minecraft.client.gui.GuiScreen;
 import dev.alien.client.AlienClient;
 import dev.alien.client.gui.theme.ThemeConfig;
 import dev.alien.client.gui.ui.SmoothFont;
@@ -12,7 +16,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-/** Original immediate-mode controls with PanelStudio elapsed-time hover interpolation. */
+/** Original controls with reversible motion; vendored PanelStudio foundation remains unchanged. */
 public final class Ui extends Gui {
     public static final int TEXT = 0xfff0eff9, MUTED = 0xff9496ae, PANEL = 0xff14151f;
     private static final ThemeConfig FALLBACK = new ThemeConfig();
@@ -112,15 +116,16 @@ public final class Ui extends Gui {
                 (((top>>>24)&255)*g+((bottom>>>24)&255)*f)/255*opacity);
         GL11.glVertex2f(vx,vy);
     }
-    public static void slider(float x,float y,float w,float h,String label,String value,float fraction,boolean hover) {
+    public static void slider(float x,float y,float w,float h,String label,String value,float fraction,boolean hover) {slider(x,y,w,h,label,value,fraction,hover?1:0);}
+    public static void slider(float x,float y,float w,float h,String label,String value,float fraction,float hover) {
         float top=h>=26?y+2:y-1,track=h>=26?y+h-7:y+h-5;
         text(font().trimStringToWidth(label,Math.max(20,(int)w-font().getStringWidth(value)-10)),x,top,theme().muted);
-        text(value,x+w-font().getStringWidth(value),top,hover?accent():theme().text);
+        text(value,x+w-font().getStringWidth(value),top,mix(theme().text,accent(),hover));
         rounded(x,track,w,3,1.5f,alpha(theme().muted,.18f));
         float f=Math.max(0,Math.min(1,fraction));
         if(f>0)gradient(x,track,w*f,3,1.5f,accent(),theme().secondary);
-        shadow(x+w*f-3,track-2,6,7,3,hover?.5f:0);
-        rounded(x+w*f-3,track-2,6,7,3,theme().text);
+        float grow=hover*.7f;shadow(x+w*f-3-grow,track-2-grow,6+grow*2,7+grow*2,3,hover*.5f);
+        rounded(x+w*f-3-grow,track-2-grow,6+grow*2,7+grow*2,3+grow,theme().text);
     }
     public static void switchControl(float x,float y,float w,float h,String label,boolean value,float hover) {
         text(font().trimStringToWidth(label,Math.max(10,(int)w-34)),x+9,y+(h-10)/2,theme().text);
@@ -173,24 +178,29 @@ public final class Ui extends Gui {
     }
     public static class Button extends GuiButton {
         private boolean selected;private float hover,press,toggleProgress;private long pressedAt;
-        // Retains PR #3's MIT PanelStudio foundation in the redesigned controls.
-        private final SettingsAnimation hoverAnimation = new SettingsAnimation(() -> {
-            if (AlienClient.get() == null || !AlienClient.get().config().animations || theme().reducedMotion) return 0;
-            float speed = Math.max(.25f, theme().animationSpeed);
-            return Math.max(1, Math.round(150f / speed));
-        }, System::currentTimeMillis);
-        public Button(int id,int x,int y,int width,int height,String text){super(id,x,y,width,height,text);hoverAnimation.initValue(0);}
+        private static final Map<GuiScreen,Map<String,ButtonState>> STATES=new WeakHashMap<GuiScreen,Map<String,ButtonState>>();
+        private ButtonState state;
+        public Button(int id,int x,int y,int width,int height,String text){super(id,x,y,width,height,text);}
+        private ButtonState state(Minecraft mc){
+            if(state!=null)return state;
+            Map<String,ButtonState> controls=STATES.get(mc.currentScreen);
+            if(controls==null){controls=new LinkedHashMap<String,ButtonState>();STATES.put(mc.currentScreen,controls);}
+            String key=id+"/"+displayString.replaceAll("(?i): (on|off)$","");
+            state=controls.get(key);if(state==null){if(controls.size()>=256)controls.remove(controls.keySet().iterator().next());state=new ButtonState();controls.put(key,state);}return state;
+        }
+        private static final class ButtonState{final ControlMotion motion=new ControlMotion();long last=System.nanoTime();}
         public Button selected(boolean value){selected=value;return this;}
         @Override public void drawButton(Minecraft mc,int mx,int my){
             if(!visible)return;
             hovered=mx>=xPosition&&my>=yPosition&&mx<xPosition+width&&my<yPosition+height;
-            double target=hovered&&enabled&&theme().hoverEffects?1:0;
-            if(hoverAnimation.getTarget()!=target)hoverAnimation.setValue(target);
-            hover=(float)hoverAnimation.getValue();press=animate(press,System.currentTimeMillis()-pressedAt<100?1:0);
+            ButtonState response=state(mc);long now=System.nanoTime();double dt=Math.max(0,Math.min(.2,(now-response.last)/1e9));response.last=now;
+            String lower=displayString.toLowerCase(Locale.ROOT);boolean toggle=lower.endsWith(": on")||lower.endsWith(": off");boolean on=lower.endsWith(": on");
+            boolean animated=AlienClient.get()!=null&&AlienClient.get().config().animations&&!theme().reducedMotion;
+            response.motion.update(hovered&&enabled&&theme().hoverEffects,System.currentTimeMillis()-pressedAt<100,on,dt,animated,theme().animationSpeed);
+            hover=response.motion.hover();press=response.motion.press();toggleProgress=response.motion.toggle();
             int base=selected?mix(theme().surfaceRaised,accent(),.28f):theme().surfaceRaised;
             gradient(xPosition,yPosition,width,height,Math.min(theme().radius,6),mix(base,accent(),hover*.12f+press*.12f),base);
-            String lower=displayString.toLowerCase(Locale.ROOT);boolean toggle=lower.endsWith(": on")||lower.endsWith(": off");
-            if(toggle){boolean on=lower.endsWith(": on");toggleProgress=animate(toggleProgress,on?1:0);String label=displayString.substring(0,displayString.length()-(on?4:5));text(font().trimStringToWidth(label,Math.max(10,width-34)),xPosition+9,yPosition+(height-10)/2f,theme().text);float sx=xPosition+width-29,sy=yPosition+(height-10)/2f;rounded(sx,sy,21,11,5.5f,mix(mix(theme().surfaceRaised,theme().muted,.25f),accent(),toggleProgress));rounded(sx+2+10*toggleProgress,sy+2,7,7,3.5f,mix(theme().muted,0xffffffff,toggleProgress));}
+            if(toggle){String label=displayString.substring(0,displayString.length()-(on?4:5));text(font().trimStringToWidth(label,Math.max(10,width-34)),xPosition+9,yPosition+(height-10)/2f,theme().text);float sx=xPosition+width-29,sy=yPosition+(height-10)/2f;rounded(sx,sy,21,11,5.5f,mix(mix(theme().surfaceRaised,theme().muted,.25f),accent(),toggleProgress));rounded(sx+2+10*toggleProgress,sy+2,7,7,3.5f,mix(theme().muted,0xffffffff,toggleProgress));}
             else {
                 if(selected)rounded(xPosition+3,yPosition+height*.25f,2,height*.5f,1,accent());
                 int color=enabled?(selected?0xffffffff:theme().text):theme().muted;
@@ -202,10 +212,11 @@ public final class Ui extends Gui {
         @Override public boolean mousePressed(Minecraft mc,int x,int y){boolean yes=super.mousePressed(mc,x,y);if(yes)pressedAt=System.currentTimeMillis();return yes;}
     }
     public static class Slider extends GuiButton {
+        private final ControlMotion motion=new ControlMotion();private long last=System.nanoTime();
         private final String label;private final float min,max,step;private float value;private boolean dragging;private final Consumer<Float> setter;
         public Slider(int id,int x,int y,int w,int h,String label,float min,float max,float step,float value,Consumer<Float> setter){super(id,x,y,w,h,label);this.label=label;this.min=min;this.max=max;this.step=step;this.value=value;this.setter=setter;}
         public float value(){return value;}
-        @Override public void drawButton(Minecraft mc,int mx,int my){if(!visible)return;mouseDragged(mc,mx,my);String val=step>=1?Integer.toString(Math.round(value)):String.format(Locale.ROOT,"%.2f",value);slider(xPosition,yPosition,width,height,label,val,(value-min)/(max-min),mx>=xPosition&&my>=yPosition&&mx<xPosition+width&&my<yPosition+height);}
+        @Override public void drawButton(Minecraft mc,int mx,int my){if(!visible)return;mouseDragged(mc,mx,my);long now=System.nanoTime();double dt=Math.min(.2,(now-last)/1e9);last=now;motion.update(mx>=xPosition&&my>=yPosition&&mx<xPosition+width&&my<yPosition+height,dragging,false,dt,AlienClient.get()!=null&&AlienClient.get().config().animations&&!theme().reducedMotion,theme().animationSpeed);String val=step>=1?Integer.toString(Math.round(value)):String.format(Locale.ROOT,"%.2f",value);slider(xPosition,yPosition,width,height,label,val,(value-min)/(max-min),Math.max(motion.hover(),motion.press()));}
         private void update(int mx){float next=min+Math.max(0,Math.min(1,(mx-xPosition)/(float)width))*(max-min);next=Math.max(min,Math.min(max,step>0?Math.round(next/step)*step:next));if(next!=value){value=next;setter.accept(next);}}
         @Override public boolean mousePressed(Minecraft mc,int x,int y){if(!super.mousePressed(mc,x,y))return false;if(y<yPosition+12&&x>xPosition+width-46){mc.displayGuiScreen(new dev.alien.client.gui.ui.ValueInputScreen(mc.currentScreen,label,min,max,value,next->{value=next;setter.accept(next);}));return true;}dragging=true;update(x);return true;}
         @Override protected void mouseDragged(Minecraft mc,int x,int y){if(dragging)update(x);}
