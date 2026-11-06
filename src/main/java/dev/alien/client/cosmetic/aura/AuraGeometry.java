@@ -6,10 +6,10 @@ public final class AuraGeometry {
     private AuraGeometry(){}
     public static int emit(AuraDesign d,AuraResponse state,float partial,int budget,boolean glow,Sink out){
         if(budget<=0)return 0;
-        double phase=state.phase(partial)*Math.PI*2,motion=state.movement(partial),dance=state.dance(partial),night=state.night(partial);
+        double phase=state.phase(partial)*Math.PI,motion=state.movement(partial),dance=state.dance(partial),night=state.night(partial);
         float energy=state.energy(d,partial),alpha=d.opacity*Math.min(1,(float)Math.sqrt(energy))* (glow?.28f:.95f);
         if(alpha<.001f)return 0;
-        double pulse=Math.sin(phase*2),radius=d.radius*(1+.14*motion+.1*night+.10*dance*pulse),width=(.026+.022*energy)*(glow?3:1);
+        double pulse=.82*Math.sin(phase*1.4)+.18*Math.sin(phase*2.8-.45),radius=d.radius*(1+.14*motion+.1*night+.10*dance*pulse),width=(.026+.022*energy)*(glow?3:1);
         int primary=mix(d.color,d.secondaryColor,(float)(.25*motion+.4*night)),used=0;
         if("Orbit".equals(d.style)){
             for(int plane=0;plane<3&&budget-used>=12;plane++)used+=ring(out,Math.min(32,(budget-used)/(3-plane)),radius*.78,.85,phase+plane*2.1,plane+1,width,primary,d.secondaryColor,alpha);
@@ -20,7 +20,7 @@ public final class AuraGeometry {
         }
         int motes=Math.min(8,budget-used);
         for(int i=0;i<motes;i++){
-            double a=phase*.65+i*Math.PI/4,r=radius*("Runes".equals(d.style)?1.1:.94),y="Runes".equals(d.style)?.12:.65+Math.sin(a*2)*.4;
+            double a=phase*.5+i*Math.PI/4,r=radius*("Runes".equals(d.style)?1.1:.94),y="Runes".equals(d.style)?.12:.65+Math.sin(a*1.6+i*.17)*.28;
             if("Runes".equals(d.style))glyph(out,Math.cos(a)*r,y,Math.sin(a)*r,a,(glow?.018:.008)*(1+energy*.35),d.secondaryColor,alpha);
             else crystal(out,Math.cos(a)*r,y,Math.sin(a)*r,(glow?.065:.035)*(1+energy*.35),d.secondaryColor,alpha);used++;
         }

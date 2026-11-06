@@ -4,6 +4,9 @@ import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
 import dev.alien.client.AlienClient;
 import dev.alien.client.emote.EmoteManager;
+import dev.alien.client.effects.ghost.*;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.nbt.NBTTagCompound;
 import dev.alien.client.cosmetic.PetManager;
 import dev.alien.client.combat.*;
 import dev.alien.client.config.ClientConfig;
@@ -37,12 +40,12 @@ import org.lwjgl.opengl.*;
 /** Test-only continuous actual-game film. Never included in the shipping client JAR. */
 @Mod(modid="alien_showcase",name="Alien local showcase fixture",version="1",clientSideOnly=true,dependencies="required-after:alienclient")
 public final class AlienShowcase {
-    private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu realista e nuvens suaves","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge","14 / Mascote alien Quaternius","15 / Tung Tung Sahur"};
-    private static final double[] LENGTHS={8,8,8,8,8,8,12,12,4,6,7,7,9,18,18};
+    private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu realista e nuvens suaves","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge","14 / Mascote alien Quaternius","15 / Tung Tung Sahur","16 / Fantasma e constelacao","17 / Interface e transicoes"};
+    private static final double[] LENGTHS={8,8,8,8,8,8,12,12,4,6,7,7,9,18,18,7,7};
     private Minecraft m;private File out;private Robot robot;private long started,warm,filmStart,chapterStart,lastFrame;private int chapter=-2,change=-1;private boolean launched,prepared,ready,finished,previewPrepared;
     private CosmeticStudioScreen studio;private EntityOtherPlayerMP target;
     private final List<Double> frameTimes=new ArrayList<Double>();private final List<String> checks=new ArrayList<String>();private final List<Map<String,Object>> chapters=new ArrayList<Map<String,Object>>();
-    private long foods,potions,blocks;private boolean movementSeen,emoteSeen,nightSeen,aimSeen,petMovingSeen,petEmoteSeen;private float aimStart;private int foodStart;private float healthStart;
+    private long foods,potions,blocks;private boolean movementSeen,emoteSeen,nightSeen,aimSeen,petMovingSeen,petEmoteSeen;private int ghostTarget;private long ghostKills;private float aimStart;private int foodStart;private float healthStart;
     private ClientConfig c(){return AlienClient.get().config();}private CosmeticConfig.Accessory a(){return c().cosmetics.self;}
     @Mod.EventHandler public void init(FMLInitializationEvent event)throws Exception{
         if(!Boolean.getBoolean("alien.showcase"))return;m=Minecraft.getMinecraft();out=new File(System.getProperty("alien.showcase.output"));out.mkdirs();
@@ -56,7 +59,7 @@ public final class AlienShowcase {
     @SubscribeEvent public void frame(TickEvent.RenderTickEvent event){
         if(m==null||event.phase!=TickEvent.Phase.END||finished)return;
         try{
-            if(seconds(started)>360)throw new AssertionError("Showcase deadline at "+chapter);
+            if(seconds(started)>480)throw new AssertionError("Showcase deadline at "+chapter);
             if(!launched){if(m.currentScreen==null)return;resize();m.gameSettings.pauseOnLostFocus=false;m.launchIntegratedServer("AlienShowcase-"+System.currentTimeMillis(),"Disposable local film",new WorldSettings(42,WorldSettings.GameType.SURVIVAL,false,false,WorldType.FLAT));launched=true;return;}
             if(m.thePlayer==null||m.thePlayer.ticksExisted<45)return;
             if(!prepared){prepare();prepared=true;warm=System.nanoTime();return;}
@@ -72,7 +75,7 @@ public final class AlienShowcase {
             if(t>=LENGTHS[chapter]){validateChapter();if(chapter+1<TITLES.length)enter(chapter+1);else finish();}
         }catch(Throwable failure){try{release();try(PrintWriter w=new PrintWriter(new File(out,"failure.txt"),"UTF-8")){failure.printStackTrace(w);}}catch(Exception ignored){}finished=true;throw new RuntimeException(failure);}
     }
-    private void resize()throws Exception{Display.setDisplayMode(new DisplayMode(960,540));java.lang.reflect.Method method=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);method.setAccessible(true);method.invoke(m,960,540);}
+    private void resize()throws Exception{Display.setDisplayMode(new DisplayMode(960,540));Display.setLocation(0,0);java.lang.reflect.Method method=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);method.setAccessible(true);method.invoke(m,960,540);}
     private void prepare()throws Exception{
         m.displayGuiScreen(null);release();m.gameSettings.guiScale=2;m.gameSettings.limitFramerate=60;m.gameSettings.enableVsync=false;m.gameSettings.renderDistanceChunks=2;m.gameSettings.fancyGraphics=false;m.gameSettings.ambientOcclusion=0;m.gameSettings.clouds=0;m.gameSettings.useVbo=true;m.gameSettings.showInventoryAchievementHint=false;m.guiAchievement.clearAchievements();m.renderGlobal.loadRenderers();
         c().ui.blur=0;c().ui.menuScale=1;c().hud.applyPreset("Cinematic");c().performance.adaptiveEnabled=false;c().performance.maxParticles=128;c().performance.maxCosmetics=4;c().performance.preset="Balanced";
@@ -84,7 +87,7 @@ public final class AlienShowcase {
     private void release(){robot.keyRelease(KeyEvent.VK_W);robot.keyRelease(KeyEvent.VK_D);robot.keyRelease(KeyEvent.VK_SHIFT);robot.mouseRelease(java.awt.event.InputEvent.BUTTON1_DOWN_MASK);KeyBinding.unPressAllKeys();}
     private void yaw(float value){m.thePlayer.rotationYaw=m.thePlayer.prevRotationYaw=m.thePlayer.rotationYawHead=m.thePlayer.prevRotationYawHead=m.thePlayer.renderYawOffset=m.thePlayer.prevRenderYawOffset=value;}
     private void enter(int next)throws Exception{
-        release();AlienClient.get().emotes().stop();c().combat.applyPreset("OFF");m.displayGuiScreen(null);a().aura=a().trail=false;a().pet.enabled=false;c().effects.enabled=false;c().scenes.enabled=false;c().world.enabled=false;c().hud.enabled=false;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=5;
+        release();AlienClient.get().emotes().stop();c().combat.applyPreset("OFF");m.displayGuiScreen(null);a().aura=a().trail=false;a().pet.enabled=false;c().effects.enabled=false;c().scenes.enabled=false;c().world.enabled=false;c().hud.enabled=false;c().killEffects.enabled=false;m.gameSettings.thirdPersonView=2;m.thePlayer.rotationPitch=5;
         chapter=next;change=-1;chapterStart=System.nanoTime();if(filmStart!=0)chapters.add(map("title",TITLES[next],"startSeconds",seconds(filmStart),"plannedSeconds",LENGTHS[next]));System.out.println("ALIEN_SHOWCASE "+TITLES[next]);
         switch(next){
         case 0:a().hat="NONE";a().back="CAPE";studio=new CosmeticStudioScreen(null);m.displayGuiScreen(studio);studio.setPreviewYaw(160);studio.setPreviewZoom(1.12f);break;
@@ -115,11 +118,18 @@ public final class AlienShowcase {
             server(()->player().setPositionAndUpdate(.5,4,.5));break;
         case 14:
             a().pet.setModel("Tung Tung Sahur");a().pet.enabled=true;a().pet.mode="Follow";a().back="NONE";c().hud.applyPreset("Cinematic");yaw(0);m.thePlayer.rotationPitch=5;break;
+        case 15:
+            a().back="NONE";a().hat="NONE";c().killEffects.enabled=true;c().killEffects.constellation=true;c().killEffects.calm=false;c().killEffects.duration=2.6f;c().killEffects.finaleDuration=1.2f;c().hud.applyPreset("Cinematic");m.gameSettings.thirdPersonView=0;
+            server(()->{EntityPlayerMP p=player();p.setGameType(WorldSettings.GameType.CREATIVE);p.setPositionAndUpdate(.5,4,-2.3);p.worldObj.setWorldTime(13200);p.inventory.mainInventory[0]=new ItemStack(Items.diamond_sword);p.inventory.currentItem=0;p.inventoryContainer.detectAndSendChanges();EntityZombie z=new EntityZombie(p.worldObj);NBTTagCompound tag=new NBTTagCompound();z.writeToNBT(tag);tag.setBoolean("NoAI",true);tag.setBoolean("Silent",true);z.readFromNBT(tag);z.setPosition(.5,4,.5);z.setHealth(1);z.setCustomNameTag("ALVO LOCAL DE TESTE");z.setAlwaysRenderNameTag(true);z.setCurrentItemOrArmor(4,new ItemStack(Items.diamond_helmet));p.worldObj.spawnEntityInWorld(z);ghostTarget=z.getEntityId();});
+            yaw(0);m.thePlayer.rotationPitch=-22;ghostKills=GhostManager.confirmed();break;
+        case 16:c().killEffects.enabled=true;m.displayGuiScreen(new GhostStudioScreen(null));break;
         default:throw new AssertionError(next);
         }
     }
     private void animate(double t)throws Exception{
         if(chapter==0)studio.setPreviewYaw((float)(145+t*5));
+        else if(chapter==15){if(t>1.0&&change<0){net.minecraft.entity.Entity victim=m.theWorld.getEntityByID(ghostTarget);if(victim!=null){m.playerController.attackEntity(m.thePlayer,victim);m.thePlayer.swingItem();change=0;}}}
+        else if(chapter==16){int part=(int)(t/1.1);if(part!=change){demoClick(part%3==0?10:part%3==1?11:16);if(part%3==0)Ui.notify("Visual salvo no perfil local");change=part;}robot.mouseMove(Display.getX()+760,Display.getY()+100);}
         else if(chapter==1){studio.setPreviewYaw((float)(-35+t*8));int part=Math.min(2,(int)(t/2.7));if(part!=change){a().hat=new String[]{"SAKURA","CROWN","SAMURAI"}[part];change=part;}}
         else if(chapter==2)yaw((float)(t*32));
         else if(chapter==3)yaw((float)(-20+t*5));
@@ -131,6 +141,9 @@ public final class AlienShowcase {
         }else if(chapter==9){if(t>1.5)c().combat.enabled=true;if(t>3)aimSeen|=aimError()<2;}
         else if(chapter==12){m.thePlayer.rotationPitch=m.thePlayer.prevRotationPitch=77;if(t>1&&change<0){robot.keyPress(KeyEvent.VK_SHIFT);robot.keyPress(KeyEvent.VK_W);change=0;}}
         else if(chapter==13||chapter==14){m.thePlayer.rotationPitch=m.thePlayer.prevRotationPitch=5;int part=Math.min(2,(int)(t/6));if(part!=change){release();a().pet.mode=new String[]{"Follow","Shoulder","Orbit"}[part];if(part==0)robot.keyPress(KeyEvent.VK_W);if(part==1)AlienClient.get().emotes().request("floss");if(part==2)AlienClient.get().emotes().stop();change=part;}if(part==0&&t>3)robot.keyRelease(KeyEvent.VK_W);petMovingSeen|=PetManager.selfMovement()>.5;petEmoteSeen|=PetManager.selfDance()>.9;}
+    }
+    private void demoClick(int id)throws Exception{
+        java.lang.reflect.Field f=net.minecraft.client.gui.GuiScreen.class.getDeclaredField("buttonList");f.setAccessible(true);for(Object entry:(List<?>)f.get(m.currentScreen)){net.minecraft.client.gui.GuiButton button=(net.minecraft.client.gui.GuiButton)entry;if(button.id==id){java.lang.reflect.Method action=GhostStudioScreen.class.getDeclaredMethod("actionPerformed",net.minecraft.client.gui.GuiButton.class);action.setAccessible(true);action.invoke(m.currentScreen,button);return;}}throw new AssertionError("Missing production control "+id);
     }
     private void dummy(){target=new EntityOtherPlayerMP(m.theWorld,new GameProfile(UUID.fromString("72e00e09-3bf8-4c80-8d20-076b62f2a239"),"AlienTreino"));target.setPosition(m.thePlayer.posX,m.thePlayer.posY,m.thePlayer.posZ+3);target.setHealth(20);m.theWorld.addEntityToWorld(-7723,target);}
     private float aimError(){float[] targetAngles=CombatMath.lookAt(m.thePlayer.posX,m.thePlayer.posY+m.thePlayer.getEyeHeight(),m.thePlayer.posZ,target.posX,target.posY+target.getEyeHeight(),target.posZ);return CombatMath.angularDistance(m.thePlayer.rotationYaw,m.thePlayer.rotationPitch,targetAngles[0],targetAngles[1]);}
@@ -144,6 +157,8 @@ public final class AlienShowcase {
         if(chapter==12)check(FullToolsManager.placedBlocks()>blocks+2,"AutoBridge places multiple real blocks while walking in Survival");
         if(chapter==13){check(petMovingSeen&&petEmoteSeen,"Mascot footage records real native movement and actual emote reactions");check(PetManager.activeCount()==1&&PetManager.drawnCount()==1,"Actual mascot world geometry renders in Follow, Shoulder and Orbit chapters");}
         if(chapter==14)check(a().pet.tung()&&"Tung Tung Sahur".equals(PetManager.lastRenderedModel())&&PetManager.drawnCount()==1,"Sahur footage records the actual imported mesh through Follow, Shoulder and Orbit");
+        if(chapter==15){check(GhostManager.confirmed()==ghostKills+1,"Actual vanilla sword kill renders the polished ghost and constellation");check(GhostRenderer.finales()>0&&GhostMaterial.ready(),"Constellation finale and pearl material both reached real rendering");}
+        if(chapter==16)check(m.currentScreen instanceof GhostStudioScreen,"Interface chapter uses the actual production Ghost Studio controls");
         check(GL11.glGetError()==GL11.GL_NO_ERROR,"Clean OpenGL after "+TITLES[chapter]);
     }
     private void drawCaption(){

@@ -52,7 +52,7 @@ public final class GhostManager {
             
             if(dead){spawn(p.at,c,p.source,false,m);wait.remove();}
         }
-        spirits.removeIf(s->ticks-s.start>Math.ceil(s.design.duration*20));active=spirits.size();
+        spirits.removeIf(s->ticks-s.start>Math.ceil(s.design.totalDuration()*20));active=spirits.size();
     }
     private boolean same(Context c){Context now=context;return c!=null&&now!=null&&c.world==now.world&&c.profile==now.profile&&c.player.equals(now.player);}
     private void clear(){inbox.clear();known.clear();pending.clear();spirits.clear();ledger.clear();active=0;}

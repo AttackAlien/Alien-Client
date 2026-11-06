@@ -187,8 +187,10 @@ public final class WorldManager {
             else {
                 particle.px=particle.x;particle.py=particle.y;particle.pz=particle.z;
                 double flutter=Math.sin(ticks*.085+particle.rotation)*.0012*settings.flow;
+                particle.pvx=particle.vx+flutter;particle.pvy=particle.vy;particle.pvz=particle.vz+flutter*.6;
                 particle.x+=particle.vx+flutter;particle.y+=particle.vy;particle.z+=particle.vz+flutter*.6;
                 particle.vx*=.985;particle.vz*=.985;particle.vy-= "Petal".equals(settings.shape)?.00015:.00025;
+                double nextFlutter=Math.sin((ticks+1)*.085+particle.rotation)*.0012*settings.flow;particle.rvx=particle.vx+nextFlutter;particle.rvz=particle.vz+nextFlutter*.6;
             }
         }
         int budget = Math.min(settings.effectiveBudget(), Math.max(0, AlienClient.get().performance().particleBudget()));
@@ -276,13 +278,13 @@ public final class WorldManager {
                 ParticleShapes.Shape mesh=pass==0?ParticleShapes.glow():ParticleShapes.get(c.shape);
                 GL11.glBegin(GL11.GL_TRIANGLES);
                 for(Particle p:particles){
-                    double x=ParticleAppearance.interpolate(p.px,p.x,event.partialTicks),y=ParticleAppearance.interpolate(p.py,p.y,event.partialTicks),z=ParticleAppearance.interpolate(p.pz,p.z,event.partialTicks);
+                    double x=ParticleAppearance.curve(p.px,p.x,p.pvx,p.rvx,event.partialTicks),y=ParticleAppearance.curve(p.py,p.y,p.pvy,p.vy,event.partialTicks),z=ParticleAppearance.curve(p.pz,p.z,p.pvz,p.rvz,event.partialTicks);
                     double dx=x-cx,dy=y-cy,dz=z-cz;
                     if(dx*dx+dy*dy+dz*dz>max||dx*look.xCoord+dy*look.yCoord+dz*look.zCoord<-2)continue;
                     if(pass==1)drawnParticles++;
                     float phase=(float)(p.rotation+(ticks+event.partialTicks)*.045),fade=ParticleAppearance.fade(p.initialLife,p.life,event.partialTicks)*c.opacity;
                     float tint=(float)(.25+.5*(Math.sin(p.rotation)*.5+.5));int base=mix(c.color,c.secondaryColor,tint);
-                    double scale=.028*c.size*(.94+.06*Math.sin(phase)),rotation=p.rotation+(ticks+event.partialTicks)*.018;
+                    double scale=.028*c.size*ParticleAppearance.size(p.initialLife,p.life,event.partialTicks)*(1+.035*Math.sin(phase)),rotation=p.rotation+(ticks+event.partialTicks)*.012+Math.sin(phase*.8)*.13*c.flow;
                     if(pass==0){scale*=2.6;fade*=.13*c.glow;}
                     double cs=Math.cos(rotation),sn=Math.sin(rotation),flutter="Petal".equals(c.shape)?.7+.3*Math.sin(phase*c.flow):1;
                     for(int i=0;i<mesh.vertexCount();i++){
@@ -470,12 +472,12 @@ public final class WorldManager {
     }
 
     private static final class Particle {
-        double x, y, z, px,py,pz,vx, vy, vz;
+        double x, y, z, px,py,pz,pvx,pvy,pvz,rvx,rvz,vx, vy, vz;
         int life;
         final int initialLife;
         final double rotation;
         Particle(double x, double y, double z, double vx, double vy, double vz, int life,double rotation) {
-            this.x=px=x; this.y=py=y; this.z=pz=z; this.vx=vx; this.vy=vy; this.vz=vz; this.life=life; initialLife=life;this.rotation=rotation;
+            this.x=px=x; this.y=py=y; this.z=pz=z; this.rvx=this.pvx=this.vx=vx; this.pvy=this.vy=vy; this.rvz=this.pvz=this.vz=vz; this.life=life; initialLife=life;this.rotation=rotation;
         }
     }
 }

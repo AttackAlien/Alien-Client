@@ -60,9 +60,10 @@ final class RibbonTrails {
             GL11.glDisable(GL11.GL_CULL_FACE);GL11.glEnable(GL11.GL_DEPTH_TEST);GL11.glDepthMask(false);GL11.glEnable(GL11.GL_BLEND);GL11.glShadeModel(GL11.GL_SMOOTH);
             for(int pass=glow?0:1;pass<2;pass++){
                 GL11.glBlendFunc(GL11.GL_SRC_ALPHA,pass==0?GL11.GL_ONE:GL11.GL_ONE_MINUS_SRC_ALPHA);
-                int emitted=0;
+                int emitted=0,remainingPaths=paths.size();
                 for(Entry e:paths.values()){
-                    if(e.path.size()<2)continue;
+                    int share=(budget-emitted)/Math.max(1,remainingPaths--);
+                    if(e.path.size()<2||share<=0)continue;
                     double distance=AlienClient.get().performance().effectDistance();
                     if(e.player.getDistanceSq(cx,cy,cz)>distance*distance)continue;
                     if(e.a.trailDesign.enabled){
@@ -76,10 +77,13 @@ final class RibbonTrails {
                         lastTexture=material.name;
                     }else GL11.glDisable(GL11.GL_TEXTURE_2D);
                     GL11.glBegin(GL11.GL_TRIANGLES);
+                    e.normalValid=false;
                     try{
-                    for(int segment=0;segment<e.path.size()-1&&emitted<budget;segment++)for(int sub=0;sub<2&&emitted<budget;sub++){
-                        sample(e,segment,sub*.5,event.partialTicks,cx,cy+camera.getEyeHeight(),cz,0);
-                        sample(e,segment,(sub+1)*.5,event.partialTicks,cx,cy+camera.getEyeHeight(),cz,12);
+                    int desired=0;for(int segment=0;segment<e.path.size()-1;segment++)desired+=e.path.subdivisions(segment);
+                    int pieces=Math.min(share,desired);double span=e.path.size()-1;
+                    for(int piece=0;piece<pieces;piece++){
+                        samplePosition(e,span*piece/pieces,event.partialTicks,cx,cy+camera.getEyeHeight(),cz,0);
+                        samplePosition(e,span*(piece+1)/pieces,event.partialTicks,cx,cy+camera.getEyeHeight(),cz,12);
                         if(pass==1){drawn++;if(e.a.trailDesign.enabled)textured++;}emitted++;
                         float w=e.a.trailWidth*(pass==0?2.8f:1),opacity=e.a.trailOpacity*(pass==0?.13f:1);
                         for(int band=0;band<4;band++){
@@ -94,17 +98,23 @@ final class RibbonTrails {
         }finally{GL11.glPopMatrix();GL11.glPopAttrib();GlStateManager.bindTexture(previousTexture);}
     }
     private static final float[] EDGES={-1,-.38f,0,.38f,1};
+    private void samplePosition(Entry e,double position,float partial,double cx,double cy,double cz,int at){
+        int segment=Math.min(e.path.size()-2,(int)position);sample(e,segment,position-segment,partial,cx,cy,cz,at);
+    }
     private void sample(Entry e,int segment,double t,float partial,double cx,double cy,double cz,int at){
         RibbonPath p=e.path;
         double x=p.sample(0,segment,t),y=p.sample(1,segment,t),z=p.sample(2,segment,t);
-        if(segment==p.size()-2){double blend=t*t; x+=(e.player.prevPosX+(e.player.posX-e.player.prevPosX)*partial-p.coordinate(0,p.size()-1))*blend;
+        if(segment==p.size()-2){double blend=t*t*(3-2*t); x+=(e.player.prevPosX+(e.player.posX-e.player.prevPosX)*partial-p.coordinate(0,p.size()-1))*blend;
             y+=(e.player.prevPosY+(e.player.posY-e.player.prevPosY)*partial+.12-p.coordinate(1,p.size()-1))*blend;
             z+=(e.player.prevPosZ+(e.player.posZ-e.player.prevPosZ)*partial-p.coordinate(2,p.size()-1))*blend;}
         double tx=p.sample(0,segment,t+.01)-p.sample(0,segment,t-.01),ty=p.sample(1,segment,t+.01)-p.sample(1,segment,t-.01),tz=p.sample(2,segment,t+.01)-p.sample(2,segment,t-.01);
         // Rotate the projected tangent in the actual camera plane, including front third person.
         double screenX=tx*rightX+tz*rightZ,screenY=tx*upX+ty*upY+tz*upZ;
         double nx=-screenY*rightX+screenX*upX,ny=screenX*upY,nz=-screenY*rightZ+screenX*upZ,n=Math.sqrt(nx*nx+ny*ny+nz*nz);
-        if(n<1e-8){nx=rightX;ny=0;nz=rightZ;n=1;}
+        if(n<1e-7){nx=e.normalValid?e.nx:rightX;ny=e.normalValid?e.ny:0;nz=e.normalValid?e.nz:rightZ;n=1;}
+        nx/=n;ny/=n;nz/=n;
+        if(e.normalValid&&nx*e.nx+ny*e.ny+nz*e.nz<0){nx=-nx;ny=-ny;nz=-nz;}
+        e.nx=nx;e.ny=ny;e.nz=nz;e.normalValid=true;n=1;
         int life=Math.round(e.a.trailLifetime*20);double alpha=(p.alpha(segment,tick+partial,life)*(1-t)+p.alpha(segment+1,tick+partial,life)*t)*Math.min(1,(segment+t)/2);
         samples[at]=x;samples[at+1]=y;samples[at+2]=z;samples[at+3]=nx/n;samples[at+4]=ny/n;samples[at+5]=nz/n;samples[at+6]=alpha;
         float position=(float)((segment+t)/Math.max(1,p.size()-1));TrailDesign d=e.a.trailDesign;
@@ -120,5 +130,5 @@ final class RibbonTrails {
         GL11.glColor4f(r+(1-r)*shade,g+(1-g)*shade,blue+(1-blue)*shade,(float)(alpha*opacity*samples[at+9]*(Math.abs(edge)==1?0:edge==0?1:.75)));
         GL11.glVertex3d(samples[at]+samples[at+3]*radius,samples[at+1]+samples[at+4]*radius,samples[at+2]+samples[at+5]*radius);
     }
-    private static final class Entry{final RibbonPath path=new RibbonPath();CosmeticConfig.Accessory a;EntityPlayer player;boolean present;}
+    private static final class Entry{final RibbonPath path=new RibbonPath();CosmeticConfig.Accessory a;EntityPlayer player;boolean present,normalValid;double nx,ny,nz;}
 }

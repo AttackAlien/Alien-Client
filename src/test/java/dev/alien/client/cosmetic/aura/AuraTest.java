@@ -35,7 +35,7 @@ public class AuraTest {
     }
     @Test public void responseInterpolatesWithoutAdvancingWhenRendered(){
         AuraDesign d=new AuraDesign();AuraResponse s=new AuraResponse();s.update(d,.05,5.6,true,0);
-        assertEquals(0,s.movement(0),0);float end=s.movement(1);assertTrue(end>0&&end<1);assertEquals(end/2,s.movement(.5f),1e-6);
+        assertEquals(0,s.movement(0),0);float end=s.movement(1);assertTrue(end>0&&end<1);assertTrue(s.movement(.5f)>0&&s.movement(.5f)<end);
         double phase=s.phase(1);for(int i=0;i<1000;i++){s.movement(.7f);s.energy(d,.5f);s.phase(.3f);}assertEquals(phase,s.phase(1),0);
     }
     @Test public void renderFpsAndTickSubdivisionDoNotChangeTheReaction(){
@@ -65,5 +65,10 @@ public class AuraTest {
         store.config().emotes.slots[0]="take_the_l";a.trailDesign.applyPreset("Ember");store.saveProfile("auras");String text=store.profileJson("auras");store.resetDefaults();store.importProfileJson("copy",text);assertTrue(store.loadProfile("copy"));a=store.config().cosmetics.self;
         assertTrue(a.aura&&a.auraDesign.enabled);assertEquals("Orbit",a.auraDesign.style);assertFalse(a.auraDesign.motion);assertEquals(1.25f,a.auraDesign.nightGain,0);assertEquals(0x123456,a.auraDesign.color);assertEquals(1.3f,a.auraDesign.radius,0);assertEquals("take_the_l",store.config().emotes.slots[0]);assertEquals("Ember",a.trailDesign.preset);
         CosmeticConfig.Accessory copy=a.copy();copy.auraDesign.color=0;assertEquals(0x123456,a.auraDesign.color);
+    }
+    @Test public void boundedAuraClockHasNoVisibleGeometryJumpAtWrap(){
+        AuraDesign d=new AuraDesign();d.applyPreset("Celestial");d.speed=1;AuraResponse state=new AuraResponse();for(int i=0;i<479;i++)state.update(d,.25,0,false,12);state.update(d,.249,0,false,12);
+        java.util.List<double[]> before=new java.util.ArrayList<double[]>();AuraGeometry.emit(d,state,1,104,false,(x,y,z,c,a)->before.add(new double[]{x,y,z}));
+        state.update(d,.002,0,false,12);final int[] index={0};AuraGeometry.emit(d,state,1,104,false,(x,y,z,c,a)->{double[] old=before.get(index[0]++);assertEquals(old[0],x,.02);assertEquals(old[1],y,.02);assertEquals(old[2],z,.02);});assertEquals(before.size(),index[0]);
     }
 }

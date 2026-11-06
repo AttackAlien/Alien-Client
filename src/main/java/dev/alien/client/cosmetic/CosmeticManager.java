@@ -103,8 +103,8 @@ public final class CosmeticManager {
     private final class AccessoryLayer implements LayerRenderer<AbstractClientPlayer> {
         private final RenderPlayer renderer;
         private final CapeCloth lowCape = new CapeCloth(8, 4);
-        private final CapeCloth balancedCape = new CapeCloth(14, 6);
-        private final CapeCloth highCape = new CapeCloth(24, 12);
+        private final CapeCloth balancedCape = new CapeCloth(20, 10);
+        private final CapeCloth highCape = new CapeCloth(32, 16);
         private final Map<UUID,CapeDynamics> dynamics=new LinkedHashMap<UUID,CapeDynamics>();
         private final CapeDynamics previewDynamics=new CapeDynamics();
         private Object capeWorld;
@@ -155,7 +155,7 @@ public final class CosmeticManager {
                         drawCape(a, phase, movement, animated, distant,response);
                     }
                     else if ("WINGS".equals(a.back)) {
-                        float flap = animated ? 11f + (float)Math.sin(phase*.11f)*13f + movement*4 : 12;
+                        float flap = animated ? 12f + (float)(Math.sin(phase*.085f)+.14*Math.sin(phase*.17f-.6))*11f + movement*3 : 12;
                         GlStateManager.pushMatrix();
                         try { GlStateManager.rotate(flap,0,1,0); CosmeticMeshRenderer.draw(CosmeticMeshes.back("WINGS",true),a.color,a.secondaryColor); }
                         finally { GlStateManager.popMatrix(); }
@@ -168,7 +168,7 @@ public final class CosmeticManager {
                     GlStateManager.pushMatrix();
                     try {
                         renderer.getMainModel().bipedRightArm.postRender(.0625f); dev.alien.client.emote.EmoteManager.handBend(renderer.getMainModel(),.0625f); transform(a);
-                        if (animated) GlStateManager.rotate((float)Math.sin(phase*.08f)*9,0,0,1);
+                        if (animated) GlStateManager.rotate((float)(Math.sin(phase*.065f)*5+Math.sin(phase*.10f-.6)*1.5+Math.sin(phase*.035f)*movement*2),0,0,1);
                         CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }
                 }
