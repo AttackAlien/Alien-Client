@@ -42,13 +42,14 @@ import org.lwjgl.opengl.*;
 public final class AlienShowcase {
     private static final String[] TITLES={"01 / Capa animada","02 / Chapeus e acessorios","03 / Trilhas desenhadas","04 / Particulas Sakura","05 / Ceu realista e nuvens suaves","06 / HUD Ultimate","07 / Floss, Orange Justice, Take the L","08 / Auras reativas","09 / Modo FULL","10 / Aimbot - alvo de treino","11 / Auto Food","12 / Auto Potion","13 / AutoBridge","14 / Mascote alien Quaternius","15 / Tung Tung Sahur","16 / Fantasma e constelacao","17 / Interface e transicoes"};
     private static final double[] LENGTHS={8,8,8,8,8,8,12,12,4,6,7,7,9,18,18,7,7};
+    private final int first=Integer.getInteger("alien.showcase.first",0),last=Integer.getInteger("alien.showcase.last",16);
     private Minecraft m;private File out;private Robot robot;private long started,warm,filmStart,chapterStart,lastFrame;private int chapter=-2,change=-1;private boolean launched,prepared,ready,finished,previewPrepared;
     private CosmeticStudioScreen studio;private EntityOtherPlayerMP target;
     private final List<Double> frameTimes=new ArrayList<Double>();private final List<String> checks=new ArrayList<String>();private final List<Map<String,Object>> chapters=new ArrayList<Map<String,Object>>();
     private long foods,potions,blocks;private boolean movementSeen,emoteSeen,nightSeen,aimSeen,petMovingSeen,petEmoteSeen;private int ghostTarget;private long ghostKills;private float aimStart;private int foodStart;private float healthStart;
     private ClientConfig c(){return AlienClient.get().config();}private CosmeticConfig.Accessory a(){return c().cosmetics.self;}
     @Mod.EventHandler public void init(FMLInitializationEvent event)throws Exception{
-        if(!Boolean.getBoolean("alien.showcase"))return;m=Minecraft.getMinecraft();out=new File(System.getProperty("alien.showcase.output"));out.mkdirs();
+        if(!Boolean.getBoolean("alien.showcase"))return;if(first<0||last>=TITLES.length||first>last)throw new IllegalArgumentException("Invalid chapter range");m=Minecraft.getMinecraft();out=new File(System.getProperty("alien.showcase.output"));out.mkdirs();
         for(String f:new String[]{"ready.json","recording.start","capture.done","recording.stopped","result.json","failure.txt"})Files.deleteIfExists(new File(out,f).toPath());
         AlienClient.get().store().resetDefaults();robot=new Robot();started=System.nanoTime();FMLCommonHandler.instance().bus().register(this);net.minecraftforge.common.MinecraftForge.EVENT_BUS.register(this);
     }
@@ -66,13 +67,13 @@ public final class AlienShowcase {
             if(!ready){
                 if(seconds(warm)<3)return;
                 check(SceneShaders.status().startsWith("Ready"),"Scene shader compiled before recording");c().scenes.enabled=false;c().effects.enabled=false;a().trail=false;a().aura=false;
-                if(!previewPrepared){enter(0);chapter=-2;previewPrepared=true;return;}
+                if(!previewPrepared){enter(first);chapter=-2;previewPrepared=true;return;}
                 json("ready.json",map("x",Display.getX(),"y",Display.getY(),"width",m.displayWidth,"height",m.displayHeight));ready=true;return;
             }
-            if(chapter==-2){if(!new File(out,"recording.start").isFile())return;filmStart=System.nanoTime();enter(0);lastFrame=System.nanoTime();return;}
+            if(chapter==-2){if(!new File(out,"recording.start").isFile())return;filmStart=System.nanoTime();enter(first);lastFrame=System.nanoTime();return;}
             if(chapter==TITLES.length){if(new File(out,"recording.stopped").isFile()){finished=true;m.shutdown();}return;}
             drawCaption();long now=System.nanoTime();frameTimes.add((now-lastFrame)/1e6);lastFrame=now;double t=seconds(chapterStart);animate(t);
-            if(t>=LENGTHS[chapter]){validateChapter();if(chapter+1<TITLES.length)enter(chapter+1);else finish();}
+            if(t>=LENGTHS[chapter]){validateChapter();if(chapter<last)enter(chapter+1);else finish();}
         }catch(Throwable failure){try{release();try(PrintWriter w=new PrintWriter(new File(out,"failure.txt"),"UTF-8")){failure.printStackTrace(w);}}catch(Exception ignored){}finished=true;throw new RuntimeException(failure);}
     }
     private void resize()throws Exception{Display.setDisplayMode(new DisplayMode(960,540));Display.setLocation(0,0);java.lang.reflect.Method method=Minecraft.class.getDeclaredMethod("resize",int.class,int.class);method.setAccessible(true);method.invoke(m,960,540);}
@@ -120,15 +121,15 @@ public final class AlienShowcase {
             a().pet.setModel("Tung Tung Sahur");a().pet.enabled=true;a().pet.mode="Follow";a().back="NONE";c().hud.applyPreset("Cinematic");yaw(0);m.thePlayer.rotationPitch=5;break;
         case 15:
             a().back="NONE";a().hat="NONE";c().killEffects.enabled=true;c().killEffects.constellation=true;c().killEffects.calm=false;c().killEffects.duration=2.6f;c().killEffects.finaleDuration=1.2f;c().hud.applyPreset("Cinematic");m.gameSettings.thirdPersonView=0;
-            server(()->{EntityPlayerMP p=player();p.setGameType(WorldSettings.GameType.CREATIVE);p.setPositionAndUpdate(.5,4,-2.3);p.worldObj.setWorldTime(13200);p.inventory.mainInventory[0]=new ItemStack(Items.diamond_sword);p.inventory.currentItem=0;p.inventoryContainer.detectAndSendChanges();EntityZombie z=new EntityZombie(p.worldObj);NBTTagCompound tag=new NBTTagCompound();z.writeToNBT(tag);tag.setBoolean("NoAI",true);tag.setBoolean("Silent",true);z.readFromNBT(tag);z.setPosition(.5,4,.5);z.setHealth(1);z.setCustomNameTag("ALVO LOCAL DE TESTE");z.setAlwaysRenderNameTag(true);z.setCurrentItemOrArmor(4,new ItemStack(Items.diamond_helmet));p.worldObj.spawnEntityInWorld(z);ghostTarget=z.getEntityId();});
-            yaw(0);m.thePlayer.rotationPitch=-22;ghostKills=GhostManager.confirmed();break;
+            server(()->{EntityPlayerMP p=player();p.setGameType(WorldSettings.GameType.CREATIVE);p.setPositionAndUpdate(.5,4,-4.0);p.worldObj.setWorldTime(13200);p.inventory.mainInventory[0]=new ItemStack(Items.diamond_sword);p.inventory.currentItem=0;p.inventoryContainer.detectAndSendChanges();EntityZombie z=new EntityZombie(p.worldObj);NBTTagCompound tag=new NBTTagCompound();z.writeToNBT(tag);tag.setBoolean("NoAI",true);tag.setBoolean("Silent",true);z.readFromNBT(tag);z.setPosition(.5,4,.5);z.setHealth(1);z.setCustomNameTag("ALVO LOCAL DE TESTE");z.setAlwaysRenderNameTag(true);z.setCurrentItemOrArmor(4,new ItemStack(Items.diamond_helmet));p.worldObj.spawnEntityInWorld(z);ghostTarget=z.getEntityId();});
+            yaw(0);m.thePlayer.rotationPitch=-12;ghostKills=GhostManager.confirmed();break;
         case 16:c().killEffects.enabled=true;m.displayGuiScreen(new GhostStudioScreen(null));break;
         default:throw new AssertionError(next);
         }
     }
     private void animate(double t)throws Exception{
         if(chapter==0)studio.setPreviewYaw((float)(145+t*5));
-        else if(chapter==15){if(t>1.0&&change<0){net.minecraft.entity.Entity victim=m.theWorld.getEntityByID(ghostTarget);if(victim!=null){m.playerController.attackEntity(m.thePlayer,victim);m.thePlayer.swingItem();change=0;}}}
+        else if(chapter==15){yaw(0);m.thePlayer.rotationPitch=m.thePlayer.prevRotationPitch=-12;if(t>1.0&&change<0){net.minecraft.entity.Entity victim=m.theWorld.getEntityByID(ghostTarget);if(victim!=null){m.playerController.attackEntity(m.thePlayer,victim);m.thePlayer.swingItem();change=0;}}}
         else if(chapter==16){int part=(int)(t/1.1);if(part!=change){demoClick(part%3==0?10:part%3==1?11:16);if(part%3==0)Ui.notify("Visual salvo no perfil local");change=part;}robot.mouseMove(Display.getX()+760,Display.getY()+100);}
         else if(chapter==1){studio.setPreviewYaw((float)(-35+t*8));int part=Math.min(2,(int)(t/2.7));if(part!=change){a().hat=new String[]{"SAKURA","CROWN","SAMURAI"}[part];change=part;}}
         else if(chapter==2)yaw((float)(t*32));
@@ -162,8 +163,8 @@ public final class AlienShowcase {
         check(GL11.glGetError()==GL11.GL_NO_ERROR,"Clean OpenGL after "+TITLES[chapter]);
     }
     private void drawCaption(){
-        if(chapter<0||chapter>=TITLES.length)return;m.entityRenderer.setupOverlayRendering();
-        ScaledResolution sr=new ScaledResolution(m);String text=TITLES[chapter];Ui.rounded(sr.getScaledWidth()/2f-137,5,274,32,5,0xe8161822);Ui.centered(text,sr.getScaledWidth()/2f,10,0xfff1efff);Ui.centered("Demonstracao automatizada / mundo local",sr.getScaledWidth()/2f,23,0xffaaa8bf);Ui.finishFrame();
+        if(chapter<0||chapter>=TITLES.length||m.currentScreen!=null)return;m.entityRenderer.setupOverlayRendering();
+        ScaledResolution sr=new ScaledResolution(m);String text=TITLES[chapter];float cx=chapter==15?94:sr.getScaledWidth()/2f,cy=chapter==15?sr.getScaledHeight()-62:5,w=chapter==15?180:274;Ui.rounded(cx-w/2,cy,w,32,5,0xe8161822);Ui.centered(text,cx,cy+5,0xfff1efff);Ui.centered(chapter==15?"Forge real / alvo local de teste":"Demonstracao automatizada / mundo local",cx,cy+18,0xffaaa8bf);Ui.finishFrame();
     }
     private void finish()throws Exception{
         release();c().combat.applyPreset("OFF");AlienClient.get().emotes().stop();chapter=TITLES.length;
