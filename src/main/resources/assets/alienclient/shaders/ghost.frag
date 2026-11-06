@@ -1,5 +1,6 @@
 #version 120
 uniform float Time;
+uniform int Mask;
 uniform float Cut;
 uniform float Opacity;
 uniform float Glow;
@@ -20,9 +21,10 @@ void main() {
     float field = Height + ripple*0.014 + sin(Position.z*43.0+Position.y*19.0+Time)*0.009;
     float mask = smoothstep(Cut-0.025, Cut+0.085, field);
     float edge = exp(-abs(field-Cut-0.01)*70.0)*step(0.015,Cut);
-    vec3 pearl = mix(Tint.rgb,vec3(0.88,0.93,1.0),0.45);
-    vec3 color = pearl*(0.42+diffuse*0.66) + Tint.rgb*rim*(0.26+Glow*0.55) + vec3(1.0)*sheen*0.45;
+    vec3 pearl = mix(Tint.rgb,vec3(0.88,0.93,1.0),0.12);
+    vec3 color = pearl*(0.84+diffuse*0.35) + Tint.rgb*rim*(0.26+Glow*0.55) + vec3(1.0)*sheen*0.45;
     color += mix(Tint.rgb,vec3(0.84,1.0,0.98),0.50)*edge*(0.35+Glow*0.60);
     float alpha = Opacity*mask*(0.64+rim*0.36);
+    if(Mask!=0)color=Tint.rgb*(rim*.85+edge*.9)*Glow;
     gl_FragColor = vec4(color,alpha);
 }

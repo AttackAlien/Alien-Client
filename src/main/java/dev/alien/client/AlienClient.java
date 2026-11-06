@@ -82,7 +82,9 @@ public final class AlienClient {
         CosmeticManager cosmetics = new CosmeticManager();
         cosmetics.install(); register(cosmetics);
         dev.alien.client.scene.SceneManager scenes=new dev.alien.client.scene.SceneManager();scenes.install(cosmetics);register(scenes);register(new dev.alien.client.studio.StudioVisuals());
+        register(new dev.alien.client.cosmetic.CharacterRenderer());
         emotes=new dev.alien.client.emote.EmoteManager();register(emotes);
+        register(new dev.alien.client.cosmetic.neon.NeonPipeline());
         LOG.info("{} {} initialized: {} registered modules; {}", BuildEdition.NAME, VERSION, modules.modules().size(), BuildEdition.STATUS);
     }
 

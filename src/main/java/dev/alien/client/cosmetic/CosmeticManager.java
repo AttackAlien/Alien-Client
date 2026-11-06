@@ -22,6 +22,9 @@ import org.lwjgl.opengl.GL11;
 
 /** Original procedural accessories rendered only by the local client. */
 public final class CosmeticManager {
+    private static CosmeticManager instance;
+    private final Map<RenderPlayer,AccessoryLayer> attached=new java.util.IdentityHashMap<RenderPlayer,AccessoryLayer>();
+    public CosmeticManager(){instance=this;}
     private boolean installed;
     private int rendered;
     private int tick;
@@ -40,12 +43,31 @@ public final class CosmeticManager {
     @SubscribeEvent public void renderAuras(RenderWorldLastEvent event){auras.render(event);}
     @SubscribeEvent public void renderPets(RenderWorldLastEvent event){pets.render(event);}
 
-    public void attach(RenderPlayer renderer){renderer.addLayer(new AccessoryLayer(renderer));}
+    public void attach(RenderPlayer renderer){AccessoryLayer layer=new AccessoryLayer(renderer);attached.put(renderer,layer);renderer.addLayer(layer);}
 
+    static CosmeticConfig.Accessory appearanceFor(EntityPlayer p){
+        if(dev.alien.client.cosmetic.pet.PetStudioScreen.drawingPreview)return dev.alien.client.cosmetic.pet.PetStudioScreen.previewAccessory;
+        if(dev.alien.client.cosmetic.aura.AuraStudioScreen.drawingPreview)return dev.alien.client.cosmetic.aura.AuraStudioScreen.previewAccessory;
+        return instance==null?null:instance.forPlayer(p);
+    }
+    static void characterAccessories(RenderPlayer renderer,AbstractClientPlayer p,float partial){
+        if(instance==null)return;AccessoryLayer layer=instance.attached.get(renderer);if(layer==null)return;
+        float amount=p.prevLimbSwingAmount+(p.limbSwingAmount-p.prevLimbSwingAmount)*partial,phase=p.limbSwing-p.limbSwingAmount*(1-partial);
+        net.minecraft.client.model.ModelPlayer model=renderer.getMainModel();model.isSneak=p.isSneaking();model.isRiding=p.isRiding();model.isChild=p.isChild();
+        float bodyYaw=p.prevRenderYawOffset+net.minecraft.util.MathHelper.wrapAngleTo180_float(p.renderYawOffset-p.prevRenderYawOffset)*partial,headYaw=p.prevRotationYawHead+net.minecraft.util.MathHelper.wrapAngleTo180_float(p.rotationYawHead-p.prevRotationYawHead)*partial,headPitch=p.prevRotationPitch+(p.rotationPitch-p.prevRotationPitch)*partial;
+        model.setLivingAnimations(p,phase,amount,partial);model.setRotationAngles(phase,amount,p.ticksExisted+partial,net.minecraft.util.MathHelper.wrapAngleTo180_float(headYaw-bodyYaw),headPitch,.0625f,p);
+        dev.alien.client.emote.EmotePose pose=CharacterRenderer.attachmentPose();
+        net.minecraft.client.model.ModelRenderer[] parts=layer.characterParts;parts[0]=model.bipedHead;parts[1]=model.bipedBody;parts[2]=model.bipedRightArm;parts[3]=model.bipedLeftArm;parts[4]=model.bipedRightLeg;parts[5]=model.bipedLeftLeg;
+        float[] old=layer.characterSnapshot;for(int i=0;i<parts.length;i++){net.minecraft.client.model.ModelRenderer part=parts[i];int at=i*6;old[at]=part.rotateAngleX;old[at+1]=part.rotateAngleY;old[at+2]=part.rotateAngleZ;old[at+3]=part.rotationPointX;old[at+4]=part.rotationPointY;old[at+5]=part.rotationPointZ;if(pose!=null){part.rotateAngleX+=pose.angles[i*3];part.rotateAngleY+=pose.angles[i*3+1];part.rotateAngleZ+=pose.angles[i*3+2];}}
+        CosmeticConfig.Accessory look=appearanceFor(p);boolean kenny=look!=null&&"Kenny".equals(look.character.model);
+        if(kenny){model.bipedHead.rotationPointY+=.67f;model.bipedBody.rotationPointY+=7.2f;model.bipedRightArm.rotationPointY+=7.63f;model.bipedLeftArm.rotationPointY+=7.63f;model.bipedRightArm.rotationPointX-=.44f;model.bipedLeftArm.rotationPointX+=.44f;}
+        try{layer.doRenderLayer(p,phase,amount,partial,p.ticksExisted+partial,0,p.rotationPitch,.0625f);}
+        finally{for(int i=0;i<parts.length;i++){net.minecraft.client.model.ModelRenderer part=parts[i];int at=i*6;part.rotateAngleX=old[at];part.rotateAngleY=old[at+1];part.rotateAngleZ=old[at+2];part.rotationPointX=old[at+3];part.rotationPointY=old[at+4];part.rotationPointZ=old[at+5];}}
+    }
     public void install() {
         if (installed) return;
         Minecraft mc = Minecraft.getMinecraft();
-        for (RenderPlayer renderer : mc.getRenderManager().getSkinMap().values()) renderer.addLayer(new AccessoryLayer(renderer));
+        for (RenderPlayer renderer : mc.getRenderManager().getSkinMap().values()) attach(renderer);
         installed = true;
     }
 
@@ -102,6 +124,7 @@ public final class CosmeticManager {
 
     private final class AccessoryLayer implements LayerRenderer<AbstractClientPlayer> {
         private final RenderPlayer renderer;
+        private final float[] characterSnapshot=new float[36];private final net.minecraft.client.model.ModelRenderer[] characterParts=new net.minecraft.client.model.ModelRenderer[6];
         private final CapeCloth lowCape = new CapeCloth(8, 4);
         private final CapeCloth balancedCape = new CapeCloth(20, 10);
         private final CapeCloth highCape = new CapeCloth(32, 16);
@@ -134,6 +157,18 @@ public final class CosmeticManager {
                 GL11.glDisable(GL11.GL_CULL_FACE); GL11.glShadeModel(GL11.GL_SMOOTH);
                 GL11.glEnable(GL11.GL_DEPTH_TEST); GL11.glDepthMask(true);
                 if (player.isSneaking()) GlStateManager.translate(0, .2f, 0);
+                dev.alien.client.cosmetic.neon.NeonPipeline.render(a.neon,()->drawAppearance(player,a,phase,movement,animated,preview,partialTicks));
+                if(preview){auras.previewLayer(player,a);pets.previewLayer(player,a,partialTicks);}
+            } finally {
+                GlStateManager.popMatrix(); GL11.glPopAttrib();
+                // Binding dynamic/imported textures changes MC's binding cache;
+                // restore it to the actual texture reinstated by glPopAttrib.
+                GlStateManager.bindTexture(previousTexture);
+            }
+        }
+
+        private void drawAppearance(AbstractClientPlayer player,CosmeticConfig.Accessory a,float phase,float movement,boolean animated,boolean preview,float partialTicks){
+            Minecraft mc=Minecraft.getMinecraft();
                 drawHead(player, a);
                 GlStateManager.pushMatrix();
                 try {
@@ -154,6 +189,14 @@ public final class CosmeticManager {
                         if(!preview&&player==mc.thePlayer)lastCapeBend=response.bend();
                         drawCape(a, phase, movement, animated, distant,response);
                     }
+                    else if("DRAGON_WINGS".equals(a.back)){
+                        float flap=animated?(float)(Math.sin(phase*.065)*13+Math.sin(phase*.13-.5)*2)+movement*3:0;
+                        for(int side=-1;side<=1;side+=2){GlStateManager.pushMatrix();try{
+                            GlStateManager.rotate(side*(12+flap),0,1,0);CosmeticMeshRenderer.draw(dev.alien.client.cosmetic.mesh.NeonMeshes.dragon(side==1,false),a.color,a.secondaryColor);
+                            GlStateManager.translate(side*7.5f/16,-2.8f/16,3.8f/16);GlStateManager.rotate(side*(animated?(float)(Math.sin(phase*.065-.45)*9):0),0,1,0);GlStateManager.translate(-side*7.5f/16,2.8f/16,-3.8f/16);
+                            CosmeticMeshRenderer.draw(dev.alien.client.cosmetic.mesh.NeonMeshes.dragon(side==1,true),a.color,a.secondaryColor);
+                        }finally{GlStateManager.popMatrix();}}
+                    }
                     else if ("WINGS".equals(a.back)) {
                         float flap = animated ? 12f + (float)(Math.sin(phase*.085f)+.14*Math.sin(phase*.17f-.6))*11f + movement*3 : 12;
                         GlStateManager.pushMatrix();
@@ -167,18 +210,12 @@ public final class CosmeticManager {
                 if (a.charm) {
                     GlStateManager.pushMatrix();
                     try {
-                        renderer.getMainModel().bipedRightArm.postRender(.0625f); dev.alien.client.emote.EmoteManager.handBend(renderer.getMainModel(),.0625f); transform(a);
+                        renderer.getMainModel().bipedRightArm.postRender(.0625f); CharacterRenderer.charmBend(renderer.getMainModel(),.0625f); transform(a);
+                        if("Kenny".equals(a.character.model))GlStateManager.translate(0,-.25f,0);
                         if (animated) GlStateManager.rotate((float)(Math.sin(phase*.065f)*5+Math.sin(phase*.10f-.6)*1.5+Math.sin(phase*.035f)*movement*2),0,0,1);
                         CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }
                 }
-                if(preview){auras.previewLayer(player,a);pets.previewLayer(player,a,partialTicks);}
-            } finally {
-                GlStateManager.popMatrix(); GL11.glPopAttrib();
-                // Binding dynamic/imported textures changes MC's binding cache;
-                // restore it to the actual texture reinstated by glPopAttrib.
-                GlStateManager.bindTexture(previousTexture);
-            }
         }
 
         private void drawHead(AbstractClientPlayer player, CosmeticConfig.Accessory a) {
@@ -192,15 +229,17 @@ public final class CosmeticManager {
                 CosmeticAssets.Imported imported = CosmeticAssets.get(a.modelFile,a.textureFile);
                 if (imported != null) {
                     if (imported.texture != null) {
+                        dev.alien.client.cosmetic.neon.NeonPipeline.texture(true);
                         GL11.glEnable(GL11.GL_TEXTURE_2D); Minecraft.getMinecraft().getTextureManager().bindTexture(imported.texture);
                         GL11.glColor4f(1,1,1,1);
-                    } else GL11.glColor4f(((a.color>>16)&255)/255f,((a.color>>8)&255)/255f,(a.color&255)/255f,1);
+                    } else {dev.alien.client.cosmetic.neon.NeonPipeline.texture(false);GL11.glColor4f(((a.color>>16)&255)/255f,((a.color>>8)&255)/255f,(a.color&255)/255f,1);}
                     imported.model.render(.0625f); GL11.glDisable(GL11.GL_TEXTURE_2D);
                 }
             } finally { GlStateManager.popMatrix(); }
         }
 
         private void drawCape(CosmeticConfig.Accessory a, float phase, float movement, boolean animated, boolean distant,CapeDynamics response) {
+            dev.alien.client.cosmetic.neon.NeonPipeline.texture(true);
             CapeCloth cloth = "Low".equals(a.detailLevel) ? lowCape : "High".equals(a.detailLevel) ? highCape : balancedCape;
             if ("Competitive".equals(AlienClient.get().config().performance.preset) || distant || AlienClient.get().performance().qualityScale() < .65f) cloth=lowCape;
             cloth.update(phase,movement,animated ? a.capeFlutter : 0,response.bend(),response.sway());

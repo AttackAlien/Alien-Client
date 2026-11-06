@@ -33,3 +33,7 @@ ALIEN_EDITION=unified bash scripts/ci-motion-smoke-xorg.sh
 ALIEN_EDITION=unified bash scripts/ci-ultimate-smoke-xorg.sh
 bash scripts/record-showcase.sh
 ```
+
+## Neon and player appearances
+
+The latest scope also adds original articulated dragon wings, a rounded halo, a shared emissive/bloom pipeline and optional local player bodies. See [NEON-PLAYER-MODELS.md](NEON-PLAYER-MODELS.md) for controls, provenance, supported animations and practical limits. The older Minecraft and Unified functionality remains in the same client.

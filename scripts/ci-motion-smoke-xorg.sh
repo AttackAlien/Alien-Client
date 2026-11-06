@@ -48,6 +48,7 @@ report "Launching isolated connected Xorg dummy screen $display"
 xorg_pid=$!
 export DISPLAY="$display"
 export LIBGL_ALWAYS_SOFTWARE=1
+export LP_NUM_THREADS="${LP_NUM_THREADS:-2}"
 
 ready=false
 for i in {1..45}; do

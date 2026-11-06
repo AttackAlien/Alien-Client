@@ -67,6 +67,8 @@ public final class CosmeticConfig {
         public String hat = "JAPANESE";
         public String face = "NONE";
         public String back = "NONE";
+        public CharacterDesign character=new CharacterDesign();
+        public dev.alien.client.cosmetic.neon.NeonDesign neon = new dev.alien.client.cosmetic.neon.NeonDesign();
         public dev.alien.client.cosmetic.pet.PetDesign pet = new dev.alien.client.cosmetic.pet.PetDesign();
         public boolean charm;
         public boolean aura;
@@ -91,11 +93,13 @@ public final class CosmeticConfig {
         public String textureFile = "";
 
         public void normalize() {
+            if(character==null)character=new CharacterDesign();character.normalize();
+            if(neon==null)neon=new dev.alien.client.cosmetic.neon.NeonDesign();neon.normalize();
             if (pet == null) pet = new dev.alien.client.cosmetic.pet.PetDesign();
             pet.normalize();
-            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA");
+            hat = choice(hat, "NONE", "JAPANESE", "SAMURAI", "CROWN", "SAKURA", "HALO");
             face = choice(face, "NONE", "KITSUNE", "FUTURE", "GLASSES");
-            back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK");
+            back = choice(back, "NONE", "CAPE", "WINGS", "BACKPACK", "DRAGON_WINGS");
             offsetX = clamp(offsetX, -16, 16); offsetY = clamp(offsetY, -16, 16);
             offsetZ = clamp(offsetZ, -16, 16);
             rotationX = clamp(rotationX, -180, 180); rotationY = clamp(rotationY, -180, 180);
@@ -119,7 +123,7 @@ public final class CosmeticConfig {
 
         public Accessory copy() {
             Accessory a = new Accessory();
-            a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;
+            a.enabled = enabled; a.hat = hat; a.face = face; a.back = back;a.character=character==null?new CharacterDesign():character.copy();a.neon=neon==null?new dev.alien.client.cosmetic.neon.NeonDesign():neon.copy();
             a.pet = pet == null ? new dev.alien.client.cosmetic.pet.PetDesign() : pet.copy();
             a.charm = charm; a.aura = aura; a.trail = trail;
             a.auraDesign = auraDesign == null ? new dev.alien.client.cosmetic.aura.AuraDesign() : auraDesign.copy();

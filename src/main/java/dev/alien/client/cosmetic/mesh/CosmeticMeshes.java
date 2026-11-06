@@ -25,10 +25,11 @@ public final class CosmeticMeshes {
         WING_LEFT=wing(1); WING_RIGHT=wing(-1); BACKPACK=backpack(); CHARM=crystalCharm();
     }
     private CosmeticMeshes() { }
-    public static Mesh hat(String name) { Mesh mesh=HATS.get(name); return mesh==null?Mesh.EMPTY:mesh; }
+    public static Mesh hat(String name) { if("HALO".equals(name))return NeonMeshes.HALO; Mesh mesh=HATS.get(name); return mesh==null?Mesh.EMPTY:mesh; }
     public static Mesh face(String name) { Mesh mesh=FACES.get(name); return mesh==null?Mesh.EMPTY:mesh; }
     public static Mesh back(String name,boolean left) {
         if ("WINGS".equals(name)) return left?WING_LEFT:WING_RIGHT;
+        if("DRAGON_WINGS".equals(name))return NeonMeshes.dragon(left,true);
         if ("BACKPACK".equals(name)) return BACKPACK;
         return Mesh.EMPTY; // CAPE uses the reusable CapeCloth stream instead.
     }

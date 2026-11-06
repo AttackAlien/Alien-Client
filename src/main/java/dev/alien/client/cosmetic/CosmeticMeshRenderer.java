@@ -15,6 +15,7 @@ final class CosmeticMeshRenderer {
 
     static void draw(Mesh mesh, int primary, int secondary) {
         if (mesh.vertexCount() == 0) return;
+        dev.alien.client.cosmetic.neon.NeonPipeline.texture(false);
         Key key = new Key(mesh, primary, secondary);
         Integer list = LISTS.get(key);
         if (list == null) {

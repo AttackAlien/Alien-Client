@@ -341,8 +341,10 @@ afterEvaluate {
         systemProperty 'alien.showcase', 'true'
         systemProperty 'alien.showcase.output', file("${buildDir}/showcase").absolutePath
         systemProperty 'alien.showcase.source', project.findProperty('showcaseSource') ?: 'uncommitted'
+        systemProperty 'alien.showcase.width', project.findProperty('showcaseWidth') ?: '960'
+        systemProperty 'alien.showcase.height', project.findProperty('showcaseHeight') ?: '540'
         systemProperty 'alien.showcase.first', project.findProperty('showcaseFirst') ?: '0'
-        systemProperty 'alien.showcase.last', project.findProperty('showcaseLast') ?: '16'
+        systemProperty 'alien.showcase.last', project.findProperty('showcaseLast') ?: '20'
         systemProperty 'java.net.preferIPv4Stack', 'true'
         doFirst { workingDir.mkdirs() }
     }
@@ -420,6 +422,30 @@ afterEvaluate {
         jvmArgs = runClient.jvmArgs
         systemProperty 'alien.motion.smoke','true'
         systemProperty 'alien.motion.smoke.output',file("${buildDir}/motion-smoke").absolutePath
+        doFirst { workingDir.mkdirs() }
+    }
+}
+
+sourceSets {
+    neonSmoke {
+        java.setSrcDirs(['src/neonSmoke/java'])
+        compileClasspath = sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath = output + compileClasspath
+    }
+}
+task runNeonSmokeClient(type: JavaExec, dependsOn: ['classes','neonSmokeClasses','makeStart']) { group = 'verification' }
+afterEvaluate {
+    runNeonSmokeClient {
+        main = runClient.main
+        classpath = sourceSets.main.output + runClient.classpath.filter { it.canonicalFile != jar.archivePath.canonicalFile } + sourceSets.neonSmoke.output
+        workingDir = file("${buildDir}/neon-smoke-runtime")
+        def gameArgs = new ArrayList(runClient.args)
+        def idx = gameArgs.indexOf('--gameDir')
+        if (idx >= 0 && idx + 1 < gameArgs.size()) gameArgs[idx+1] = workingDir.absolutePath
+        args = gameArgs
+        jvmArgs = runClient.jvmArgs
+        systemProperty 'alien.neon.smoke','true'
+        systemProperty 'alien.neon.smoke.output',file("${buildDir}/neon-smoke").absolutePath
         doFirst { workingDir.mkdirs() }
     }
 }

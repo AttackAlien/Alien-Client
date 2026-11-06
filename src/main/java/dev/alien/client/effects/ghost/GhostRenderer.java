@@ -20,6 +20,10 @@ public final class GhostRenderer {
     public static long surfaces(){return surfaces;}public static long finales(){return finales;}
     public static void draw(float age,GhostConfig c,boolean animate,int particleBudget){
         if(!Float.isFinite(age)||age<=0||age>=c.totalDuration())return;
+        dev.alien.client.cosmetic.neon.NeonPipeline.ghost(c.glow,()->drawInternal(age,c,animate,particleBudget));
+    }
+    private static void drawInternal(float age,GhostConfig c,boolean animate,int particleBudget){
+        if(!Float.isFinite(age)||age<=0||age>=c.totalDuration())return;
         float p=GhostMotion.phase(age,c.duration),cut=GhostMotion.dissolve(p),alpha=GhostMotion.alpha(p)*c.opacity;
         int activeTexture=GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE),clientTexture=GL11.glGetInteger(GL13.GL_CLIENT_ACTIVE_TEXTURE);GL13.glActiveTexture(GL13.GL_TEXTURE0);GL13.glClientActiveTexture(GL13.GL_TEXTURE0);
         int program=OpenGlHelper.shadersSupported?GL11.glGetInteger(GL20.GL_CURRENT_PROGRAM):0;
@@ -56,7 +60,7 @@ public final class GhostRenderer {
             float nx=MESH.vertices[n+3],ny=MESH.vertices[n+4],nz=MESH.vertices[n+5];
             float light=shader?1:.52f+.37f*Math.max(0,nx*-.5f+ny*.65f-nz*.55f)+.18f*(1-Math.abs(nz));
             float mask=shader?1:GhostMotion.smooth(cut-.025f,cut+.085f,t)*alpha;
-            SURFACE.put(MESH.vertices,n,6).put(((color>>16&255)/255f*.62f+.32f)*light).put(((color>>8&255)/255f*.62f+.33f)*light).put(((color&255)/255f*.62f+.35f)*light).put(mask).put(t).put(i/(float)GhostMesh.SIDES);
+            SURFACE.put(MESH.vertices,n,6).put(((color>>16&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(((color>>8&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(((color&255)/255f*(shader?1:.8f)+(shader?0:.2f))*light).put(mask).put(t).put(i/(float)GhostMesh.SIDES);
         }
         SURFACE.flip();SURFACE.position(0);GL11.glVertexPointer(3,STRIDE,SURFACE);SURFACE.position(3);GL11.glNormalPointer(STRIDE,SURFACE);SURFACE.position(6);GL11.glColorPointer(4,STRIDE,SURFACE);SURFACE.position(10);GL11.glTexCoordPointer(2,STRIDE,SURFACE);
         GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);GL11.glEnableClientState(GL11.GL_NORMAL_ARRAY);GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);GL11.glEnable(GL11.GL_CULL_FACE);
@@ -72,7 +76,7 @@ public final class GhostRenderer {
                 GhostMesh.arm(t,side,age,c.calm,P);GhostMesh.arm(Math.max(0,t-.001),side,age,c.calm,A);GhostMesh.arm(Math.min(1,t+.001),side,age,c.calm,B);
                 double tx=B[0]-A[0],ty=B[1]-A[1],len=Math.sqrt(tx*tx+ty*ty),nx=-ty/len,ny=tx/len;
                 int color=mix(c.color,c.secondaryColor,(float)(.12+P[1]/1.8*.56));float lighting=shader?1:(float)(.52+.37*Math.max(0,Math.cos(a)*ny*.65-Math.sin(a)*.55));
-                GL11.glColor4f(((color>>16&255)/255f*.62f+.32f)*lighting,((color>>8&255)/255f*.62f+.33f)*lighting,((color&255)/255f*.62f+.35f)*lighting,shader?1:opacity*.75f);GL11.glNormal3d(nx*Math.cos(a),ny*Math.cos(a),Math.sin(a));GL11.glTexCoord2d(P[1]/1.8,t);
+                GL11.glColor4f(((color>>16&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,((color>>8&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,((color&255)/255f*(shader?1:.8f)+(shader?0:.2f))*lighting,shader?1:opacity*.75f);GL11.glNormal3d(nx*Math.cos(a),ny*Math.cos(a),Math.sin(a));GL11.glTexCoord2d(P[1]/1.8,t);
                 GL11.glVertex3d(P[0]+nx*Math.cos(a)*r,P[1]+ny*Math.cos(a)*r,P[2]+Math.sin(a)*r);
             }GL11.glEnd();
         }
