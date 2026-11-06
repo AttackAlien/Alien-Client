@@ -285,7 +285,7 @@ public final class CosmeticMeshes {
     private static float[] ellipsoidNormal(float[] v,float cx,float cy,float cz,float rx,float ry,float rz) {
         return normalized((v[0]-cx)/(rx*rx),(v[1]-cy)/(ry*ry),(v[2]-cz)/(rz*rz));
     }
-    private static void tube(MeshBuilder b,float[][] centers,float[] radii,int sides,int mat) {
+    static void tube(MeshBuilder b,float[][] centers,float[] radii,int sides,int mat) {
         float[][][] rings=tubeRings(centers,radii,sides);
         for(int row=0;row<centers.length-1;row++) {
             float[][] first=rings[row],second=rings[row+1];

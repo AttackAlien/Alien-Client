@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import dev.alien.client.cosmetic.mesh.CapeCloth;
 import dev.alien.client.cosmetic.mesh.CosmeticMeshes;
+import dev.alien.client.cosmetic.mesh.AccessoryPartMeshes;
 import dev.alien.client.cosmetic.mesh.CapeDynamics;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import java.util.LinkedHashMap;
@@ -216,6 +217,52 @@ public final class CosmeticManager {
                         CosmeticMeshRenderer.draw(CosmeticMeshes.charm(),a.secondaryColor,a.color);
                     } finally { GlStateManager.popMatrix(); }
                 }
+                drawParts(a, phase, animated);
+        }
+
+        private void drawParts(CosmeticConfig.Accessory a, float phase, boolean animated) {
+            if (a.parts == null) return;
+            for (String slot : new String[] {"HORNS", "MASK", "SHOULDERS", "TAIL", "ARMS", "LEGS"}) {
+                AccessoryPartDesign part = a.parts.get(slot);
+                if (part == null || !part.enabled) continue;
+                net.minecraft.client.model.ModelPlayer model = renderer.getMainModel();
+                if ("HORNS".equals(slot) || "MASK".equals(slot)) {
+                    drawPart(model.bipedHead, a, part, slot, false);
+                } else if ("TAIL".equals(slot)) {
+                    GlStateManager.pushMatrix();
+                    try {
+                        model.bipedBody.postRender(.0625f); partTransform(part);
+                        if (animated && a.animations && AlienClient.get().config().animations)
+                            GlStateManager.rotate((float)Math.sin(phase*.075f)*12f,0,1,0);
+                        CosmeticMeshRenderer.draw(AccessoryPartMeshes.get(slot,part.style),a.color,a.secondaryColor);
+                    } finally { GlStateManager.popMatrix(); }
+                } else if ("SHOULDERS".equals(slot)) {
+                    drawPart(model.bipedRightArm,a,part,slot,false);
+                    drawPart(model.bipedLeftArm,a,part,slot,true);
+                } else if ("ARMS".equals(slot)) {
+                    drawPart(model.bipedRightArm,a,part,slot,false);
+                    drawPart(model.bipedLeftArm,a,part,slot,true);
+                } else {
+                    drawPart(model.bipedRightLeg,a,part,slot,false);
+                    drawPart(model.bipedLeftLeg,a,part,slot,true);
+                }
+            }
+        }
+
+        private void drawPart(net.minecraft.client.model.ModelRenderer bone, CosmeticConfig.Accessory a,
+                              AccessoryPartDesign part, String slot, boolean mirrored) {
+            GlStateManager.pushMatrix();
+            try {
+                bone.postRender(.0625f);
+                if (mirrored) GlStateManager.scale(-1,1,1);
+                partTransform(part);
+                CosmeticMeshRenderer.draw(AccessoryPartMeshes.get(slot,part.style),a.color,a.secondaryColor);
+            } finally { GlStateManager.popMatrix(); }
+        }
+
+        private void partTransform(AccessoryPartDesign part) {
+            GlStateManager.translate(part.x/16f,part.y/16f,part.z/16f);
+            GlStateManager.scale(part.scale,part.scale,part.scale);
         }
 
         private void drawHead(AbstractClientPlayer player, CosmeticConfig.Accessory a) {
