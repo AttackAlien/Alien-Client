@@ -44,10 +44,6 @@ public final class FullToolsScreen extends PremiumScreen {
             if(category==0){
                 buttonList.add(new Ui.Button(130,x,127,w/2-4,23,"Aim Assist: "+(c().aimAssist?"ON":"OFF")));
                 buttonList.add(new Ui.Button(131,x+w/2+4,127,w/2-4,23,"Click Assist: "+(c().clickAssist?"ON":"OFF")));
-            }else if(category==1){
-                Ui.text("Movement helpers use vanilla movement and block placement.",x,151,Ui.theme().muted);
-            }else{
-                Ui.text("Utility actions use items available in your hotbar.",x,151,Ui.theme().muted);
             }
         }else if(category==3){
             buttonList.add(new Ui.Button(116,x,91,w,25,"Open HUD / Target HUD editor"));
@@ -92,6 +88,10 @@ public final class FullToolsScreen extends PremiumScreen {
         if(category==0){
             Ui.text("Aimbot / Aim Assist use the normal camera and visible targets.",left,160,Ui.theme().muted);
             Ui.text("Click Assist only performs vanilla attacks while input is held.",left,173,Ui.theme().muted);
+        }else if(category==1){
+            Ui.text("Movement helpers use vanilla movement and block placement.",left,151,Ui.theme().muted);
+        }else if(category==2){
+            Ui.text("Utility actions use items available in your hotbar.",left,151,Ui.theme().muted);
         }
         String note=category==3
                 ?"Visual modules stay in HUD Editor; combat does not change visual settings."
