@@ -42,8 +42,10 @@ public final class FullToolsScreen extends PremiumScreen {
                         name+": "+(enabled?"ON":"OFF")));
             }
             if(category==0){
-                Ui.text("Aim Assist and Click Assist are in the Combat tab.",x,151,Ui.theme().muted);
-                Ui.text("Aimbot uses the normal camera and visible targets.",x,164,Ui.theme().muted);
+                buttonList.add(new Ui.Button(130,x,127,w/2-4,23,"Aim Assist: "+(c().aimAssist?"ON":"OFF")));
+                buttonList.add(new Ui.Button(131,x+w/2+4,127,w/2-4,23,"Click Assist: "+(c().clickAssist?"ON":"OFF")));
+                Ui.text("Aimbot / Aim Assist use the normal camera and visible targets.",x,160,Ui.theme().muted);
+                Ui.text("Click Assist only performs vanilla attacks while input is held.",x,173,Ui.theme().muted);
             }else if(category==1){
                 Ui.text("Movement helpers use vanilla movement and block placement.",x,151,Ui.theme().muted);
             }else{
@@ -69,6 +71,8 @@ public final class FullToolsScreen extends PremiumScreen {
         if(b.id>=110&&b.id<=114){category=b.id-110;initGui();return;}
         if(b.id==116){mc.displayGuiScreen(new dev.alien.client.hud.HudEditorScreen(this));return;}
         if(b.id>=100&&b.id<=105)AlienClient.get().modules().toggle(IDS[b.id-100]);
+        else if(b.id==130)c().aimAssist=!c().aimAssist;
+        else if(b.id==131)c().clickAssist=!c().clickAssist;
         else if(b.id==120)f().splashPotions=!f().splashPotions;
         else if(b.id==7)c().enabled=!c().enabled;
         else return;
