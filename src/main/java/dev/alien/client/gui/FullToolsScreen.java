@@ -44,8 +44,6 @@ public final class FullToolsScreen extends PremiumScreen {
             if(category==0){
                 buttonList.add(new Ui.Button(130,x,127,w/2-4,23,"Aim Assist: "+(c().aimAssist?"ON":"OFF")));
                 buttonList.add(new Ui.Button(131,x+w/2+4,127,w/2-4,23,"Click Assist: "+(c().clickAssist?"ON":"OFF")));
-                Ui.text("Aimbot / Aim Assist use the normal camera and visible targets.",x,160,Ui.theme().muted);
-                Ui.text("Click Assist only performs vanilla attacks while input is held.",x,173,Ui.theme().muted);
             }else if(category==1){
                 Ui.text("Movement helpers use vanilla movement and block placement.",x,151,Ui.theme().muted);
             }else{
@@ -91,6 +89,10 @@ public final class FullToolsScreen extends PremiumScreen {
                 AlienClient.get().combatSession().isApproved(mc.theWorld,c())?"Session allowed":"Session blocked";
         Ui.text("Master "+(c().enabled?"ON":"OFF")+"  /  "+session,left,30,Ui.theme().muted);
         super.drawContents(x,y,pt);
+        if(category==0){
+            Ui.text("Aimbot / Aim Assist use the normal camera and visible targets.",left,160,Ui.theme().muted);
+            Ui.text("Click Assist only performs vanilla attacks while input is held.",left,173,Ui.theme().muted);
+        }
         String note=category==3
                 ?"Visual modules stay in HUD Editor; combat does not change visual settings."
                 :category==4
